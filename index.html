@@ -12,10 +12,22 @@
     <title>Prestige Shop Express - Votre boutique en ligne</title>
     <meta name="description" content="Prestige Shop Express, votre boutique en ligne de confiance en Côte d'Ivoire, vous offre une large sélection de produits de qualité avec une livraison rapide et un service client exceptionnel." />
  <!-- Open Graph pour réseaux sociaux  -->
-    <meta property="og:title" content="Prestige Shop Express – Boutique en ligne en Côte d’Ivoire">
-<meta property="og:description" content="Découvrez une large sélection de produits éducatifs et technologiques. Livraison rapide en Côte d'Ivoire.">
-<meta property="og:image" content="https://prestige-shop-express.onrender.com/images/prestige shop.png"> <!-- Mets ici ton vrai logo -->
+    <!-- Meta tags Open Graph pour SEO et partage -->
+<meta property="og:title" content="Prestige Shop Express – Boutique en ligne en Côte d’Ivoire">
+<meta property="og:description" content="Découvrez une large sélection de produits éducatifs, mode et électroniques. Livraison rapide en Côte d'Ivoire.">
+<meta property="og:image" content="https://prestige-shop-express.onrender.com/images/prestige%20shop.png"> <!-- Logo ou image représentative -->
 <meta property="og:url" content="https://prestige-shop-express.onrender.com">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Prestige Shop Express">
+<meta property="og:locale" content="fr_FR">
+
+<!-- Meta tags Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Prestige Shop Express – Boutique en ligne en Côte d’Ivoire">
+<meta name="twitter:description" content="Découvrez une large sélection de produits éducatifs, mode et électroniques. Livraison rapide en Côte d'Ivoire.">
+<meta name="twitter:image" content="https://prestige-shop-express.onrender.com/images/fourniture%20scolaire.jpg">
+<meta name="twitter:site" content="@PrestigeShop">
+
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -582,11 +594,20 @@
 
         
 
-<!-- Hero Banner Spéciale Rentrée -->
+<!-- Hero Banner Carrousel Spéciale Rentrée -->
 <section id="accueil" class="hero-banner text-white py-20 relative overflow-hidden">
+    <div class="absolute inset-0">
+        <!-- Images du carrousel -->
+        <div id="carouselImages" class="w-full h-full relative overflow-hidden">
+            <img src="images/eleve1.jpg" class="absolute inset-0 w-full h-full object-cover opacity-100 scale-100 transition-all duration-1000 ease-in-out">
+            <img src="images/ELEVE2.jpg" class="absolute inset-0 w-full h-full object-cover opacity-0 scale-110 transition-all duration-1000 ease-in-out">
+            <img src="images/ELEVE3.jpg" class="absolute inset-0 w-full h-full object-cover opacity-0 scale-110 transition-all duration-1000 ease-in-out">
+        </div>
+        <div class="absolute inset-0 bg-black bg-opacity-40"></div> <!-- Overlay pour lisibilité -->
+    </div>
+
     <div class="container mx-auto px-4 text-center relative z-10">
         <h2 class="text-5xl font-bold mb-6 animate-fade-in">🎒 Spéciale Rentrée chez Prestige Shop Express</h2>
-        
         <div class="mb-8">
             <div class="text-3xl font-extrabold text-yellow-300 mb-4 animate-bounce">
                 ✨ "Shoppez malin. Shoppez Prestige" ✨
@@ -609,71 +630,30 @@
                 <i class="fas fa-shield-alt mr-2"></i> Qualité garantie
             </div>
         </div>
-
-        <!-- Bouton -->
-        <button onclick="document.getElementById('produits').scrollIntoView({behavior: 'smooth'})" 
-            class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 animate-fade-in delay-300">
-            Découvrir nos produits <i class="fas fa-arrow-down ml-2"></i>
-        </button>
     </div>
-
-    <!-- Illustration flottante -->
-    <img src="https://cdn-icons-png.flaticon.com/512/2947/2947960.png" 
-        alt="Illustration scolaire" 
-        class="floating-image absolute right-10 bottom-0 w-64 opacity-90 animate-floating">
 </section>
 
+<!-- JavaScript pour le carrousel animé -->
+<script>
+const images = document.querySelectorAll("#carouselImages img");
+let current = 0;
 
-<style>
-    /* Fond dégradé animé */
-.hero-banner {
-    background: linear-gradient(270deg, #6a11cb, #2575fc, #6a11cb);
-    background-size: 600% 600%;
-    animation: gradientAnimation 12s ease infinite;
-}
+function showNextImage() {
+    const prev = images[current];
+    prev.classList.remove("opacity-100", "scale-100");
+    prev.classList.add("opacity-0", "scale-110");
 
-@keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+    current = (current + 1) % images.length;
 
-/* Illustration flottante */
-.floating-image {
-    animation: floating 6s ease-in-out infinite;
-}
-@keyframes floating {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0px); }
+    const next = images[current];
+    next.classList.remove("opacity-0", "scale-110");
+    next.classList.add("opacity-100", "scale-100");
 }
 
-/* Animations d'apparition */
-.animate-fade-in {
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-}
-@keyframes fadeIn {
-    to { opacity: 1; }
-}
+// Change image toutes les 5 secondes
+setInterval(showNextImage, 5000);
+</script>
 
-.animate-slide-up {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: slideUp 1s forwards;
-}
-@keyframes slideUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Délais pour un effet progressif */
-.delay-200 { animation-delay: 0.2s; }
-.delay-300 { animation-delay: 0.3s; }
-
-</style>
 
     <!-- Products Section -->
     <section id="produits" class="py-16">

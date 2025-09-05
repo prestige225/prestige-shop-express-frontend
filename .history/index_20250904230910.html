@@ -2,20 +2,32 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
-    <link rel="icon" href="images/favicon.png" type="image/png" />
+    
+    <link rel="icon" href="images/prestige shop.png" type="image/png" />
 
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="vQkta5ulZJhli4h1zR55FXiT98uHyTa_SCfFyCOvmBs" />
-    <title>Digit Shop Express - Votre boutique en ligne</title>
+    <title>Prestige Shop Express - Votre boutique en ligne</title>
     <meta name="description" content="Prestige Shop Express, votre boutique en ligne de confiance en Côte d'Ivoire, vous offre une large sélection de produits de qualité avec une livraison rapide et un service client exceptionnel." />
  <!-- Open Graph pour réseaux sociaux  -->
-    <meta property="og:title" content="Prestige Shop Express – Boutique en ligne en Côte d’Ivoire">
-<meta property="og:description" content="Découvrez une large sélection de produits éducatifs et technologiques. Livraison rapide en Côte d'Ivoire.">
-<meta property="og:image" content="https://prestige-shop-express.onrender.com/images/prestige shop.png"> <!-- Mets ici ton vrai logo -->
+    <!-- Meta tags Open Graph pour SEO et partage -->
+<meta property="og:title" content="Prestige Shop Express – Boutique en ligne en Côte d’Ivoire">
+<meta property="og:description" content="Découvrez une large sélection de produits éducatifs, mode et électroniques. Livraison rapide en Côte d'Ivoire.">
+<meta property="og:image" content="https://prestige-shop-express.onrender.com/images/prestige%20shop.png"> <!-- Logo ou image représentative -->
 <meta property="og:url" content="https://prestige-shop-express.onrender.com">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Prestige Shop Express">
+<meta property="og:locale" content="fr_FR">
+
+<!-- Meta tags Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Prestige Shop Express – Boutique en ligne en Côte d’Ivoire">
+<meta name="twitter:description" content="Découvrez une large sélection de produits éducatifs, mode et électroniques. Livraison rapide en Côte d'Ivoire.">
+<meta name="twitter:image" content="https://prestige-shop-express.onrender.com/images/fourniture%20scolaire.jpg">
+<meta name="twitter:site" content="@PrestigeShop">
+
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -41,6 +53,7 @@
         .gradient-purple {
             background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
         }
+        
         
         .product-card {
             transition: all 0.3s ease;
@@ -574,36 +587,74 @@
         </div>
     </header>
 
-    <!-- Hero Banner -->
-    <section id="accueil" class="hero-banner text-white py-20">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-5xl font-bold mb-6">Bienvenue chez Prestige Shop Express</h2>
-            <div class="mb-8">
-                <div class="text-3xl font-extrabold text-yellow-300 mb-4 animate-pulse">
-                    ✨ "Shoppez malin. Shoppez Prestige" ✨
-                </div>
-                <p class="text-xl max-w-2xl mx-auto">Découvrez notre sélection de produits éducatifs, électroniques et mode. Qualité garantie, livraison rapide !</p>
-            </div>
-            <div class="flex flex-wrap justify-center gap-4 mb-8">
-                <div class="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full">
-                    <i class="fas fa-truck mr-2"></i>
-                    Livraison rapide
-                </div>
-                <div class="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full">
-                    <i class="fab fa-whatsapp mr-2"></i>
-                    Commande WhatsApp
-                </div>
-                <div class="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full">
-                    <i class="fas fa-shield-alt mr-2"></i>
-                    Qualité garantie
-                </div>
-            </div>
-            <button onclick="document.getElementById('produits').scrollIntoView({behavior: 'smooth'})" class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors">
-                Découvrir nos produits
-                <i class="fas fa-arrow-down ml-2"></i>
-            </button>
+   
+
+
+
+
+
+        
+
+<!-- Hero Banner Carrousel Spéciale Rentrée -->
+<section id="accueil" class="hero-banner text-white py-20 relative overflow-hidden">
+    <div class="absolute inset-0">
+        <!-- Images du carrousel -->
+        <div id="carouselImages" class="w-full h-full relative overflow-hidden">
+            <img src="images/eleve1.jpg" class="absolute inset-0 w-full h-full object-cover opacity-100 scale-100 transition-all duration-1000 ease-in-out">
+            <img src="images/ELEVE2.jpg" class="absolute inset-0 w-full h-full object-cover opacity-0 scale-110 transition-all duration-1000 ease-in-out">
+            <img src="images/ELEVE3.jpg" class="absolute inset-0 w-full h-full object-cover opacity-0 scale-110 transition-all duration-1000 ease-in-out">
         </div>
-    </section>
+        <div class="absolute inset-0 bg-black bg-opacity-40"></div> <!-- Overlay pour lisibilité -->
+    </div>
+
+    <div class="container mx-auto px-4 text-center relative z-10">
+        <h2 class="text-5xl font-bold mb-6 animate-fade-in">🎒 Spéciale Rentrée chez Prestige Shop Express</h2>
+        <div class="mb-8">
+            <div class="text-3xl font-extrabold text-yellow-300 mb-4 animate-bounce">
+                ✨ "Shoppez malin. Shoppez Prestige" ✨
+            </div>
+            <p class="text-xl max-w-2xl mx-auto animate-slide-up">
+                Découvrez notre sélection spéciale rentrée : fournitures scolaires, électroniques, et accessoires à prix malin. 
+                Qualité garantie, livraison rapide !
+            </p>
+        </div>
+
+        <!-- Avantages -->
+        <div class="flex flex-wrap justify-center gap-4 mb-8 animate-slide-up delay-200">
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg">
+                <i class="fas fa-truck mr-2"></i> Livraison rapide
+            </div>
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg">
+                <i class="fab fa-whatsapp mr-2"></i> Commande WhatsApp
+            </div>
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg">
+                <i class="fas fa-shield-alt mr-2"></i> Qualité garantie
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript pour le carrousel animé -->
+<script>
+const images = document.querySelectorAll("#carouselImages img");
+let current = 0;
+
+function showNextImage() {
+    const prev = images[current];
+    prev.classList.remove("opacity-100", "scale-100");
+    prev.classList.add("opacity-0", "scale-110");
+
+    current = (current + 1) % images.length;
+
+    const next = images[current];
+    next.classList.remove("opacity-0", "scale-110");
+    next.classList.add("opacity-100", "scale-100");
+}
+
+// Change image toutes les 5 secondes
+setInterval(showNextImage, 5000);
+</script>
+
 
     <!-- Products Section -->
     <section id="produits" class="py-16">
@@ -844,21 +895,21 @@
             <div class="text-center mt-12">
                 <h4 class="text-2xl font-bold mb-6">Suivez-nous sur les réseaux sociaux</h4>
                 <div class="flex justify-center space-x-6">
-                    <a href="#" class="group">
+                    <a href="https://www.facebook.com/Emile Afanou" class="group">
                         <div class="w-14 h-14 bg-blue-600 hover:bg-blue-700 rounded-full flex items-center justify-center transition-all transform group-hover:scale-110">
                             <i class="fab fa-facebook-f text-white text-xl"></i>
                         </div>
                         <p class="text-sm mt-2 text-gray-300 group-hover:text-white transition-colors">Facebook</p>
                     </a>
                     
-                    <a href="#" class="group">
+                    <a href="https://www.instagram.com/ Emile Afanou" class="group">
                         <div class="w-14 h-14 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 rounded-full flex items-center justify-center transition-all transform group-hover:scale-110">
                             <i class="fab fa-instagram text-white text-xl"></i>
                         </div>
                         <p class="text-sm mt-2 text-gray-300 group-hover:text-white transition-colors">Instagram</p>
                     </a>
                     
-                    <a href="#" class="group">
+                    <a href="https://www.tiktok.com/Emile Afanou" class="group">
                         <div class="w-14 h-14 bg-black hover:bg-gray-900 rounded-full flex items-center justify-center transition-all transform group-hover:scale-110">
                             <i class="fab fa-tiktok text-white text-xl"></i>
                         </div>
@@ -897,7 +948,7 @@
                 price: 15000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop",
+                    "imageprestige/cahier de recherche 200P.jpg",
                     "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop",
                     "https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?w=400&h=300&fit=crop"
                 ],
@@ -909,7 +960,7 @@
                 price: 8000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=300&fit=crop",
+                    "imageprestige/ETUDIANT300p.jpg",
                     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
                     "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop"
                 ],
@@ -921,7 +972,7 @@
                 price: 12000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400&h=300&fit=crop",
+                    "imageprestige/recherche300P.jpg",
                     "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
                     "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400&h=300&fit=crop"
                 ],
@@ -933,9 +984,8 @@
                 price: 18000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&h=300&fit=crop"
+                    "imageprestige/TP300PAGEf.jpg",
+                    "imageprestige/TP300PAGEF (2).jpg"
                 ],
                 description: "Idéale pour les études supérieures"
             },
@@ -947,9 +997,10 @@
                 price: 25000,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop"
+                    "imageprestige/I12.jpg",
+                    "imageprestige/I12E.jpg",
+                    "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop",
+                     "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=300&fit=crop"
                 ],
                 description: "Son haute qualité, autonomie 20h"
             },
@@ -959,7 +1010,7 @@
                 price: 45000,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop",
+                    "imageprestige/SAC.jpg",
                     "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400&h=300&fit=crop",
                     "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&h=300&fit=crop"
                 ],
@@ -1047,9 +1098,8 @@
                 price: 65000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=400&h=300&fit=crop"
+                    "imageprestige/TP200.jpg",
+                    "imageprestige/TP200P.jpg"
                 ],
                 description: "Apprentissage interactif et ludique"
             },
@@ -1119,7 +1169,7 @@
                 price: 75000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=300&fit=crop",
+                    "imageprestige/TP100P.jpg",
                     "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop",
                     "https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=400&h=300&fit=crop"
                 ],

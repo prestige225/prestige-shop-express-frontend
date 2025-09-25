@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
+    
     <link rel="icon" href="images/prestige shop.png" type="image/png" />
 
 
@@ -12,10 +12,22 @@
     <title>Prestige Shop Express - Votre boutique en ligne</title>
     <meta name="description" content="Prestige Shop Express, votre boutique en ligne de confiance en Côte d'Ivoire, vous offre une large sélection de produits de qualité avec une livraison rapide et un service client exceptionnel." />
  <!-- Open Graph pour réseaux sociaux  -->
-    <meta property="og:title" content="Prestige Shop Express – Boutique en ligne en Côte d’Ivoire">
-<meta property="og:description" content="Découvrez une large sélection de produits éducatifs et technologiques. Livraison rapide en Côte d'Ivoire.">
-<meta property="og:image" content="https://prestige-shop-express.onrender.com/images/prestige shop.png"> <!-- Mets ici ton vrai logo -->
+    <!-- Meta tags Open Graph pour SEO et partage -->
+<meta property="og:title" content="Prestige Shop Express – Boutique en ligne en Côte d’Ivoire">
+<meta property="og:description" content="Découvrez une large sélection de produits éducatifs, mode et électroniques. Livraison rapide en Côte d'Ivoire.">
+<meta property="og:image" content="https://prestige-shop-express.onrender.com/images/prestige%20shop.png"> <!-- Logo ou image représentative -->
 <meta property="og:url" content="https://prestige-shop-express.onrender.com">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Prestige Shop Express">
+<meta property="og:locale" content="fr_FR">
+
+<!-- Meta tags Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Prestige Shop Express – Boutique en ligne en Côte d’Ivoire">
+<meta name="twitter:description" content="Découvrez une large sélection de produits éducatifs, mode et électroniques. Livraison rapide en Côte d'Ivoire.">
+<meta name="twitter:image" content="https://prestige-shop-express.onrender.com/images/fourniture%20scolaire.jpg">
+<meta name="twitter:site" content="@PrestigeShop">
+
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -41,6 +53,7 @@
         .gradient-purple {
             background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
         }
+        
         
         .product-card {
             transition: all 0.3s ease;
@@ -576,75 +589,74 @@
 
    
 
-<!-- Styles supplémentaires -->
 
 
-<!-- Hero Banner Spéciale Rentrée -->
-<section id="accueil" class="hero-banner relative overflow-hidden text-white py-20 bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400">
+
+
+        
+
+<!-- Hero Banner Carrousel Spéciale Rentrée -->
+<section id="accueil" class="hero-banner text-white py-20 relative overflow-hidden">
+    <div class="absolute inset-0">
+        <!-- Images du carrousel -->
+        <div id="carouselImages" class="w-full h-full relative overflow-hidden">
+            <img src="images/eleve1.jpg" class="absolute inset-0 w-full h-full object-cover opacity-100 scale-100 transition-all duration-1000 ease-in-out">
+            <img src="images/ELEVE2.jpg" class="absolute inset-0 w-full h-full object-cover opacity-0 scale-110 transition-all duration-1000 ease-in-out">
+            <img src="images/ELEVE3.jpg" class="absolute inset-0 w-full h-full object-cover opacity-0 scale-110 transition-all duration-1000 ease-in-out">
+        </div>
+        <div class="absolute inset-0 bg-black bg-opacity-40"></div> <!-- Overlay pour lisibilité -->
+    </div>
+
     <div class="container mx-auto px-4 text-center relative z-10">
-        <!-- Texte principal avec animation -->
-        <h2 class="text-5xl font-extrabold mb-6 animate-fadeInUp">
-            🎒 Spéciale Rentrée chez Prestige Shop Express 🎓
-        </h2>
-
+        <h2 class="text-5xl font-bold mb-6 animate-fade-in">🎒 Spéciale Rentrée chez Prestige Shop Express</h2>
         <div class="mb-8">
             <div class="text-3xl font-extrabold text-yellow-300 mb-4 animate-bounce">
                 ✨ "Shoppez malin. Shoppez Prestige" ✨
             </div>
-            <p class="text-xl max-w-2xl mx-auto animate-fadeInUp delay-200">
-                Préparez la rentrée avec nos produits scolaires, électroniques et mode. 
+            <p class="text-xl max-w-2xl mx-auto animate-slide-up">
+                Découvrez notre sélection spéciale rentrée : fournitures scolaires, électroniques, et accessoires à prix malin. 
                 Qualité garantie, livraison rapide !
             </p>
         </div>
 
         <!-- Avantages -->
-        <div class="flex flex-wrap justify-center gap-4 mb-8 animate-fadeInUp delay-400">
-            <div class="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full">
+        <div class="flex flex-wrap justify-center gap-4 mb-8 animate-slide-up delay-200">
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg">
                 <i class="fas fa-truck mr-2"></i> Livraison rapide
             </div>
-            <div class="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full">
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg">
                 <i class="fab fa-whatsapp mr-2"></i> Commande WhatsApp
             </div>
-            <div class="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full">
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg">
                 <i class="fas fa-shield-alt mr-2"></i> Qualité garantie
             </div>
         </div>
-
-        <!-- Bouton -->
-        <button onclick="document.getElementById('produits').scrollIntoView({behavior: 'smooth'})" 
-                class="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all transform hover:scale-105">
-            Découvrir nos produits
-            <i class="fas fa-arrow-down ml-2"></i>
-        </button>
     </div>
-
-    <!-- Illustration scolaire flottante -->
-    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" 
-         alt="Illustration scolaire" 
-         class="absolute right-10 bottom-0 w-48 md:w-64 floating">
 </section>
 
-<!-- Animation CSS -->
-<style>
-@keyframes floating {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0px); }
-}
-.floating {
-    animation: floating 4s ease-in-out infinite;
+
+
+
+<!-- JavaScript pour le carrousel animé -->
+<script>
+const images = document.querySelectorAll("#carouselImages img");
+let current = 0;
+
+function showNextImage() {
+    const prev = images[current];
+    prev.classList.remove("opacity-100", "scale-100");
+    prev.classList.add("opacity-0", "scale-110");
+
+    current = (current + 1) % images.length;
+
+    const next = images[current];
+    next.classList.remove("opacity-0", "scale-110");
+    next.classList.add("opacity-100", "scale-100");
 }
 
-@keyframes fadeInUp {
-    0% { opacity: 0; transform: translateY(30px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-.animate-fadeInUp {
-    animation: fadeInUp 1s ease forwards;
-}
-.delay-200 { animation-delay: 0.2s; }
-.delay-400 { animation-delay: 0.4s; }
-</style>
+// Change image toutes les 5 secondes
+setInterval(showNextImage, 5000);
+</script>
 
 
     <!-- Products Section -->
@@ -935,430 +947,663 @@
             // Catégorie Éducatif
             {
                 id: 1,
-                name: "Kit Scolaire Complet",
-                price: 15000,
+                name: "Cahier de recherche privilège 200 pages – Idéal pour vos études",
+                price:  1500,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?w=400&h=300&fit=crop"
+                    "imageprestige/cahier de recherche 200P.jpg"
+                    
                 ],
-                description: "Tout le nécessaire pour une année scolaire réussie"
+                description: "Idéal pour les exercices et révisions en mathématiques et physique-chimie. Un outil pratique et fiable pour réussir vos études."
             },
             {
                 id: 2,
-                name: "Livre de Mathématiques",
-                price: 8000,
+                name: "Cahier Privilège Étudiant Grand Carreau – 300 pages",
+                price: 2000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop"
+                    "imageprestige/etudiant 300P.jpg"
                 ],
-                description: "Manuel complet avec exercices corrigés"
+                description: "Un cahier robuste et élégant avec 300 pages, parfait pour vos prises de notes, exercices et révisions. Pratique et durable pour vous accompagner tout au long de l’année."
             },
             {
                 id: 3,
-                name: "Jeu Éducatif Puzzle",
-                price: 12000,
+                name: "Cahier de recherche privilège 300 pages – Idéal pour vos études",
+                price: 2000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400&h=300&fit=crop"
+                    "imageprestige/recherche300P.jpg"
+                    
                 ],
-                description: "Développe la logique et la créativité"
+                description: "Idéal pour les exercices et révisions en mathématiques et physique-chimie. Un outil pratique et fiable pour réussir vos études."
             },
             {
                 id: 4,
-                name: "Calculatrice Scientifique",
-                price: 18000,
+                name: "Cahier Privilège Travaux Pratiques – 300 pages",
+                price: 2000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&h=300&fit=crop"
+                    "imageprestige/TP300PAGEf.jpg"
                 ],
-                description: "Idéale pour les études supérieures"
+                description: "Un cahier solide et spacieux, idéal pour vos exercices et comptes rendus. Parfait pour vos cours d’Histoire-Géographie et de SVT."
             },
             
             // Catégorie Électronique
             {
                 id: 5,
-                name: "Écouteurs Bluetooth",
-                price: 25000,
+                name: "iPhone 12 – 128 Go – Quasi Neuf",
+                price: 143000,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop"
+                    "imageprestige/I12D.jpg",
+                    "imageprestige/I12F.jpg"
+                   
                 ],
-                description: "Son haute qualité, autonomie 20h"
+                description: "iPhone 12 quasi neuf, écran 6,1, 5G, batterie parfaite et performance rapide."
             },
             {
                 id: 6,
-                name: "Montre Connectée",
-                price: 45000,
+                name: "iPhone XR – 128 Go – Quasi Neuf",
+                price: 95000,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&h=300&fit=crop"
+                    "imageprestige/APPLE XR 1.jpg",
+                    "imageprestige/APPLE XR2.jpg"
                 ],
-                description: "Suivi santé et notifications"
+                description: "iPhone XR – Smartphone Apple élégant avec écran Liquid Retina 6,1, Face ID, appareil photo 12 MP, processeur A12 Bionic puissant et design moderne."
             },
             {
                 id: 7,
-                name: "Mini Enceinte Portable",
-                price: 20000,
+                name: "HP Pavilion 15-er0125od (Core i5 de 11ᵉ génération, 8 Go RAM, 512 Go SSD, écran tactile 15,6)",
+                price: 510000,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=400&h=300&fit=crop"
+                    "imageprestige/pc hp.jpg"
                 ],
-                description: "Son puissant dans un format compact"
+                description: "HP Core i5 – 15.6\" Full HD, 8 Go RAM, 256 Go SSD, Windows 11, performance fiable pour le travail."
             },
             {
                 id: 8,
-                name: "Chargeur Sans Fil",
-                price: 15000,
+                name: "PC Portable Dell Inspiron 15 3000 (Core i3 de 11ᵉ génération, 8 Go RAM, 256 Go SSD, écran 15,6)",
+                price: 350000,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1609592806596-4d1b5e5e8b8e?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=300&fit=crop"
+                    "imageprestige/PC DELL.jpg",
+                    "imageprestige/PC DELL1.jpg"
                 ],
-                description: "Charge rapide compatible tous smartphones"
+                description: "Dell Inspiron 15 – PC portable avec écran 15,6\", processeur Intel Core i3 de 11ᵉ génération, 8 Go RAM, 256 Go SSD, Windows 11."
             },
             
             // Catégorie Mode
             {
                 id: 9,
-                name: "Sneakers Tendance",
-                price: 35000,
+                name: "Baskets Adidas Tendance Noir & Rose – Style audacieux et unique",
+                price: 24500,
                 category: "mode",
                 images: [
-                    "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=300&fit=crop"
+                    "imageprestige/adg.jpg",
+                    "imageprestige/adi3.jpg",
+                    "imageprestige/adi2.jpg"
                 ],
-                description: "Confort et style au quotidien"
+                description: "Alliez confort, durabilité et look moderne avec ces baskets Adidas au contraste noir et rose éclatant, parfaites pour le sport ou le quotidien."
             },
             {
                 id: 10,
-                name: "Sac à Dos Design",
+                name: "Baskets Rétro Élégantes – L'icône du style urbain",
                 price: 28000,
                 category: "mode",
                 images: [
-                    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=400&h=300&fit=crop"
+                    "imageprestige/AE86.jpg",
+                    "imageprestige/AE8612.jpg",
+                    "imageprestige/AE86M.jpg"
                 ],
-                description: "Élégant et fonctionnel"
+                description: "Élégantes et confortables, ces baskets blanc et bleu marine allient style intemporel et polyvalence pour toutes vos tenues quotidiennes."
             },
             {
                 id: 11,
-                name: "Montre Classique",
-                price: 22000,
+                name: "Baskets Hautes Élégance Poudrée – Chic et streetwear",
+                price: 23750,
                 category: "mode",
                 images: [
-                    "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1594576662059-6f4ac6d4f0cc?w=400&h=300&fit=crop"
+                    "imageprestige/airf.jpg",
+                    "imageprestige/aif.jpg"
+        
+            
                 ],
-                description: "Accessoire intemporel"
+                description: "Élégantes et confortables, ces baskets hautes bleu marine et rose poudré allient style raffiné, originalité et polyvalence pour toutes vos tenues."
             },
             {
                 id: 12,
-                name: "Lunettes de Soleil",
-                price: 18000,
+                name: "Baskets Blanches Pures – L'icône du style intemporel",
+                price: 25250,
                 category: "mode",
                 images: [
-                    "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=400&h=300&fit=crop"
+                    "imageprestige/airh.jpg",
+                    "imageprestige/airh1.jpg"
                 ],
-                description: "Protection UV et style"
+                description: "Classiques et polyvalentes, ces baskets blanches au design épuré allient confort et style minimaliste pour toutes vos tenues."
             },
             
             // Produits supplémentaires pour démontrer la pagination
             {
                 id: 13,
-                name: "Tablette Éducative",
-                price: 65000,
+                name: "Cahier Privilège Travaux Pratiques – 200 pages",
+                price: 1500,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=400&h=300&fit=crop"
+                    "imageprestige/TP200.jpg"
                 ],
-                description: "Apprentissage interactif et ludique"
+                description: "Solide et spacieux, ce cahier de 200 pages est parfait pour vos exercices et travaux pratiques, offrant confort et organisation pour toutes vos notes."
             },
             {
                 id: 14,
-                name: "Casque Gaming",
-                price: 42000,
+                name: "iPhone 13 simple/ 128 Go – Quasi Neuf",
+                price: 190000,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1599669454699-248893623440?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400&h=300&fit=crop"
+                    "imageprestige/I131.jpg",
+                    "imageprestige/I132.jpg",
+                    "imageprestige/I133.jpg"
                 ],
-                description: "Son immersif pour les gamers"
+                description: "iPhone 13 simple/ 128 Go – Écran Super Retina XDR, double caméra, processeur A15 Bionic, autonomie longue durée et design élégant."
             },
+           
             {
                 id: 15,
-                name: "Veste Tendance",
-                price: 48000,
+                name: "Sac à dos urbain antivol – style, confort et sécurité au quotidien.",
+                price: 12500,
                 category: "mode",
                 images: [
-                    "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1520975954732-35dd22299614?w=400&h=300&fit=crop"
+                    "imageprestige/sacp1.jpg",
+                    "imageprestige/sacp2.jpg"
                 ],
-                description: "Style moderne et confortable"
+                description: "Sac à dos moderne, résistant et imperméable, avec sécurité antivol, confort et style minimaliste pour toutes vos activités."
             },
             {
                 id: 16,
-                name: "Kit de Dessin Professionnel",
-                price: 32000,
+                name: "Cahier Privilège Étudiant Petit Carreau – 300 pages",
+                price: 2000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop"
+                    "imageprestige/ETUP300.png"
                 ],
-                description: "Tout pour libérer votre créativité"
+                description: "Robuste et spacieux, ce cahier à petits carreaux de 300 pages est parfait pour vos cours et exercices, notamment en physique-chimie."
             },
-            {
-                id: 17,
-                name: "Powerbank 20000mAh",
-                price: 28000,
-                category: "electronique",
-                images: [
-                    "https://images.unsplash.com/photo-1609592806596-4d1b5e5e8b8e?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=300&fit=crop"
-                ],
-                description: "Autonomie longue durée garantie"
-            },
+           
             {
                 id: 18,
-                name: "Baskets Sport Premium",
-                price: 55000,
+                name: "Sac à dos Fantaisie – Affichez votre personnalité",
+                price: 8500,
                 category: "mode",
                 images: [
-                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=400&h=300&fit=crop"
+                    "imageprestige/sac1.jpg",
+                    "imageprestige/sac2.jpg"
+                    
                 ],
-                description: "Performance et design d'exception"
+                description: "Léger, pratique et coloré, ce sac à dos vous permet d’exprimer votre style tout en restant organisé au quotidien."
             },
+           
+           
             {
-                id: 19,
-                name: "Microscope Éducatif",
-                price: 75000,
+                id: 21,
+                name: "Cahier Privilège Étudiant Grand Carreau – 200 pages",
+                price: 1500,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=400&h=300&fit=crop"
+                    "imageprestige/ETUG200.jpg"
+                    
                 ],
-                description: "Découverte du monde microscopique"
+                description: "Pratique et résistant, ce cahier à grands carreaux de 200 pages est idéal pour vos prises de notes et exercices, parfait pour les cours de français."
+            },
+
+            {
+                id: 22,
+                name: "Cahier Privilège Étudiant Grand Carreau – 100 pages",
+                price: 1000,
+                category: "educatif",
+                images: [
+                    "imageprestige/ETUG100.jpg"
+                    
+                ],
+                description: "Compact et solide, ce cahier à grands carreaux de 100 pages est parfait pour vos notes et exercices, idéal pour les cours de français."
             },
             {
-                id: 20,
-                name: "Webcam HD 1080p",
-                price: 35000,
+                id: 23,
+                name: "Cahier Privilège – 300 pages",
+                price: 1000,
+                category: "educatif",
+                images: [
+                    "imageprestige/C300.jpg"
+                    
+                ],
+                description: "Un cahier robuste et spacieux de 300 pages, idéal pour vos cours, exercices et révisions tout au long de l’année."
+            },
+
+            {
+                id: 24,
+                name: "Sac à dos Fantaisie LNX – Douceur et originalité",
+                price: 8500,
+                category: "mode",
+                images: [
+                 "imageprestige/LXN1.jpg",
+                 "imageprestige/sac4.jpg",
+                 "imageprestige/sac5.jpg"
+                ],
+                description: "Léger et pratique, ce sac à dos lila au motif ourson argenté allie style unique et rangement optimisé pour vos journées de cours ou sorties."
+            },
+
+            {
+             id: 25,
+                name: "Sac à dos Fantaisie LNX – Douceur et originalité",
+                price: 8500,
+                category: "mode",
+                images: [
+                 "imageprestige/LNXN1.jpg",
+                 "imageprestige/LNXN2.jpg"
+                ],
+                description: "Léger et pratique, ce sac à dos lila au motif ourson argenté allie style unique et rangement optimisé pour vos journées de cours ou sorties."
+            },
+
+            {
+                id: 26,
+                name: "Cahier Privilège – 100 pages",
+                price: 300,
+                category: "educatif",
+                images: [
+                    "imageprestige/cahier de 100p1.jpg",
+                    "imageprestige/cahier de 100p2.jpg"
+                    
+                ],
+                description: "Un cahier pratique et résistant de 100 pages, idéal pour vos prises de notes et exercices du quotidien."
+            },
+            {
+                id: 27,
+                name: "Cahier Privilège – 200 pages",
+                price: 500,
+                category: "educatif",
+                images: [
+                    "imageprestige/cahier de 200p1.jpg"
+                    
+                ],
+                description: "Un cahier pratique et résistant de 100 pages, idéal pour vos prises de notes et exercices du quotidien."
+            },
+
+            {
+                id: 28,
+                name: "Calculatrice Scientifique Casio",
+                price: 6500,
+                category: "educatif",
+                images: [
+                    "imageprestige/CASIO.jpg"
+                    
+                ],
+                description: "Fiable et pratique, cette calculatrice scientifique Casio offre toutes les fonctions essentielles pour réussir vos calculs en cours de mathématiques, physique et autres disciplines scientifiques. Idéale pour les étudiants et les examens."
+            },
+            {
+                id: 29,
+                name: "Calculatrice Scientifique TRIO",
+                price: 6000,
+                category: "educatif",
+                images: [
+                    "imageprestige/TRIO.jpg"
+                    
+                ],
+                description: "Pratique et complète, la calculatrice scientifique TRIO propose toutes les fonctions nécessaires pour vos cours et examens. Un outil fiable et accessible, idéal pour les étudiants."
+            },
+            {
+                id: 30,
+                name: "Sac à dos Ethnique – Osez la couleur",
+                price: 9000,
+                category: "mode",
+                images: [
+                    "imageprestige/sac6.jpg",
+                    "imageprestige/sac7.jpg"
+                ],
+                description: "Léger et pratique, ce sac à dos au motif ethnique coloré et au pompon tendance allie style original et rangement optimisé pour l’école ou les sorties."
+            },
+
+            {
+                id: 31,
+                name: "iPhone 11 simple dans carton/ 64 Go",
+                price:125000 ,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=400&h=300&fit=crop"
+                    "imageprestige/iphone11S.jpg",
+                    "imageprestige/iphone11S2.jpg"
                 ],
-                description: "Qualité professionnelle pour vos visios"
-            }
+                description: "Performant et élégant, avec écran Liquid Retina HD 6,1, puce A13 Bionic, double appareil photo 12 MP et design raffiné en noir. Stockage 64 Go, parfait pour une utilisation fluide au quotidien."
+            },
+
+
         ];
 
-        // Variables globales
-        let cart = [];
-        let currentFilter = 'all';
-        let currentSort = 'default';
-        let searchTimeout = null;
-        let isSearchFocused = false;
-        let productsPerPage = 8; // Nombre de produits à afficher initialement
-        let currentPage = 1;
-        let isLoadingMore = false;
-
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
-            displayProducts();
-            updateCartUI();
-        });
-
-        // Fonction de tri des produits
-        function sortProductsArray(productsArray, sortType) {
-            const sortedProducts = [...productsArray];
-            
-            switch(sortType) {
-                case 'name-asc':
-                    return sortedProducts.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
-                case 'name-desc':
-                    return sortedProducts.sort((a, b) => b.name.localeCompare(a.name, 'fr'));
-                case 'price-asc':
-                    return sortedProducts.sort((a, b) => a.price - b.price);
-                case 'price-desc':
-                    return sortedProducts.sort((a, b) => b.price - a.price);
-                case 'default':
-                default:
-                    return sortedProducts; // Ordre original
-            }
-        }
-
-        // Affichage des produits avec pagination
-        function displayProducts(filter = 'all', reset = true) {
-            if (reset) {
-                currentPage = 1;
-                currentFilter = filter;
-            }
-            
-            const grid = document.getElementById('products-grid');
-            let filteredProducts = filter === 'all' ? products : products.filter(p => p.category === filter);
-            
-            // Appliquer le tri
-            filteredProducts = sortProductsArray(filteredProducts, currentSort);
-            
-            // Calculer les produits à afficher
-            const startIndex = 0;
-            const endIndex = currentPage * productsPerPage;
-            const productsToShow = filteredProducts.slice(startIndex, endIndex);
-            
-            if (reset) {
-                grid.innerHTML = '';
-            }
-            
-            // Ajouter les nouveaux produits
-            const newProductsHTML = productsToShow.slice(reset ? 0 : (currentPage - 1) * productsPerPage).map(product => createProductCard(product)).join('');
-            
-            if (reset) {
-                grid.innerHTML = newProductsHTML;
-            } else {
-                grid.insertAdjacentHTML('beforeend', newProductsHTML);
-            }
-            
-            // Initialiser les carousels pour les nouveaux produits
-            const newProducts = reset ? productsToShow : productsToShow.slice((currentPage - 1) * productsPerPage);
-            newProducts.forEach(product => {
-                initializeCarousel(product.id);
-            });
-            
-            // Mettre à jour le bouton "Voir plus"
-            updateLoadMoreButton(filteredProducts.length);
-        }
         
-        // Mettre à jour le bouton "Voir plus"
-        function updateLoadMoreButton(totalProducts) {
-            const loadMoreContainer = document.getElementById('load-more-container');
-            const currentlyShown = currentPage * productsPerPage;
-            const hasMore = currentlyShown < totalProducts;
-            
-            if (!loadMoreContainer) {
-                // Créer le conteneur s'il n'existe pas
-                const container = document.createElement('div');
-                container.id = 'load-more-container';
-                container.className = 'text-center mt-12';
-                document.getElementById('products-grid').parentNode.appendChild(container);
-            }
-            
-            const container = document.getElementById('load-more-container');
-            
-            if (hasMore) {
-                const remaining = totalProducts - currentlyShown;
-                container.innerHTML = `
-                    <div class="space-y-4">
-                        <div class="text-gray-600">
-                            <span class="font-semibold">${currentlyShown}</span> sur <span class="font-semibold">${totalProducts}</span> produits affichés
-                        </div>
-                        <button onclick="loadMoreProducts()" 
-                                id="load-more-btn"
-                                class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-lg">
-                            <i class="fas fa-plus mr-2"></i>
-                            Voir plus de produits (${remaining} restant${remaining > 1 ? 's' : ''})
-                        </button>
-                        <div class="text-sm text-gray-500">
-                            Ou utilisez la recherche pour trouver un produit spécifique
-                        </div>
-                    </div>
-                `;
-            } else if (totalProducts > productsPerPage) {
-                container.innerHTML = `
-                    <div class="space-y-4">
-                        <div class="text-gray-600 font-semibold">
-                            ✨ Tous les produits sont affichés (${totalProducts} au total)
-                        </div>
-                        <button onclick="scrollToTop()" 
-                                class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-full font-medium transition-all">
-                            <i class="fas fa-arrow-up mr-2"></i>
-                            Retour en haut
-                        </button>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = '';
-            }
-        }
+
+
+// // Variables globales
+// let cart = [];
+// let currentFilter = 'all';
+// let currentSort = 'default';
+// let searchTimeout = null;
+// let isSearchFocused = false;
+// let productsPerPage = 8; // Nombre de produits par page
+// let currentPage = 1;
+// let isLoadingMore = false;
+
+// // Initialisation
+// document.addEventListener('DOMContentLoaded', function() {
+//     displayProducts();
+//     updateCartUI();
+// });
+
+// // Fonction de tri des produits
+// function sortProductsArray(productsArray, sortType) {
+//     const sortedProducts = [...productsArray];
+//     switch(sortType) {
+//         case 'name-asc': return sortedProducts.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+//         case 'name-desc': return sortedProducts.sort((a, b) => b.name.localeCompare(a.name, 'fr'));
+//         case 'price-asc': return sortedProducts.sort((a, b) => a.price - b.price);
+//         case 'price-desc': return sortedProducts.sort((a, b) => b.price - a.price);
+//         case 'default':
+//         default: return sortedProducts;
+//     }
+// }
+
+// // Affichage des produits avec pagination
+// function displayProducts(filter = 'all', reset = true) {
+//     if (reset) {
+//         currentPage = 1;
+//         currentFilter = filter;
+//     }
+    
+//     const grid = document.getElementById('products-grid');
+//     let filteredProducts = filter === 'all' ? products : products.filter(p => p.category === filter);
+    
+//     // Tri
+//     filteredProducts = sortProductsArray(filteredProducts, currentSort);
+    
+//     // Pagination
+//     const endIndex = currentPage * productsPerPage;
+//     const productsToShow = filteredProducts.slice(0, endIndex);
+    
+//     if (reset) {
+//         grid.innerHTML = '';
+//     }
+    
+//     // Rendu HTML des produits
+//     const newProductsHTML = productsToShow
+//         .slice(reset ? 0 : (currentPage - 1) * productsPerPage)
+//         .map(product => createProductCard(product))
+//         .join('');
+    
+//     if (reset) {
+//         grid.innerHTML = newProductsHTML;
+//     } else {
+//         grid.insertAdjacentHTML('beforeend', newProductsHTML);
+//     }
+    
+//     // Initialiser les carousels pour les nouveaux produits
+//     const newProducts = reset 
+//         ? productsToShow 
+//         : productsToShow.slice((currentPage - 1) * productsPerPage);
+    
+//     newProducts.forEach(product => {
+//         initializeCarousel(product.id);
+//     });
+    
+//     // Bouton / message de pagination
+//     updateLoadMoreButton(filteredProducts.length);
+// }
+
+// // Mettre à jour le bouton "Voir plus"
+// function updateLoadMoreButton(totalProducts) {
+//     let container = document.getElementById('load-more-container');
+//     if (!container) {
+//         container = document.createElement('div');
+//         container.id = 'load-more-container';
+//         container.className = 'text-center mt-12';
+//         document.getElementById('products-grid').parentNode.appendChild(container);
+//     }
+    
+//     const currentlyShown = currentPage * productsPerPage;
+//     const hasMore = currentlyShown < totalProducts;
+    
+//     if (hasMore) {
+//         const remaining = totalProducts - currentlyShown;
+//         container.innerHTML = `
+//             <div class="space-y-4">
+//                 <div class="text-gray-600">
+//                     <span class="font-semibold">${currentlyShown}</span> sur <span class="font-semibold">${totalProducts}</span> produits affichés
+//                 </div>
+//                 <button onclick="loadMoreProducts()" 
+//                         id="load-more-btn"
+//                         class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-lg">
+//                     <i class="fas fa-plus mr-2"></i>
+//                     Voir plus de produits (${remaining} restant${remaining > 1 ? 's' : ''})
+//                 </button>
+//             </div>
+//         `;
+//     } else if (totalProducts > productsPerPage) {
+//         container.innerHTML = `
+//             <div class="space-y-4">
+//                 <div class="text-gray-600 font-semibold">
+//                     ✨ Tous les produits sont affichés (${totalProducts} au total)
+//                 </div>
+//                 <button onclick="scrollToTop()" 
+//                         class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-full font-medium transition-all">
+//                     <i class="fas fa-arrow-up mr-2"></i>
+//                     Retour en haut
+//                 </button>
+//             </div>
+//         `;
+//     } else {
+//         container.innerHTML = '';
+//     }
+// }
+
+// // Charger plus de produits avec animation
+// function loadMoreProducts() {
+//     if (isLoadingMore) return;
+    
+//     isLoadingMore = true;
+//     const btn = document.getElementById('load-more-btn');
+    
+//     // Animation de chargement
+//     if (btn) {
+//         btn.innerHTML = `
+//             <i class="fas fa-spinner fa-spin mr-2"></i>
+//             Chargement...
+//         `;
+//         btn.disabled = true;
+//     }
+    
+//     // Simuler un délai pour l'effet visuel
+//     setTimeout(() => {
+//         currentPage++;
+//         displayProducts(currentFilter, false);
+//         isLoadingMore = false;
         
-        // Charger plus de produits
-        function loadMoreProducts() {
-            if (isLoadingMore) return;
-            
-            isLoadingMore = true;
-            const btn = document.getElementById('load-more-btn');
-            
-            // Animation de chargement
-            if (btn) {
-                btn.innerHTML = `
-                    <i class="fas fa-spinner fa-spin mr-2"></i>
-                    Chargement...
-                `;
-                btn.disabled = true;
-            }
-            
-            // Simuler un petit délai pour l'effet de chargement
-            setTimeout(() => {
-                currentPage++;
-                displayProducts(currentFilter, false);
-                isLoadingMore = false;
-                
-                // Animation d'apparition des nouveaux produits
-                const newCards = document.querySelectorAll('.product-card');
-                const startIndex = (currentPage - 1) * productsPerPage;
-                
-                for (let i = startIndex; i < newCards.length; i++) {
-                    if (newCards[i]) {
-                        newCards[i].style.opacity = '0';
-                        newCards[i].style.transform = 'translateY(30px)';
-                        
-                        setTimeout(() => {
-                            newCards[i].style.transition = 'all 0.5s ease';
-                            newCards[i].style.opacity = '1';
-                            newCards[i].style.transform = 'translateY(0)';
-                        }, (i - startIndex) * 100);
-                    }
-                }
-                
-                showNotification('Nouveaux produits chargés !', 'success');
-            }, 800);
-        }
+//         // Animation des nouvelles cartes
+//         const newCards = document.querySelectorAll('.product-card');
+//         const startIndex = (currentPage - 1) * productsPerPage;
         
-        // Fonction pour remonter en haut
-        function scrollToTop() {
-            document.getElementById('produits').scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
+//         for (let i = startIndex; i < newCards.length; i++) {
+//             if (newCards[i]) {
+//                 newCards[i].style.opacity = '0';
+//                 newCards[i].style.transform = 'translateY(30px)';
+                
+//                 setTimeout(() => {
+//                     newCards[i].style.transition = 'all 0.5s ease';
+//                     newCards[i].style.opacity = '1';
+//                     newCards[i].style.transform = 'translateY(0)';
+//                 }, (i - startIndex) * 100);
+//             }
+//         }
+        
+//         showNotification('Nouveaux produits chargés !', 'success');
+//     }, 800);
+// }
+
+// // Fonction pour remonter en haut
+// function scrollToTop() {
+//     document.getElementById('produits').scrollIntoView({ 
+//         behavior: 'smooth',
+//         block: 'start'
+//     });
+// }
+
+
+
+
+
+
+// =============================
+// Variables globales
+// =============================
+let cart = [];
+let currentFilter = 'all';
+let currentSort = 'default';
+let searchTimeout = null;
+let isSearchFocused = false;
+let productsPerPage = 8; // Nombre de produits par page
+let currentPage = 1;
+let isLoadingMore = false;
+
+// =============================
+// Initialisation
+// =============================
+document.addEventListener('DOMContentLoaded', function() {
+    displayProducts();
+    updateCartUI();
+});
+
+// =============================
+// Fonction de tri des produits
+// =============================
+function sortProductsArray(productsArray, sortType) {
+    const sortedProducts = [...productsArray];
+    switch(sortType) {
+        case 'name-asc': return sortedProducts.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+        case 'name-desc': return sortedProducts.sort((a, b) => b.name.localeCompare(a.name, 'fr'));
+        case 'price-asc': return sortedProducts.sort((a, b) => a.price - b.price);
+        case 'price-desc': return sortedProducts.sort((a, b) => b.price - a.price);
+        case 'default':
+        default: return sortedProducts;
+    }
+}
+
+// =============================
+// Affichage des produits
+// =============================
+function displayProducts(filter = 'all', reset = true) {
+    if (reset) {
+        currentPage = 1;
+        currentFilter = filter;
+    }
+
+    const grid = document.getElementById('products-grid');
+    let filteredProducts = filter === 'all' ? products : products.filter(p => p.category === filter);
+
+    // Appliquer le tri
+    filteredProducts = sortProductsArray(filteredProducts, currentSort);
+
+    // Découpage pour pagination
+    const endIndex = currentPage * productsPerPage;
+    const productsToShow = filteredProducts.slice(0, endIndex);
+
+    if (reset) grid.innerHTML = '';
+
+    // Rendu HTML
+    const newProductsHTML = productsToShow
+        .slice(reset ? 0 : (currentPage - 1) * productsPerPage)
+        .map(product => createProductCard(product))
+        .join('');
+
+    if (reset) {
+        grid.innerHTML = newProductsHTML;
+    } else {
+        grid.insertAdjacentHTML('beforeend', newProductsHTML);
+    }
+
+    // Initialiser carousels
+    const newProducts = reset ? productsToShow : productsToShow.slice((currentPage - 1) * productsPerPage);
+    newProducts.forEach(product => initializeCarousel(product.id));
+
+    // Activer scroll infini
+    if (endIndex < filteredProducts.length) {
+        window.addEventListener('scroll', handleInfiniteScroll);
+    } else {
+        window.removeEventListener('scroll', handleInfiniteScroll);
+    }
+}
+
+// =============================
+// Scroll infini
+// =============================
+function handleInfiniteScroll() {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+    if (!isLoadingMore && scrollTop + clientHeight >= scrollHeight - 100) {
+        loadMoreProducts();
+    }
+}
+
+// =============================
+// Charger plus de produits
+// =============================
+function loadMoreProducts() {
+    if (isLoadingMore) return;
+    isLoadingMore = true;
+
+    // Animation de chargement (facultative)
+    const grid = document.getElementById('products-grid');
+    const loader = document.createElement('div');
+    loader.id = 'infinite-loader';
+    loader.className = 'text-center py-4';
+    loader.innerHTML = `<i class="fas fa-spinner fa-spin text-xl text-purple-600"></i> Chargement...`;
+    grid.appendChild(loader);
+
+    setTimeout(() => {
+        currentPage++;
+        displayProducts(currentFilter, false);
+        isLoadingMore = false;
+
+        // Supprimer loader
+        const loaderEl = document.getElementById('infinite-loader');
+        if (loaderEl) loaderEl.remove();
+
+        // Animation des nouvelles cartes
+        const newCards = document.querySelectorAll('.product-card');
+        const startIndex = (currentPage - 1) * productsPerPage;
+        for (let i = startIndex; i < newCards.length; i++) {
+            if (newCards[i]) {
+                newCards[i].style.opacity = '0';
+                newCards[i].style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    newCards[i].style.transition = 'all 0.5s ease';
+                    newCards[i].style.opacity = '1';
+                    newCards[i].style.transform = 'translateY(0)';
+                }, (i - startIndex) * 100);
+            }
         }
+
+        showNotification('Nouveaux produits chargés !', 'success');
+    }, 20);
+}
+
+// =============================
+// Remonter en haut
+// =============================
+function scrollToTop() {
+    document.getElementById('produits').scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+
+
+       
 
         // Fonction de tri des produits
         function sortProducts(sortType) {

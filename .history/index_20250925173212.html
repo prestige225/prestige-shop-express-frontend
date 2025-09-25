@@ -486,99 +486,106 @@
     </style>
 </head>
 <body class="bg-gray-50">
-   <!-- Header -->
-<header class="bg-white shadow-lg sticky top-0 z-50">
-    <div class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between py-4">
-        <!-- Logo et titre -->
-        <div class="flex items-center space-x-3 w-full sm:w-auto">
-            <div class="w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden bg-white shadow-lg flex-shrink-0">
-                <img src="images/prestige shop.png" alt="Prestige Shop Express Logo" class="w-full h-full object-cover">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden bg-white shadow-lg flex-shrink-0">
+                        <img src="images/prestige shop.png" 
+                             alt="Prestige Shop Express Logo" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <h1 class="text-lg md:text-2xl font-bold text-gray-800 truncate">Prestige Shop Express</h1>
+                        <p class="text-xs md:text-sm text-gray-500 hidden sm:block">Votre boutique en ligne</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <!-- Barre de recherche -->
+                    <div class="relative hidden sm:block">
+                        <div class="relative">
+                            <input type="text" 
+                                   id="search-input" 
+                                   placeholder="Rechercher un produit..." 
+                                   class="w-64 lg:w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                                   oninput="handleSearch()"
+                                   onfocus="showSearchResults()"
+                                   onblur="hideSearchResults()">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <button onclick="clearSearch()" 
+                                    id="clear-search" 
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Résultats de recherche -->
+                        <div id="search-results" 
+                             class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-xl mt-2 max-h-96 overflow-y-auto z-50 hidden">
+                            <div id="search-content"></div>
+                        </div>
+                    </div>
+                    
+                    <nav class="hidden md:flex items-center space-x-4 lg:space-x-8">
+                        <a href="#accueil" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Accueil</a>
+                        <a href="#produits" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Produits</a>
+                        <a href="#contact" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Contact</a>
+                    </nav>
+                    
+                    <button onclick="toggleCart()" class="relative bg-purple-100 hover:bg-purple-200 p-2 md:p-3 rounded-full transition-colors flex-shrink-0">
+                        <i class="fas fa-shopping-cart text-purple-600 text-lg md:text-xl"></i>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center hidden">0</span>
+                    </button>
+                    
+                    <button onclick="toggleMobileMenu()" class="md:hidden bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors">
+                        <i class="fas fa-bars text-gray-700 text-lg"></i>
+                    </button>
+                </div>
             </div>
-            <div class="min-w-0 flex-1">
-                <h1 class="text-lg md:text-2xl font-bold text-gray-800 truncate">Prestige Shop Express</h1>
-                <p class="text-xs md:text-sm text-gray-500 hidden sm:block">Votre boutique en ligne</p>
+            
+            <!-- Menu Mobile -->
+            <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
+                <div class="px-4 py-3 space-y-3">
+                    <!-- Recherche mobile -->
+                    <div class="relative mb-4">
+                        <input type="text" 
+                               id="mobile-search-input" 
+                               placeholder="Rechercher un produit..." 
+                               class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                               oninput="handleMobileSearch()"
+                               onfocus="showMobileSearchResults()"
+                               onblur="hideMobileSearchResults()">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <button onclick="clearMobileSearch()" 
+                                id="mobile-clear-search" 
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Résultats de recherche mobile -->
+                    <div id="mobile-search-results" class="hidden mb-4">
+                        <div id="mobile-search-content" class="bg-gray-50 rounded-lg p-3 max-h-64 overflow-y-auto"></div>
+                    </div>
+                    
+                    <a href="#accueil" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
+                        <i class="fas fa-home mr-3 text-purple-600"></i>
+                        Accueil
+                    </a>
+                    <a href="#produits" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
+                        <i class="fas fa-shopping-bag mr-3 text-purple-600"></i>
+                        Produits
+                    </a>
+                    <a href="#contact" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
+                        <i class="fas fa-envelope mr-3 text-purple-600"></i>
+                        Contact
+                    </a>
+                </div>
             </div>
         </div>
-
-        <!-- Barre de recherche desktop -->
-        <div class="relative hidden sm:block flex-1 mx-4">
-            <input type="text"
-                   id="search-input"
-                   placeholder="Rechercher un produit..."
-                   class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                   oninput="handleSearch()"
-                   onfocus="showSearchResults()"
-                   onblur="hideSearchResults()">
-            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-            <button onclick="clearSearch()"
-                    id="clear-search"
-                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden">
-                <i class="fas fa-times"></i>
-            </button>
-            <!-- Résultats desktop -->
-            <div id="search-results" class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-xl mt-2 max-h-96 overflow-y-auto z-50 hidden">
-                <div id="search-content"></div>
-            </div>
-        </div>
-
-        <!-- Boutons nav & panier -->
-        <div class="flex items-center space-x-2 md:space-x-4">
-            <nav class="hidden md:flex items-center space-x-4 lg:space-x-8">
-                <a href="#accueil" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Accueil</a>
-                <a href="#produits" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Produits</a>
-                <a href="#contact" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Contact</a>
-            </nav>
-
-            <button onclick="toggleCart()" class="relative bg-purple-100 hover:bg-purple-200 p-2 md:p-3 rounded-full transition-colors flex-shrink-0">
-                <i class="fas fa-shopping-cart text-purple-600 text-lg md:text-xl"></i>
-                <span id="cart-badge" class="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center hidden">0</span>
-            </button>
-
-            <button onclick="toggleMobileMenu()" class="md:hidden bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors">
-                <i class="fas fa-bars text-gray-700 text-lg"></i>
-            </button>
-        </div>
-    </div>
-
-    <!-- Barre de recherche mobile fixe -->
-    <div class="sm:hidden w-full bg-white border-b border-gray-200 sticky top-16 z-50 px-4 py-2">
-        <div class="relative">
-            <input type="text"
-                   id="mobile-search-input"
-                   placeholder="Rechercher un produit..."
-                   class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                   oninput="handleMobileSearch()"
-                   onfocus="showMobileSearchResults()"
-                   onblur="hideMobileSearchResults()">
-            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-            <button onclick="clearMobileSearch()"
-                    id="mobile-clear-search"
-                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <!-- Résultats mobile -->
-        <div id="mobile-search-results" class="hidden mt-2">
-            <div id="mobile-search-content" class="bg-gray-50 rounded-lg p-3 max-h-64 overflow-y-auto"></div>
-        </div>
-    </div>
-
-    <!-- Menu mobile (optionnel pour nav seulement) -->
-    <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
-        <div class="px-4 py-3 space-y-3">
-            <a href="#accueil" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
-                <i class="fas fa-home mr-3 text-purple-600"></i> Accueil
-            </a>
-            <a href="#produits" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
-                <i class="fas fa-shopping-bag mr-3 text-purple-600"></i> Produits
-            </a>
-            <a href="#contact" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
-                <i class="fas fa-envelope mr-3 text-purple-600"></i> Contact
-            </a>
-        </div>
-    </div>
-</header>
-
+    </header>
 
    
 
@@ -628,6 +635,22 @@
 </section>
 
 
+
+<!-- Section Produits -->
+<section id="produits" class="py-12 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Nos Produits</h2>
+    
+    <!-- Conteneur produits -->
+    <div id="productsContainer" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+
+    <!-- Loader -->
+    <div id="loading" class="text-center py-6 hidden">
+      <i class="fas fa-spinner fa-spin text-purple-600 text-3xl"></i>
+      <p class="text-gray-500 mt-2">Chargement...</p>
+    </div>
+  </div>
+</section>
 
 
 <!-- JavaScript pour le carrousel animé -->
@@ -1270,11 +1293,139 @@ setInterval(showNextImage, 5000);
 
         ];
 
+        // // Variables globales
+        // let cart = [];
+        // let currentFilter = 'all';
+        // let currentSort = 'default';
+        // let searchTimeout = null;
+        // let isSearchFocused = false;
+        // let productsPerPage = 8; // Nombre de produits à afficher initialement
+        // let currentPage = 1;
+        // let isLoadingMore = false;
+
+        // // Initialisation
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     displayProducts();
+        //     updateCartUI();
+        // });
+
+        // // Fonction de tri des produits
+        // function sortProductsArray(productsArray, sortType) {
+        //     const sortedProducts = [...productsArray];
+            
+        //     switch(sortType) {
+        //         case 'name-asc':
+        //             return sortedProducts.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+        //         case 'name-desc':
+        //             return sortedProducts.sort((a, b) => b.name.localeCompare(a.name, 'fr'));
+        //         case 'price-asc':
+        //             return sortedProducts.sort((a, b) => a.price - b.price);
+        //         case 'price-desc':
+        //             return sortedProducts.sort((a, b) => b.price - a.price);
+        //         case 'default':
+        //         default:
+        //             return sortedProducts; // Ordre original
+        //     }
+        // }
+
+        // // Affichage des produits avec pagination
+        // function displayProducts(filter = 'all', reset = true) {
+        //     if (reset) {
+        //         currentPage = 1;
+        //         currentFilter = filter;
+        //     }
+            
+        //     const grid = document.getElementById('products-grid');
+        //     let filteredProducts = filter === 'all' ? products : products.filter(p => p.category === filter);
+            
+        //     // Appliquer le tri
+        //     filteredProducts = sortProductsArray(filteredProducts, currentSort);
+            
+        //     // Calculer les produits à afficher
+        //     const startIndex = 0;
+        //     const endIndex = currentPage * productsPerPage;
+        //     const productsToShow = filteredProducts.slice(startIndex, endIndex);
+            
+        //     if (reset) {
+        //         grid.innerHTML = '';
+        //     }
+            
+        //     // Ajouter les nouveaux produits
+        //     const newProductsHTML = productsToShow.slice(reset ? 0 : (currentPage - 1) * productsPerPage).map(product => createProductCard(product)).join('');
+            
+        //     if (reset) {
+        //         grid.innerHTML = newProductsHTML;
+        //     } else {
+        //         grid.insertAdjacentHTML('beforeend', newProductsHTML);
+        //     }
+            
+        //     // Initialiser les carousels pour les nouveaux produits
+        //     const newProducts = reset ? productsToShow : productsToShow.slice((currentPage - 1) * productsPerPage);
+        //     newProducts.forEach(product => {
+        //         initializeCarousel(product.id);
+        //     });
+            
+        //     // Mettre à jour le bouton "Voir plus"
+        //     updateLoadMoreButton(filteredProducts.length);
+        // }
+        
+        // // Mettre à jour le bouton "Voir plus"
+        // function updateLoadMoreButton(totalProducts) {
+        //     const loadMoreContainer = document.getElementById('load-more-container');
+        //     const currentlyShown = currentPage * productsPerPage;
+        //     const hasMore = currentlyShown < totalProducts;
+            
+        //     if (!loadMoreContainer) {
+        //         // Créer le conteneur s'il n'existe pas
+        //         const container = document.createElement('div');
+        //         container.id = 'load-more-container';
+        //         container.className = 'text-center mt-12';
+        //         document.getElementById('products-grid').parentNode.appendChild(container);
+        //     }
+            
+        //     const container = document.getElementById('load-more-container');
+            
+        //     if (hasMore) {
+        //         const remaining = totalProducts - currentlyShown;
+        //         container.innerHTML = `
+        //             <div class="space-y-4">
+        //                 <div class="text-gray-600">
+        //                     <span class="font-semibold">${currentlyShown}</span> sur <span class="font-semibold">${totalProducts}</span> produits affichés
+        //                 </div>
+        //                 <button onclick="loadMoreProducts()" 
+        //                         id="load-more-btn"
+        //                         class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-lg">
+        //                     <i class="fas fa-plus mr-2"></i>
+        //                     Voir plus de produits (${remaining} restant${remaining > 1 ? 's' : ''})
+        //                 </button>
+        //                 <div class="text-sm text-gray-500">
+        //                     Ou utilisez la recherche pour trouver un produit spécifique
+        //                 </div>
+        //             </div>
+        //         `;
+        //     } else if (totalProducts > productsPerPage) {
+        //         container.innerHTML = `
+        //             <div class="space-y-4">
+        //                 <div class="text-gray-600 font-semibold">
+        //                     ✨ Tous les produits sont affichés (${totalProducts} au total)
+        //                 </div>
+        //                 <button onclick="scrollToTop()" 
+        //                         class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-full font-medium transition-all">
+        //                     <i class="fas fa-arrow-up mr-2"></i>
+        //                     Retour en haut
+        //                 </button>
+        //             </div>
+        //         `;
+        //     } else {
+        //         container.innerHTML = '';
+        //     }
+        // }
         
 
 
 
 
+//         // Variables globales
 // Variables globales
 let cart = [];
 let currentFilter = 'all';
@@ -1304,7 +1455,7 @@ function sortProductsArray(productsArray, sortType) {
     }
 }
 
-// Affichage des produits
+// Affichage des produits avec pagination
 function displayProducts(filter = 'all', reset = true) {
     if (reset) {
         currentPage = 1;
@@ -1314,79 +1465,192 @@ function displayProducts(filter = 'all', reset = true) {
     const grid = document.getElementById('products-grid');
     let filteredProducts = filter === 'all' ? products : products.filter(p => p.category === filter);
     
+    // Tri
     filteredProducts = sortProductsArray(filteredProducts, currentSort);
     
+    // Pagination
     const endIndex = currentPage * productsPerPage;
     const productsToShow = filteredProducts.slice(0, endIndex);
     
-    if (reset) grid.innerHTML = '';
+    if (reset) {
+        grid.innerHTML = '';
+    }
     
+    // Rendu HTML des produits
     const newProductsHTML = productsToShow
         .slice(reset ? 0 : (currentPage - 1) * productsPerPage)
         .map(product => createProductCard(product))
         .join('');
     
-    if (reset) grid.innerHTML = newProductsHTML;
-    else grid.insertAdjacentHTML('beforeend', newProductsHTML);
+    if (reset) {
+        grid.innerHTML = newProductsHTML;
+    } else {
+        grid.insertAdjacentHTML('beforeend', newProductsHTML);
+    }
     
+    // Initialiser les carousels pour les nouveaux produits
     const newProducts = reset 
         ? productsToShow 
         : productsToShow.slice((currentPage - 1) * productsPerPage);
     
-    newProducts.forEach(product => initializeCarousel(product.id));
+    newProducts.forEach(product => {
+        initializeCarousel(product.id);
+    });
+    
+    // Bouton / message de pagination
+    updateLoadMoreButton(filteredProducts.length);
 }
 
-// Chargement automatique au scroll
-window.addEventListener('scroll', () => {
-    const grid = document.getElementById('products-grid');
-    if (!grid) return;
-    
-    const lastProduct = grid.lastElementChild;
-    if (!lastProduct) return;
-    
-    const lastProductOffset = lastProduct.offsetTop + lastProduct.clientHeight;
-    const pageOffset = window.pageYOffset + window.innerHeight;
-    
-    if (pageOffset > lastProductOffset - 300) { // 300px avant la fin de la grille
-        loadMoreProducts();
+// Mettre à jour le bouton "Voir plus"
+function updateLoadMoreButton(totalProducts) {
+    let container = document.getElementById('load-more-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'load-more-container';
+        container.className = 'text-center mt-12';
+        document.getElementById('products-grid').parentNode.appendChild(container);
     }
-});
+    
+    const currentlyShown = currentPage * productsPerPage;
+    const hasMore = currentlyShown < totalProducts;
+    
+    if (hasMore) {
+        const remaining = totalProducts - currentlyShown;
+        container.innerHTML = `
+            <div class="space-y-4">
+                <div class="text-gray-600">
+                    <span class="font-semibold">${currentlyShown}</span> sur <span class="font-semibold">${totalProducts}</span> produits affichés
+                </div>
+                <button onclick="loadMoreProducts()" 
+                        id="load-more-btn"
+                        class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-plus mr-2"></i>
+                    Voir plus de produits (${remaining} restant${remaining > 1 ? 's' : ''})
+                </button>
+            </div>
+        `;
+    } else if (totalProducts > productsPerPage) {
+        container.innerHTML = `
+            <div class="space-y-4">
+                <div class="text-gray-600 font-semibold">
+                    ✨ Tous les produits sont affichés (${totalProducts} au total)
+                </div>
+                <button onclick="scrollToTop()" 
+                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-full font-medium transition-all">
+                    <i class="fas fa-arrow-up mr-2"></i>
+                    Retour en haut
+                </button>
+            </div>
+        `;
+    } else {
+        container.innerHTML = '';
+    }
+}
 
-// Charger plus de produits avec animation rapide
+// Charger plus de produits avec animation
 function loadMoreProducts() {
     if (isLoadingMore) return;
     
-    const filteredProducts = currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter);
-    if (currentPage * productsPerPage >= filteredProducts.length) return; // Plus de produits
-    
     isLoadingMore = true;
-    currentPage++;
-    displayProducts(currentFilter, false);
+    const btn = document.getElementById('load-more-btn');
     
-    // Animation des nouvelles cartes
-    const newCards = document.querySelectorAll('.product-card');
-    const startIndex = (currentPage - 1) * productsPerPage;
-    
-    for (let i = startIndex; i < newCards.length; i++) {
-        if (newCards[i]) {
-            newCards[i].style.opacity = '0';
-            newCards[i].style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                newCards[i].style.transition = 'all 0.4s ease';
-                newCards[i].style.opacity = '1';
-                newCards[i].style.transform = 'translateY(0)';
-            }, (i - startIndex) * 80);
-        }
+    // Animation de chargement
+    if (btn) {
+        btn.innerHTML = `
+            <i class="fas fa-spinner fa-spin mr-2"></i>
+            Chargement...
+        `;
+        btn.disabled = true;
     }
     
-    isLoadingMore = false;
+    // Simuler un délai pour l'effet visuel
+    setTimeout(() => {
+        currentPage++;
+        displayProducts(currentFilter, false);
+        isLoadingMore = false;
+        
+        // Animation des nouvelles cartes
+        const newCards = document.querySelectorAll('.product-card');
+        const startIndex = (currentPage - 1) * productsPerPage;
+        
+        for (let i = startIndex; i < newCards.length; i++) {
+            if (newCards[i]) {
+                newCards[i].style.opacity = '0';
+                newCards[i].style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    newCards[i].style.transition = 'all 0.5s ease';
+                    newCards[i].style.opacity = '1';
+                    newCards[i].style.transform = 'translateY(0)';
+                }, (i - startIndex) * 100);
+            }
+        }
+        
+        showNotification('Nouveaux produits chargés !', 'success');
+    }, 800);
+}
+
+// Fonction pour remonter en haut
+function scrollToTop() {
+    document.getElementById('produits').scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+    });
 }
 
 
 
 
-       
+        // // Charger plus de produits
+        // function loadMoreProducts() {
+        //     if (isLoadingMore) return;
+            
+        //     isLoadingMore = true;
+        //     const btn = document.getElementById('load-more-btn');
+            
+        //     // Animation de chargement
+        //     if (btn) {
+        //         btn.innerHTML = `
+        //             <i class="fas fa-spinner fa-spin mr-2"></i>
+        //             Chargement...
+        //         `;
+        //         btn.disabled = true;
+        //     }
+            
+        //     // Simuler un petit délai pour l'effet de chargement
+        //     setTimeout(() => {
+        //         currentPage++;
+        //         displayProducts(currentFilter, false);
+        //         isLoadingMore = false;
+                
+        //         // Animation d'apparition des nouveaux produits
+        //         const newCards = document.querySelectorAll('.product-card');
+        //         const startIndex = (currentPage - 1) * productsPerPage;
+                
+        //         for (let i = startIndex; i < newCards.length; i++) {
+        //             if (newCards[i]) {
+        //                 newCards[i].style.opacity = '0';
+        //                 newCards[i].style.transform = 'translateY(30px)';
+                        
+        //                 setTimeout(() => {
+        //                     newCards[i].style.transition = 'all 0.5s ease';
+        //                     newCards[i].style.opacity = '1';
+        //                     newCards[i].style.transform = 'translateY(0)';
+        //                 }, (i - startIndex) * 100);
+        //             }
+        //         }
+                
+        //         showNotification('Nouveaux produits chargés !', 'success');
+        //     }, 800);
+        // }
+        
+        // // Fonction pour remonter en haut
+        // function scrollToTop() {
+        //     document.getElementById('produits').scrollIntoView({ 
+        //         behavior: 'smooth',
+        //         block: 'start'
+        //     });
+        // }
 
         // Fonction de tri des produits
         function sortProducts(sortType) {
@@ -2868,17 +3132,6 @@ function loadMoreProducts() {
             }
         }
         
-
-
-
-
-
-
-        // let searchTimeout;
-
-
-
-
         // Gestionnaires d'événements pour mobile
         function addMobileSearchEventListeners() {
             const searchItems = document.querySelectorAll('.search-result-item[data-is-mobile="true"]');

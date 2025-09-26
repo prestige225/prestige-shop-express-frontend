@@ -90,3 +90,21 @@
         </div>
     </div>
 </header>
+<script>
+    function handleSearchClick() {
+    const input = document.getElementById("search-input");
+    if (input.value.trim() !== "") {
+        handleSearch();
+        showSearchResults();
+    }
+}
+
+function handleMobileSearchClick() {
+    const input = document.getElementById("mobile-search-input");
+    if (input.value.trim() !== "") {
+        handleMobileSearch();
+        showMobileSearchResults();
+    }
+}
+
+</script>

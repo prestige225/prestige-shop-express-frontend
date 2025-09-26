@@ -491,69 +491,102 @@
 <body class="bg-gray-50">
    <!-- Header -->
 <header class="bg-white shadow-lg sticky top-0 z-50">
-    <!-- Container principal -->
-    <div class="container mx-auto px-4 py-4 flex flex-col">
-        <!-- Ligne supérieure : logo + menu hamburger + panier -->
-        <div class="flex items-center justify-between w-full">
-            <!-- Logo -->
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden bg-white shadow-lg flex-shrink-0">
-                    <img src="images/prestige shop.png" alt="Prestige Shop Express Logo" class="w-full h-full object-cover">
-                </div>
-                <div class="min-w-0 flex-1">
-                    <h1 class="text-lg md:text-2xl font-bold text-gray-800 truncate">Prestige Shop Express</h1>
-                    <p class="text-xs md:text-sm text-gray-500 hidden sm:block">Votre boutique en ligne</p>
-                </div>
-            </div>
+  <div class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between py-4">
 
-            <!-- Boutons nav & panier -->
-            <div class="flex items-center space-x-2 md:space-x-4">
-                <nav class="hidden md:flex items-center space-x-4 lg:space-x-8">
-                    <a href="#accueil" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Accueil</a>
-                    <a href="#produits" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Produits</a>
-                    <a href="#contact" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Contact</a>
-                </nav>
-
-                <button onclick="toggleCart()" class="relative bg-purple-100 hover:bg-purple-200 p-2 md:p-3 rounded-full transition-colors flex-shrink-0">
-                    <i class="fas fa-shopping-cart text-purple-600 text-lg md:text-xl"></i>
-                    <span id="cart-badge" class="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center hidden">0</span>
-                </button>
-
-                <button onclick="toggleMobileMenu()" class="md:hidden bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors">
-                    <i class="fas fa-bars text-gray-700 text-lg"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Barre de recherche desktop (en dessous de la ligne supérieure) -->
-        <div class="relative mt-4 w-full">
-            <input type="text"
-                   id="search-input"
-                   placeholder="Rechercher un produit..."
-                   class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                   oninput="handleSearch()"
-                   onfocus="showSearchResults()"
-                   onblur="hideSearchResults()">
-            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-            <button onclick="clearSearch()"
-                    id="clear-search"
-                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden">
-                <i class="fas fa-times"></i>
-            </button>
-
-            <!-- Résultats desktop -->
-            <div id="search-results" class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-xl mt-2 max-h-96 overflow-y-auto z-50 hidden">
-                <div id="search-content"></div>
-            </div>
-        </div>
+    <!-- Logo et titre -->
+    <div class="flex items-center space-x-3 w-full sm:w-auto">
+      <div class="w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden bg-white shadow-lg flex-shrink-0">
+        <img src="images/prestige shop.png" alt="Prestige Shop Express Logo" class="w-full h-full object-cover">
+      </div>
+      <div class="min-w-0 flex-1">
+        <h1 class="text-lg md:text-2xl font-bold text-gray-800 truncate">Prestige Shop Express</h1>
+        <p class="text-xs md:text-sm text-gray-500 hidden sm:block">Votre boutique en ligne</p>
+      </div>
     </div>
 
-    <!-- Barre de recherche mobile et menu mobile restent identiques -->
+    <!-- Barre de recherche desktop -->
+    <div class="relative hidden sm:flex flex-1 mx-4">
+      <input type="text" 
+             id="search-input" 
+             placeholder="Rechercher un produit, une catégorie..." 
+             class="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+             oninput="handleSearch()" 
+             onfocus="showSearchResults()" 
+             onblur="hideSearchResults()">
+
+      <!-- Bouton recherche -->
+      <button onclick="handleSearchClick()" 
+              class="absolute right-0 top-0 bottom-0 bg-purple-600 hover:bg-purple-700 text-white px-4 rounded-r-lg transition">
+        <i class="fas fa-search"></i>
+      </button>
+
+      <!-- Résultats desktop -->
+      <div id="search-results" 
+           class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-xl mt-2 max-h-96 overflow-y-auto z-50 hidden">
+        <div id="search-content"></div>
+      </div>
+    </div>
+
+    <!-- Boutons nav & panier -->
+    <div class="flex items-center space-x-2 md:space-x-4">
+      <nav class="hidden md:flex items-center space-x-4 lg:space-x-8">
+        <a href="#accueil" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Accueil</a>
+        <a href="#produits" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Produits</a>
+        <a href="#contact" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Contact</a>
+      </nav>
+      <button onclick="toggleCart()" class="relative bg-purple-100 hover:bg-purple-200 p-2 md:p-3 rounded-full transition-colors flex-shrink-0">
+        <i class="fas fa-shopping-cart text-purple-600 text-lg md:text-xl"></i>
+        <span id="cart-badge" class="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center hidden">0</span>
+      </button>
+      <button onclick="toggleMobileMenu()" class="md:hidden bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors">
+        <i class="fas fa-bars text-gray-700 text-lg"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Barre de recherche mobile -->
+  <div class="sm:hidden w-full bg-white border-b border-gray-200 sticky top-16 z-50 px-4 py-2">
+    <div class="flex">
+      <input type="text" 
+             id="mobile-search-input" 
+             placeholder="Rechercher un produit..." 
+             class="flex-1 pl-4 pr-12 py-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+             oninput="handleMobileSearch()" 
+             onfocus="showMobileSearchResults()" 
+             onblur="hideMobileSearchResults()">
+      <button onclick="handleMobileSearchClick()" 
+              class="bg-purple-600 hover:bg-purple-700 text-white px-4 rounded-r-lg transition">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+    <!-- Résultats mobile -->
+    <div id="mobile-search-results" class="hidden mt-2">
+      <div id="mobile-search-content" class="bg-gray-50 rounded-lg p-3 max-h-64 overflow-y-auto"></div>
+    </div>
+  </div>
+
+  <!-- Menu mobile -->
+  <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
+    <div class="px-4 py-3 space-y-3">
+      <a href="#accueil" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
+        <i class="fas fa-home mr-3 text-purple-600"></i> Accueil
+      </a>
+      <a href="#produits" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
+        <i class="fas fa-shopping-bag mr-3 text-purple-600"></i> Produits
+      </a>
+      <a href="#contact" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
+        <i class="fas fa-envelope mr-3 text-purple-600"></i> Contact
+      </a>
+    </div>
+  </div>
 </header>
 
 
 
 
+
+
+        
 
 <!-- Hero Banner Carrousel Spéciale Rentrée -->
 <section id="accueil" class="hero-banner text-white py-20 relative overflow-hidden">
@@ -3675,7 +3708,6 @@ function loadMoreProducts() {
                 updateFavoriteButtons();
             }, 500);
         });
-
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9696453bb45cc13d',t:'MTc1NDIyODg4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
+    
     <link rel="icon" href="images/prestige shop.png" type="image/png" />
 
 
@@ -53,6 +53,7 @@
         .gradient-purple {
             background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
         }
+        
         
         .product-card {
             transition: all 0.3s ease;
@@ -482,111 +483,81 @@
             line-height: 1.5;
             max-height: 4.5em;
         }
+
+
+  
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Header -->
-    <header class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between py-4">
-                <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden bg-white shadow-lg flex-shrink-0">
-                        <img src="images/prestige shop.png" 
-                             alt="Prestige Shop Express Logo" 
-                             class="w-full h-full object-cover">
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <h1 class="text-lg md:text-2xl font-bold text-gray-800 truncate">Prestige Shop Express</h1>
-                        <p class="text-xs md:text-sm text-gray-500 hidden sm:block">Votre boutique en ligne</p>
-                    </div>
-                </div>
-                
-                <div class="flex items-center space-x-2 md:space-x-4">
-                    <!-- Barre de recherche -->
-                    <div class="relative hidden sm:block">
-                        <div class="relative">
-                            <input type="text" 
-                                   id="search-input" 
-                                   placeholder="Rechercher un produit..." 
-                                   class="w-64 lg:w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                                   oninput="handleSearch()"
-                                   onfocus="showSearchResults()"
-                                   onblur="hideSearchResults()">
-                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <button onclick="clearSearch()" 
-                                    id="clear-search" 
-                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        
-                        <!-- Résultats de recherche -->
-                        <div id="search-results" 
-                             class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-xl mt-2 max-h-96 overflow-y-auto z-50 hidden">
-                            <div id="search-content"></div>
-                        </div>
-                    </div>
-                    
-                    <nav class="hidden md:flex items-center space-x-4 lg:space-x-8">
-                        <a href="#accueil" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Accueil</a>
-                        <a href="#produits" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Produits</a>
-                        <a href="#contact" class="text-gray-700 hover:text-purple-600 font-medium transition-colors text-sm lg:text-base">Contact</a>
-                    </nav>
-                    
-                    <button onclick="toggleCart()" class="relative bg-purple-100 hover:bg-purple-200 p-2 md:p-3 rounded-full transition-colors flex-shrink-0">
-                        <i class="fas fa-shopping-cart text-purple-600 text-lg md:text-xl"></i>
-                        <span id="cart-badge" class="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center hidden">0</span>
-                    </button>
-                    
-                    <button onclick="toggleMobileMenu()" class="md:hidden bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors">
-                        <i class="fas fa-bars text-gray-700 text-lg"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Menu Mobile -->
-            <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
-                <div class="px-4 py-3 space-y-3">
-                    <!-- Recherche mobile -->
-                    <div class="relative mb-4">
-                        <input type="text" 
-                               id="mobile-search-input" 
-                               placeholder="Rechercher un produit..." 
-                               class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                               oninput="handleMobileSearch()"
-                               onfocus="showMobileSearchResults()"
-                               onblur="hideMobileSearchResults()">
-                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                        <button onclick="clearMobileSearch()" 
-                                id="mobile-clear-search" 
-                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    
-                    <!-- Résultats de recherche mobile -->
-                    <div id="mobile-search-results" class="hidden mb-4">
-                        <div id="mobile-search-content" class="bg-gray-50 rounded-lg p-3 max-h-64 overflow-y-auto"></div>
-                    </div>
-                    
-                    <a href="#accueil" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
-                        <i class="fas fa-home mr-3 text-purple-600"></i>
-                        Accueil
-                    </a>
-                    <a href="#produits" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
-                        <i class="fas fa-shopping-bag mr-3 text-purple-600"></i>
-                        Produits
-                    </a>
-                    <a href="#contact" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
-                        <i class="fas fa-envelope mr-3 text-purple-600"></i>
-                        Contact
-                    </a>
-                </div>
-            </div>
-        </div>
-    </header>
+   <!-- Header -->
+<!-- Header -->
+<header class="bg-white shadow-lg sticky top-0 z-50">
+  <div class="container mx-auto px-4 flex items-center justify-between py-4">
 
-   
+    <!-- Gauche : Logo + menu hamburger -->
+    <div class="flex items-center space-x-3">
+      <!-- Logo -->
+      <div class="w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden bg-white shadow-lg flex-shrink-0">
+        <img src="images/prestige shop.png" alt="Prestige Shop Express Logo" class="w-full h-full object-cover">
+      </div>
+      <h1 class="text-lg md:text-2xl font-bold text-gray-800">Prestige Shop Express</h1>
+
+      <!-- Menu hamburger (mobile) -->
+      <button onclick="toggleMobileMenu()" class="md:hidden ml-3 bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors">
+        <i class="fas fa-bars text-gray-700 text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Droite : Recherche + Panier -->
+    <div class="flex items-center space-x-4">
+
+      <!-- Barre de recherche -->
+      <!-- Barre de recherche -->
+<div class="relative hidden sm:block group">
+  <input type="text"
+         id="search-input"
+         placeholder="Rechercher un produit..."
+         class="w-72 pl-12 pr-4 py-2 border border-gray-300 rounded-full 
+                bg-gray-50 focus:bg-white focus:ring-2 focus:ring-purple-500 
+                focus:border-transparent shadow-sm transition-all duration-300"
+         oninput="handleSearch()"
+         onfocus="showSearchResults()"
+         onblur="hideSearchResults()">
+  <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 
+             text-gray-400 group-focus-within:text-purple-500 transition-colors"></i>
+</div>
+
+
+      <!-- Panier -->
+      <button onclick="toggleCart()" class="relative bg-purple-100 hover:bg-purple-200 p-2 md:p-3 rounded-full transition-colors flex-shrink-0">
+        <i class="fas fa-shopping-cart text-purple-600 text-lg md:text-xl"></i>
+        <span id="cart-badge"
+              class="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center hidden">0</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Recherche mobile -->
+  <div class="sm:hidden w-full bg-white border-t border-gray-200 px-4 py-2">
+    <div class="relative">
+      <input type="text"
+             id="mobile-search-input"
+             placeholder="Rechercher un produit..."
+             class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+      <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+    </div>
+  </div>
+
+  <!-- Menu mobile -->
+  <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
+    <div class="px-4 py-3 space-y-3">
+      <a href="#accueil" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium">Accueil</a>
+      <a href="#produits" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium">Produits</a>
+      <a href="#contact" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium">Contact</a>
+    </div>
+  </div>
+</header>
 
 
 
@@ -632,6 +603,9 @@
         </div>
     </div>
 </section>
+
+
+
 
 <!-- JavaScript pour le carrousel animé -->
 <script>
@@ -943,430 +917,453 @@ setInterval(showNextImage, 5000);
             // Catégorie Éducatif
             {
                 id: 1,
-                name: "Kit Scolaire Complet",
-                price: 15000,
+                name: "Cahier de recherche privilège 200 pages – Idéal pour vos études",
+                price:  1500,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?w=400&h=300&fit=crop"
+                    "imageprestige/cahier de recherche 200P.jpg"
+                    
                 ],
-                description: "Tout le nécessaire pour une année scolaire réussie"
+                description: "Idéal pour les exercices et révisions en mathématiques et physique-chimie. Un outil pratique et fiable pour réussir vos études."
             },
             {
                 id: 2,
-                name: "Livre de Mathématiques",
-                price: 8000,
+                name: "Cahier Privilège Étudiant Grand Carreau – 300 pages",
+                price: 2000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop"
+                    "imageprestige/etudiant 300P.jpg"
                 ],
-                description: "Manuel complet avec exercices corrigés"
+                description: "Un cahier robuste et élégant avec 300 pages, parfait pour vos prises de notes, exercices et révisions. Pratique et durable pour vous accompagner tout au long de l’année."
             },
             {
                 id: 3,
-                name: "Jeu Éducatif Puzzle",
-                price: 12000,
+                name: "Cahier de recherche privilège 300 pages – Idéal pour vos études",
+                price: 2000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400&h=300&fit=crop"
+                    "imageprestige/recherche300P.jpg"
+                    
                 ],
-                description: "Développe la logique et la créativité"
+                description: "Idéal pour les exercices et révisions en mathématiques et physique-chimie. Un outil pratique et fiable pour réussir vos études."
             },
             {
                 id: 4,
-                name: "Calculatrice Scientifique",
-                price: 18000,
+                name: "Cahier Privilège Travaux Pratiques – 300 pages",
+                price: 2000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&h=300&fit=crop"
+                    "imageprestige/TP300PAGEf.jpg"
                 ],
-                description: "Idéale pour les études supérieures"
+                description: "Un cahier solide et spacieux, idéal pour vos exercices et comptes rendus. Parfait pour vos cours d’Histoire-Géographie et de SVT."
             },
             
             // Catégorie Électronique
             {
                 id: 5,
-                name: "Écouteurs Bluetooth",
-                price: 25000,
+                name: "iPhone 12 – 128 Go – Quasi Neuf",
+                price: 143000,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop"
+                    "imageprestige/I12D.jpg",
+                    "imageprestige/I12F.jpg"
+                   
                 ],
-                description: "Son haute qualité, autonomie 20h"
+                description: "iPhone 12 quasi neuf, écran 6,1, 5G, batterie parfaite et performance rapide."
             },
             {
                 id: 6,
-                name: "Montre Connectée",
-                price: 45000,
+                name: "iPhone XR – 128 Go – Quasi Neuf",
+                price: 95000,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&h=300&fit=crop"
+                    "imageprestige/APPLE XR 1.jpg",
+                    "imageprestige/APPLE XR2.jpg"
                 ],
-                description: "Suivi santé et notifications"
+                description: "iPhone XR – Smartphone Apple élégant avec écran Liquid Retina 6,1, Face ID, appareil photo 12 MP, processeur A12 Bionic puissant et design moderne."
             },
             {
                 id: 7,
-                name: "Mini Enceinte Portable",
-                price: 20000,
+                name: "HP Pavilion 15-er0125od (Core i5 de 11ᵉ génération, 8 Go RAM, 512 Go SSD, écran tactile 15,6)",
+                price: 510000,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=400&h=300&fit=crop"
+                    "imageprestige/pc hp.jpg"
                 ],
-                description: "Son puissant dans un format compact"
+                description: "HP Core i5 – 15.6\" Full HD, 8 Go RAM, 256 Go SSD, Windows 11, performance fiable pour le travail."
             },
             {
                 id: 8,
-                name: "Chargeur Sans Fil",
-                price: 15000,
+                name: "PC Portable Dell Inspiron 15 3000 (Core i3 de 11ᵉ génération, 8 Go RAM, 256 Go SSD, écran 15,6)",
+                price: 350000,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1609592806596-4d1b5e5e8b8e?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=300&fit=crop"
+                    "imageprestige/PC DELL.jpg",
+                    "imageprestige/PC DELL1.jpg"
                 ],
-                description: "Charge rapide compatible tous smartphones"
+                description: "Dell Inspiron 15 – PC portable avec écran 15,6\", processeur Intel Core i3 de 11ᵉ génération, 8 Go RAM, 256 Go SSD, Windows 11."
             },
             
             // Catégorie Mode
             {
                 id: 9,
-                name: "Sneakers Tendance",
-                price: 35000,
+                name: "Baskets Adidas Tendance Noir & Rose – Style audacieux et unique",
+                price: 24500,
                 category: "mode",
                 images: [
-                    "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=300&fit=crop"
+                    "imageprestige/adg.jpg",
+                    "imageprestige/adi3.jpg",
+                    "imageprestige/adi2.jpg"
                 ],
-                description: "Confort et style au quotidien"
+                description: "Alliez confort, durabilité et look moderne avec ces baskets Adidas au contraste noir et rose éclatant, parfaites pour le sport ou le quotidien."
             },
             {
                 id: 10,
-                name: "Sac à Dos Design",
+                name: "Baskets Rétro Élégantes – L'icône du style urbain",
                 price: 28000,
                 category: "mode",
                 images: [
-                    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=400&h=300&fit=crop"
+                    "imageprestige/AE86.jpg",
+                    "imageprestige/AE8612.jpg",
+                    "imageprestige/AE86M.jpg"
                 ],
-                description: "Élégant et fonctionnel"
+                description: "Élégantes et confortables, ces baskets blanc et bleu marine allient style intemporel et polyvalence pour toutes vos tenues quotidiennes."
             },
             {
                 id: 11,
-                name: "Montre Classique",
-                price: 22000,
+                name: "Baskets Hautes Élégance Poudrée – Chic et streetwear",
+                price: 23750,
                 category: "mode",
                 images: [
-                    "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1594576662059-6f4ac6d4f0cc?w=400&h=300&fit=crop"
+                    "imageprestige/airf.jpg",
+                    "imageprestige/aif.jpg"
+        
+            
                 ],
-                description: "Accessoire intemporel"
+                description: "Élégantes et confortables, ces baskets hautes bleu marine et rose poudré allient style raffiné, originalité et polyvalence pour toutes vos tenues."
             },
             {
                 id: 12,
-                name: "Lunettes de Soleil",
-                price: 18000,
+                name: "Baskets Blanches Pures – L'icône du style intemporel",
+                price: 25250,
                 category: "mode",
                 images: [
-                    "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=400&h=300&fit=crop"
+                    "imageprestige/airh.jpg",
+                    "imageprestige/airh1.jpg"
                 ],
-                description: "Protection UV et style"
+                description: "Classiques et polyvalentes, ces baskets blanches au design épuré allient confort et style minimaliste pour toutes vos tenues."
             },
             
             // Produits supplémentaires pour démontrer la pagination
             {
                 id: 13,
-                name: "Tablette Éducative",
-                price: 65000,
+                name: "Cahier Privilège Travaux Pratiques – 200 pages",
+                price: 1500,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=400&h=300&fit=crop"
+                    "imageprestige/TP200.jpg"
                 ],
-                description: "Apprentissage interactif et ludique"
+                description: "Solide et spacieux, ce cahier de 200 pages est parfait pour vos exercices et travaux pratiques, offrant confort et organisation pour toutes vos notes."
             },
             {
                 id: 14,
-                name: "Casque Gaming",
-                price: 42000,
+                name: "iPhone 13 simple/ 128 Go – Quasi Neuf",
+                price: 190000,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1599669454699-248893623440?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400&h=300&fit=crop"
+                    "imageprestige/I131.jpg",
+                    "imageprestige/I132.jpg",
+                    "imageprestige/I133.jpg"
                 ],
-                description: "Son immersif pour les gamers"
+                description: "iPhone 13 simple/ 128 Go – Écran Super Retina XDR, double caméra, processeur A15 Bionic, autonomie longue durée et design élégant."
             },
+           
             {
                 id: 15,
-                name: "Veste Tendance",
-                price: 48000,
+                name: "Sac à dos urbain antivol – style, confort et sécurité au quotidien.",
+                price: 12500,
                 category: "mode",
                 images: [
-                    "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1520975954732-35dd22299614?w=400&h=300&fit=crop"
+                    "imageprestige/sacp1.jpg",
+                    "imageprestige/sacp2.jpg"
                 ],
-                description: "Style moderne et confortable"
+                description: "Sac à dos moderne, résistant et imperméable, avec sécurité antivol, confort et style minimaliste pour toutes vos activités."
             },
             {
                 id: 16,
-                name: "Kit de Dessin Professionnel",
-                price: 32000,
+                name: "Cahier Privilège Étudiant Petit Carreau – 300 pages",
+                price: 2000,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop"
+                    "imageprestige/ETUP300.png"
                 ],
-                description: "Tout pour libérer votre créativité"
+                description: "Robuste et spacieux, ce cahier à petits carreaux de 300 pages est parfait pour vos cours et exercices, notamment en physique-chimie."
             },
-            {
-                id: 17,
-                name: "Powerbank 20000mAh",
-                price: 28000,
-                category: "electronique",
-                images: [
-                    "https://images.unsplash.com/photo-1609592806596-4d1b5e5e8b8e?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=300&fit=crop"
-                ],
-                description: "Autonomie longue durée garantie"
-            },
+           
             {
                 id: 18,
-                name: "Baskets Sport Premium",
-                price: 55000,
+                name: "Sac à dos Fantaisie – Affichez votre personnalité",
+                price: 8500,
                 category: "mode",
                 images: [
-                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=400&h=300&fit=crop"
+                    "imageprestige/sac1.jpg",
+                    "imageprestige/sac2.jpg"
+                    
                 ],
-                description: "Performance et design d'exception"
+                description: "Léger, pratique et coloré, ce sac à dos vous permet d’exprimer votre style tout en restant organisé au quotidien."
             },
+           
+           
             {
-                id: 19,
-                name: "Microscope Éducatif",
-                price: 75000,
+                id: 21,
+                name: "Cahier Privilège Étudiant Grand Carreau – 200 pages",
+                price: 1500,
                 category: "educatif",
                 images: [
-                    "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=400&h=300&fit=crop"
+                    "imageprestige/ETUG200.jpg"
+                    
                 ],
-                description: "Découverte du monde microscopique"
+                description: "Pratique et résistant, ce cahier à grands carreaux de 200 pages est idéal pour vos prises de notes et exercices, parfait pour les cours de français."
+            },
+
+            {
+                id: 22,
+                name: "Cahier Privilège Étudiant Grand Carreau – 100 pages",
+                price: 1000,
+                category: "educatif",
+                images: [
+                    "imageprestige/ETUG100.jpg"
+                    
+                ],
+                description: "Compact et solide, ce cahier à grands carreaux de 100 pages est parfait pour vos notes et exercices, idéal pour les cours de français."
             },
             {
-                id: 20,
-                name: "Webcam HD 1080p",
-                price: 35000,
+                id: 23,
+                name: "Cahier Privilège – 300 pages",
+                price: 1000,
+                category: "educatif",
+                images: [
+                    "imageprestige/C300.jpg"
+                    
+                ],
+                description: "Un cahier robuste et spacieux de 300 pages, idéal pour vos cours, exercices et révisions tout au long de l’année."
+            },
+
+            {
+                id: 24,
+                name: "Sac à dos Fantaisie LNX – Douceur et originalité",
+                price: 8500,
+                category: "mode",
+                images: [
+                 "imageprestige/LXN1.jpg",
+                 "imageprestige/sac4.jpg",
+                 "imageprestige/sac5.jpg"
+                ],
+                description: "Léger et pratique, ce sac à dos lila au motif ourson argenté allie style unique et rangement optimisé pour vos journées de cours ou sorties."
+            },
+
+            {
+             id: 25,
+                name: "Sac à dos Fantaisie LNX – Douceur et originalité",
+                price: 8500,
+                category: "mode",
+                images: [
+                 "imageprestige/LNXN1.jpg",
+                 "imageprestige/LNXN2.jpg"
+                ],
+                description: "Léger et pratique, ce sac à dos lila au motif ourson argenté allie style unique et rangement optimisé pour vos journées de cours ou sorties."
+            },
+
+            {
+                id: 26,
+                name: "Cahier Privilège – 100 pages",
+                price: 300,
+                category: "educatif",
+                images: [
+                    "imageprestige/cahier de 100p1.jpg",
+                    "imageprestige/cahier de 100p2.jpg"
+                    
+                ],
+                description: "Un cahier pratique et résistant de 100 pages, idéal pour vos prises de notes et exercices du quotidien."
+            },
+            {
+                id: 27,
+                name: "Cahier Privilège – 200 pages",
+                price: 500,
+                category: "educatif",
+                images: [
+                    "imageprestige/cahier de 200p1.jpg"
+                    
+                ],
+                description: "Un cahier pratique et résistant de 100 pages, idéal pour vos prises de notes et exercices du quotidien."
+            },
+
+            {
+                id: 28,
+                name: "Calculatrice Scientifique Casio",
+                price: 6500,
+                category: "educatif",
+                images: [
+                    "imageprestige/CASIO.jpg"
+                    
+                ],
+                description: "Fiable et pratique, cette calculatrice scientifique Casio offre toutes les fonctions essentielles pour réussir vos calculs en cours de mathématiques, physique et autres disciplines scientifiques. Idéale pour les étudiants et les examens."
+            },
+            {
+                id: 29,
+                name: "Calculatrice Scientifique TRIO",
+                price: 6000,
+                category: "educatif",
+                images: [
+                    "imageprestige/TRIO.jpg"
+                    
+                ],
+                description: "Pratique et complète, la calculatrice scientifique TRIO propose toutes les fonctions nécessaires pour vos cours et examens. Un outil fiable et accessible, idéal pour les étudiants."
+            },
+            {
+                id: 30,
+                name: "Sac à dos Ethnique – Osez la couleur",
+                price: 9000,
+                category: "mode",
+                images: [
+                    "imageprestige/sac6.jpg",
+                    "imageprestige/sac7.jpg"
+                ],
+                description: "Léger et pratique, ce sac à dos au motif ethnique coloré et au pompon tendance allie style original et rangement optimisé pour l’école ou les sorties."
+            },
+
+            {
+                id: 31,
+                name: "iPhone 11 simple dans carton/ 64 Go",
+                price:125000 ,
                 category: "electronique",
                 images: [
-                    "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=300&fit=crop",
-                    "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=400&h=300&fit=crop"
+                    "imageprestige/iphone11S.jpg",
+                    "imageprestige/iphone11S2.jpg"
                 ],
-                description: "Qualité professionnelle pour vos visios"
-            }
+                description: "Performant et élégant, avec écran Liquid Retina HD 6,1, puce A13 Bionic, double appareil photo 12 MP et design raffiné en noir. Stockage 64 Go, parfait pour une utilisation fluide au quotidien."
+            },
+
+
         ];
 
-        // Variables globales
-        let cart = [];
-        let currentFilter = 'all';
-        let currentSort = 'default';
-        let searchTimeout = null;
-        let isSearchFocused = false;
-        let productsPerPage = 8; // Nombre de produits à afficher initialement
-        let currentPage = 1;
-        let isLoadingMore = false;
-
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
-            displayProducts();
-            updateCartUI();
-        });
-
-        // Fonction de tri des produits
-        function sortProductsArray(productsArray, sortType) {
-            const sortedProducts = [...productsArray];
-            
-            switch(sortType) {
-                case 'name-asc':
-                    return sortedProducts.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
-                case 'name-desc':
-                    return sortedProducts.sort((a, b) => b.name.localeCompare(a.name, 'fr'));
-                case 'price-asc':
-                    return sortedProducts.sort((a, b) => a.price - b.price);
-                case 'price-desc':
-                    return sortedProducts.sort((a, b) => b.price - a.price);
-                case 'default':
-                default:
-                    return sortedProducts; // Ordre original
-            }
-        }
-
-        // Affichage des produits avec pagination
-        function displayProducts(filter = 'all', reset = true) {
-            if (reset) {
-                currentPage = 1;
-                currentFilter = filter;
-            }
-            
-            const grid = document.getElementById('products-grid');
-            let filteredProducts = filter === 'all' ? products : products.filter(p => p.category === filter);
-            
-            // Appliquer le tri
-            filteredProducts = sortProductsArray(filteredProducts, currentSort);
-            
-            // Calculer les produits à afficher
-            const startIndex = 0;
-            const endIndex = currentPage * productsPerPage;
-            const productsToShow = filteredProducts.slice(startIndex, endIndex);
-            
-            if (reset) {
-                grid.innerHTML = '';
-            }
-            
-            // Ajouter les nouveaux produits
-            const newProductsHTML = productsToShow.slice(reset ? 0 : (currentPage - 1) * productsPerPage).map(product => createProductCard(product)).join('');
-            
-            if (reset) {
-                grid.innerHTML = newProductsHTML;
-            } else {
-                grid.insertAdjacentHTML('beforeend', newProductsHTML);
-            }
-            
-            // Initialiser les carousels pour les nouveaux produits
-            const newProducts = reset ? productsToShow : productsToShow.slice((currentPage - 1) * productsPerPage);
-            newProducts.forEach(product => {
-                initializeCarousel(product.id);
-            });
-            
-            // Mettre à jour le bouton "Voir plus"
-            updateLoadMoreButton(filteredProducts.length);
-        }
         
-        // Mettre à jour le bouton "Voir plus"
-        function updateLoadMoreButton(totalProducts) {
-            const loadMoreContainer = document.getElementById('load-more-container');
-            const currentlyShown = currentPage * productsPerPage;
-            const hasMore = currentlyShown < totalProducts;
+
+
+
+
+// Variables globales
+let cart = [];
+let currentFilter = 'all';
+let currentSort = 'default';
+let searchTimeout = null;
+let isSearchFocused = false;
+let productsPerPage = 8; // Nombre de produits par page
+let currentPage = 1;
+let isLoadingMore = false;
+
+// Initialisation
+document.addEventListener('DOMContentLoaded', function() {
+    displayProducts();
+    updateCartUI();
+});
+
+// Fonction de tri des produits
+function sortProductsArray(productsArray, sortType) {
+    const sortedProducts = [...productsArray];
+    switch(sortType) {
+        case 'name-asc': return sortedProducts.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+        case 'name-desc': return sortedProducts.sort((a, b) => b.name.localeCompare(a.name, 'fr'));
+        case 'price-asc': return sortedProducts.sort((a, b) => a.price - b.price);
+        case 'price-desc': return sortedProducts.sort((a, b) => b.price - a.price);
+        case 'default':
+        default: return sortedProducts;
+    }
+}
+
+// Affichage des produits
+function displayProducts(filter = 'all', reset = true) {
+    if (reset) {
+        currentPage = 1;
+        currentFilter = filter;
+    }
+    
+    const grid = document.getElementById('products-grid');
+    let filteredProducts = filter === 'all' ? products : products.filter(p => p.category === filter);
+    
+    filteredProducts = sortProductsArray(filteredProducts, currentSort);
+    
+    const endIndex = currentPage * productsPerPage;
+    const productsToShow = filteredProducts.slice(0, endIndex);
+    
+    if (reset) grid.innerHTML = '';
+    
+    const newProductsHTML = productsToShow
+        .slice(reset ? 0 : (currentPage - 1) * productsPerPage)
+        .map(product => createProductCard(product))
+        .join('');
+    
+    if (reset) grid.innerHTML = newProductsHTML;
+    else grid.insertAdjacentHTML('beforeend', newProductsHTML);
+    
+    const newProducts = reset 
+        ? productsToShow 
+        : productsToShow.slice((currentPage - 1) * productsPerPage);
+    
+    newProducts.forEach(product => initializeCarousel(product.id));
+}
+
+// Chargement automatique au scroll
+window.addEventListener('scroll', () => {
+    const grid = document.getElementById('products-grid');
+    if (!grid) return;
+    
+    const lastProduct = grid.lastElementChild;
+    if (!lastProduct) return;
+    
+    const lastProductOffset = lastProduct.offsetTop + lastProduct.clientHeight;
+    const pageOffset = window.pageYOffset + window.innerHeight;
+    
+    if (pageOffset > lastProductOffset - 300) { // 300px avant la fin de la grille
+        loadMoreProducts();
+    }
+});
+
+// Charger plus de produits avec animation rapide
+function loadMoreProducts() {
+    if (isLoadingMore) return;
+    
+    const filteredProducts = currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter);
+    if (currentPage * productsPerPage >= filteredProducts.length) return; // Plus de produits
+    
+    isLoadingMore = true;
+    currentPage++;
+    displayProducts(currentFilter, false);
+    
+    // Animation des nouvelles cartes
+    const newCards = document.querySelectorAll('.product-card');
+    const startIndex = (currentPage - 1) * productsPerPage;
+    
+    for (let i = startIndex; i < newCards.length; i++) {
+        if (newCards[i]) {
+            newCards[i].style.opacity = '0';
+            newCards[i].style.transform = 'translateY(20px)';
             
-            if (!loadMoreContainer) {
-                // Créer le conteneur s'il n'existe pas
-                const container = document.createElement('div');
-                container.id = 'load-more-container';
-                container.className = 'text-center mt-12';
-                document.getElementById('products-grid').parentNode.appendChild(container);
-            }
-            
-            const container = document.getElementById('load-more-container');
-            
-            if (hasMore) {
-                const remaining = totalProducts - currentlyShown;
-                container.innerHTML = `
-                    <div class="space-y-4">
-                        <div class="text-gray-600">
-                            <span class="font-semibold">${currentlyShown}</span> sur <span class="font-semibold">${totalProducts}</span> produits affichés
-                        </div>
-                        <button onclick="loadMoreProducts()" 
-                                id="load-more-btn"
-                                class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-lg">
-                            <i class="fas fa-plus mr-2"></i>
-                            Voir plus de produits (${remaining} restant${remaining > 1 ? 's' : ''})
-                        </button>
-                        <div class="text-sm text-gray-500">
-                            Ou utilisez la recherche pour trouver un produit spécifique
-                        </div>
-                    </div>
-                `;
-            } else if (totalProducts > productsPerPage) {
-                container.innerHTML = `
-                    <div class="space-y-4">
-                        <div class="text-gray-600 font-semibold">
-                            ✨ Tous les produits sont affichés (${totalProducts} au total)
-                        </div>
-                        <button onclick="scrollToTop()" 
-                                class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-full font-medium transition-all">
-                            <i class="fas fa-arrow-up mr-2"></i>
-                            Retour en haut
-                        </button>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = '';
-            }
-        }
-        
-        // Charger plus de produits
-        function loadMoreProducts() {
-            if (isLoadingMore) return;
-            
-            isLoadingMore = true;
-            const btn = document.getElementById('load-more-btn');
-            
-            // Animation de chargement
-            if (btn) {
-                btn.innerHTML = `
-                    <i class="fas fa-spinner fa-spin mr-2"></i>
-                    Chargement...
-                `;
-                btn.disabled = true;
-            }
-            
-            // Simuler un petit délai pour l'effet de chargement
             setTimeout(() => {
-                currentPage++;
-                displayProducts(currentFilter, false);
-                isLoadingMore = false;
-                
-                // Animation d'apparition des nouveaux produits
-                const newCards = document.querySelectorAll('.product-card');
-                const startIndex = (currentPage - 1) * productsPerPage;
-                
-                for (let i = startIndex; i < newCards.length; i++) {
-                    if (newCards[i]) {
-                        newCards[i].style.opacity = '0';
-                        newCards[i].style.transform = 'translateY(30px)';
-                        
-                        setTimeout(() => {
-                            newCards[i].style.transition = 'all 0.5s ease';
-                            newCards[i].style.opacity = '1';
-                            newCards[i].style.transform = 'translateY(0)';
-                        }, (i - startIndex) * 100);
-                    }
-                }
-                
-                showNotification('Nouveaux produits chargés !', 'success');
-            }, 800);
+                newCards[i].style.transition = 'all 0.4s ease';
+                newCards[i].style.opacity = '1';
+                newCards[i].style.transform = 'translateY(0)';
+            }, (i - startIndex) * 80);
         }
-        
-        // Fonction pour remonter en haut
-        function scrollToTop() {
-            document.getElementById('produits').scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+    }
+    
+    isLoadingMore = false;
+}
+
+
+
+
+       
 
         // Fonction de tri des produits
         function sortProducts(sortType) {
@@ -2848,6 +2845,17 @@ setInterval(showNextImage, 5000);
             }
         }
         
+
+
+
+
+
+
+        // let searchTimeout;
+
+
+
+
         // Gestionnaires d'événements pour mobile
         function addMobileSearchEventListeners() {
             const searchItems = document.querySelectorAll('.search-result-item[data-is-mobile="true"]');

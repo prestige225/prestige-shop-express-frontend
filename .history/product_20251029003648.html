@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail du Produit - Prestige Shop Express</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .product-image-main {
+            transition: transform 0.3s ease;
+        }
+        
+        .product-image-main:hover {
+            transform: scale(1.02);
+        }
+        
+        .thumbnail:hover {
+            transform: scale(1.1);
+            border-color: #3b82f6;
+        }
+        
+        .size-option, .color-option {
+            transition: all 0.2s ease;
+        }
+        
+        .size-option:hover, .color-option:hover {
+            transform: translateY(-2px);
+        }
+        
+        .size-option.selected, .color-option.selected {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/index.html" class="text-2xl font-bold text-blue-600">Prestige Shop</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/index.html" class="text-gray-700 hover:text-blue-600">
+                        <i class="fas fa-home mr-1"></i> Accueil
+                    </a>
+                    <a href="#" class="text-gray-700 hover:text-blue-600">
+                        <i class="fas fa-shopping-cart mr-1"></i> Panier
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div id="product-detail-container">
+            <!-- Les détails du produit seront chargés ici -->
+            <div class="text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+                <p class="text-gray-600">Chargement des détails du produit...</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Récupérer l'ID du produit depuis l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        
+        // Variables pour stocker les options sélectionnées
+        let selectedSize = null;
+        let selectedColor = null;
+        
+        // Fonction pour charger les détails du produit
+        async function loadProductDetail() {
+            if (!productId) {
+                document.getElementById('product-detail-container').innerHTML = `
+                    <div class="text-center py-12">
+                        <i class="fas fa-exclamation-circle text-5xl text-red-500 mb-4"></i>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Produit non trouvé</h2>
+                        <p class="text-gray-600 mb-6">Aucun ID de produit spécifié dans l'URL.</p>
+                        <a href="/index.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                            Retour à l'accueil
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/produits/${productId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayProductDetail(result.data);
+                } else {
+                    showErrorMessage('Produit non trouvé', result.message);
+                }
+            } catch (error) {
+                showErrorMessage('Erreur de chargement', 'Impossible de charger les détails du produit.');
+                console.error('Erreur:', error);
+            }
+        }
+        
+        // Fonction pour afficher les détails du produit
+        function displayProductDetail(product) {
+            // Parser les données JSON
+            let images = [];
+            let sizes = [];
+            let colors = [];
+            
+            try {
+                images = JSON.parse(product.images_urls || '[]');
+                sizes = JSON.parse(product.taille_disponible || '[]');
+                colors = JSON.parse(product.couleur_disponible || '[]');
+            } catch (e) {
+                console.warn('Erreur lors du parsing JSON:', e);
+            }
+            
+            // Image principale
+            const mainImage = product.image_url || (images.length > 0 ? images[0] : 'images/default-product.jpg');
+            
+            // Générer le HTML pour les miniatures
+            const thumbnailsHtml = images.map((img, index) => `
+                <div class="thumbnail cursor-pointer border-2 border-gray-200 rounded-lg overflow-hidden w-20 h-20 flex-shrink-0" onclick="changeMainImage('${img}')">
+                    <img src="${img}" alt="Miniature ${index + 1}" class="w-full h-full object-cover">
+                </div>
+            `).join('');
+            
+            // Générer le HTML pour les tailles
+            const sizesHtml = sizes.map(size => `
+                <div class="size-option cursor-pointer border-2 border-gray-200 rounded-lg px-4 py-2 text-center" onclick="selectSize('${size}')">
+                    ${size}
+                </div>
+            `).join('');
+            
+            // Générer le HTML pour les couleurs
+            const colorsHtml = colors.map(color => `
+                <div class="color-option cursor-pointer border-2 border-gray-200 rounded-lg px-4 py-2 text-center" onclick="selectColor('${color}')">
+                    ${color}
+                </div>
+            `).join('');
+            
+            document.getElementById('product-detail-container').innerHTML = `
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="md:flex">
+                        <!-- Galerie d'images -->
+                        <div class="md:w-1/2 p-6">
+                            <div class="mb-4">
+                                <img id="main-image" src="${mainImage}" alt="${product.nom}" class="product-image-main w-full h-96 object-contain rounded-lg border">
+                            </div>
+                            
+                            ${images.length > 1 ? `
+                            <div class="flex space-x-2 overflow-x-auto py-2">
+                                ${thumbnailsHtml}
+                            </div>
+                            ` : ''}
+                        </div>
+                        
+                        <!-- Informations du produit -->
+                        <div class="md:w-1/2 p-6">
+                            <h1 class="text-3xl font-bold text-gray-800 mb-4">${product.nom}</h1>
+                            
+                            <div class="flex items-center mb-4">
+                                <span class="text-3xl font-bold text-blue-600">${product.prix.toFixed(2)} €</span>
+                                <span class="ml-4 px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                                    En stock: ${product.stock}
+                                </span>
+                            </div>
+                            
+                            <p class="text-gray-700 mb-6">${product.description}</p>
+                            
+                            <!-- Sélection de la taille -->
+                            ${sizes.length > 0 ? `
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">Taille:</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    ${sizesHtml}
+                                </div>
+                            </div>
+                            ` : ''}
+                            
+                            <!-- Sélection de la couleur -->
+                            ${colors.length > 0 ? `
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">Couleur:</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    ${colorsHtml}
+                                </div>
+                            </div>
+                            ` : ''}
+                            
+                            <!-- Bouton d'ajout au panier -->
+                            <div class="mt-8">
+                                <button onclick="addToCart(${product.id})" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 rounded-lg font-bold text-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300">
+                                    <i class="fas fa-shopping-cart mr-2"></i> Ajouter au panier
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Fonction pour changer l'image principale
+        function changeMainImage(imageUrl) {
+            document.getElementById('main-image').src = imageUrl;
+        }
+        
+        // Fonction pour sélectionner une taille
+        function selectSize(size) {
+            selectedSize = size;
+            
+            // Mettre à jour l'interface utilisateur
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            event.currentTarget.classList.add('selected');
+        }
+        
+        // Fonction pour sélectionner une couleur
+        function selectColor(color) {
+            selectedColor = color;
+            
+            // Mettre à jour l'interface utilisateur
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            event.currentTarget.classList.add('selected');
+        }
+        
+        // Fonction pour ajouter au panier
+        function addToCart(productId) {
+            // Vérifier que les options requises sont sélectionnées
+            const productElement = document.querySelector('#product-detail-container h1');
+            const productName = productElement ? productElement.textContent : 'Produit';
+            
+            alert(`Produit ajouté au panier!\n${productName}${selectedSize ? `\nTaille: ${selectedSize}` : ''}${selectedColor ? `\nCouleur: ${selectedColor}` : ''}`);
+            
+            // Ici, vous pouvez implémenter la logique réelle d'ajout au panier
+            // Par exemple, envoyer une requête à votre API
+        }
+        
+        // Fonction pour afficher un message d'erreur
+        function showErrorMessage(title, message) {
+            document.getElementById('product-detail-container').innerHTML = `
+                <div class="text-center py-12">
+                    <i class="fas fa-exclamation-circle text-5xl text-red-500 mb-4"></i>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">${title}</h2>
+                    <p class="text-gray-600 mb-6">${message}</p>
+                    <a href="/index.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        Retour à l'accueil
+                    </a>
+                </div>
+            `;
+        }
+        
+        // Charger les détails du produit au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProductDetail();
+        });
+    </script>
+</body>
+</html>

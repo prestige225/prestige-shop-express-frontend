@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un compte | Prestige Shop Express - Votre boutique en ligne</title>
+    <meta name="description" content="Créez votre compte Prestige Shop Express et profitez d'une expérience d'achat personnalisée avec des offres exclusives.">
+    <link rel="icon" href="images/prestige shop.png" type="image/png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .register-container {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .feature-badge {
+            backdrop-filter: blur(10px);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .animate-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        .password-strength {
+            height: 4px;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 min-h-screen flex items-center justify-center p-4">
+    
+    <!-- Formes décoratives -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 1s;"></div>
+    
+    <!-- Container principal -->
+    <div class="register-container bg-white rounded-3xl shadow-2xl w-full max-w-6xl overflow-hidden relative z-10 flex flex-col md:flex-row">
+        
+        <!-- Section gauche - Image & Avantages -->
+        <div class="hidden md:flex md:w-2/5 gradient-bg text-white p-12 flex-col justify-between relative overflow-hidden">
+            <!-- Formes décoratives -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white rounded-full opacity-5 -mr-32 -mt-32"></div>
+            <div class="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full opacity-5 -ml-48 -mb-48"></div>
+            
+            <div class="relative z-10">
+                <div class="w-20 h-20 mb-6 rounded-full overflow-hidden bg-white shadow-xl">
+                    <img src="images/prestige shop.png" alt="Logo" class="w-full h-full object-cover">
+                </div>
+                <h2 class="text-4xl font-black mb-4">Rejoignez-nous !</h2>
+                <p class="text-purple-100 text-lg mb-8">Créez votre compte et profitez de nombreux avantages</p>
+                
+                <!-- Avantages -->
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3 feature-badge bg-white/10 p-4 rounded-xl">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-truck text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold mb-1">Livraison rapide</h3>
+                            <p class="text-sm text-purple-100">Recevez vos commandes sous 24-48h</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3 feature-badge bg-white/10 p-4 rounded-xl">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-percent text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold mb-1">Réductions exclusives</h3>
+                            <p class="text-sm text-purple-100">-20% sur votre première commande</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3 feature-badge bg-white/10 p-4 rounded-xl">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-shield-alt text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold mb-1">Paiement sécurisé</h3>
+                            <p class="text-sm text-purple-100">Vos données sont protégées</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3 feature-badge bg-white/10 p-4 rounded-xl">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-headset text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold mb-1">Support 24/7</h3>
+                            <p class="text-sm text-purple-100">Équipe disponible pour vous aider</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative z-10 text-center">
+                <p class="text-purple-100 text-sm">🎉 Rejoignez nos 500+ clients satisfaits</p>
+            </div>
+        </div>
+        
+        <!-- Section droite - Formulaire -->
+        <div class="w-full md:w-3/5 p-8 md:p-12 flex flex-col justify-center">
+            <!-- Logo mobile -->
+            <div class="md-hidden text-center mb-8">
+                <div class="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden bg-white shadow-xl">
+                    <img src="images/prestige shop.png" alt="Logo" class="w-full h-full object-cover">
+                </div>
+                <h1 class="text-3xl font-black text-gray-900 mb-2">Inscription</h1>
+                <p class="text-gray-600">Créez votre compte gratuit</p>
+            </div>
+            
+            <div class="hidden md:block mb-8">
+                <h1 class="text-3xl font-black text-gray-900 mb-2">Créer un compte</h1>
+                <p class="text-gray-600">Remplissez le formulaire pour commencer</p>
+            </div>
+            <form id="register-form" class="space-y-5">
+                
+                <!-- Nom complet -->
+                <div>
+                    <label for="fullname" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-user mr-2 text-purple-600"></i>Nom complet
+                    </label>
+                    <div class="relative">
+                        <i class="fas fa-id-card absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input 
+                            type="text" 
+                            id="fullname" 
+                            name="fullname"
+                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-100 transition-all outline-none"
+                            placeholder="Jean Dupont"
+                            required
+                        >
+                    </div>
+                </div>
+                
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-envelope mr-2 text-purple-600"></i>Email
+                    </label>
+                    <div class="relative">
+                        <i class="fas fa-at absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email"
+                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-100 transition-all outline-none"
+                            placeholder="votre@email.com"
+                            required
+                        >
+                    </div>
+                </div>
+                
+                <!-- Téléphone -->
+                <div>
+                    <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-phone mr-2 text-purple-600"></i>Téléphone
+                    </label>
+                    <div class="relative">
+                        <i class="fas fa-mobile-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone"
+                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-100 transition-all outline-none"
+                            placeholder="+225 XX XX XX XX XX"
+                            required
+                        >
+                    </div>
+                </div>
+                
+                <!-- Mot de passe -->
+                <div>
+                    <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-lock mr-2 text-purple-600"></i>Mot de passe
+                    </label>
+                    <div class="relative">
+                        <i class="fas fa-key absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password"
+                            class="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-100 transition-all outline-none"
+                            placeholder="••••••••"
+                            required
+                        >
+                        <i class="fas fa-eye absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer hover:text-purple-600" id="toggle-password"></i>
+                    </div>
+                    <!-- Indicateur de force -->
+                    <div class="mt-2">
+                        <div class="password-strength bg-gray-200 rounded-full" id="password-strength"></div>
+                        <p class="text-xs text-gray-500 mt-1" id="password-text">Minimum 6 caractères</p>
+                    </div>
+                </div>
+                
+                <!-- Confirmation mot de passe -->
+                <div>
+                    <label for="confirm-password" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-lock mr-2 text-purple-600"></i>Confirmer le mot de passe
+                    </label>
+                    <div class="relative">
+                        <i class="fas fa-check-circle absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input 
+                            type="password" 
+                            id="confirm-password" 
+                            name="confirm-password"
+                            class="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-100 transition-all outline-none"
+                            placeholder="••••••••"
+                            required
+                        >
+                        <i class="fas fa-eye absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer hover:text-purple-600" id="toggle-confirm-password"></i>
+                    </div>
+                </div>
+                
+                <!-- Conditions d'utilisation -->
+                <div class="flex items-start">
+                    <input type="checkbox" id="terms" class="w-4 h-4 mt-1 text-purple-600 border-gray-300 rounded focus:ring-purple-500" required>
+                    <label for="terms" class="ml-2 text-sm text-gray-600">
+                        J'accepte les <a href="#" class="text-purple-600 hover:text-purple-800 font-semibold">conditions d'utilisation</a> et la <a href="#" class="text-purple-600 hover:text-purple-800 font-semibold">politique de confidentialité</a>
+                    </label>
+                </div>
+                
+                <!-- Message d'erreur -->
+                <div id="error-message" class="hidden bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        <span id="error-text"></span>
+                    </div>
+                </div>
+                
+                <!-- Message de succès -->
+                <div id="success-message" class="hidden bg-green-50 border-l-4 border-green-500 text-green-700 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span id="success-text"></span>
+                    </div>
+                </div>
+                
+                <!-- Bouton d'inscription -->
+                <button 
+                    type="submit" 
+                    id="register-btn"
+                    class="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold py-4 rounded-xl transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+                >
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Créer mon compte
+                </button>
+            </form>
+            
+            <!-- Séparateur -->
+            <div class="relative my-8">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-4 bg-white text-gray-500 font-medium">Ou continuer avec</span>
+                </div>
+            </div>
+            
+            <!-- Connexion sociale -->
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <button onclick="loginWithGoogle()" class="flex items-center justify-center px-4 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all">
+                    <i class="fab fa-google text-red-500 text-xl mr-2"></i>
+                    <span class="font-semibold text-gray-700">Continuer avec Google</span>
+                </button>
+                <button class="flex items-center justify-center px-4 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all">
+                    <i class="fab fa-facebook-f text-blue-600 text-xl mr-2"></i>
+                    <span class="font-semibold text-gray-700">Facebook</span>
+                </button>
+            </div>
+            
+            <!-- Lien connexion -->
+            <div class="text-center mt-8">
+                <p class="text-gray-600">
+                    Vous avez déjà un compte ? 
+                    <a href="login.html" class="text-purple-600 hover:text-purple-800 font-bold">Se connecter</a>
+                </p>
+            </div>
+            
+            <!-- Retour à l'accueil -->
+            <div class="text-center mt-4">
+                <a href="index.html" class="text-sm text-gray-500 hover:text-gray-700 flex items-center justify-center">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Retour à l'accueil
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="api-config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fonction pour vérifier la force du mot de passe
+            function checkPasswordStrength(password) {
+                let strength = 0;
+                // Vérifier la longueur minimale (8 caractères)
+                if (password.length >= 8) strength++;
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^A-Za-z0-9]/.test(password)) strength++;
+                return strength;
+            }
+            
+            // Fonction pour afficher un message d'erreur
+            function showError(message) {
+                document.getElementById('error-message').classList.remove('hidden');
+                document.getElementById('error-text').textContent = message;
+                document.getElementById('success-message').classList.add('hidden');
+                document.getElementById('success-text').textContent = '';
+            }
+            
+            // Fonction pour afficher un message de succès
+            function showSuccess(message) {
+                document.getElementById('success-message').classList.remove('hidden');
+                document.getElementById('success-text').textContent = message;
+                document.getElementById('error-message').classList.add('hidden');
+                document.getElementById('error-text').textContent = '';
+            }
+            
+            // Ajout d'un écouteur d'événements pour le formulaire d'inscription
+            document.getElementById('register-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const fullname = document.getElementById('fullname').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                const terms = document.getElementById('terms').checked;
+                
+                // Vérification des champs vides
+                if (!fullname || !email || !phone || !password || !confirmPassword) {
+                    showError('Veuillez remplir tous les champs.');
+                    return;
+                }
+                
+                // Vérification de la conformité de l'email
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email)) {
+                    showError('Email invalide.');
+                    return;
+                }
+                
+                // Vérification de la conformité du numéro de téléphone
+                // Pattern plus flexible pour les numéros ivoiriens
+                const phonePattern = /^(\+225)?[\s\-]?(\d{2}[\s\-]?){4}\d{2}$|^\d{8,10}$/;
+                if (phone && !phonePattern.test(phone)) {
+                    showError('Numéro de téléphone invalide. Format accepté: +225 XX XX XX XX ou XX XX XX XX');
+                    return;
+                }
+                
+                // Vérification du mot de passe
+                // Vérifier d'abord la longueur minimale
+                if (password.length < 8) {
+                    showError('Le mot de passe doit contenir au moins 8 caractères.');
+                    return;
+                }
+                
+                const passwordStrength = checkPasswordStrength(password);
+                if (passwordStrength < 3) {
+                    showError('Mot de passe trop faible. Il doit contenir au moins une majuscule, un chiffre et un caractère spécial.');
+                    return;
+                }
+                
+                // Vérification de la confirmation du mot de passe
+                if (password !== confirmPassword) {
+                    showError('Les mots de passe ne correspondent pas.');
+                    return;
+                }
+                
+                // Vérification des conditions d'utilisation
+                if (!terms) {
+                    showError('Veuillez accepter les conditions d\'utilisation.');
+                    return;
+                }
+                
+                // Nettoyage du numéro de téléphone
+                const cleanedPhone = phone.replace(/\s+/g, '');
+                
+                // Découpage du nom complet en nom et prénom
+                const [nom, prenom] = fullname.split(' ');
+                
+                // Appel à l'API Flask
+                fetch(`${API_BASE_URL}/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nom: nom,
+                        prenom: prenom,
+                        email: email,
+                        numero: cleanedPhone,
+                        mot_de_passe: password
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showSuccess(data.message);
+                        document.getElementById('register-form').reset();
+                    } else {
+                        showError(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'inscription:', error);
+                    showError('Une erreur s\'est produite. Veuillez réessayer.');
+                });
+            });
+            
+            // Fonction pour basculer la visibilité du mot de passe
+            function togglePasswordVisibility(inputId, toggleId) {
+                const input = document.getElementById(inputId);
+                const toggle = document.getElementById(toggleId);
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    toggle.classList.remove('fa-eye');
+                    toggle.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    toggle.classList.remove('fa-eye-slash');
+                    toggle.classList.add('fa-eye');
+                }
+            }
+            
+            // Ajout d'écouteurs d'événements pour le basculement de la visibilité du mot de passe
+            document.getElementById('toggle-password').addEventListener('click', function() {
+                togglePasswordVisibility('password', 'toggle-password');
+            });
+            
+            document.getElementById('toggle-confirm-password').addEventListener('click', function() {
+                togglePasswordVisibility('confirm-password', 'toggle-confirm-password');
+            });
+            
+            // Fonction pour la connexion avec Google
+            function loginWithGoogle() {
+                // Rediriger vers le point de terminaison Google OAuth
+                window.location.href = `${API_BASE_URL}/auth/google`;
+            }
+            
+            // Fonction pour traiter la réponse de Google
+            function handleCredentialResponse(response) {
+                console.log("Encoded JWT ID token: " + response.credential);
+                // Ici, vous pouvez envoyer le token à votre serveur pour vérification
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Produits - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .action-buttons { white-space: nowrap; }
+        .product-image { max-width: 100px; }
+        .modal-dialog { max-width: 800px; }
+        /* Styles pour le carrousel d'images */
+        .image-carousel {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+            border-radius: 5px;
+            margin: 0 auto;
+        }
+        .image-carousel img, .image-carousel video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .image-carousel img.active, .image-carousel video.active {
+            display: block;
+        }
+        .carousel-nav {
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+            padding: 2px;
+        }
+        .carousel-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            margin: 0 2px;
+            cursor: pointer;
+        }
+        .carousel-dot.active {
+            background: #fff;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 10;
+        }
+        .carousel-btn.prev {
+            left: 0;
+        }
+        .carousel-btn.next {
+            right: 0;
+        }
+        .carousel-btn:hover {
+            background: rgba(0,0,0,0.8);
+        }
+        .no-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            font-size: 12px;
+            text-align: center;
+        }
+        .media-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 10px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <h1 class="mb-4">Gestion des Produits</h1>
+        
+        <!-- Bouton Nouveau Produit -->
+        <div class="mb-4">
+            <button class="btn btn-primary" onclick="openCreateModal()">
+                <i class="bi bi-plus-circle"></i> Nouveau Produit
+            </button>
+        </div>
+
+        <!-- Filtres -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Rechercher...">
+            </div>
+            <div class="col-md-3">
+                <select id="categorieFilter" class="form-control">
+                    <option value="">Toutes les catégories</option>
+                    <option value="mode educatif">mode educatif</option>
+                    <option value="electronique">electronique</option>
+                    <option value="fast food">fast food</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select id="statutFilter" class="form-control">
+                    <option value="">Tous les statuts</option>
+                    <option value="actif">Actif</option>
+                    <option value="inactif">Inactif</option>
+                    <option value="epuise">Épuisé</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-secondary w-100" onclick="applyFilters()">
+                    Filtrer
+                </button>
+            </div>
+        </div>
+
+        <!-- Tableau des Produits -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Nom</th>
+                        <th>Catégorie</th>
+                        <th>Prix</th>
+                        <th>Stock</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="produitsTableBody">
+                    <!-- Rempli dynamiquement -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal Création/Édition -->
+        <div class="modal fade" id="produitModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Nouveau Produit</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="produitForm">
+                            <input type="hidden" id="produitId">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Nom</label>
+                                    <input type="text" class="form-control" id="nom" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Catégorie</label>
+                                    <select class="form-control" id="categorie">
+                                        <option value="mode educatif">educatif</option>
+                                        <option value="mode de vie">mode </option>
+                                        <option value="electronique">electronique</option>
+                                        <option value="fast food">fast food</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Prix</label>
+                                    <input type="number" class="form-control" id="prix" step="0.01" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Stock</label>
+                                    <input type="number" class="form-control" id="stock" value="0">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" id="description" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Images du produit (une URL par ligne)</label>
+                                <textarea class="form-control" id="images_urls" rows="4" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg&#10;https://example.com/image3.jpg"></textarea>
+                                <div class="form-text">Entrez une URL d'image par ligne. La première image sera l'image principale.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Vidéos du produit (une URL par ligne)</label>
+                                <textarea class="form-control" id="videos_urls" rows="3" placeholder="https://example.com/video1.mp4&#10;https://example.com/video2.mp4"></textarea>
+                                <div class="form-text">Entrez une URL de vidéo par ligne.</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tailles disponibles (séparées par virgules)</label>
+                                    <input type="text" class="form-control" id="taille_disponible" placeholder="S,M,L,XL">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Couleurs disponibles (séparées par virgules)</label>
+                                    <input type="text" class="form-control" id="couleur_disponible" placeholder="noir,blanc,rouge">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Statut</label>
+                                <select class="form-control" id="statut">
+                                    <option value="actif">Actif</option>
+                                    <option value="inactif">Inactif</option>
+                                    <option value="epuise">Épuisé</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-primary" onclick="saveProduit()">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    // Variables globales
+    let produitModal;
+    const FIXED_CATEGORIES = ['mode educatif', 'electronique', 'fast food'];
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            produitModal = new bootstrap.Modal(document.getElementById('produitModal'));
+            loadProduits();
+        });
+
+        // Charger tous les produits
+        async function loadProduits() {
+            try {
+                const params = new URLSearchParams();
+                const search = document.getElementById('searchInput').value;
+                const categorie = document.getElementById('categorieFilter').value;
+                const statut = document.getElementById('statutFilter').value;
+
+                if (search) params.append('search', search);
+                if (categorie) params.append('categorie', categorie);
+                if (statut) params.append('statut', statut);
+
+            const response = await fetch(`http://localhost:5000/api/produits?${params.toString()}`);
+            const data = await response.json();                if (data.success) {
+                    displayProduits(data.produits);
+                    updateCategoriesList(data.produits);
+                } else {
+                    alert('Erreur lors du chargement des produits');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors du chargement des produits');
+            }
+        }
+
+        // Afficher les produits dans le tableau
+        function displayProduits(produits) {
+            const tbody = document.getElementById('produitsTableBody');
+            tbody.innerHTML = '';
+
+            if (!Array.isArray(produits)) {
+                console.error('Données produits invalides:', produits);
+                return;
+            }
+
+            produits.forEach(p => {
+                if (!p) return; // Ignorer les entrées null/undefined
+                
+                try {
+                    const prix = parseFloat(p.prix);
+                    const tr = document.createElement('tr');
+                    
+                    // Créer le carrousel d'images
+                    let carouselHTML = '';
+                    let imagesUrls = [];
+                    let videosUrls = [];
+                    
+                    // Gérer les images multiples
+                    if (p.images_urls && Array.isArray(p.images_urls)) {
+                        imagesUrls = p.images_urls;
+                    } else if (p.images_urls && typeof p.images_urls === 'string') {
+                        try {
+                            imagesUrls = JSON.parse(p.images_urls);
+                        } catch (e) {
+                            imagesUrls = p.images_urls.split('\n').map(url => url.trim()).filter(url => url);
+                        }
+                    } else if (p.image_url) {
+                        // Pour compatibilité ascendante avec image_url
+                        imagesUrls = [p.image_url];
+                    }
+                    
+                    // Gérer les vidéos
+                    if (p.videos_urls && Array.isArray(p.videos_urls)) {
+                        videosUrls = p.videos_urls;
+                    } else if (p.videos_urls && typeof p.videos_urls === 'string') {
+                        try {
+                            videosUrls = JSON.parse(p.videos_urls);
+                        } catch (e) {
+                            videosUrls = p.videos_urls.split('\n').map(url => url.trim()).filter(url => url);
+                        }
+                    }
+                    
+                    // Combiner images et vidéos
+                    const allMedia = [...imagesUrls, ...videosUrls];
+                    
+                    // Si aucune image/vidéo, utiliser une image par défaut
+                    if (allMedia.length === 0) {
+                        carouselHTML = `<div class="image-carousel" id="carousel-${p.id}">
+                            <div class="no-image">Aucun média</div>
+                        </div>`;
+                    } else {
+                        // Générer le HTML du carrousel
+                        carouselHTML = `<div class="image-carousel" id="carousel-${p.id}">`;
+                        
+                        allMedia.forEach((url, index) => {
+                            const isActive = index === 0 ? 'active' : '';
+                            const isVideo = url.match(/\.(mp4|webm|ogg)$/i);
+                            
+                            if (isVideo) {
+                                carouselHTML += `<video src="${url}" class="${isActive}" data-index="${index}"></video>`;
+                            } else {
+                                carouselHTML += `<img src="${url}" class="${isActive}" onerror="this.src='/images/prestige shop.png'" data-index="${index}">`;
+                            }
+                        });
+                        
+                        // Ajouter un badge pour indiquer le type de média
+                        if (videosUrls.length > 0) {
+                            carouselHTML += `<div class="media-badge">${videosUrls.length} vidéo(s)</div>`;
+                        }
+                        
+                        if (allMedia.length > 1) {
+                            carouselHTML += `<button class="carousel-btn prev" onclick="changeImage('${p.id}', -1)">❮</button>`;
+                            carouselHTML += `<button class="carousel-btn next" onclick="changeImage('${p.id}', 1)">❯</button>`;
+                            
+                            carouselHTML += '<div class="carousel-nav">';
+                            allMedia.forEach((_, index) => {
+                                const isActive = index === 0 ? 'active' : '';
+                                carouselHTML += `<span class="carousel-dot ${isActive}" onclick="setActiveImage('${p.id}', ${index})"></span>`;
+                            });
+                            carouselHTML += '</div>';
+                        }
+                        carouselHTML += '</div>';
+                    }
+                    
+                    tr.innerHTML = `
+                    <td>${carouselHTML}</td>
+                    <td>${p.nom || ''}</td>
+                    <td>${p.categorie || '-'}</td>
+                    <td>${isNaN(prix) ? '0.00' : prix.toFixed(2)} FC</td>
+                    <td>${p.stock || 0}</td>
+                    <td><span class="badge bg-${getStatusBadgeClass(p.statut)}">${p.statut || 'actif'}</span></td>
+                    <td class="action-buttons">
+                        <button class="btn btn-sm btn-info" onclick="editProduit('${p.id}')">Modifier</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteProduit('${p.id}')">Supprimer</button>
+                    </td>`;
+                    tbody.appendChild(tr);
+                } catch (error) {
+                    console.error('Erreur affichage produit:', error, p);
+                }
+            });
+        }
+
+        // Éditer un produit
+        async function editProduit(id) {
+            try {
+                const response = await fetch(`http://localhost:5000/api/produits/${id}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    const p = data.produit;
+                    document.getElementById('modalTitle').textContent = 'Modifier Produit';
+                    document.getElementById('produitId').value = p.id;
+                    document.getElementById('nom').value = p.nom;
+                    document.getElementById('description').value = p.description || '';
+                    document.getElementById('prix').value = p.prix;
+                    document.getElementById('categorie').value = p.categorie || '';
+                    document.getElementById('stock').value = p.stock;
+                    document.getElementById('statut').value = p.statut;
+                    
+                    // Gérer les images multiples
+                    if (p.images_urls && Array.isArray(p.images_urls)) {
+                        document.getElementById('images_urls').value = p.images_urls.join('\n');
+                    } else if (p.images_urls && typeof p.images_urls === 'string') {
+                        try {
+                            const imagesArray = JSON.parse(p.images_urls);
+                            document.getElementById('images_urls').value = imagesArray.join('\n');
+                        } catch (e) {
+                            document.getElementById('images_urls').value = p.images_urls;
+                        }
+                    } else if (p.image_url) {
+                        // Compatibilité ascendante
+                        document.getElementById('images_urls').value = p.image_url;
+                    } else {
+                        document.getElementById('images_urls').value = '';
+                    }
+                    
+                    // Gérer les vidéos
+                    if (p.videos_urls && Array.isArray(p.videos_urls)) {
+                        document.getElementById('videos_urls').value = p.videos_urls.join('\n');
+                    } else if (p.videos_urls && typeof p.videos_urls === 'string') {
+                        try {
+                            const videosArray = JSON.parse(p.videos_urls);
+                            document.getElementById('videos_urls').value = videosArray.join('\n');
+                        } catch (e) {
+                            document.getElementById('videos_urls').value = p.videos_urls;
+                        }
+                    } else {
+                        document.getElementById('videos_urls').value = '';
+                    }
+                    
+                    // Traiter les champs JSON
+                    if (p.taille_disponible) {
+                        const tailles = Array.isArray(p.taille_disponible) ? p.taille_disponible : JSON.parse(p.taille_disponible);
+                        document.getElementById('taille_disponible').value = tailles.join(',');
+                    }
+                    if (p.couleur_disponible) {
+                        const couleurs = Array.isArray(p.couleur_disponible) ? p.couleur_disponible : JSON.parse(p.couleur_disponible);
+                        document.getElementById('couleur_disponible').value = couleurs.join(',');
+                    }
+
+                    produitModal.show();
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors du chargement du produit');
+            }
+        }
+
+        // Sauvegarder un produit
+        async function saveProduit() {
+            const id = document.getElementById('produitId').value;
+            
+            // Récupérer les URLs des images
+            const imagesUrlsValue = document.getElementById('images_urls').value;
+            let imagesUrls = [];
+            if (imagesUrlsValue) {
+                imagesUrls = imagesUrlsValue.split('\n').map(url => url.trim()).filter(url => url);
+            }
+            
+            // Récupérer les URLs des vidéos
+            const videosUrlsValue = document.getElementById('videos_urls').value;
+            let videosUrls = [];
+            if (videosUrlsValue) {
+                videosUrls = videosUrlsValue.split('\n').map(url => url.trim()).filter(url => url);
+            }
+            
+            const data = {
+                nom: document.getElementById('nom').value,
+                description: document.getElementById('description').value,
+                prix: parseFloat(document.getElementById('prix').value),
+                categorie: document.getElementById('categorie').value,
+                images_urls: imagesUrls,
+                videos_urls: videosUrls,
+                stock: parseInt(document.getElementById('stock').value),
+                statut: document.getElementById('statut').value,
+                taille_disponible: document.getElementById('taille_disponible').value.split(',').map(s => s.trim()).filter(s => s),
+                couleur_disponible: document.getElementById('couleur_disponible').value.split(',').map(s => s.trim()).filter(s => s)
+            };
+
+            try {
+                const response = await fetch(
+                    id ? `http://localhost:5000/api/produits/${id}` : 'http://localhost:5000/api/produits',
+                    {
+                        method: id ? 'PUT' : 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    }
+                );
+
+                const result = await response.json();
+                if (result.success) {
+                    produitModal.hide();
+                    loadProduits();
+                } else {
+                    alert(result.message || 'Erreur lors de la sauvegarde');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la sauvegarde');
+            }
+        }
+
+        // Supprimer un produit
+        async function deleteProduit(id) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) return;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/produits/${id}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    loadProduits();
+                } else {
+                    alert(data.message || 'Erreur lors de la suppression');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors de la suppression');
+            }
+        }
+
+        // Appliquer les filtres
+        function applyFilters() {
+            loadProduits();
+        }
+
+        // Utilitaire : classe CSS pour les badges de statut
+        function getStatusBadgeClass(statut) {
+            switch(statut) {
+                case 'actif': return 'success';
+                case 'inactif': return 'warning';
+                case 'epuise': return 'danger';
+                default: return 'secondary';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Commandes | Prestige Shop Express</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .admin-card {
+            transition: all 0.3s ease;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-lg border-b-4 border-purple-500">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-shopping-cart text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Gestion des Commandes</h1>
+                        <p class="text-gray-600 text-sm">Administration - Prestige Shop Express</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="refreshData()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-sync-alt mr-2"></i>Actualiser
+                    </button>
+                    <a href="admin.html" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-users mr-2"></i>Utilisateurs
+                    </a>
+                    <a href="index.html" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-home mr-2"></i>Accueil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        
+        <!-- Statistiques des commandes -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="admin-card bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Total Commandes</p>
+                        <p class="text-3xl font-bold text-blue-600" id="total-commandes">-</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-receipt text-blue-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-card bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">En Attente</p>
+                        <p class="text-3xl font-bold text-yellow-600" id="commandes-attente">-</p>
+                    </div>
+                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-card bg-white rounded-xl shadow-md p-6 border-l-4 border-orange-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">En Cours</p>
+                        <p class="text-3xl font-bold text-orange-600" id="commandes-cours">-</p>
+                    </div>
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-truck text-orange-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-card bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Livrées</p>
+                        <p class="text-3xl font-bold text-green-600" id="commandes-livrees">-</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtres -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="search-input" placeholder="Rechercher par numéro ou client..." 
+                               class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    </div>
+                    <select id="status-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" onchange="filterCommandes()">
+                        <option value="">Tous les statuts</option>
+                        <option value="en_attente">En Attente</option>
+                        <option value="en_cours">En Cours</option>
+                        <option value="livree">Livrée</option>
+                        <option value="annulee">Annulée</option>
+                    </select>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-gray-600">Dernière mise à jour:</span>
+                    <span id="last-update" class="text-sm font-medium text-purple-600">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message de statut -->
+        <div id="status-message" class="hidden mb-6">
+            <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg">
+                <div class="flex items-center">
+                    <div class="loading mr-3"></div>
+                    <span>Chargement des données...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tableau des commandes -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                <h2 class="text-xl font-semibold text-gray-800 flex items-center">
+                    <i class="fas fa-list mr-2 text-purple-600"></i>
+                    Liste des Commandes
+                </h2>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-hashtag mr-1"></i>N° Commande
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-user mr-1"></i>Client
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-calendar mr-1"></i>Date
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-money-bill mr-1"></i>Montant
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-info-circle mr-1"></i>Statut
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-phone mr-1"></i>Téléphone
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <i class="fas fa-cogs mr-1"></i>Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="commandes-table-body" class="bg-white divide-y divide-gray-200">
+                        <!-- Les données seront chargées ici -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Message si aucune commande -->
+        <div id="no-commandes-message" class="hidden text-center py-12">
+            <div class="max-w-md mx-auto">
+                <i class="fas fa-shopping-cart text-gray-300 text-6xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-600 mb-2">Aucune commande trouvée</h3>
+                <p class="text-gray-500">Il n'y a pas encore de commandes ou elles ne correspondent pas aux filtres appliqués.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal détails commande -->
+    <div id="order-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-receipt text-purple-600 mr-2"></i>
+                        Détails de la commande
+                    </h3>
+                    <button onclick="closeOrderModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="order-details" class="p-6">
+                <!-- Les détails seront chargés ici -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allCommandes = [];
+        let filteredCommandes = [];
+
+        // Charger les commandes au démarrage
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCommandes();
+            
+            // Actualiser automatiquement toutes les 30 secondes
+            setInterval(loadCommandes, 30000);
+            
+            // Événements de recherche et filtrage
+            document.getElementById('search-input').addEventListener('input', filterCommandes);
+        });
+
+        async function loadCommandes() {
+            showStatusMessage('Chargement des commandes...', 'loading');
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/commandes');
+                const data = await response.json();
+                
+                if (data.success) {
+                    allCommandes = data.data;
+                    filteredCommandes = [...allCommandes];
+                    updateStatistics();
+                    displayCommandes();
+                    updateLastUpdate();
+                    hideStatusMessage();
+                } else {
+                    showStatusMessage('Erreur lors du chargement des commandes', 'error');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showStatusMessage('Erreur de connexion au serveur', 'error');
+            }
+        }
+
+        function updateStatistics() {
+            const total = allCommandes.length;
+            const enAttente = allCommandes.filter(c => c.statut === 'en_attente').length;
+            const enCours = allCommandes.filter(c => c.statut === 'en_cours').length;
+            const livrees = allCommandes.filter(c => c.statut === 'livree').length;
+
+            document.getElementById('total-commandes').textContent = total;
+            document.getElementById('commandes-attente').textContent = enAttente;
+            document.getElementById('commandes-cours').textContent = enCours;
+            document.getElementById('commandes-livrees').textContent = livrees;
+        }
+
+        function displayCommandes() {
+            const tbody = document.getElementById('commandes-table-body');
+            const noCommandesMessage = document.getElementById('no-commandes-message');
+            
+            if (filteredCommandes.length === 0) {
+                tbody.innerHTML = '';
+                noCommandesMessage.classList.remove('hidden');
+                return;
+            }
+            
+            noCommandesMessage.classList.add('hidden');
+            
+            tbody.innerHTML = filteredCommandes.map(commande => `
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-purple-400 to-blue-400 rounded-lg flex items-center justify-center text-white font-bold">
+                                <i class="fas fa-receipt"></i>
+                            </div>
+                            <div class="ml-3">
+                                <div class="text-sm font-bold text-gray-900">${commande.numero_commande}</div>
+                                <div class="text-xs text-gray-500">#${commande.id}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">${commande.nom} ${commande.prenom}</div>
+                        <div class="text-xs text-gray-500">${commande.email}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${formatDate(commande.date_commande)}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-bold text-green-600">${formatMoney(commande.montant_total)} FCFA</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full ${getStatusBadgeClass(commande.statut)}">
+                            ${getStatusLabel(commande.statut)}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${commande.telephone || 'Non renseigné'}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div class="flex space-x-2">
+                            <button onclick="viewOrderDetails(${commande.id})" class="text-blue-600 hover:text-blue-900 transition-colors">
+                                <i class="fas fa-eye"></i> Voir
+                            </button>
+                            <button onclick="updateOrderStatus(${commande.id}, '${getNextStatus(commande.statut)}')" class="text-green-600 hover:text-green-900 transition-colors">
+                                <i class="fas fa-arrow-right"></i> ${getNextStatusLabel(commande.statut)}
+                            </button>
+                            <button onclick="deleteOrder(${commande.id}, '${commande.numero_commande}')" class="text-red-600 hover:text-red-900 transition-colors">
+                                <i class="fas fa-trash-alt"></i> Supprimer
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterCommandes() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const statusFilter = document.getElementById('status-filter').value;
+            
+            filteredCommandes = allCommandes.filter(commande => {
+                const matchesSearch = !searchTerm || 
+                    commande.numero_commande.toLowerCase().includes(searchTerm) ||
+                    (commande.nom && commande.nom.toLowerCase().includes(searchTerm)) ||
+                    (commande.prenom && commande.prenom.toLowerCase().includes(searchTerm)) ||
+                    (commande.email && commande.email.toLowerCase().includes(searchTerm));
+                
+                const matchesStatus = !statusFilter || commande.statut === statusFilter;
+                
+                return matchesSearch && matchesStatus;
+            });
+            
+            displayCommandes();
+        }
+
+        async function viewOrderDetails(orderId) {
+            try {
+                const response = await fetch(`http://localhost:5000/api/commandes/${orderId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const commande = data.data;
+                    document.getElementById('order-details').innerHTML = `
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-sm font-medium text-gray-600">Numéro de commande</label>
+                                    <p class="text-lg font-bold text-gray-900">${commande.numero_commande}</p>
+                                </div>
+                                <div>
+                                    <label class="text-sm font-medium text-gray-600">Date</label>
+                                    <p class="text-lg font-bold text-gray-900">${formatDate(commande.date_commande)}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="border-t pt-4">
+                                <h4 class="font-bold text-gray-800 mb-3">Informations client</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="text-sm text-gray-600">Nom</label>
+                                        <p class="font-medium">${commande.nom} ${commande.prenom}</p>
+                                    </div>
+                                    <div>
+                                        <label class="text-sm text-gray-600">Email</label>
+                                        <p class="font-medium">${commande.email}</p>
+                                    </div>
+                                    <div>
+                                        <label class="text-sm text-gray-600">Téléphone</label>
+                                        <p class="font-medium">${commande.telephone}</p>
+                                    </div>
+                                    <div>
+                                        <label class="text-sm text-gray-600">Statut</label>
+                                        <p><span class="px-3 py-1 text-xs font-semibold rounded-full ${getStatusBadgeClass(commande.statut)}">
+                                            ${getStatusLabel(commande.statut)}
+                                        </span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="border-t pt-4">
+                                <h4 class="font-bold text-gray-800 mb-3">Adresse de livraison</h4>
+                                <p class="text-gray-700">${commande.adresse_livraison}</p>
+                            </div>
+                            
+                            ${commande.notes ? `
+                            <div class="border-t pt-4">
+                                <h4 class="font-bold text-gray-800 mb-3">Notes</h4>
+                                <p class="text-gray-700">${commande.notes}</p>
+                            </div>
+                            ` : ''}
+                            
+                            <div class="border-t pt-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-lg font-bold text-gray-800">Montant total</span>
+                                    <span class="text-2xl font-black text-green-600">${formatMoney(commande.montant_total)} FCFA</span>
+                                </div>
+                            </div>
+                            
+                            <div class="border-t pt-4 flex space-x-3">
+                                <button onclick="updateOrderStatus(${commande.id}, '${getNextStatus(commande.statut)}'); closeOrderModal();" 
+                                        class="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg font-bold transition-all">
+                                    <i class="fas fa-arrow-right mr-2"></i>${getNextStatusLabel(commande.statut)}
+                                </button>
+                                <button onclick="deleteOrder(${commande.id}, '${commande.numero_commande}')" 
+                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg font-bold transition-all">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('order-modal').classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showStatusMessage('Erreur lors du chargement des détails', 'error');
+            }
+        }
+
+        function closeOrderModal() {
+            document.getElementById('order-modal').classList.add('hidden');
+        }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            if (!newStatus || newStatus === 'none') return;
+            
+            if (!confirm(`Êtes-vous sûr de vouloir passer cette commande au statut "${getStatusLabel(newStatus)}" ?`)) {
+                return;
+            }
+            
+            try {
+                showStatusMessage('Mise à jour du statut...', 'loading');
+                
+                const response = await fetch(`http://localhost:5000/api/commandes/${orderId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ statut: newStatus })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showStatusMessage('Statut mis à jour avec succès', 'success');
+                    await loadCommandes();
+                } else {
+                    showStatusMessage('Erreur lors de la mise à jour', 'error');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showStatusMessage('Erreur de connexion', 'error');
+            }
+        }
+
+        async function deleteOrder(orderId, numeroCommande) {
+            if (!confirm(`Êtes-vous sûr de vouloir supprimer définitivement la commande ${numeroCommande} ? Cette action est irréversible.`)) {
+                return;
+            }
+
+            try {
+                showStatusMessage(`Suppression de la commande ${numeroCommande}...`, 'loading');
+                
+                const response = await fetch(`http://localhost:5000/api/commandes/${orderId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showStatusMessage('Commande supprimée avec succès', 'success');
+                    closeOrderModal();
+                    await loadCommandes();
+                } else {
+                    showStatusMessage('Erreur lors de la suppression', 'error');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showStatusMessage('Erreur de connexion', 'error');
+            }
+        }
+
+        function refreshData() {
+            loadCommandes();
+        }
+
+        function getStatusBadgeClass(status) {
+            switch(status) {
+                case 'en_attente': return 'bg-yellow-100 text-yellow-800';
+                case 'en_cours': return 'bg-orange-100 text-orange-800';
+                case 'livree': return 'bg-green-100 text-green-800';
+                case 'annulee': return 'bg-red-100 text-red-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        function getStatusLabel(status) {
+            switch(status) {
+                case 'en_attente': return 'En Attente';
+                case 'en_cours': return 'En Cours';
+                case 'livree': return 'Livrée';
+                case 'annulee': return 'Annulée';
+                default: return status;
+            }
+        }
+
+        function getNextStatus(currentStatus) {
+            switch(currentStatus) {
+                case 'en_attente': return 'en_cours';
+                case 'en_cours': return 'livree';
+                case 'livree': return 'none';
+                case 'annulee': return 'none';
+                default: return 'none';
+            }
+        }
+
+        function getNextStatusLabel(currentStatus) {
+            switch(currentStatus) {
+                case 'en_attente': return 'Passer en cours';
+                case 'en_cours': return 'Marquer livrée';
+                case 'livree': return 'Déjà livrée';
+                case 'annulee': return 'Annulée';
+                default: return '';
+            }
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Non renseigné';
+            
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+            
+            if (diffMins < 1) return 'À l\'instant';
+            if (diffMins < 60) return `Il y a ${diffMins} min`;
+            if (diffHours < 24) return `Il y a ${diffHours}h`;
+            if (diffDays < 7) return `Il y a ${diffDays} jour(s)`;
+            
+            return date.toLocaleDateString('fr-FR', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatMoney(amount) {
+            return new Intl.NumberFormat('fr-FR').format(amount);
+        }
+
+        function updateLastUpdate() {
+            const now = new Date();
+            document.getElementById('last-update').textContent = now.toLocaleTimeString('fr-FR');
+        }
+
+        function showStatusMessage(message, type) {
+            const statusDiv = document.getElementById('status-message');
+            const classes = {
+                loading: 'bg-blue-50 border-blue-500 text-blue-700',
+                success: 'bg-green-50 border-green-500 text-green-700',
+                error: 'bg-red-50 border-red-500 text-red-700'
+            };
+            
+            statusDiv.className = `mb-6 border-l-4 p-4 rounded-lg ${classes[type] || classes.loading}`;
+            statusDiv.innerHTML = `
+                <div class="flex items-center">
+                    ${type === 'loading' ? '<div class="loading mr-3"></div>' : 
+                      type === 'success' ? '<i class="fas fa-check-circle mr-3"></i>' :
+                      '<i class="fas fa-exclamation-circle mr-3"></i>'}
+                    <span>${message}</span>
+                </div>
+            `;
+            statusDiv.classList.remove('hidden');
+            
+            if (type !== 'loading') {
+                setTimeout(() => {
+                    statusDiv.classList.add('hidden');
+                }, 5000);
+            }
+        }
+
+        function hideStatusMessage() {
+            document.getElementById('status-message').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

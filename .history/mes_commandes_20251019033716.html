@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Commandes | Prestige Shop Express</title>
+    <link rel="icon" href="images/prestige shop.png" type="image/png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .order-card {
+            transition: all 0.3s ease;
+        }
+        
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #9333ea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 md:px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden bg-white shadow-lg">
+                        <img src="images/prestige shop.png" alt="Prestige Shop Express Logo" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h1 class="text-lg md:text-2xl font-bold text-gray-800">Prestige Shop Express</h1>
+                        <p class="text-xs md:text-sm text-gray-500">Mes Commandes</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <a href="index.html" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-home mr-2"></i><span class="hidden md:inline">Accueil</span>
+                    </a>
+                    <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i><span class="hidden md:inline">Déconnexion</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 md:px-6 py-8">
+        
+        <!-- Profil utilisateur -->
+        <div class="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl shadow-xl p-6 md:p-8 mb-8 text-white">
+            <div class="flex items-center space-x-4">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+                    <i class="fas fa-user text-purple-600 text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold" id="user-name">Chargement...</h2>
+                    <p class="text-purple-100" id="user-email"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistiques des commandes -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-xl shadow-md p-4 md:p-6">
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-shopping-cart text-blue-600 text-xl"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm">Total</p>
+                    <p class="text-2xl font-bold text-blue-600" id="total-commandes">0</p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md p-4 md:p-6">
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm">En Attente</p>
+                    <p class="text-2xl font-bold text-yellow-600" id="commandes-attente">0</p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md p-4 md:p-6">
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-truck text-orange-600 text-xl"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm">En Cours</p>
+                    <p class="text-2xl font-bold text-orange-600" id="commandes-cours">0</p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md p-4 md:p-6">
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm">Livrées</p>
+                    <p class="text-2xl font-bold text-green-600" id="commandes-livrees">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtre -->
+        <div class="bg-white rounded-xl shadow-md p-4 mb-6">
+            <select id="status-filter" class="w-full md:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" onchange="filterCommandes()">
+                <option value="">Toutes les commandes</option>
+                <option value="en_attente">En Attente</option>
+                <option value="en_cours">En Cours</option>
+                <option value="livree">Livrée</option>
+                <option value="annulee">Annulée</option>
+            </select>
+        </div>
+
+        <!-- Message de chargement -->
+        <div id="loading-message" class="text-center py-12">
+            <div class="loading mx-auto mb-4"></div>
+            <p class="text-gray-600">Chargement de vos commandes...</p>
+        </div>
+
+        <!-- Liste des commandes -->
+        <div id="commandes-container" class="hidden space-y-4">
+            <!-- Les commandes seront chargées ici -->
+        </div>
+
+        <!-- Message si aucune commande -->
+        <div id="no-commandes-message" class="hidden text-center py-12">
+            <div class="max-w-md mx-auto bg-white rounded-2xl shadow-lg p-8">
+                <i class="fas fa-shopping-cart text-gray-300 text-6xl mb-4"></i>
+                <h3 class="text-2xl font-bold text-gray-700 mb-2">Aucune commande</h3>
+                <p class="text-gray-500 mb-6">Vous n'avez pas encore passé de commande.</p>
+                <a href="index.html" class="inline-block bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold transition-all">
+                    <i class="fas fa-shopping-bag mr-2"></i>Découvrir nos produits
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let userData = null;
+        let allCommandes = [];
+        let filteredCommandes = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérifier si l'utilisateur est connecté
+            const userDataStr = localStorage.getItem('userData');
+            if (!userDataStr) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            userData = JSON.parse(userDataStr);
+            loadUserProfile();
+            loadCommandes();
+        });
+
+        function loadUserProfile() {
+            if (userData) {
+                document.getElementById('user-name').textContent = `${userData.prenom} ${userData.nom}`;
+                document.getElementById('user-email').textContent = userData.email;
+            }
+        }
+
+        async function loadCommandes() {
+            if (!userData) return;
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/commandes/user/' + userData.id);
+                const data = await response.json();
+                
+                if (data.success) {
+                    allCommandes = data.data;
+                    filteredCommandes = [...allCommandes];
+                    updateStatistics();
+                    displayCommandes();
+                } else {
+                    showNoCommandes();
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError();
+            } finally {
+                document.getElementById('loading-message').classList.add('hidden');
+            }
+        }
+
+        function updateStatistics() {
+            const total = allCommandes.length;
+            const enAttente = allCommandes.filter(c => c.statut === 'en_attente').length;
+            const enCours = allCommandes.filter(c => c.statut === 'en_cours').length;
+            const livrees = allCommandes.filter(c => c.statut === 'livree').length;
+
+            document.getElementById('total-commandes').textContent = total;
+            document.getElementById('commandes-attente').textContent = enAttente;
+            document.getElementById('commandes-cours').textContent = enCours;
+            document.getElementById('commandes-livrees').textContent = livrees;
+        }
+
+        function displayCommandes() {
+            const container = document.getElementById('commandes-container');
+            const noCommandesMessage = document.getElementById('no-commandes-message');
+            
+            if (filteredCommandes.length === 0) {
+                container.classList.add('hidden');
+                noCommandesMessage.classList.remove('hidden');
+                return;
+            }
+            
+            noCommandesMessage.classList.add('hidden');
+            container.classList.remove('hidden');
+            
+            container.innerHTML = filteredCommandes.map(commande => `
+                <div class="order-card bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                            <div class="mb-3 md:mb-0">
+                                <div class="flex items-center space-x-2 mb-1">
+                                    <i class="fas fa-receipt text-purple-600"></i>
+                                    <h3 class="text-lg font-bold text-gray-800">${commande.numero_commande}</h3>
+                                </div>
+                                <p class="text-sm text-gray-500">
+                                    <i class="fas fa-calendar mr-1"></i>
+                                    ${formatDate(commande.date_commande)}
+                                </p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <span class="px-4 py-2 text-sm font-semibold rounded-full ${getStatusBadgeClass(commande.statut)}">
+                                    ${getStatusLabel(commande.statut)}
+                                </span>
+                                <span class="text-2xl font-black text-green-600">${formatMoney(commande.montant_total)} FCFA</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t pt-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <p class="text-sm text-gray-600 mb-1">
+                                        <i class="fas fa-map-marker-alt mr-2 text-purple-600"></i>Adresse de livraison
+                                    </p>
+                                    <p class="text-gray-800 font-medium">${commande.adresse_livraison}</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600 mb-1">
+                                        <i class="fas fa-phone mr-2 text-purple-600"></i>Téléphone
+                                    </p>
+                                    <p class="text-gray-800 font-medium">${commande.telephone}</p>
+                                </div>
+                            </div>
+                            
+                            ${commande.notes ? `
+                            <div class="mb-4">
+                                <p class="text-sm text-gray-600 mb-1">
+                                    <i class="fas fa-sticky-note mr-2 text-purple-600"></i>Notes
+                                </p>
+                                <p class="text-gray-800">${commande.notes}</p>
+                            </div>
+                            ` : ''}
+                            
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between pt-4 border-t">
+                                <div class="mb-3 md:mb-0">
+                                    ${getStatusTimeline(commande.statut)}
+                                </div>
+                                <div class="flex space-x-2">
+                                    <a href="https://wa.me/+2250758415088?text=Bonjour, j'ai une question concernant ma commande ${commande.numero_commande}" 
+                                       target="_blank"
+                                       class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-all flex items-center">
+                                        <i class="fab fa-whatsapp mr-2"></i>
+                                        <span class="hidden md:inline">Contacter</span>
+                                    </a>
+                                    ${commande.statut === 'en_attente' ? `
+                                    <button onclick="cancelOrder(${commande.id}, '${commande.numero_commande}')"
+                                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-all">
+                                        <i class="fas fa-times mr-2"></i>
+                                        <span class="hidden md:inline">Annuler</span>
+                                    </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCommandes() {
+            const statusFilter = document.getElementById('status-filter').value;
+            
+            filteredCommandes = statusFilter 
+                ? allCommandes.filter(c => c.statut === statusFilter)
+                : [...allCommandes];
+            
+            displayCommandes();
+        }
+
+        async function cancelOrder(orderId, numeroCommande) {
+            if (!confirm(`Êtes-vous sûr de vouloir annuler la commande ${numeroCommande} ?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/commandes/${orderId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ statut: 'annulee' })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Commande annulée avec succès');
+                    await loadCommandes();
+                } else {
+                    alert('Erreur lors de l\'annulation de la commande');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur de connexion');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('userData');
+            localStorage.removeItem('userLoggedIn');
+            window.location.href = 'index.html';
+        }
+
+        function getStatusBadgeClass(status) {
+            switch(status) {
+                case 'en_attente': return 'bg-yellow-100 text-yellow-800';
+                case 'en_cours': return 'bg-orange-100 text-orange-800';
+                case 'livree': return 'bg-green-100 text-green-800';
+                case 'annulee': return 'bg-red-100 text-red-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        function getStatusLabel(status) {
+            switch(status) {
+                case 'en_attente': return 'En Attente';
+                case 'en_cours': return 'En Cours de Livraison';
+                case 'livree': return 'Livrée';
+                case 'annulee': return 'Annulée';
+                default: return status;
+            }
+        }
+
+        function getStatusTimeline(status) {
+            const steps = [
+                { key: 'en_attente', label: 'En attente', icon: 'clock' },
+                { key: 'en_cours', label: 'En cours', icon: 'truck' },
+                { key: 'livree', label: 'Livrée', icon: 'check-circle' }
+            ];
+            
+            const currentIndex = steps.findIndex(s => s.key === status);
+            
+            return `
+                <div class="flex items-center space-x-2">
+                    ${steps.map((step, index) => `
+                        <div class="flex items-center">
+                            <div class="${index <= currentIndex ? 'bg-purple-600 text-white' : 'bg-gray-300 text-gray-600'} w-8 h-8 rounded-full flex items-center justify-center text-xs">
+                                <i class="fas fa-${step.icon}"></i>
+                            </div>
+                            ${index < steps.length - 1 ? `
+                            <div class="${index < currentIndex ? 'bg-purple-600' : 'bg-gray-300'} h-1 w-8 mx-1"></div>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Non renseigné';
+            
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatMoney(amount) {
+            return new Intl.NumberFormat('fr-FR').format(amount);
+        }
+
+        function showNoCommandes() {
+            document.getElementById('loading-message').classList.add('hidden');
+            document.getElementById('commandes-container').classList.add('hidden');
+            document.getElementById('no-commandes-message').classList.remove('hidden');
+        }
+
+        function showError() {
+            document.getElementById('loading-message').innerHTML = `
+                <div class="text-center py-12">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-6xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-700 mb-2">Erreur de chargement</h3>
+                    <p class="text-gray-500 mb-4">Impossible de charger vos commandes</p>
+                    <button onclick="location.reload()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg">
+                        Réessayer
+                    </button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

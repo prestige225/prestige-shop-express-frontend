@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Commande - Prestige Shop Express</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8 text-purple-600">🧪 Test de Commande</h1>
+        
+        <!-- Étape 1: Vérifier la connexion serveur -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">Étape 1: Vérifier le Serveur</h2>
+            <button onclick="testServer()" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
+                Test Serveur
+            </button>
+            <div id="serverStatus" class="mt-4"></div>
+        </div>
+
+        <!-- Étape 2: Vérifier si utilisateur connecté -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">Étape 2: Vérifier la Connexion Utilisateur</h2>
+            <button onclick="checkUser()" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">
+                Vérifier Utilisateur
+            </button>
+            <div id="userStatus" class="mt-4"></div>
+        </div>
+
+        <!-- Étape 3: Envoyer une commande test -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">Étape 3: Envoyer une Commande Test</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block mb-2">User ID:</label>
+                    <input type="number" id="userId" placeholder="Ex: 1" class="border px-4 py-2 rounded w-full">
+                </div>
+                <div>
+                    <label class="block mb-2">Montant Total:</label>
+                    <input type="number" id="montant" value="25000" class="border px-4 py-2 rounded w-full">
+                </div>
+                <div>
+                    <label class="block mb-2">Adresse:</label>
+                    <input type="text" id="adresse" value="123 Rue Test, Kinshasa" class="border px-4 py-2 rounded w-full">
+                </div>
+                <div>
+                    <label class="block mb-2">Téléphone:</label>
+                    <input type="text" id="telephone" value="+243123456789" class="border px-4 py-2 rounded w-full">
+                </div>
+                <button onclick="sendTestOrder()" class="bg-purple-500 text-white px-6 py-2 rounded hover:bg-purple-600">
+                    Envoyer Commande Test
+                </button>
+            </div>
+            <div id="orderStatus" class="mt-4"></div>
+        </div>
+
+        <!-- Étape 4: Voir les commandes -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">Étape 4: Voir Toutes les Commandes</h2>
+            <button onclick="getOrders()" class="bg-indigo-500 text-white px-6 py-2 rounded hover:bg-indigo-600">
+                Charger Commandes
+            </button>
+            <div id="ordersStatus" class="mt-4"></div>
+        </div>
+
+        <!-- Console de logs -->
+        <div class="bg-gray-900 text-green-400 rounded-lg p-6">
+            <h2 class="text-xl font-bold mb-4">📝 Console de Logs</h2>
+            <div id="logs" class="font-mono text-sm space-y-2"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000';
+        
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'success' ? 'text-green-400' : type === 'error' ? 'text-red-400' : 'text-blue-400';
+            logsDiv.innerHTML = `<div class="${color}">[${timestamp}] ${message}</div>` + logsDiv.innerHTML;
+            console.log(message);
+        }
+
+        async function testServer() {
+            const statusDiv = document.getElementById('serverStatus');
+            statusDiv.innerHTML = '<div class="text-blue-600">⏳ Test en cours...</div>';
+            log('🔍 Test de connexion au serveur...');
+
+            try {
+                const response = await fetch(`${API_BASE}/api/test`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    statusDiv.innerHTML = '<div class="text-green-600 font-bold">✅ Serveur OK: ' + data.message + '</div>';
+                    log('✅ Serveur accessible', 'success');
+                } else {
+                    statusDiv.innerHTML = '<div class="text-red-600 font-bold">❌ Erreur serveur</div>';
+                    log('❌ Erreur serveur', 'error');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="text-red-600 font-bold">❌ Serveur inaccessible: ' + error.message + '</div>';
+                log('❌ Serveur inaccessible: ' + error.message, 'error');
+            }
+        }
+
+        function checkUser() {
+            const statusDiv = document.getElementById('userStatus');
+            log('👤 Vérification utilisateur...');
+
+            const userData = JSON.parse(localStorage.getItem('userData') || sessionStorage.getItem('userData') || '{}');
+            
+            if (userData.id) {
+                statusDiv.innerHTML = `
+                    <div class="text-green-600 font-bold">✅ Utilisateur connecté</div>
+                    <pre class="bg-gray-100 p-4 rounded mt-2">${JSON.stringify(userData, null, 2)}</pre>
+                `;
+                document.getElementById('userId').value = userData.id;
+                log(`✅ Utilisateur: ${userData.nom} (ID: ${userData.id})`, 'success');
+            } else {
+                statusDiv.innerHTML = `
+                    <div class="text-red-600 font-bold">❌ Aucun utilisateur connecté</div>
+                    <p class="mt-2">Connectez-vous d'abord sur <a href="index.html" class="text-blue-600 underline">index.html</a></p>
+                `;
+                log('❌ Aucun utilisateur connecté', 'error');
+            }
+        }
+
+        async function sendTestOrder() {
+            const statusDiv = document.getElementById('orderStatus');
+            const userId = document.getElementById('userId').value;
+            const montant = document.getElementById('montant').value;
+            const adresse = document.getElementById('adresse').value;
+            const telephone = document.getElementById('telephone').value;
+
+            if (!userId) {
+                statusDiv.innerHTML = '<div class="text-red-600">❌ Veuillez entrer un User ID</div>';
+                log('❌ User ID manquant', 'error');
+                return;
+            }
+
+            statusDiv.innerHTML = '<div class="text-blue-600">⏳ Envoi en cours...</div>';
+            log('📤 Envoi de la commande test...');
+
+            const commandeData = {
+                user_id: parseInt(userId),
+                montant_total: parseFloat(montant),
+                adresse_livraison: adresse,
+                telephone: telephone,
+                notes: 'Test manuel depuis test-order.html'
+            };
+
+            log('📦 Données: ' + JSON.stringify(commandeData));
+
+            try {
+                const response = await fetch(`${API_BASE}/api/commandes`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(commandeData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    statusDiv.innerHTML = `
+                        <div class="text-green-600 font-bold">✅ Commande créée avec succès!</div>
+                        <div class="bg-green-50 p-4 rounded mt-2">
+                            <p><strong>Numéro:</strong> ${result.numero_commande}</p>
+                            <p><strong>ID:</strong> ${result.commande_id}</p>
+                        </div>
+                    `;
+                    log(`✅ Commande créée: ${result.numero_commande}`, 'success');
+                } else {
+                    statusDiv.innerHTML = `<div class="text-red-600 font-bold">❌ Erreur: ${result.message}</div>`;
+                    log('❌ Erreur: ' + result.message, 'error');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="text-red-600 font-bold">❌ Erreur: ${error.message}</div>`;
+                log('❌ Erreur: ' + error.message, 'error');
+            }
+        }
+
+        async function getOrders() {
+            const statusDiv = document.getElementById('ordersStatus');
+            statusDiv.innerHTML = '<div class="text-blue-600">⏳ Chargement...</div>';
+            log('📥 Chargement des commandes...');
+
+            try {
+                const response = await fetch(`${API_BASE}/api/commandes`);
+                const result = await response.json();
+
+                if (result.success) {
+                    const orders = result.data;
+                    statusDiv.innerHTML = `
+                        <div class="text-green-600 font-bold mb-2">✅ ${orders.length} commande(s) trouvée(s)</div>
+                        <div class="overflow-auto max-h-96">
+                            <table class="w-full border">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="border px-2 py-1">ID</th>
+                                        <th class="border px-2 py-1">Numéro</th>
+                                        <th class="border px-2 py-1">Client</th>
+                                        <th class="border px-2 py-1">Montant</th>
+                                        <th class="border px-2 py-1">Statut</th>
+                                        <th class="border px-2 py-1">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${orders.map(order => `
+                                        <tr>
+                                            <td class="border px-2 py-1">${order.id}</td>
+                                            <td class="border px-2 py-1">${order.numero_commande}</td>
+                                            <td class="border px-2 py-1">${order.nom} ${order.prenom}</td>
+                                            <td class="border px-2 py-1">${order.montant_total} FCFA</td>
+                                            <td class="border px-2 py-1">${order.statut}</td>
+                                            <td class="border px-2 py-1">${new Date(order.date_commande).toLocaleString()}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                    log(`✅ ${orders.length} commande(s) chargée(s)`, 'success');
+                } else {
+                    statusDiv.innerHTML = `<div class="text-red-600">❌ Erreur: ${result.message}</div>`;
+                    log('❌ Erreur: ' + result.message, 'error');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="text-red-600">❌ Erreur: ${error.message}</div>`;
+                log('❌ Erreur: ' + error.message, 'error');
+            }
+        }
+
+        // Test automatique au chargement
+        window.onload = () => {
+            log('🚀 Page de test chargée');
+            testServer();
+            checkUser();
+        };
+    </script>
+</body>
+</html>

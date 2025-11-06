@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produits - Prestige Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Nos Produits</h1>
+        
+        <!-- Filtres -->
+        <div class="mb-6 flex flex-wrap gap-2 justify-center">
+            <button onclick="filterProducts('all')" class="px-4 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors">Tous</button>
+            <button onclick="filterProducts('educatif')" class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">Éducatif</button>
+            <button onclick="filterProducts('electronique')" class="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors">Électronique</button>
+            <button onclick="filterProducts('mode')" class="px-4 py-2 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition-colors">Mode</button>
+            <button onclick="filterProducts('fastfood')" class="px-4 py-2 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-colors">Fast Food</button>
+        </div>
+        
+        <!-- Grille de produits -->
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Les produits seront chargés ici -->
+            <div class="text-center py-10">
+                <i class="fas fa-spinner fa-spin text-3xl text-purple-600"></i>
+                <p class="mt-2 text-gray-600">Chargement des produits...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale pour les détails du produit -->
+    <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6" id="modal-content">
+                <!-- Contenu de la modale -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allProducts = [];
+        let currentFilter = 'all';
+
+        // Récupérer les produits depuis le backend
+        async function fetchProducts() {
+            try {
+                const response = await fetch('http://localhost:5000/api/produits');
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Convertir les produits du backend au format attendu
+                    allProducts = data.produits.map(produit => ({
+                        id: produit.id,
+                        name: produit.nom,
+                        price: parseFloat(produit.prix),
+                        category: produit.categorie || 'autres',
+                        images: Array.isArray(produit.images_urls) ? produit.images_urls : 
+                               (produit.image_url ? [produit.image_url] : ['/images/prestige shop.png']),
+                        description: produit.description || 'Aucune description disponible',
+                        stock: produit.stock || 0,
+                        status: produit.statut || 'actif'
+                    }));
+                    
+                    displayProducts();
+                } else {
+                    console.error('Erreur lors de la récupération des produits:', data.message);
+                    showErrorMessage('Impossible de charger les produits');
+                }
+            } catch (error) {
+                console.error('Erreur réseau lors de la récupération des produits:', error);
+                showErrorMessage('Erreur de connexion au serveur');
+            }
+        }
+
+        // Afficher les produits
+        function displayProducts() {
+            const grid = document.getElementById('products-grid');
+            
+            let filteredProducts = currentFilter === 'all' 
+                ? allProducts 
+                : allProducts.filter(p => p.category === currentFilter);
+            
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-10">
+                        <i class="fas fa-box-open text-4xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-600">Aucun produit trouvé dans cette catégorie</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = filteredProducts.map(product => `
+                <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow overflow-hidden cursor-pointer" 
+                     onclick="showProductDetails(${product.id})">
+                    <div class="h-48 overflow-hidden">
+                        <img src="${product.images[0]}" alt="${product.name}" 
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                             onerror="this.src='/images/prestige shop.png'">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 mb-2 line-clamp-2">${product.name}</h3>
+                        <p class="text-gray-600 text-sm mb-3 line-clamp-2">${product.description}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">${product.price.toFixed(2)} FCFA</span>
+                            <span class="text-xs px-2 py-1 rounded-full 
+                                  ${product.status === 'actif' ? 'bg-green-100 text-green-800' : 
+                                    product.status === 'epuise' ? 'bg-red-100 text-red-800' : 
+                                    'bg-gray-100 text-gray-800'}">
+                                ${product.status === 'actif' ? 'En stock' : 
+                                  product.status === 'epuise' ? 'Épuisé' : 'Inactif'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filtrer les produits
+        function filterProducts(category) {
+            currentFilter = category;
+            displayProducts();
+            
+            // Mettre à jour les boutons actifs
+            document.querySelectorAll('button').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-offset-2', 'ring-purple-500');
+            });
+            event.target.classList.add('ring-2', 'ring-offset-2', 'ring-purple-500');
+        }
+
+        // Afficher les détails d'un produit
+        function showProductDetails(productId) {
+            const product = allProducts.find(p => p.id == productId);
+            if (!product) return;
+            
+            const modal = document.getElementById('product-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            modalContent.innerHTML = `
+                <div class="flex justify-between items-start mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">${product.name}</h2>
+                    <button onclick="closeProductModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <img src="${product.images[0]}" alt="${product.name}" 
+                             class="w-full h-80 object-contain rounded-lg"
+                             onerror="this.src='/images/prestige shop.png'">
+                    </div>
+                    
+                    <div>
+                        <p class="text-gray-600 mb-4">${product.description || 'Aucune description disponible'}</p>
+                        
+                        <div class="mb-4">
+                            <span class="text-2xl font-bold text-purple-600">${product.price.toFixed(2)} FCFA</span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full 
+                                ${product.status === 'actif' ? 'bg-green-100 text-green-800' : 
+                                  product.status === 'epuise' ? 'bg-red-100 text-red-800' : 
+                                  'bg-gray-100 text-gray-800'}">
+                                ${product.status === 'actif' ? 'En stock' : 
+                                  product.status === 'epuise' ? 'Épuisé' : 'Inactif'}
+                            </span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <span class="text-gray-700">Stock disponible: ${product.stock}</span>
+                        </div>
+                        
+                        <div class="flex space-x-4">
+                            <button onclick="addToCart(${product.id})" 
+                                    class="flex-1 bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 transition-colors font-medium">
+                                Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Fermer la modale
+        function closeProductModal() {
+            const modal = document.getElementById('product-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Ajouter au panier (fonction de démonstration)
+        function addToCart(productId) {
+            const product = allProducts.find(p => p.id == productId);
+            if (!product) return;
+            
+            alert(`${product.name} ajouté au panier !`);
+            closeProductModal();
+        }
+
+        // Afficher un message d'erreur
+        function showErrorMessage(message) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = `
+                <div class="col-span-full text-center py-10">
+                    <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+                    <p class="text-red-600 font-medium">${message}</p>
+                    <button onclick="fetchProducts()" class="mt-4 px-4 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors">
+                        Réessayer
+                    </button>
+                </div>
+            `;
+        }
+
+        // Fermer la modale en cliquant en dehors
+        document.getElementById('product-modal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeProductModal();
+            }
+        });
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchProducts();
+        });
+    </script>
+</body>
+</html>

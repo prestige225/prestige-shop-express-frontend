@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue | Prestige Shop Express - Votre boutique en ligne</title>
+    <meta name="description" content="Bienvenue sur Prestige Shop Express. Connectez-vous ou créez un compte pour découvrir nos produits de qualité.">
+    <link rel="icon" href="images/prestige shop.png" type="image/png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .hero-section {
+            animation: fadeIn 1s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 min-h-screen">
+    
+    <!-- Formes décoratives -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+    <div class="absolute top-1/2 right-0 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 1s;"></div>
+    <div class="absolute bottom-0 left-1/2 w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 2s;"></div>
+    
+    <!-- Container principal -->
+    <div class="relative z-10 min-h-screen flex flex-col">
+        
+        <!-- Header -->
+        <header class="py-6 px-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden bg-white shadow-xl">
+                        <img src="images/prestige shop.png" alt="Logo" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h1 class="text-xl md:text-2xl font-black text-gray-900">Prestige Shop Express</h1>
+                        <p class="text-xs md:text-sm text-gray-600">Votre boutique en ligne de confiance</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Hero Section -->
+        <main class="flex-1 flex items-center justify-center px-4 py-8 md:py-12">
+            <div class="container mx-auto">
+                <div class="hero-section text-center mb-12">
+                    <h2 class="text-4xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-6">
+                        Bienvenue sur <br class="md:hidden"><span class="gradient-text">Prestige Shop Express</span>
+                    </h2>
+                    <p class="text-lg md:text-xl lg:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+                        Découvrez une expérience d'achat unique avec des produits de qualité, 
+                        une livraison rapide et un service client exceptionnel en Côte d'Ivoire.
+                    </p>
+                    
+                    <!-- Boutons CTA -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
+                        <a href="register.html" class="cta-button w-full sm:w-auto bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-10 py-5 rounded-2xl font-bold text-lg md:text-xl transition-all shadow-2xl hover:shadow-3xl flex items-center justify-center">
+                            <i class="fas fa-user-plus mr-3 text-2xl"></i>
+                            Créer un compte gratuitement
+                        </a>
+                        <a href="login.html" class="cta-button w-full sm:w-auto bg-white border-3 border-purple-600 text-purple-600 hover:bg-purple-50 px-10 py-5 rounded-2xl font-bold text-lg md:text-xl transition-all shadow-xl flex items-center justify-center">
+                            <i class="fas fa-sign-in-alt mr-3 text-2xl"></i>
+                            Se connecter
+                        </a>
+                    </div>
+                    
+                    <p class="text-gray-500 text-sm">
+                        <i class="fas fa-lock mr-2"></i>
+                        Vos données sont sécurisées et protégées
+                    </p>
+                </div>
+                
+                <!-- Features Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                    <!-- Feature 1 -->
+                    <div class="feature-card bg-white rounded-2xl p-6 shadow-xl border border-purple-100">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-truck text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Livraison Rapide</h3>
+                        <p class="text-gray-600 text-center">Recevez vos commandes sous 24-48h partout en Côte d'Ivoire</p>
+                    </div>
+                    
+                    <!-- Feature 2 -->
+                    <div class="feature-card bg-white rounded-2xl p-6 shadow-xl border border-blue-100">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-shield-alt text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Paiement Sécurisé</h3>
+                        <p class="text-gray-600 text-center">Vos transactions sont protégées avec les meilleurs standards de sécurité</p>
+                    </div>
+                    
+                    <!-- Feature 3 -->
+                    <div class="feature-card bg-white rounded-2xl p-6 shadow-xl border border-green-100">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-percent text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Offres Exclusives</h3>
+                        <p class="text-gray-600 text-center">-20% sur votre première commande et réductions régulières</p>
+                    </div>
+                    
+                    <!-- Feature 4 -->
+                    <div class="feature-card bg-white rounded-2xl p-6 shadow-xl border border-orange-100">
+                        <div class="w-16 h-16 bg-gradient-to-br from-orange-600 to-orange-700 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                            <i class="fas fa-headset text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 text-center">Support 24/7</h3>
+                        <p class="text-gray-600 text-center">Notre équipe est disponible pour vous aider à tout moment</p>
+                    </div>
+                </div>
+                
+                <!-- Stats -->
+                <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-purple-100">
+                    <h3 class="text-2xl md:text-3xl font-black text-center text-gray-900 mb-8">Pourquoi nous choisir ?</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                        <div>
+                            <div class="text-4xl md:text-5xl font-black gradient-text mb-2">500+</div>
+                            <p class="text-gray-600 font-semibold">Clients Satisfaits</p>
+                        </div>
+                        <div>
+                            <div class="text-4xl md:text-5xl font-black gradient-text mb-2">1000+</div>
+                            <p class="text-gray-600 font-semibold">Produits Disponibles</p>
+                        </div>
+                        <div>
+                            <div class="text-4xl md:text-5xl font-black gradient-text mb-2">24h</div>
+                            <p class="text-gray-600 font-semibold">Livraison Express</p>
+                        </div>
+                        <div>
+                            <div class="text-4xl md:text-5xl font-black gradient-text mb-2">4.9/5</div>
+                            <p class="text-gray-600 font-semibold">Note Moyenne</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Catégories Preview -->
+                <div class="mt-16">
+                    <h3 class="text-3xl md:text-4xl font-black text-center text-gray-900 mb-8">Nos Catégories</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-2xl p-8 shadow-xl border border-purple-100 text-center hover:shadow-2xl transition-all">
+                            <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <i class="fas fa-graduation-cap text-white text-3xl"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold text-gray-900 mb-2">Éducatif</h4>
+                            <p class="text-gray-600">Fournitures scolaires et matériel éducatif de qualité</p>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl p-8 shadow-xl border border-green-100 text-center hover:shadow-2xl transition-all">
+                            <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <i class="fas fa-laptop text-white text-3xl"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold text-gray-900 mb-2">Électronique</h4>
+                            <p class="text-gray-600">Appareils et accessoires électroniques dernière génération</p>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl p-8 shadow-xl border border-pink-100 text-center hover:shadow-2xl transition-all">
+                            <div class="w-20 h-20 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <i class="fas fa-tshirt text-white text-3xl"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold text-gray-900 mb-2">Mode</h4>
+                            <p class="text-gray-600">Vêtements et accessoires tendance pour tous les styles</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="py-8 px-4 text-center border-t border-gray-200 bg-white/50 backdrop-blur-sm">
+            <div class="container mx-auto">
+                <p class="text-gray-600 mb-2 font-semibold">© 2024 Prestige Shop Express. Tous droits réservés.</p>
+                <div class="flex items-center justify-center space-x-4 text-sm text-gray-500 mb-3">
+                    <a href="#" class="hover:text-purple-600 transition-colors">Conditions d'utilisation</a>
+                    <span>•</span>
+                    <a href="#" class="hover:text-purple-600 transition-colors">Politique de confidentialité</a>
+                    <span>•</span>
+                    <a href="#" class="hover:text-purple-600 transition-colors">Contact</a>
+                </div>
+                <p class="text-gray-500 text-sm">Développé avec ❤️ en Côte d'Ivoire</p>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        // Vérifier si l'utilisateur est déjà connecté
+        window.addEventListener('DOMContentLoaded', () => {
+            const isLoggedIn = localStorage.getItem('userLoggedIn') || sessionStorage.getItem('userLoggedIn');
+            
+            if (isLoggedIn === 'true') {
+                // Rediriger vers la page des produits
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>

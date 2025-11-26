@@ -1,6 +1,6 @@
 // Configuration de l'API
 // Forcer l'utilisation du backend Render pour éviter les problèmes de CORS en développement local
-const API_BASE_URL = 'https://prestige-shop-backend.onrender.com/api';
+const API_BASE_URL = process.env.BACKEND_URL || 'https://prestige-shop-backend.onrender.com/api';
 
 // Fonction utilitaire pour effectuer les appels API avec gestion des erreurs
 function apiCall(endpoint, options = {}) {

@@ -425,6 +425,50 @@
     
     <script src="api-config.js"></script>
     <script>
+        // Initialisation du bouton Google Sign-In
+        function onGoogleSignIn(googleUser) {
+            // Récupérer le token d'identification
+            var id_token = googleUser.getAuthResponse().id_token;
+            // Ici, vous pouvez envoyer le token à votre serveur pour vérification
+            console.log('ID Token: ' + id_token);
+        }
+        
+        // Fonction pour gérer les erreurs
+        function onFailure(error) {
+            console.log('Erreur de connexion Google:', error);
+        }
+        
+        // Initialiser le bouton Google
+        function renderGoogleButton() {
+            if (typeof google !== 'undefined' && google.accounts) {
+                google.accounts.id.initialize({
+                    client_id: 'YOUR_GOOGLE_CLIENT_ID', // Remplacez par votre ID client
+                    callback: onGoogleSignIn
+                });
+                google.accounts.id.renderButton(
+                    document.getElementById('google-login-btn'),
+                    { 
+                        type: 'standard',
+                        theme: 'outline',
+                        size: 'large',
+                        width: 300, // Largeur fixe pour éviter les problèmes
+                        text: 'signin_with',
+                        shape: 'rectangular',
+                        logo_alignment: 'left'
+                    }
+                );
+            } else {
+                // Réessayer si l'API Google n'est pas encore chargée
+                setTimeout(renderGoogleButton, 100);
+            }
+        }
+        
+        // Démarrer le rendu du bouton au chargement de la page
+        window.addEventListener('DOMContentLoaded', function() {
+            renderGoogleButton();
+            // Démarrer le guide léger après 2 secondes
+            setTimeout(showLoginTip, 2000);
+        });
         document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault();
             

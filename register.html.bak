@@ -683,63 +683,8 @@
         
         // Fonction pour traiter la réponse de Google
         function handleCredentialResponse(response) {
-            // Afficher l'état de chargement
-            const registerBtn = document.getElementById('register-btn');
-            const registerBtnText = document.getElementById('register-btn-text');
-            const registerBtnLoading = document.getElementById('register-btn-loading');
-            
-            registerBtn.disabled = true;
-            registerBtnText.classList.add('hidden');
-            registerBtnLoading.classList.remove('hidden');
-            
-            // Envoyer le token à notre serveur pour vérification
-            fetch(`${API_BASE_URL}/auth/google/callback/web`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    credential: response.credential
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Stocker les données utilisateur
-                    const userData = {
-                        id: data.user.id,
-                        nom: data.user.nom,
-                        prenom: data.user.prenom,
-                        email: data.user.email,
-                        numero: data.user.numero || ''
-                    };
-                    
-                    // Stocker les données utilisateur dans localStorage (connexion persistante)
-                    localStorage.setItem('userLoggedIn', 'true');
-                    localStorage.setItem('userData', JSON.stringify(userData));
-                    localStorage.setItem('userEmail', userData.email);
-                    localStorage.setItem('userFullname', `${userData.prenom} ${userData.nom}`.trim());
-                    if (userData.numero) {
-                        localStorage.setItem('userPhone', userData.numero);
-                    }
-                    
-                    window.location.href = 'index.html';
-                } else {
-                    document.getElementById('error-text').textContent = data.message;
-                    document.getElementById('error-message').classList.remove('hidden');
-                }
-            })
-            .catch(error => {
-                console.error('Erreur lors de la connexion Google:', error);
-                document.getElementById('error-text').textContent = 'Une erreur s\'est produite. Veuillez réessayer.';
-                document.getElementById('error-message').classList.remove('hidden');
-            })
-            .finally(() => {
-                // Réinitialiser l'état du bouton
-                registerBtn.disabled = false;
-                registerBtnText.classList.remove('hidden');
-                registerBtnLoading.classList.add('hidden');
-            });
+            console.log("Encoded JWT ID token: " + response.credential);
+            // Ici, vous pouvez envoyer le token à votre serveur pour vérification
         }
         
         // Initialisation du bouton Google

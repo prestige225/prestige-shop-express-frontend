@@ -2,36 +2,43 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    
-    <link rel="icon" href="images/prestige shop.png" type="image/png" />
-
-
+    <!-- Meta Tags de Base -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="vQkta5ulZJhli4h1zR55FXiT98uHyTa_SCfFyCOvmBs" />
+    
+    <!-- Titre et Description -->
     <title>Prestige Shop Express - Votre boutique en ligne</title>
     <meta name="description" content="Prestige Shop Express, votre boutique en ligne de confiance en Côte d'Ivoire, vous offre une large sélection de produits de qualité avec une livraison rapide et un service client exceptionnel." />
- <!-- Open Graph pour réseaux sociaux  -->
-    <!-- Meta tags Open Graph pour SEO et partage -->
-<meta property="og:title" content="Prestige Shop Express – Boutique en ligne en Côte d’Ivoire">
-<meta property="og:description" content="Découvrez une large sélection de produits éducatifs, mode et électroniques. Livraison rapide en Côte d'Ivoire.">
-<meta property="og:image" content="https://prestige-shop-express.onrender.com/images/prestige%20shop.png"> <!-- Logo ou image représentative -->
-<meta property="og:url" content="https://prestige-shop-express.onrender.com">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Prestige Shop Express">
-<meta property="og:locale" content="fr_FR">
-
-<!-- Meta tags Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Prestige Shop Express – Boutique en ligne en Côte d’Ivoire">
-<meta name="twitter:description" content="Découvrez une large sélection de produits éducatifs, mode et électroniques. Livraison rapide en Côte d'Ivoire.">
-<meta name="twitter:image" content="https://prestige-shop-express.onrender.com/images/fourniture%20scolaire.jpg">
-<meta name="twitter:site" content="@PrestigeShop">
-
-
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://prestige-shop-express.onrender.com/">
+    <meta property="og:title" content="Prestige Shop Express – Boutique en ligne en Côte d'Ivoire">
+    <meta property="og:description" content="Découvrez une large sélection de produits éducatifs, mode et électroniques. Livraison rapide en Côte d'Ivoire.">
+    <meta property="og:image" content="https://prestige-shop-express.onrender.com/images/prestige%20shop.png">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://prestige-shop-express.onrender.com/">
+    <meta name="twitter:title" content="Prestige Shop Express – Boutique en ligne en Côte d'Ivoire">
+    <meta name="twitter:description" content="Découvrez une large sélection de produits éducatifs, mode et électroniques. Livraison rapide en Côte d'Ivoire.">
+    <meta name="twitter:image" content="https://prestige-shop-express.onrender.com/images/fourniture%20scolaire.jpg">
+    <meta name="twitter:site" content="@PrestigeShop">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="images/prestige shop.png" type="image/png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- JavaScript -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
     <style>
+        /* Styles spécifiques à la page d'accueil */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
         * {
@@ -2625,7 +2632,7 @@ if (images && images.length > 0) {
                     const user = JSON.parse(userData);
                     
                     // Récupérer les informations à jour depuis l'API
-                    const response = await fetch(`http://localhost:5000/api/user/${user.id}`);
+                    const response = await fetch(`${API_BASE_URL}/user/${user.id}`);
                     const data = await response.json();
                     
                     if (data.success) {
@@ -7184,13 +7191,5 @@ Commandez sur Digit Shop Express !`;
     <script src="chatbot-widget.js"></script>
     <script src="api-config.js"></script>
     
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9696453bb45cc13d',t:'MTc1NDIyODg4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
-        });
-    </script>
-    
-    <!-- ========== CHATBOT ASSISTANT IA ========== -->
-    <script src="chatbot-widget.js"></script>
-    
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9696453bb45cc13d',t:'MTc1NDIyODg4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>

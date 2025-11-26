@@ -3,8 +3,6 @@
 // ======================================
 
 // Variables pour la synthèse vocale et la reconnaissance vocale
-let isVoiceEnabled = true;
-let isSpeaking = false;
 let recognition;
 
 // Injecter le CSS du chatbot
@@ -273,8 +271,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Injecter les styles
     document.head.insertAdjacentHTML('beforeend', chatbotStyles);
     
-    // Injecter le HTML
-    document.body.insertAdjacentHTML('beforeend', chatbotHTML);
+    // Injecter le HTML avec un message de bienvenue personnalisé
+    const personalizedWelcome = getPersonalizedWelcomeMessage();
+    const chatbotHTMLWithWelcome = chatbotHTML.replace(
+        '👋 Bonjour ! Je suis votre assistant virtuel. Comment puis-je vous aider aujourd\'hui ?',
+        personalizedWelcome
+    );
+    document.body.insertAdjacentHTML('beforeend', chatbotHTMLWithWelcome);
     
     // Initialiser le chatbot
     initChatbot();
@@ -550,6 +553,14 @@ function hideChatbotTypingIndicator() {
 
 function generateChatbotResponse(userMessage) {
     const message = userMessage.toLowerCase();
+    const user = getLoggedInUser();
+    
+    // Vérifier si c'est une salutation et personnaliser la réponse
+    if (isGreeting(message)) {
+        if (user && user.prenom) {
+            return `<span class='chatbot-wave-hand'>👋</span> Bonjour ${user.prenom} ! Je suis <span class='chatbot-attention-highlight'>PrestIA</span>, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?`;
+        }
+    }
     
     for (const [category, data] of Object.entries(chatbotKnowledgeBase)) {
         for (const pattern of data.patterns) {
@@ -631,17 +642,29 @@ function speakText(text) {
 }
 
 function speakIntroduction() {
-    // Combiner tous les messages d'introduction en un seul texte
-    const fullIntroduction = CHATBOT_CONFIG.voiceIntroduction.join(" ");
-    speakText(fullIntroduction);
+    const user = getLoggedInUser();
+    let introductionText = "";
+    
+    if (user && user.prenom) {
+        introductionText = `Bonjour ${user.prenom} et bienvenue sur Prestige Shop Express ! Je suis PrestIA, votre assistant vocal personnel. Je peux vous aider à trouver des produits, passer des commandes et répondre à vos questions. Pour une recherche plus rapide, cliquez sur nos différentes catégories : Mode, si vous recherchez des vêtements et accessoires de mode. Éducatif, si vous cherchez des fournitures scolaires et éducatives. Électronique, si vous voulez des appareils technologiques. Fast food, si vous désirez des plats rapides et délicieux. Dites-moi ${user.prenom}, que recherchez-vous aujourd'hui ?`;
+    } else {
+        introductionText = CHATBOT_CONFIG.voiceIntroduction.join(" ");
+    }
+    
+    speakText(introductionText);
     
     // Poser les questions interactives après l'introduction
     setTimeout(() => {
         if (chatbotState.isVoiceEnabled) {
-            const question = CHATBOT_CONFIG.voiceQuestions[Math.floor(Math.random() * CHATBOT_CONFIG.voiceQuestions.length)];
+            let question = "";
+            if (user && user.prenom) {
+                question = `Souhaitez-vous voir nos produits ${user.prenom} ?`;
+            } else {
+                question = CHATBOT_CONFIG.voiceQuestions[Math.floor(Math.random() * CHATBOT_CONFIG.voiceQuestions.length)];
+            }
             speakText(question);
         }
-    }, fullIntroduction.length * 100 + 1000); // Attendre la fin de l'introduction
+    }, introductionText.length * 100 + 1000); // Attendre la fin de l'introduction
 }
 
 function updateVoiceButtonState() {
@@ -739,4 +762,40 @@ function stopVoiceRecognition() {
         voiceButton.classList.remove('recording');
         recognition.stop();
     }
+}
+
+// Fonction pour obtenir le nom de l'utilisateur connecté
+function getLoggedInUser() {
+    // Vérifier d'abord dans localStorage
+    let userData = localStorage.getItem('userData');
+    if (userData) {
+        try {
+            const user = JSON.parse(userData);
+            return user;
+        } catch (e) {
+            console.error('Erreur lors du parsing des données utilisateur depuis localStorage:', e);
+        }
+    }
+    
+    // Vérifier dans sessionStorage
+    userData = sessionStorage.getItem('userData');
+    if (userData) {
+        try {
+            const user = JSON.parse(userData);
+            return user;
+        } catch (e) {
+            console.error('Erreur lors du parsing des données utilisateur depuis sessionStorage:', e);
+        }
+    }
+    
+    return null;
+}
+
+// Fonction pour personnaliser le message de bienvenue
+function getPersonalizedWelcomeMessage() {
+    const user = getLoggedInUser();
+    if (user && user.prenom) {
+        return `<span class='chatbot-wave-hand'>👋</span> Bonjour ${user.prenom} ! Je suis <span class='chatbot-attention-highlight'>PrestIA</span>, votre assistant virtuel. Comment puis-je vous aider aujourd'hui ?`;
+    }
+    return `<span class='chatbot-wave-hand'>👋</span> Bonjour ! Je suis <span class='chatbot-attention-highlight'>PrestIA</span>, votre assistant virtuel. Comment puis-je vous aider aujourd'hui ?`;
 }

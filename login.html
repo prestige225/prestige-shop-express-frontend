@@ -301,7 +301,7 @@
         <!-- Section droite - Formulaire -->
         <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
             <!-- Logo mobile -->
-            <div class="md:hidden text-center mb-8">
+            <div class="md-hidden text-center mb-8">
                 <div class="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden bg-white shadow-xl">
                     <img src="images/prestige shop.png" alt="Logo" class="w-full h-full object-cover">
                 </div>
@@ -425,6 +425,12 @@
     
     <script src="api-config.js"></script>
     <script>
+        // Définir une URL de base par défaut au cas où api-config.js ne serait pas chargé
+        if (typeof API_BASE_URL === 'undefined') {
+            // En production, utiliser l'URL du backend déployé
+            var API_BASE_URL = 'https://prestige-shop-backend.onrender.com/api';
+        }
+        
         document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault();
             
@@ -557,6 +563,7 @@
                         localStorage.setItem('userPhone', userData.numero);
                     }
                     
+                    // Redirection vers la page d'accueil
                     window.location.href = 'index.html';
                 } else {
                     document.getElementById('error-text').textContent = data.message;
@@ -584,7 +591,7 @@
             });
             google.accounts.id.renderButton(
                 document.getElementById("google-login-btn"),
-                { theme: "outline", size: "large", width: "100%", text: "signin_with" }
+                { theme: "outline", size: "large", width: 300, text: "signin_with" }
             );
         };
         

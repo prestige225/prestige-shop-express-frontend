@@ -393,7 +393,8 @@ let chatbotState = {
     messageCount: 0,
     isVoiceEnabled: true,
     isSpeaking: false,
-    isFirstGreeting: true
+    isFirstGreeting: true,
+    autoOpenOnMessage: true  // Nouvelle propriété pour ouvrir automatiquement
 };
 
 // Fonctions du chatbot
@@ -520,7 +521,28 @@ function addChatbotMessage(text, sender) {
     
     messagesContainer.appendChild(messageDiv);
     chatbotState.messageCount++;
+    
+    // Ouvrir automatiquement le chatbot lorsqu'un message est ajouté (sauf pour le message de bienvenue initial)
+    if (chatbotState.autoOpenOnMessage && chatbotState.messageCount > 1) {
+        openChatbotAutomatically();
+    }
+    
     scrollChatbotToBottom();
+}
+
+// Nouvelle fonction pour ouvrir automatiquement le chatbot
+function openChatbotAutomatically() {
+    const container = document.getElementById('chatbot-container');
+    const badge = document.getElementById('chatbot-notification-badge');
+    
+    // Si le chatbot n'est pas déjà ouvert, l'ouvrir
+    if (!chatbotState.isOpen) {
+        chatbotState.isOpen = true;
+        container.classList.remove('hidden');
+        badge.classList.add('hidden');
+        scrollChatbotToBottom();
+        document.getElementById('chatbot-input').focus();
+    }
 }
 
 function showChatbotTypingIndicator() {
@@ -592,6 +614,8 @@ function initChatbot() {
     setTimeout(() => {
         if (chatbotState.isVoiceEnabled) {
             speakIntroduction();
+            // Ouvrir automatiquement le chatbot lors de la présentation vocale
+            openChatbotAutomatically();
         }
     }, 3000);
     

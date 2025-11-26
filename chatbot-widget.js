@@ -394,7 +394,7 @@ let chatbotState = {
     isVoiceEnabled: true,
     isSpeaking: false,
     isFirstGreeting: true,
-    autoOpenOnMessage: true  // Nouvelle propriété pour ouvrir automatiquement
+    autoOpenOnMessage: false  // Désactivé par défaut
 };
 
 // Fonctions du chatbot
@@ -614,8 +614,8 @@ function initChatbot() {
     setTimeout(() => {
         if (chatbotState.isVoiceEnabled) {
             speakIntroduction();
-            // Ouvrir automatiquement le chatbot lors de la présentation vocale
-            openChatbotAutomatically();
+            // Ne plus ouvrir automatiquement le chatbot lors de la présentation vocale
+            // openChatbotAutomatically();
         }
     }, 3000);
     
@@ -629,6 +629,12 @@ function initChatbot() {
 
 // Fonctions de synthèse vocale
 function speakText(text) {
+    // Ne pas lire automatiquement sur mobile pour éviter les problèmes
+    if (isMobileDevice()) {
+        console.log("Synthèse vocale désactivée sur mobile pour éviter les problèmes");
+        return;
+    }
+    
     if (!chatbotState.isVoiceEnabled || 'speechSynthesis' in window === false) {
         return;
     }
@@ -822,4 +828,9 @@ function getPersonalizedWelcomeMessage() {
         return `<span class='chatbot-wave-hand'>👋</span> Bonjour ${user.prenom} ! Je suis <span class='chatbot-attention-highlight'>PrestIA</span>, votre assistant virtuel. Comment puis-je vous aider aujourd'hui ?`;
     }
     return `<span class='chatbot-wave-hand'>👋</span> Bonjour ! Je suis <span class='chatbot-attention-highlight'>PrestIA</span>, votre assistant virtuel. Comment puis-je vous aider aujourd'hui ?`;
+}
+
+// Nouvelle fonction pour détecter les appareils mobiles
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }

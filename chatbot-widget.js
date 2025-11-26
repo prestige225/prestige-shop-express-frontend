@@ -284,6 +284,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialiser la reconnaissance vocale
     initSpeechRecognition();
+    
+    // Ajouter des écouteurs d'événements pour détecter l'interaction utilisateur
+    document.addEventListener('click', function() {
+        if (!chatbotState.userHasInteracted) {
+            chatbotState.userHasInteracted = true;
+            triggerPendingSpeech();
+        }
+    }, { once: true });
+    
+    document.addEventListener('touchstart', function() {
+        if (!chatbotState.userHasInteracted) {
+            chatbotState.userHasInteracted = true;
+            triggerPendingSpeech();
+        }
+    }, { once: true });
 });
 
 // Configuration de l'assistant
@@ -394,7 +409,9 @@ let chatbotState = {
     isVoiceEnabled: true,
     isSpeaking: false,
     isFirstGreeting: true,
-    autoOpenOnMessage: false  // Désactivé par défaut
+    autoOpenOnMessage: false,  // Désactivé par défaut
+    userHasInteracted: false,  // Nouvelle propriété pour suivre l'interaction utilisateur
+    pendingSpeech: null      // Nouvelle propriété pour stocker le texte en attente de lecture
 };
 
 // Fonctions du chatbot
@@ -629,9 +646,14 @@ function initChatbot() {
 
 // Fonctions de synthèse vocale
 function speakText(text) {
-    // Ne pas lire automatiquement sur mobile pour éviter les problèmes
-    if (isMobileDevice()) {
-        console.log("Synthèse vocale désactivée sur mobile pour éviter les problèmes");
+    // Vérifier si nous sommes sur un appareil mobile
+    const isMobile = isMobileDevice();
+    
+    // Sur mobile, ne pas lire automatiquement sans interaction utilisateur
+    if (isMobile && !chatbotState.userHasInteracted) {
+        console.log("Synthèse vocale différée sur mobile - attente d'interaction utilisateur");
+        // Stocker le texte à lire plus tard
+        chatbotState.pendingSpeech = text;
         return;
     }
     
@@ -660,15 +682,22 @@ function speakText(text) {
     utterance.onend = () => {
         chatbotState.isSpeaking = false;
         updateVoiceButtonState();
+        chatbotState.pendingSpeech = null; // Effacer le texte en attente
     };
     
-    utterance.onerror = () => {
+    utterance.onerror = (event) => {
+        console.error('Erreur de synthèse vocale:', event.error);
         chatbotState.isSpeaking = false;
         updateVoiceButtonState();
+        chatbotState.pendingSpeech = null; // Effacer le texte en attente
     };
     
     // Parler
-    window.speechSynthesis.speak(utterance);
+    try {
+        window.speechSynthesis.speak(utterance);
+    } catch (error) {
+        console.error('Erreur lors de la synthèse vocale:', error);
+    }
 }
 
 function speakIntroduction() {
@@ -712,6 +741,20 @@ function updateVoiceButtonState() {
     }
 }
 
+// Nouvelle fonction pour déclencher la lecture vocale en attente
+function triggerPendingSpeech() {
+    // Marquer que l'utilisateur a interagi
+    chatbotState.userHasInteracted = true;
+    
+    // Si nous avons un texte en attente, le lire
+    if (chatbotState.pendingSpeech) {
+        const textToSpeak = chatbotState.pendingSpeech;
+        chatbotState.pendingSpeech = null;
+        speakText(textToSpeak);
+    }
+}
+
+// Modifier la fonction toggleVoiceAssistant pour déclencher la lecture en attente
 function toggleVoiceAssistant() {
     chatbotState.isVoiceEnabled = !chatbotState.isVoiceEnabled;
     updateVoiceButtonState();
@@ -719,6 +762,8 @@ function toggleVoiceAssistant() {
     if (chatbotState.isVoiceEnabled) {
         // Si activé, faire une petite présentation
         speakText("L'assistant vocal est maintenant activé.");
+        // Déclencher également la lecture en attente si elle existe
+        triggerPendingSpeech();
     } else {
         // Si désactivé, arrêter toute parole en cours
         window.speechSynthesis.cancel();

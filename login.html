@@ -426,9 +426,9 @@
     <script src="api-config.js"></script>
     <script>
         // Définir une URL de base par défaut au cas où api-config.js ne serait pas chargé
-        if (typeof API_BASE_URL === 'undefined') {
+        if (typeof window.API_BASE_URL === 'undefined') {
             // En production, utiliser l'URL du backend déployé
-            var API_BASE_URL = 'https://prestige-shop-backend.onrender.com/api';
+            window.API_BASE_URL = 'https://prestige-shop-backend.onrender.com/api';
         }
         
         document.getElementById('login-form').addEventListener('submit', function(event) {
@@ -448,7 +448,7 @@
             loginBtnLoading.classList.remove('hidden');
             
             // Appel à l'API Flask
-            fetch(`${API_BASE_URL}/login`, {
+            fetch(`${window.API_BASE_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -518,7 +518,7 @@
         // Fonction pour la connexion avec Google
         function loginWithGoogle() {
             // Rediriger vers le point de terminaison Google OAuth
-            window.location.href = `${API_BASE_URL}/auth/google`;
+            window.location.href = `${window.API_BASE_URL}/auth/google`;
         }
 
         // Fonction pour traiter la réponse de Google
@@ -533,7 +533,7 @@
             loginBtnLoading.classList.remove('hidden');
             
             // Envoyer le token à notre serveur pour vérification
-            fetch(`${API_BASE_URL}/auth/google/callback/web`, {
+            fetch(`${window.API_BASE_URL}/auth/google/callback/web`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -11,6 +11,8 @@
     <link href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" rel="stylesheet">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="./api-config.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
         
@@ -450,17 +452,20 @@
                     <div class="w-full border-t border-gray-300"></div>
                 </div>
                 <div class="relative flex justify-center text-sm">
-                    <span class="px-4 bg-white text-gray-500 font-medium">Ou continuer avec</span>
+                    <span class="px-4 bg-white text-gray-500 font-medium">Ou inscrivez-vous avec</span>
                 </div>
             </div>
             
-            <!-- Connexion sociale -->
-            <div class="grid grid-cols-2 gap-4 mb-8">
-                <div id="google-login-btn-register"></div>
-                <button class="flex items-center justify-center px-4 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all">
-                    <i class="fab fa-facebook-f text-blue-600 text-xl mr-2"></i>
-                    <span class="font-semibold text-gray-700">Facebook</span>
-                </button>
+            <!-- Boutons de connexion sociale -->
+            <div class="social-login">
+                <a href="#" onclick="loginWithGoogle(); return false;" class="social-btn btn-google">
+                    <i class="fab fa-google"></i>
+                    Continuer avec Google
+                </a>
+                <a href="#" class="social-btn btn-facebook">
+                    <i class="fab fa-facebook-f"></i>
+                    Continuer avec Facebook
+                </a>
             </div>
             
             <!-- Lien connexion -->

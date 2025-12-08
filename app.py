@@ -29,6 +29,10 @@ def chatbot():
 def demo_video():
     return render_template('demo-video-carousel.html')
 
+@app.route('/admin/admin_messages.html')
+def admin_messages():
+    return render_template('admin/admin_messages.html')
+
 # Routes pour servir les fichiers CSS
 @app.route('/css/<path:filename>')
 def serve_css(filename):

@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/custom.css">
     
     <!-- JavaScript -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -1669,6 +1670,7 @@
                 <button onclick="toggleMobileMenu()" class="md:hidden bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
+                </div>
             </div>
         </div>
 
@@ -1694,6 +1696,7 @@
                     <i class="fas fa-search mr-1"></i>
                     <span class="hidden md:inline">Rechercher</span>
                 </button>
+                </div>
             </div>
             <div id="search-results" class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-2xl shadow-2xl mt-2 max-h-[600px] overflow-y-auto z-50 hidden animate-slideDown">
                 <div id="search-content"></div>
@@ -1716,6 +1719,7 @@
                         class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden">
                     <i class="fas fa-times"></i>
                 </button>
+                </div>
             </div>
             <div id="mobile-search-results" class="hidden mt-2">
                 <div id="mobile-search-content" class="bg-white rounded-2xl shadow-xl border border-gray-200 p-2 max-h-[500px] overflow-y-auto"></div>
@@ -1979,15 +1983,16 @@ if (images && images.length > 0) {
             <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Explorez nos trois catégories soigneusement sélectionnées pour répondre à tous vos besoins</p>
             
             <!-- Category Filters avec Bannières -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+            <div class="flex overflow-x-auto pb-4 mb-8 scrollbar-hide">
+                <div class="flex space-x-6 px-4">
                 <!-- Toute les catégories -->
-                <button onclick="filterProducts('all')" class="category-card active group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
+                <button onclick="filterProducts('all')" class="category-card active group relative overflow-hidden rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:scale-105" style="width: 120px; height: 120px; flex-shrink: 0;">
                     <div class="absolute inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-blue-600 opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="relative p-6 text-white text-center">
-                        <div class="flex justify-center mb-3">
+                    <div class="relative p-4 text-white text-center h-full flex flex-col items-center justify-center">
+                        <div class="flex justify-center mb-2">
                             <i class="fas fa-th-large text-4xl"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2">Tous les Produits</h3>
+                        <h3 class="text-sm font-bold whitespace-nowrap">Tous les Produits</h3>
                         <p class="text-sm opacity-90">Découvrez toute notre collection</p>
                         <!-- Icône de main qui indique le clic -->
                         <div class="absolute top-2 right-2 text-yellow-300 animate-bounce">
@@ -1997,13 +2002,13 @@ if (images && images.length > 0) {
                 </button>
                 
                 <!-- Éducatif -->
-                <button onclick="filterProducts('educatif')" class="category-card group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
+                <button onclick="filterProducts('educatif')" class="category-card group relative overflow-hidden rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:scale-105" style="width: 120px; height: 120px; flex-shrink: 0;">
                     <div class="absolute inset-0 bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="relative p-6 text-white text-center">
-                        <div class="flex justify-center mb-3">
+                    <div class="relative p-4 text-white text-center h-full flex flex-col items-center justify-center">
+                        <div class="flex justify-center mb-2">
                             <i class="fas fa-graduation-cap text-4xl"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2">Éducatif</h3>
+                        <h3 class="text-sm font-bold whitespace-nowrap">Éducatif</h3>
                         <p class="text-sm opacity-90">Fournitures scolaires & plus</p>
                         <!-- Icône de main qui indique le clic -->
                         <div class="absolute top-2 right-2 text-yellow-300 animate-bounce">
@@ -2014,13 +2019,13 @@ if (images && images.length > 0) {
                 </button>
                 
                 <!-- Électronique -->
-                <button onclick="filterProducts('electronique')" class="category-card group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
+                <button onclick="filterProducts('electronique')" class="category-card group relative overflow-hidden rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:scale-105" style="width: 120px; height: 120px; flex-shrink: 0;">
                     <div class="absolute inset-0 bg-gradient-to-br from-green-500 via-green-600 to-teal-500 opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="relative p-6 text-white text-center">
-                        <div class="flex justify-center mb-3">
+                    <div class="relative p-4 text-white text-center h-full flex flex-col items-center justify-center">
+                        <div class="flex justify-center mb-2">
                             <i class="fas fa-laptop text-4xl"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2">Électronique</h3>
+                        <h3 class="text-sm font-bold whitespace-nowrap">Électronique</h3>
                         <p class="text-sm opacity-90">High-tech & accessoires</p>
                         <!-- Icône de main qui indique le clic -->
                         <div class="absolute top-2 right-2 text-yellow-300 animate-bounce">
@@ -2031,13 +2036,13 @@ if (images && images.length > 0) {
                 </button>
                 
                 <!-- Fast Food -->
-                <button onclick="filterProducts('fastfood')" class="category-card group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
+                <button onclick="filterProducts('fastfood')" class="category-card group relative overflow-hidden rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:scale-105" style="width: 120px; height: 120px; flex-shrink: 0;">
                     <div class="absolute inset-0 bg-gradient-to-br from-orange-500 via-red-600 to-orange-600 opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="relative p-6 text-white text-center">
-                        <div class="flex justify-center mb-3">
+                    <div class="relative p-4 text-white text-center h-full flex flex-col items-center justify-center">
+                        <div class="flex justify-center mb-2">
                             <i class="fas fa-hamburger text-4xl"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2">Fast Food</h3>
+                        <h3 class="text-sm font-bold whitespace-nowrap">Fast Food</h3>
                         <p class="text-sm opacity-90">Burgers & snacks</p>
                         <!-- Icône de main qui indique le clic -->
                         <div class="absolute top-2 right-2 text-yellow-300 animate-bounce">
@@ -2048,15 +2053,15 @@ if (images && images.length > 0) {
                 </button>
                 
                 <!-- Mode -->
-                <button onclick="toggleModeSubcategories()" class="category-card group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
+                <button onclick="toggleModeSubcategories()" class="category-card group relative overflow-hidden rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:scale-105" style="width: 120px; height: 120px; flex-shrink: 0;">
                     <div class="absolute inset-0 bg-gradient-to-br from-pink-500 via-purple-600 to-pink-600 opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="relative p-6 text-white text-center">
-                        <div class="flex justify-center mb-3">
+                    <div class="relative p-4 text-white text-center h-full flex flex-col items-center justify-center">
+                        <div class="flex justify-center mb-2">
                             <i class="fas fa-tshirt text-4xl"></i>
                         </div>
                         <h3 class="text-xl font-bold mb-2 flex items-center justify-center">
                             Mode
-                            <i class="fas fa-chevron-down ml-2 transition-transform text-sm"></i>
+                            <i id="mode-chevron" class="fas fa-chevron-down ml-2 transition-transform text-sm"></i>
                         </h3>
                         <p class="text-sm opacity-90">Tendances & style</p>
                         <!-- Icône de main qui indique le clic -->
@@ -2066,6 +2071,7 @@ if (images && images.length > 0) {
                     </div>
                     <div class="absolute top-2 right-2 bg-yellow-300 text-purple-900 text-xs font-bold px-2 py-1 rounded-full promo-badge float">✨ Nouveau</div>
                 </button>
+                </div>
             </div>
             </div>
             
@@ -3277,45 +3283,53 @@ if (images && images.length > 0) {
             // Catégorie Éducatif
             {
                 id: 1,
-                name: "Cahier de recherche privilège 200 pages – Idéal pour vos études",
-                price:  1500,
-                category: "educatif",
+                name: "Veste de Mi-saison Style Safari pour Garçon",
+                price:  15000,
+                category: "mode",
+                subcategory: "enfants",
                 images: [
-                    "imageprestige/cahier de recherche 200P.jpg"
+                    "ima/E2.png",
+                    "ima/E1.png",
+                    "ima/E3.png"
                     
                 ],
-                description: "Idéal pour les exercices et révisions en mathématiques et physique-chimie. Un outil pratique et fiable pour réussir vos études."
+                description: "Offrez à votre enfant un look à la fois moderne et intemporel avec cette superbe veste de style saharienne. Conçue pour allier style et confort, cette pièce est l'ajout parfait à la garde-robe d'un jeune garçon dynamique."
             },
             {
                 id: 2,
-                name: "Cahier Privilège Étudiant Grand Carreau – 300 pages",
-                price: 2000,
-                category: "educatif",
+                name: "Sneakers Nike \"Urban Legend\" – Le Classique Intemporel \"Taille 43\"",
+                price: 13000,
+                category: "mode",
                 images: [
-                    "imageprestige/etudiant 300P.jpg"
+                    "ima/air blanc1.png",
+                    "ima/air blanc2.png"
                 ],
-                description: "Un cahier robuste et élégant avec 300 pages, parfait pour vos prises de notes, exercices et révisions. Pratique et durable pour vous accompagner tout au long de l’année."
+                description: "Redécouvrez le plaisir de marcher avec cette paire de sneakers Nike au design emblématique. Inspirée des chaussures de running classiques, elle a été revisitée pour s'imposer comme un incontournable du vestiaire urbain."
             },
             {
                 id: 3,
-                name: "Cahier de recherche privilège 300 pages – Idéal pour vos études",
-                price: 2000,
-                category: "educatif",
+                name: "Air Jordan 1 Mid \"Wolf Grey\" – L'Icône Intemporelle ,\"Taille 43\"",
+                price: 13000,
+                subcategory: "hommes",
+                category: "mode",
                 images: [
-                    "imageprestige/recherche300P.jpg"
+                    "ima/air vert1.png",
+                    "ima/air vert2.png"
                     
                 ],
                 description: "Idéal pour les exercices et révisions en mathématiques et physique-chimie. Un outil pratique et fiable pour réussir vos études."
             },
             {
                 id: 4,
-                name: "Cahier Privilège Travaux Pratiques – 300 pages",
-                price: 2000,
-                category: "educatif",
+                name: "Sneakers Nike \"Urban Legend\" – Le Classique Intemporel\" taille 43",
+                price: 12000,
+                category: "mode",
+                subcategory: "hommes",
                 images: [
-                    "imageprestige/TP300PAGEf.jpg"
+                    "ima/adidas1.png",
+                    "ima/adidas2.png"
                 ],
-                description: "Un cahier solide et spacieux, idéal pour vos exercices et comptes rendus. Parfait pour vos cours d’Histoire-Géographie et de SVT."
+                description: "Redécouvrez le plaisir de marcher avec cette paire de sneakers Nike au design emblématique. Inspirée des chaussures de running classiques, elle a été revisitée pour s'imposer comme un incontournable du vestiaire urbain."
             },
             
             // Catégorie Électronique
@@ -3422,13 +3436,15 @@ if (images && images.length > 0) {
             // Produits supplémentaires pour démontrer la pagination
             {
                 id: 13,
-                name: "Cahier Privilège Travaux Pratiques – 200 pages",
-                price: 1500,
-                category: "educatif",
+                name: "La Tenue Décontractée Chic \"Oasis\":",
+                price: 15000,
+                category: "mode",
+                subcategory: "femme",
                 images: [
-                    "imageprestige/TP200.jpg"
+                    "ima/F66.png",
+                    "ima/F6.png"
                 ],
-                description: "Solide et spacieux, ce cahier de 200 pages est parfait pour vos exercices et travaux pratiques, offrant confort et organisation pour toutes vos notes."
+                description:"Élégance Décontractée et Touche d'Ailleurs. L'ensemble \"Vagues d'Été\" est la pièce maîtresse idéale pour une silhouette chic et rafraîchissante, parfaite pour les belles journées ensoleillées ou les soirées douces."
             },
             {
                 id: 14,
@@ -3446,75 +3462,82 @@ if (images && images.length > 0) {
            
             {
                 id: 15,
-                name: "Sac à dos urbain antivol – style, confort et sécurité au quotidien.",
-                price: 12500,
+                name: "L'Ensemble \"Afro-Chic\" – Kimono Imprimé & Pantalon Fluide",
+                price: 15000,
                 category: "mode",
-                subcategory: "homme",
+                subcategory: "femme",
                 images: [
-                    "imageprestige/sacp1.jpg",
-                    "imageprestige/sacp2.jpg"
+                    "ima/F1.png",
+                    "ima/F2.png"
                 ],
-                description: "Sac à dos moderne, résistant et imperméable, avec sécurité antivol, confort et style minimaliste pour toutes vos activités."
+                description: "Sublimez votre garde-robe avec cet ensemble deux pièces exceptionnel, conçu pour la femme moderne qui ne veut pas choisir entre confort et élégance."
             },
             {
                 id: 16,
-                name: "Cahier Privilège Étudiant Petit Carreau – 300 pages",
-                price: 2000,
-                category: "educatif",
+                name: "La Robe \"Duo Élégance\" : Fusion Batik & Blanc Pur",
+                price: 15000,
+                category: "mode",
+                subcategory: "femme",
                 images: [
-                    "imageprestige/ETUP300.png"
+                    "ima/F55.png",
+                    "ima/F5.png"
                 ],
-                description: "Robuste et spacieux, ce cahier à petits carreaux de 300 pages est parfait pour vos cours et exercices, notamment en physique-chimie."
+                description: "Découvrez la quintessence du chic afro-contemporain avec cette robe exceptionnelle qui joue sur les contrastes pour sublimer votre silhouette."
             },
            
             {
                 id: 18,
-                name: "Sac à dos Fantaisie – Affichez votre personnalité",
-                price: 8500,
+                name: "L'Audacieux Fuschia : Chemise Homme Mix-Wax",
+                price: 15000,
                 category: "mode",
-                subcategory: "enfants",
+                subcategory: "homme",
                 images: [
-                    "imageprestige/sac1.jpg",
-                    "imageprestige/sac2.jpg"
+                    "ima/H66.png",
+                    "ima/H6.png"
                     
                 ],
-                description: "Léger, pratique et coloré, ce sac à dos vous permet d’exprimer votre style tout en restant organisé au quotidien."
+                description: " Illuminez votre garde-robe avec cette superbe chemise à manches courtes qui marie parfaitement le style contemporain et l'authenticité africaine. Le tissu mix-wax aux motifs vibrants en fuschia et blanc apporte une touche d'originalité et de fraîcheur, idéale pour l'homme moderne qui ose se démarquer."
             },
            
            
             {
                 id: 21,
-                name: "Cahier Privilège Étudiant Grand Carreau – 200 pages",
-                price: 1500,
-                category: "educatif",
+                name: "L'Estivale \"Urban Pop\" – Jaune Éclatant et Touche Marine",
+                price: 15000,
+                category: "mode",
+                subcategory: "homme",
                 images: [
-                    "imageprestige/ETUG200.jpg"
+                    "ima/H55.png",
+                    "ima/H5.png"
                     
                 ],
-                description: "Pratique et résistant, ce cahier à grands carreaux de 200 pages est idéal pour vos prises de notes et exercices, parfait pour les cours de français."
+                description: "Mettez de la lumière dans votre dressing avec cette chemise à manches courtes au design unique. Parfaite pour l'homme qui aime se démarquer, elle joue sur un color block audacieux et maîtrisé."
             },
 
             {
                 id: 22,
                 name: "Cahier Privilège Étudiant Grand Carreau – 100 pages",
                 price: 1000,
-                category: "educatif",
+                category: "mode",
+                subcategory: "femme",
                 images: [
-                    "imageprestige/ETUG100.jpg"
+                    "ima/F77.png"
                     
                 ],
                 description: "Compact et solide, ce cahier à grands carreaux de 100 pages est parfait pour vos notes et exercices, idéal pour les cours de français."
             },
             {
                 id: 23,
-                name: "Cahier Privilège – 300 pages",
-                price: 1000,
-                category: "educatif",
+                name: "Le Classique Revisité – Tunique Col Mao et Pantalon Blanc",
+                price: 15000,
+                category: "mode",
+                subcategory: "homme",
                 images: [
-                    "imageprestige/C300.jpg"
+                    "ima/H22.png",
+                    "ima/H2.png"
                     
                 ],
-                description: "Un cahier robuste et spacieux de 300 pages, idéal pour vos cours, exercices et révisions tout au long de l’année."
+                description: "Affirmez votre charisme avec cet ensemble \"Sénateur\" d'un blanc immaculé, symbole d'élégance et de raffinement. C'est la tenue idéale pour l'homme moderne qui souhaite allier respect des traditions vestimentaires et coupe contemporaine."
             },
 
             {
@@ -3546,26 +3569,29 @@ if (images && images.length > 0) {
 
             {
                 id: 26,
-                name: "Cahier Privilège – 100 pages",
-                price: 300,
-                category: "educatif",
+                name: "Modèle \"L'Alliance\" – Style Afro-Contemporain Asymétrique",
+                price: 15000,
+                category: "mode",
+                subcategory: "homme",
                 images: [
-                    "imageprestige/cahier de 100p1.jpg",
-                    "imageprestige/cahier de 100p2.jpg"
+                    "ima/H4.png"
+                
                     
                 ],
-                description: "Un cahier pratique et résistant de 100 pages, idéal pour vos prises de notes et exercices du quotidien."
+                description: " Adoptez un look audacieux et moderne avec cette chemise asymétrique qui marie habilement tradition africaine et design contemporain. Parfaite pour l'homme confiant qui souhaite se démarquer avec élégance."
             },
             {
                 id: 27,
-                name: "Cahier Privilège – 200 pages",
-                price: 500,
-                category: "educatif",
+                name: "L'Estivale \"Urban Pop\" – Jaune Éclatant et Touche Marine",
+                price: 15000,
+                category: "mode",
+                subcategory: "homme",
                 images: [
-                    "imageprestige/cahier de 200p1.jpg"
+                    "ima/H33.png",
+                    "ima/H3.png"
                     
                 ],
-                description: "Un cahier pratique et résistant de 100 pages, idéal pour vos prises de notes et exercices du quotidien."
+                description: "Apportez une touche de fraîcheur et de dynamisme à votre garde-robe estivale avec cette chemise jaune vif rehaussée de détails bleu marine. Parfaite pour l'homme moderne qui aime se démarquer avec élégance."
             },
 
             {
@@ -3592,14 +3618,14 @@ if (images && images.length > 0) {
             },
             {
                 id: 30,
-                name: "Sac à dos Ethnique – Osez la couleur",
+                name: "Tenue \"Petit Urbain\" – Veste Bleu Nuit à 4 Poches",
                 price: 9000,
                 category: "mode",
+                subcategory: "enfants",
                 images: [
-                    "imageprestige/sac6.jpg",
-                    "imageprestige/sac7.jpg"
+                    "ima/E4.png",
                 ],
-                description: "Léger et pratique, ce sac à dos au motif ethnique coloré et au pompon tendance allie style original et rangement optimisé pour l’école ou les sorties."
+                description: "Habillez votre garçon avec style grâce à cet ensemble en jean \"Total Look\" qui allie robustesse et élégance moderne. C'est la tenue idéale pour la rentrée, les sorties en famille ou simplement pour être le plus beau de la cour de récréation."
             },
 
             {
@@ -3654,7 +3680,97 @@ if (images && images.length > 0) {
                     "https://images.unsplash.com/photo-1606755962773-d324e0a13086?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
                 ],
                 description: "12 ailes de poulet croustillantes, marinées dans notre sauce spéciale. Servies avec sauce au choix : BBQ, piquante ou fromagère. Accompagnées de frites et boisson."
+            },
+            {
+                id: 36,
+                name: "Duo \"Afro-Luxe\" Vert – Veste Ceinturée et Pantalon Assorti",
+                price: 15000,
+                category: "mode",
+                subcategory: "femme",
+                images: [
+                    "ima/F3.png",
+                    "ima/F34V.mp4",
+                    "ima/F4.png"
+                ],
+                description: "Illuminez votre présence avec cet ensemble deux pièces d'un vert profond et luxueux. Cette création est une véritable célébration de la femme contemporaine, alliant l'esthétique traditionnelle des motifs circulaires à une coupe résolument moderne."
+            },
+
+            {
+                id: 37,
+                name: "L'Élégance \"Afro-Urban\" – Chemise Homme à Contraste",
+                price: 15000,
+                category: "mode",
+                subcategory: "homme",
+                images: [
+                    "ima/H1.png",
+                    "ima/H1V1.mp4",
+                ],
+                description: "Démarquez-vous avec cette chemise unique qui revisite le vestiaire masculin avec créativité. Conçue pour l'homme de caractère, elle joue sur un contraste saisissant entre l'uni et l'imprimé."
+            },
+            {
+                id: 38,
+                name: "La Robe \"Éclat Africain\" – Jaune & M",
+                price: 15000,
+                category: "mode",
+                subcategory: "femme",
+                images: [
+                    "ima/F8.png",
+                    "ima/F88.png"
+                ],
+                description: "Rayonnez de beauté et de culture avec cette robe exceptionnelle qui marie harmonieusement le jaune vif à des motifs traditionnels africains. Parfaite pour la femme moderne qui souhaite affirmer son style avec élégance et originalité."
+            },
+            {
+                id: 39,
+                name: "L'Ensemble \"Little Gentleman\" – Veste Tartan & Chemise Graphique",
+                price: 15000,
+                category: "mode",
+                subcategory: "enfants",
+                images: [
+                    "ima/E8.png",
+                    "ima/E88.png"
+                ],
+                description: "Offrez à votre enfant un look à la fois élégant et décontracté avec cet ensemble deux pièces haut de gamme."
+            },
+            {
+                id: 40,
+                name: "Veste Safari Rouge Brique, L'Ensemble Aventurier Chic",
+                price: 15000,
+                category: "mode",
+                subcategory: "enfants",
+                images: [
+                    "ima/E9.png",
+                    "ima/E99.png"
+                ],
+                description: "Un look audacieux et structuré pour les jeunes garçons stylés."
+            },
+            {
+                id: 41,
+                name: "Chemise Manches Courtes Rouge Éclat, Le Modèle \"Red Speckle\"",
+                price: 5000,
+                category: "mode",
+                subcategory: "enfants",
+                images: [
+                    "ima/E10.png",
+                    "ima/E1010.png"
+                ],
+                description:" Un classique revisité pour un style estival vibrant et moderne."
+
+            },
+            {
+                id: 42,
+                name: "Chemisette Blanche \"Little Gentleman\"",
+                price: 5000,
+                category: "mode",
+                subcategory: "enfants",
+                images: [
+                    "ima/E11.png",
+                    "ima/E1111.png"
+                ],
+                description: "Une chemisette blanche classique, parfaite pour un look estival élégant et décontracté."
+
             }
+            
+            
 
         ];
 

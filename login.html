@@ -14,7 +14,7 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="./api-config.js"></script>
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/custom.css">
     <style>
         /* Styles spécifiques à la page de connexion */
         .gradient-bg {
@@ -387,23 +387,25 @@
                 </button>
             </form>
             
-            <!-- Séparateur -->
-            <div class="relative my-8">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-gray-300"></div>
+            <!-- Boutons de connexion sociale -->
+            <div class="social-login">
+                <!-- Google Sign-In Button -->
+                <div id="g_id_onload"
+                     data-client_id="722931671687-fj2ph80jpqvlqmqnmc3aepdfqtsl7eqe.apps.googleusercontent.com"
+                     data-callback="handleCredentialResponse">
                 </div>
-                <div class="relative flex justify-center text-sm">
-                    <span class="px-4 bg-white text-gray-500 font-medium">Ou continuer avec</span>
+                <div class="g_id_signin"
+                     data-type="standard"
+                     data-size="large"
+                     data-theme="outline"
+                     data-text="signin_with"
+                     data-shape="rectangular"
+                     data-logo_alignment="left">
                 </div>
-            </div>
-            
-            <!-- Connexion sociale -->
-            <div class="grid grid-cols-2 gap-4">
-                <div id="google-login-btn" style="width: 100%; max-width: 300px; margin: 0 auto;"></div>
-                <button class="flex items-center justify-center px-4 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all">
-                    <i class="fab fa-facebook-f text-blue-600 text-xl mr-2"></i>
-                    <span class="font-semibold text-gray-700">Facebook</span>
-                </button>
+                <a href="#" class="social-btn btn-facebook">
+                    <i class="fab fa-facebook-f"></i>
+                    Continuer avec Facebook
+                </a>
             </div>
             
             <!-- Lien inscription -->
@@ -516,12 +518,7 @@
             this.classList.toggle('text-purple-600');
         });
 
-        // Fonction pour la connexion avec Google
-        function loginWithGoogle() {
-            // Rediriger vers le point de terminaison Google OAuth
-            window.location.href = `${window.API_BASE_URL}/auth/google`;
-        }
-
+        // La fonction loginWithGoogle a été remplacée par le bouton Google Sign-In officiel
         // Fonction pour traiter la réponse de Google
         function handleCredentialResponse(response) {
             // Afficher l'état de chargement
@@ -529,9 +526,18 @@
             const loginBtnText = document.getElementById('login-btn-text');
             const loginBtnLoading = document.getElementById('login-btn-loading');
             
-            loginBtn.disabled = true;
-            loginBtnText.classList.add('hidden');
-            loginBtnLoading.classList.remove('hidden');
+            // Si le bouton de login n'existe pas, on utilise le bouton Google
+            if (!loginBtn) {
+                const googleBtn = document.querySelector('.g_id_signin');
+                if (googleBtn) {
+                    googleBtn.style.opacity = '0.7';
+                    googleBtn.style.pointerEvents = 'none';
+                }
+            } else {
+                loginBtn.disabled = true;
+                loginBtnText.classList.add('hidden');
+                loginBtnLoading.classList.remove('hidden');
+            }
             
             // Envoyer le token à notre serveur pour vérification
             fetch(`${window.API_BASE_URL}/auth/google/callback/web`, {
@@ -578,23 +584,22 @@
             })
             .finally(() => {
                 // Réinitialiser l'état du bouton
-                loginBtn.disabled = false;
-                loginBtnText.classList.remove('hidden');
-                loginBtnLoading.classList.add('hidden');
+                if (loginBtn) {
+                    loginBtn.disabled = false;
+                    loginBtnText.classList.remove('hidden');
+                    loginBtnLoading.classList.add('hidden');
+                } else {
+                    const googleBtn = document.querySelector('.g_id_signin');
+                    if (googleBtn) {
+                        googleBtn.style.opacity = '1';
+                        googleBtn.style.pointerEvents = 'auto';
+                    }
+                }
             });
         }
 
-        // Initialisation du bouton Google
-        window.onload = function() {
-            google.accounts.id.initialize({
-                client_id: "722931671687-fj2ph80jpqvlqmqnmc3aepdfqtsl7eqe.apps.googleusercontent.com",
-                callback: handleCredentialResponse
-            });
-            google.accounts.id.renderButton(
-                document.getElementById("google-login-btn"),
-                { theme: "outline", size: "large", width: 300, text: "signin_with" }
-            );
-        };
+        // Initialisation du bouton Google (version précédente)
+        // Cette partie est maintenant gérée directement par le lien onclick
         
         // Initialiser un guide léger au chargement de la page
         window.addEventListener('DOMContentLoaded', function() {

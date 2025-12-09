@@ -19,8 +19,6 @@
     <priority>0.5</priority>
   </url>
 
-  <!-- Ajoute ici chaque produit ou catégorie si les liens sont fixes -->
-  <!-- Exemple : -->
   <url>
     <loc>https://prestige-shop-express.onrender.com/produits/casque-bluetooth</loc>
     <changefreq>monthly</changefreq>

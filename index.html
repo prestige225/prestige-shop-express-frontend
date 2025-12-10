@@ -2310,6 +2310,12 @@ if (images && images.length > 0) {
                             <i class="fab fa-whatsapp mr-2 text-xl"></i>
                             Valider ma commande
                         </button>
+                        <div id="wa-fallback" class="hidden text-center mb-4">
+                            <a id="wa-fallback-link" href="#" target="_blank" rel="noopener noreferrer"
+                               class="inline-flex items-center justify-center text-green-600 hover:text-green-700 font-semibold underline">
+                                <i class="fab fa-whatsapp mr-2"></i>Ouvrir dans WhatsApp
+                            </a>
+                        </div>
                         
                         <div class="text-xs text-gray-500 text-center flex items-center justify-center space-x-4 bg-white rounded-lg p-3">
                             <span><i class="fas fa-truck mr-1"></i> Livraison gratuite</span>
@@ -3036,10 +3042,12 @@ if (images && images.length > 0) {
                                     <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg shadow-md">
                                     <div class="flex-1 min-w-0">
                                         <p class="font-semibold text-gray-800 text-sm truncate">${item.name}</p>
-                                        <p class="text-xs text-gray-500 truncate">${item.description}</p>
-                                        <div class="flex items-center space-x-3 mt-1">
+                                        <p class="text-xs text-gray-500 truncate">${item.description || ''}</p>
+                                        <div class="flex items-center flex-wrap gap-2 mt-1">
                                             <span class="text-xs text-gray-600">Qté: <span class="font-bold">${item.quantity}</span></span>
                                             <span class="text-xs text-purple-600 font-bold">${item.price.toLocaleString()} FCFA</span>
+                                            ${item.size ? `<span class=\"text-[11px] px-2 py-0.5 bg-gray-200 rounded-md\">Taille: <strong>${item.size}</strong></span>` : ''}
+                                            ${item.color ? `<span class=\"text-[11px] px-2 py-0.5 bg-gray-200 rounded-md\">Couleur: <strong>${item.color}</strong></span>` : ''}
                                         </div>
                                     </div>
                                     <div class="text-right">
@@ -3098,12 +3106,34 @@ if (images && images.length > 0) {
             
             order.items.forEach((item, index) => {
                 message += `${index + 1}. ${item.name} x${item.quantity} - ${(item.price * item.quantity).toLocaleString()} FCFA\n`;
+                if (item.size) { message += `   📏 Taille: ${item.size}\n`; }
+                if (item.color) { message += `   🎨 Couleur: ${item.color}\n`; }
             });
             
             message += `\n💰 Total: ${order.total.toLocaleString()} FCFA`;
             
-            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
+            const phoneDigits = (typeof WHATSAPP_NUMBER !== 'undefined' && WHATSAPP_NUMBER ? WHATSAPP_NUMBER.toString().replace(/\D/g, '') : '');
+            const waText = encodeURIComponent(message);
+            const waUrls = [
+                phoneDigits ? `https://wa.me/${phoneDigits}?text=${waText}` : `https://wa.me/?text=${waText}`,
+                phoneDigits ? `https://api.whatsapp.com/send?phone=${phoneDigits}&text=${waText}` : `https://api.whatsapp.com/send?text=${waText}`,
+                `https://wa.me/?text=${waText}`
+            ];
+
+            for (const url of waUrls) {
+                try {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    break;
+                } catch (e) {
+                    try { window.location.href = url; break; } catch (_) {}
+                }
+            }
         }
         
         async function logout() {
@@ -3177,6 +3207,19 @@ if (images && images.length > 0) {
             if (cart.length === 0) {
                 showNotification('Votre panier est vide', 'error');
                 return;
+            }
+
+            
+
+            // Vérifier taille/couleur pour les produits à variantes
+            for (const item of cart) {
+                const p = (typeof products !== 'undefined' ? products : []).find(pr => pr.id === item.id);
+                const needsSize = p && p.sizes && p.sizes.length;
+                const needsColor = p && p.colors && p.colors.length;
+                if ((needsSize && !item.size) || (needsColor && !item.color)) {
+                    showNotification('Veuillez sélectionner une taille et une couleur', 'error');
+                    return;
+                }
             }
 
             // Calculer le total
@@ -3317,7 +3360,8 @@ if (images && images.length > 0) {
                     
                 ],
                 description: "Offrez à votre enfant un look à la fois moderne et intemporel avec cette superbe veste de style saharienne. Conçue pour allier style et confort, cette pièce est l'ajout parfait à la garde-robe d'un jeune garçon dynamique.",
-                sizes: ["41", "42", "43", "44"]
+               sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+                
             },
             {
                 id: 2,
@@ -3328,7 +3372,8 @@ if (images && images.length > 0) {
                     "ima/air blanc1.png",
                     "ima/air blanc2.png"
                 ],
-                description: "Redécouvrez le plaisir de marcher avec cette paire de sneakers Nike au design emblématique. Inspirée des chaussures de running classiques, elle a été revisitée pour s'imposer comme un incontournable du vestiaire urbain."
+                description: "Redécouvrez le plaisir de marcher avec cette paire de sneakers Nike au design emblématique. Inspirée des chaussures de running classiques, elle a été revisitée pour s'imposer comme un incontournable du vestiaire urbain.",
+                sizes: ["40", "41", "42", "43", "44", "45"]
             },
             {
                 id: 3,
@@ -3342,6 +3387,7 @@ if (images && images.length > 0) {
                     
                 ],
                 description: "Idéal pour les exercices et révisions en mathématiques et physique-chimie. Un outil pratique et fiable pour réussir vos études.",
+                sizes: ["40", "41", "42", "43", "44", "45"]
                
             },
             {
@@ -3354,7 +3400,8 @@ if (images && images.length > 0) {
                     "ima/adidas1.png",
                     "ima/adidas2.png"
                 ],
-                description: "Redécouvrez le plaisir de marcher avec cette paire de sneakers Nike au design emblématique. Inspirée des chaussures de running classiques, elle a été revisitée pour s'imposer comme un incontournable du vestiaire urbain."
+                description: "Redécouvrez le plaisir de marcher avec cette paire de sneakers Nike au design emblématique. Inspirée des chaussures de running classiques, elle a été revisitée pour s'imposer comme un incontournable du vestiaire urbain.",
+                sizes: ["40", "41", "42", "43", "44", "45"]
             },
             
             // Catégorie Électronique
@@ -3416,7 +3463,8 @@ if (images && images.length > 0) {
                     "imageprestige/adi3.jpg",
                     "imageprestige/adi2.jpg"
                 ],
-                description: "Alliez confort, durabilité et look moderne avec ces baskets Adidas au contraste noir et rose éclatant, parfaites pour le sport ou le quotidien."
+                description: "Alliez confort, durabilité et look moderne avec ces baskets Adidas au contraste noir et rose éclatant, parfaites pour le sport ou le quotidien.",
+                sizes: ["36", "37", "38", "39", "40"],
             },
             {
                 id: 10,
@@ -3458,7 +3506,8 @@ if (images && images.length > 0) {
                     "imageprestige/airh.jpg",
                     "imageprestige/airh1.jpg"
                 ],
-                description: "Classiques et polyvalentes, ces baskets blanches au design épuré allient confort et style minimaliste pour toutes vos tenues."
+                description: "Classiques et polyvalentes, ces baskets blanches au design épuré allient confort et style minimaliste pour toutes vos tenues.",
+                sizes: ["40", "41", "42", "43", "44", "45"],
             },
             
             // Produits supplémentaires pour démontrer la pagination
@@ -3472,7 +3521,8 @@ if (images && images.length > 0) {
                     "ima/F66.png",
                     "ima/F6.png"
                 ],
-                description:"Élégance Décontractée et Touche d'Ailleurs. L'ensemble \"Vagues d'Été\" est la pièce maîtresse idéale pour une silhouette chic et rafraîchissante, parfaite pour les belles journées ensoleillées ou les soirées douces."
+                description:"Élégance Décontractée et Touche d'Ailleurs. L'ensemble \"Vagues d'Été\" est la pièce maîtresse idéale pour une silhouette chic et rafraîchissante, parfaite pour les belles journées ensoleillées ou les soirées douces.",
+                sizes: ["S", "M", "L", "XL", "XXL"]
             },
             {
                 id: 14,
@@ -3498,7 +3548,8 @@ if (images && images.length > 0) {
                     "ima/F1.png",
                     "ima/F2.png"
                 ],
-                description: "Sublimez votre garde-robe avec cet ensemble deux pièces exceptionnel, conçu pour la femme moderne qui ne veut pas choisir entre confort et élégance."
+                description: "Sublimez votre garde-robe avec cet ensemble deux pièces exceptionnel, conçu pour la femme moderne qui ne veut pas choisir entre confort et élégance.",
+                sizes: ["S", "M", "L", "XL", "XXL"]
             },
             {
                 id: 16,
@@ -3510,7 +3561,8 @@ if (images && images.length > 0) {
                     "ima/F55.png",
                     "ima/F5.png"
                 ],
-                description: "Découvrez la quintessence du chic afro-contemporain avec cette robe exceptionnelle qui joue sur les contrastes pour sublimer votre silhouette."
+                description: "Découvrez la quintessence du chic afro-contemporain avec cette robe exceptionnelle qui joue sur les contrastes pour sublimer votre silhouette.",
+                sizes: ["S", "M", "L", "XL", "XXL"]
             },
            
             {
@@ -3524,7 +3576,8 @@ if (images && images.length > 0) {
                     "ima/H6.png"
                     
                 ],
-                description: " Illuminez votre garde-robe avec cette superbe chemise à manches courtes qui marie parfaitement le style contemporain et l'authenticité africaine. Le tissu mix-wax aux motifs vibrants en fuschia et blanc apporte une touche d'originalité et de fraîcheur, idéale pour l'homme moderne qui ose se démarquer."
+                description: " Illuminez votre garde-robe avec cette superbe chemise à manches courtes qui marie parfaitement le style contemporain et l'authenticité africaine. Le tissu mix-wax aux motifs vibrants en fuschia et blanc apporte une touche d'originalité et de fraîcheur, idéale pour l'homme moderne qui ose se démarquer.",
+                sizes: ["S", "M", "L", "XL", "XXL"]
             },
            
            
@@ -3539,7 +3592,8 @@ if (images && images.length > 0) {
                     "ima/H5.png"
                     
                 ],
-                description: "Mettez de la lumière dans votre dressing avec cette chemise à manches courtes au design unique. Parfaite pour l'homme qui aime se démarquer, elle joue sur un color block audacieux et maîtrisé."
+                description: "Mettez de la lumière dans votre dressing avec cette chemise à manches courtes au design unique. Parfaite pour l'homme qui aime se démarquer, elle joue sur un color block audacieux et maîtrisé.",
+                sizes: ["S", "M", "L", "XL", "XXL"]
             },
 
             {
@@ -3565,7 +3619,8 @@ if (images && images.length > 0) {
                     "ima/H2.png"
                     
                 ],
-                description: "Affirmez votre charisme avec cet ensemble \"Sénateur\" d'un blanc immaculé, symbole d'élégance et de raffinement. C'est la tenue idéale pour l'homme moderne qui souhaite allier respect des traditions vestimentaires et coupe contemporaine."
+                description: "Affirmez votre charisme avec cet ensemble \"Sénateur\" d'un blanc immaculé, symbole d'élégance et de raffinement. C'est la tenue idéale pour l'homme moderne qui souhaite allier respect des traditions vestimentaires et coupe contemporaine.",
+                sizes: ["S", "M", "L", "XL", "XXL"]
             },
 
             {
@@ -3580,6 +3635,8 @@ if (images && images.length > 0) {
                  "imageprestige/sac5.jpg"
                 ],
                 description: "Léger et pratique, ce sac à dos lila au motif ourson argenté allie style unique et rangement optimisé pour vos journées de cours ou sorties."
+
+
             },
 
             {
@@ -3606,7 +3663,8 @@ if (images && images.length > 0) {
                 
                     
                 ],
-                description: " Adoptez un look audacieux et moderne avec cette chemise asymétrique qui marie habilement tradition africaine et design contemporain. Parfaite pour l'homme confiant qui souhaite se démarquer avec élégance."
+                description: " Adoptez un look audacieux et moderne avec cette chemise asymétrique qui marie habilement tradition africaine et design contemporain. Parfaite pour l'homme confiant qui souhaite se démarquer avec élégance.",
+                sizes: ["S", "M", "L", "XL", "XXL"]
             },
             {
                 id: 27,
@@ -3619,7 +3677,8 @@ if (images && images.length > 0) {
                     "ima/H3.png"
                     
                 ],
-                description: "Apportez une touche de fraîcheur et de dynamisme à votre garde-robe estivale avec cette chemise jaune vif rehaussée de détails bleu marine. Parfaite pour l'homme moderne qui aime se démarquer avec élégance."
+                description: "Apportez une touche de fraîcheur et de dynamisme à votre garde-robe estivale avec cette chemise jaune vif rehaussée de détails bleu marine. Parfaite pour l'homme moderne qui aime se démarquer avec élégance.",
+                sizes: ["S", "M", "L", "XL", "XXL"]
             },
 
             {
@@ -3653,7 +3712,8 @@ if (images && images.length > 0) {
                 images: [
                     "ima/E4.png",
                 ],
-                description: "Habillez votre garçon avec style grâce à cet ensemble en jean \"Total Look\" qui allie robustesse et élégance moderne. C'est la tenue idéale pour la rentrée, les sorties en famille ou simplement pour être le plus beau de la cour de récréation."
+                description: "Habillez votre garçon avec style grâce à cet ensemble en jean \"Total Look\" qui allie robustesse et élégance moderne. C'est la tenue idéale pour la rentrée, les sorties en famille ou simplement pour être le plus beau de la cour de récréation.",
+                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
             },
 
             {
@@ -3665,7 +3725,8 @@ if (images && images.length > 0) {
                     "imageprestige/iphone11S.jpg",
                     "imageprestige/iphone11S2.jpg"
                 ],
-                description: "Performant et élégant, avec écran Liquid Retina HD 6,1, puce A13 Bionic, double appareil photo 12 MP et design raffiné en noir. Stockage 64 Go, parfait pour une utilisation fluide au quotidien."
+                description: "Performant et élégant, avec écran Liquid Retina HD 6,1, puce A13 Bionic, double appareil photo 12 MP et design raffiné en noir. Stockage 64 Go, parfait pour une utilisation fluide au quotidien.",
+                colors: ["Noir" ,"Blanc", "Rouge", "Vert" ]
             },
             
             // Catégorie Fast Food
@@ -3720,7 +3781,8 @@ if (images && images.length > 0) {
                     "ima/F34V.mp4",
                     "ima/F4.png"
                 ],
-                description: "Illuminez votre présence avec cet ensemble deux pièces d'un vert profond et luxueux. Cette création est une véritable célébration de la femme contemporaine, alliant l'esthétique traditionnelle des motifs circulaires à une coupe résolument moderne."
+                description: "Illuminez votre présence avec cet ensemble deux pièces d'un vert profond et luxueux. Cette création est une véritable célébration de la femme contemporaine, alliant l'esthétique traditionnelle des motifs circulaires à une coupe résolument moderne.",
+                sizes: ["S", "M", "L", "XL", "XXL"]
             },
 
             {
@@ -3733,7 +3795,8 @@ if (images && images.length > 0) {
                     "ima/H1.png",
                     "ima/H1V1.mp4",
                 ],
-                description: "Démarquez-vous avec cette chemise unique qui revisite le vestiaire masculin avec créativité. Conçue pour l'homme de caractère, elle joue sur un contraste saisissant entre l'uni et l'imprimé."
+                description: "Démarquez-vous avec cette chemise unique qui revisite le vestiaire masculin avec créativité. Conçue pour l'homme de caractère, elle joue sur un contraste saisissant entre l'uni et l'imprimé.",
+                sizes: ["S", "M", "L", "XL", "XXL"]
             },
             {
                 id: 38,
@@ -3745,7 +3808,8 @@ if (images && images.length > 0) {
                     "ima/F8.png",
                     "ima/F88.png"
                 ],
-                description: "Rayonnez de beauté et de culture avec cette robe exceptionnelle qui marie harmonieusement le jaune vif à des motifs traditionnels africains. Parfaite pour la femme moderne qui souhaite affirmer son style avec élégance et originalité."
+                description: "Rayonnez de beauté et de culture avec cette robe exceptionnelle qui marie harmonieusement le jaune vif à des motifs traditionnels africains. Parfaite pour la femme moderne qui souhaite affirmer son style avec élégance et originalité.",
+                sizes: ["S", "M", "L", "XL", "XXL"]
             },
             {
                 id: 39,
@@ -3757,7 +3821,8 @@ if (images && images.length > 0) {
                     "ima/E8.png",
                     "ima/E88.png"
                 ],
-                description: "Offrez à votre enfant un look à la fois élégant et décontracté avec cet ensemble deux pièces haut de gamme."
+                description: "Offrez à votre enfant un look à la fois élégant et décontracté avec cet ensemble deux pièces haut de gamme.",
+                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
             },
             {
                 id: 40,
@@ -3769,7 +3834,8 @@ if (images && images.length > 0) {
                     "ima/E9.png",
                     "ima/E99.png"
                 ],
-                description: "Un look audacieux et structuré pour les jeunes garçons stylés."
+                description: "Un look audacieux et structuré pour les jeunes garçons stylés.",
+                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
             },
             {
                 id: 41,
@@ -3781,7 +3847,8 @@ if (images && images.length > 0) {
                     "ima/E10.png",
                     "ima/E1010.png"
                 ],
-                description:" Un classique revisité pour un style estival vibrant et moderne."
+                description:" Un classique revisité pour un style estival vibrant et moderne.",
+                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
 
             },
             {
@@ -3794,7 +3861,8 @@ if (images && images.length > 0) {
                     "ima/E11.png",
                     "ima/E1111.png"
                 ],
-                description: "Une chemisette blanche classique, parfaite pour un look estival élégant et décontracté."
+                description: "Une chemisette blanche classique, parfaite pour un look estival élégant et décontracté.",
+                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
 
             },
             {
@@ -3807,7 +3875,8 @@ if (images && images.length > 0) {
                     "ima/E12.png",
                     "ima/E1212.png"
                 ],
-                description: "Cette pièce d'exception est conçue pour faire briller votre petite princesse lors des grands événements (Noël, mariages, anniversaires, fêtes de fin d'année)."
+                description: "Cette pièce d'exception est conçue pour faire briller votre petite princesse lors des grands événements (Noël, mariages, anniversaires, fêtes de fin d'année).",
+                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
             },
             {
                 id: 44,
@@ -3819,7 +3888,8 @@ if (images && images.length > 0) {
                     "ima/E13.png",
                     "ima/E1313.png"
                 ],
-                description: "Faites de chaque événement un moment magique avec cette robe digne d'un conte de fées."
+                description: "Faites de chaque événement un moment magique avec cette robe digne d'un conte de fées.",
+                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
             },
             {
                 id: 45,
@@ -3831,7 +3901,8 @@ if (images && images.length > 0) {
                     "ima/E14.png",
                     "ima/E1414.png"
                 ],
-                description: "Offrez-lui une allure de star avec cette robe rouge spectaculaire !"
+                description: "Offrez-lui une allure de star avec cette robe rouge spectaculaire !",
+                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
             },
             {
                 id: 46,
@@ -3843,7 +3914,8 @@ if (images && images.length > 0) {
                     "ima/E15.png",
                     "ima/E1515.png"
                 ],
-                description: "Transformez chaque occasion spéciale en un moment magique avec notre sublime robe \"Princesse Gold & Rose\". Conçue pour faire briller les yeux de votre petite fille, cette tenue allie l'élégance des paillettes à la douceur du tulle"
+                description: "Transformez chaque occasion spéciale en un moment magique avec notre sublime robe \"Princesse Gold & Rose\". Conçue pour faire briller les yeux de votre petite fille, cette tenue allie l'élégance des paillettes à la douceur du tulle",
+                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
             },
             {
                 id: 47,
@@ -3855,7 +3927,8 @@ if (images && images.length > 0) {
                  "ima/E16.png",
                  "ima/E1616.png"
                 ],
-                description: "Illuminez les grandes occasions avec la robe \"Princesse Rubis & Dentelle\". Une tenue éclatante qui allie la pureté du blanc à l'intensité d'un rouge vibrant, parfaite pour faire de votre fille la star de l'événement."
+                description: "Illuminez les grandes occasions avec la robe \"Princesse Rubis & Dentelle\". Une tenue éclatante qui allie la pureté du blanc à l'intensité d'un rouge vibrant, parfaite pour faire de votre fille la star de l'événement.",
+                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
             },
             {
                 id: 48,
@@ -3867,7 +3940,9 @@ if (images && images.length > 0) {
                  "ima/F9.png",
                  "ima/F99.png"
                 ],
-                description:"Illuminez chaque pas avec nos nouvelles sandales \"Prestige Papillon\". Conçues pour la femme moderne et audacieuse, ces chaussures sont le mélange parfait entre glamour et féérie."
+                description:"Illuminez chaque pas avec nos nouvelles sandales \"Prestige Papillon\". Conçues pour la femme moderne et audacieuse, ces chaussures sont le mélange parfait entre glamour et féérie.",
+
+                sizes: ["36", "37", "38", "39", "40", "41"]
             },
 
             {
@@ -3880,7 +3955,8 @@ if (images && images.length > 0) {
                  "ima/F10.png",
                  "ima/F1010.png"
                 ],
-                description: "Révélez votre côté \"femme fatale\" avec les sandales \"Midnight Butterfly\" de chez Prestige Shop Express. L'alliance intemporelle du noir profond et de l'éclat des cristaux crée un contraste saisissant, parfait pour vos soirées les plus chics."
+                description: "Révélez votre côté \"femme fatale\" avec les sandales \"Midnight Butterfly\" de chez Prestige Shop Express. L'alliance intemporelle du noir profond et de l'éclat des cristaux crée un contraste saisissant, parfait pour vos soirées les plus chics.",
+                sizes: ["36", "37", "38", "39", "40", "41"]
             },
             {
                 id: 50,
@@ -3892,7 +3968,8 @@ if (images && images.length > 0) {
                  "ima/F1111.png",
                  "ima/F11.png"
                 ],
-                description: "Ces sandales à talons noires sont l'incarnation parfaite de la féminité et de l'élégance. Conçues pour celles qui recherchent à la fois style et maintien, elles deviendront rapidement la pièce maîtresse de votre garde-robe."
+                description: "Ces sandales à talons noires sont l'incarnation parfaite de la féminité et de l'élégance. Conçues pour celles qui recherchent à la fois style et maintien, elles deviendront rapidement la pièce maîtresse de votre garde-robe.",
+                sizes: ["36", "37", "38", "39", "40", "41"]
             },
             {
                 id: 51,
@@ -3904,7 +3981,8 @@ if (images && images.length > 0) {
                  "ima/F1212.png",
                  "ima/F12.png"
                 ],
-                description: "Talons Hauts \"Beige Prestige\" à Brides Fines"
+                description: "Talons Hauts \"Beige Prestige\" à Brides Fines",
+                sizes: ["36", "37", "38", "39", "40", "41"]
             },
             {
                 id: 52,
@@ -3916,7 +3994,33 @@ if (images && images.length > 0) {
                  "ima/F1313.png",
                  "ima/F13.png"
                 ],
-                description: "Apportez une touche de caractère à votre style avec les sandales \"Camel Prestige\". Cette déclinaison signée Amitin offre une teinte marron chaud (cognac) riche et profonde, idéale pour réchauffer vos tenues, du jean brut décontracté à la robe de soirée sophistiquée."
+                description: "Apportez une touche de caractère à votre style avec les sandales \"Camel Prestige\". Cette déclinaison signée Amitin offre une teinte marron chaud (cognac) riche et profonde, idéale pour réchauffer vos tenues, du jean brut décontracté à la robe de soirée sophistiquée.",
+                sizes: ["36", "37", "38", "39", "40", "41"]
+            },
+            {
+                id: 53,
+                name: "Costume Garçon Col Mao & Cargo – Look Urbain & Chic",
+                price: 10000,
+                category: "mode",
+                subcategory: "enfants",
+                images: [
+                 "ima/E17.png",
+                 "ima/E1717.png"
+                ],
+                description: "Offrez à votre garçon un look à la fois moderne et élégant avec ce costume deux pièces. Parfait pour les occasions spéciales ou les événements festifs, il allie confort et style urbain."
+            },
+            {
+                id: 54,
+                name: "Chemise Manches Longues Mix-Wax – Style Afro-Contemporain",
+                price: 10000,
+                category: "mode",
+                subcategory: "homme",
+                images: [
+                 "ima/H7.png",
+                 "ima/H77.png"
+                ],
+                description: "Adoptez un look unique et moderne avec cette chemise manches longues en tissu mix-wax. Parfaite pour l'homme qui souhaite allier tradition africaine et style contemporain.",
+                sizes: ["40", "41", "42", "43", "44"]
             }
 
         ];
@@ -4557,12 +4661,14 @@ function loadMoreProducts() {
 
             if (userId) {
                 try {
-                    // Prepare product details for database (avec image)
+                    // Prepare product details for database (avec image, taille, couleur)
                     const produitsDetails = cart.map(item => ({
                         nom: item.name,
                         quantite: item.quantity,
                         prix: item.price,
-                        image: item.image || (item.images && item.images[0]) || '/images/prestige shop.png'  // Ajouter l'image
+                        image: item.image || (item.images && item.images[0]) || '/images/prestige shop.png',
+                        taille: item.size || null,
+                        couleur: item.color || null
                     }));
 
                     const commandeData = {
@@ -4626,17 +4732,22 @@ function loadMoreProducts() {
             message += `🛒 *Détails de la commande:*\n`;
             message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
 
+            const originBase = window.location && window.location.origin ? window.location.origin : '';
             cart.forEach((item, index) => {
                 message += `${index + 1}. *${item.name}*\n`;
                 message += `   📦 Quantité: ${item.quantity}\n`;
                 message += `   💰 Prix unitaire: ${item.price.toLocaleString()} FCFA\n`;
                 message += `   💵 Sous-total: ${(item.price * item.quantity).toLocaleString()} FCFA\n`;
+                if (item.size) { message += `   📏 Taille: ${item.size}\n`; }
+                if (item.color) { message += `   🎨 Couleur: ${item.color}\n`; }
                 message += `   📝 ${item.description}\n`;
-                message += `   🖼️ Image: ${item.images[0]}\n`;
+                const mainImg = item.images && item.images[0] ? (originBase ? new URL(item.images[0], originBase).href : item.images[0]) : '';
+                if (mainImg) { message += `   🖼️ Image: ${mainImg}\n`; }
                 if (item.images.length > 1) {
                     message += `   📸 Images supplémentaires:\n`;
-                    item.images.slice(1).forEach((img, imgIndex) => {
-                        message += `      • ${img}\n`;
+                    item.images.slice(1).forEach((img) => {
+                        const url = originBase ? new URL(img, originBase).href : img;
+                        message += `      • ${url}\n`;
                     });
                 }
                 message += `\n`;
@@ -4663,7 +4774,9 @@ function loadMoreProducts() {
                         price: item.price,
                         quantity: item.quantity,
                         image: item.images[0],
-                        description: item.description
+                        description: item.description,
+                        size: item.size || null,
+                        color: item.color || null
                     })),
                     total: total,
                     status: 'En attente',
@@ -4671,21 +4784,46 @@ function loadMoreProducts() {
                 }, userEmail);
             }
 
-            // Ouverture de WhatsApp avec méthode compatible
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-            
-            // Essayer d'abord avec window.location pour éviter les blocages
-            try {
-                window.location.href = whatsappUrl;
-            } catch (error) {
-                // Fallback: créer un lien temporaire et le cliquer
-                const link = document.createElement('a');
-                link.href = whatsappUrl;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+            // Ouverture de WhatsApp avec méthodes et fallbacks robustes
+            const phoneDigits = (WHATSAPP_NUMBER || '').toString().replace(/\D/g, '');
+            const waText = encodeURIComponent(message);
+            const waUrls = [
+                phoneDigits ? `https://wa.me/${phoneDigits}?text=${waText}` : `https://wa.me/?text=${waText}`,
+                phoneDigits ? `https://api.whatsapp.com/send?phone=${phoneDigits}&text=${waText}` : `https://api.whatsapp.com/send?text=${waText}`,
+                `https://wa.me/?text=${waText}`
+            ];
+
+            let opened = false;
+            for (const url of waUrls) {
+                try {
+                    // Essayer avec lien temporaire (souvent moins bloqué)
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    opened = true;
+                    break;
+                } catch (e) {
+                    // Essayer la redirection de la fenêtre courante
+                    try {
+                        window.location.href = url;
+                        opened = true;
+                        break;
+                    } catch (e2) {}
+                }
+            }
+            // Afficher un lien de secours si l'ouverture automatique a échoué
+            if (!opened) {
+                const fb = document.getElementById('wa-fallback');
+                const fbl = document.getElementById('wa-fallback-link');
+                if (fb && fbl) {
+                    fbl.href = waUrls[0];
+                    fb.classList.remove('hidden');
+                    showNotification('Cliquez sur "Ouvrir dans WhatsApp" si l\'ouverture est bloquée', 'info');
+                }
             }
             
             // Vider le panier après la commande
@@ -6820,6 +6958,13 @@ function loadMoreProducts() {
         
         // Ajouter au panier avec effet de confettis de fête
         function addToCart(productId) {
+            // Si le produit a des variantes, forcer la sélection d'options
+            const variantProduct = (typeof allProducts !== 'undefined' ? allProducts : products).find(p => p.id === productId);
+            if (variantProduct && ((variantProduct.sizes && variantProduct.sizes.length) || (variantProduct.colors && variantProduct.colors.length))) {
+                openOptionModal(productId);
+                return;
+            }
+
             // Vérifier si le produit existe déjà dans le panier
             const existingItem = cart.find(item => item.id === productId);
             
@@ -6828,7 +6973,7 @@ function loadMoreProducts() {
                 existingItem.quantity += 1;
             } else {
                 // Ajouter un nouveau produit au panier
-                const product = allProducts.find(p => p.id === productId);
+                const product = (typeof allProducts !== 'undefined' ? allProducts : products).find(p => p.id === productId);
                 if (product) {
                     cart.push({
                         id: product.id,

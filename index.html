@@ -1610,6 +1610,17 @@
         }
   
     </style>
+    <script>
+        // Redirection première visite: envoie vers welcome.html une seule fois
+        (function(){
+            try{
+                if (!localStorage.getItem('hasVisited')){
+                    localStorage.setItem('hasVisited', 'true');
+                    window.location.replace('welcome.html');
+                }
+            }catch(e){}
+        })();
+    </script>
 </head>
 <body class="bg-gray-50">
    <!-- Barre de Promotion Sticky - Spécial Fêtes de Décembre -->
@@ -7602,6 +7613,7 @@ Commandez sur Digit Shop Express !`;
             }
         })();
     </script>
+    
     
 </body>
 </html>

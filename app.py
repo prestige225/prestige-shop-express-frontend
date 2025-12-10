@@ -60,7 +60,7 @@
 
 
 import os
-from flask import Flask, render_template, send_from_directory, Response
+from flask import Flask, render_template, send_from_directory, Response, redirect, url_for
 
 # Initialisation de l'application Flask
 app = Flask(__name__, static_folder='.', template_folder='.')
@@ -86,7 +86,7 @@ categories = [
 # ----------------------------
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return redirect(url_for('login'))
 
 @app.route('/login.html')
 def login():

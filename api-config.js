@@ -1,9 +1,8 @@
 // Configuration de l'API
-// Utiliser le backend local pour le développement
-const API_BASE_URL = 'http://localhost:5000/api';
-
-// Forcer l'utilisation du backend Render pour éviter les problèmes de CORS en développement local
-// const API_BASE_URL = 'https://prestige-shop-backend.onrender.com/api';
+// Déterminer automatiquement l'URL de base selon l'environnement
+const API_BASE_URL = window.location.hostname.includes('render.com') || window.location.hostname.includes('onrender') 
+    ? 'https://prestige-shop-backend.onrender.com/api'  // Pour l'environnement Render
+    : 'http://localhost:5000/api';  // Pour le développement local
 
 // Fonction utilitaire pour effectuer les appels API avec gestion des erreurs
 function apiCall(endpoint, options = {}) {
@@ -31,6 +30,10 @@ function apiCall(endpoint, options = {}) {
         })
         .catch(error => {
             console.error('Erreur API:', error);
+            // Gérer l'erreur de connexion de manière plus descriptive
+            if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                throw new Error('Impossible de se connecter au serveur. Vérifiez votre connexion Internet et que le service est bien démarré.');
+            }
             throw error;
         });
 }

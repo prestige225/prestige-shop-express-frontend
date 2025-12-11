@@ -16,6 +16,15 @@
     <!-- Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="./api-config.js"></script>
+    <script>
+      (function(){
+        try{
+          if(['localhost','127.0.0.1'].includes(window.location.hostname)){
+            window.API_BASE_URL = 'http://localhost:5000/api';
+          }
+        }catch(e){}
+      })();
+    </script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/custom.css">
     <style>
@@ -548,6 +557,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify({
                     credential: response.credential
                 })
@@ -573,8 +583,22 @@
                         localStorage.setItem('userPhone', userData.numero);
                     }
                     
-                    // Redirection vers la page d'accueil
-                    window.location.href = 'index.html';
+                    // Vérifier l'état du profil côté backend avant de rediriger
+                    fetch(`${window.API_BASE_URL}/profile/me`, { credentials: 'include' })
+                      .then(async r => {
+                        if (!r.ok) {
+                          // Si l'endpoint n'existe pas encore (404) ou non authentifié (401), pousser vers complétion
+                          window.location.href = 'complete-profile.html';
+                          return Promise.reject();
+                        }
+                        return r.json();
+                      })
+                      .then(p => {
+                        const prof = p && p.profile ? p.profile : null;
+                        const need = !prof || !prof.whatsapp || !prof.statut;
+                        window.location.href = need ? 'complete-profile.html' : 'index.html';
+                      })
+                      .catch(() => {/* déjà redirigé si non-ok */});
                 } else {
                     document.getElementById('error-text').textContent = data.message;
                     document.getElementById('error-message').classList.remove('hidden');

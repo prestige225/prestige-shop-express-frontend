@@ -632,12 +632,12 @@
                 .then(data => {
                     console.log('Données reçues:', data);
                     if (data.success) {
-                        showSuccess(data.message + '. Vous allez être redirigé vers la page de connexion...');
+                        showSuccess(data.message + '. Vous allez être redirigé vers la page de profil pour compléter vos informations...');
                         document.getElementById('register-form').reset();
                         
-                        // Rediriger automatiquement vers la page de connexion après 2 secondes
+                        // Rediriger automatiquement vers la page de profil après 2 secondes
                         setTimeout(() => {
-                            window.location.href = 'login.html';
+                            window.location.href = 'complete-profile.html';
                         }, 2000);
                     } else {
                         showError(data.message || 'Erreur lors de l\'inscription');
@@ -657,6 +657,7 @@
                     registerBtnText.classList.remove('hidden');
                     registerBtnLoading.classList.add('hidden');
                 });
+
             });
             
             // Fonction pour basculer la visibilité du mot de passe

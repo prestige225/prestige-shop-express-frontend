@@ -463,7 +463,7 @@
             loginBtnLoading.classList.remove('hidden');
             
             // Appel à l'API Flask
-            fetch(`${window.API_BASE_URL}/login`, {
+            fetch(`${API_BASE_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -476,7 +476,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Stocker les données utilisateur de manière sécurisée
+                    // Stocker les données utilisateur
                     const userData = {
                         id: data.user.id,
                         nom: data.user.nom,
@@ -504,7 +504,22 @@
                         }
                     }
                     
-                    window.location.href = 'index.html';
+                    // Vérifier l'état du profil côté backend avant de rediriger
+                    fetch(`${window.API_BASE_URL}/profile/me`, { credentials: 'include' })
+                      .then(async r => {
+                        if (!r.ok) {
+                          // Si l'endpoint n'existe pas encore (404) ou non authentifié (401), pousser vers complétion
+                          window.location.href = 'complete-profile.html';
+                          return Promise.reject();
+                        }
+                        return r.json();
+                      })
+                      .then(p => {
+                        const prof = p && p.profile ? p.profile : null;
+                        const need = !prof || !prof.whatsapp || !prof.statut;
+                        window.location.href = need ? 'complete-profile.html' : 'index.html';
+                      })
+                      .catch(() => {/* déjà redirigé si non-ok */});
                 } else {
                     document.getElementById('error-text').textContent = data.message;
                     document.getElementById('error-message').classList.remove('hidden');

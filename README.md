@@ -67,6 +67,13 @@ Cette configuration permet :
 2. De maintenir la communication avec le backend API
 3. De gérer les redirections côté client comme prévu
 
+## Mise à jour du 12/12/2025 (2)
+
+Résolution du problème de build sur Render :
+- Recréation du fichier `requirements.txt` avec un contenu minimal
+- Ce fichier est requis par Render même pour les déploiements statiques
+- Il ne contient pas de véritables dépendances puisque le frontend est statique
+
 ## Problèmes connus et solutions
 
 ### Interface Render qui s'affiche en premier

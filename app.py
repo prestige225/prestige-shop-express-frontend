@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, send_from_directory, Response, redirect, url_for, request
+from flask import Flask, render_template, send_from_directory, Response, redirect, url_for
 
 # Initialisation de l'application Flask
 app = Flask(__name__, static_folder='.', template_folder='.')
@@ -113,19 +113,19 @@ def sitemap():
     return Response(xml, mimetype='application/xml')
 
 # ----------------------------
-# Route catch-all pour SPA - Améliorée
+# Route catch-all pour SPA
 # ----------------------------
-@app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    # Si le chemin correspond à un fichier statique qui existe, le servir
-    if path and os.path.exists(os.path.join('.', path)) and path != 'index.html':
-        # Vérifier si c'est un fichier (pas un dossier)
-        if os.path.isfile(os.path.join('.', path)):
-            return send_from_directory('.', path)
+    # Si le fichier existe, le servir directement
+    if os.path.exists(path) and os.path.isfile(path):
+        return send_from_directory('.', path)
     
-    # Pour toutes les autres routes, servir index.html (SPA)
-    return render_template('index.html')
+    # Sinon, servir index.html pour les routes SPA
+    if path.endswith('.html'):
+        return render_template(path)
+    else:
+        return render_template('index.html')
 
 # ----------------------------
 # Point d'entrée pour Render

@@ -1,2 +1,2 @@
-# Fichier requirements.txt minimal pour le déploiement statique
-# Ce fichier est requis par Render même pour les déploiements statiques
+Flask==2.3.3
+gunicorn==20.1.0

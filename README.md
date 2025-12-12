@@ -67,3 +67,19 @@ Cette configuration permet :
 1. De servir correctement les fichiers HTML/CSS/JS
 2. De maintenir la communication avec le backend API
 3. De gérer les redirections côté client comme prévu
+
+## Problèmes connus et solutions
+
+### Interface Render qui s'affiche en premier
+Ce problème survient lorsque Render ne reconnaît pas correctement l'application comme un service web Python. Pour le résoudre :
+
+1. Assurez-vous que le fichier `render.yaml` est configuré avec `env: python`
+2. Vérifiez que le fichier `requirements.txt` existe avec les dépendances nécessaires
+3. Redéployez l'application après chaque modification de configuration
+
+### Problèmes d'authentification (401/500)
+Ces erreurs peuvent survenir en raison de problèmes de session entre le frontend et le backend :
+
+1. Vérifiez que les configurations CORS et de session sont correctes
+2. Assurez-vous que les cookies sont envoyés avec les requêtes (`credentials: 'include'`)
+3. Vérifiez que l'URL du backend est correctement configurée dans `api-config.js`

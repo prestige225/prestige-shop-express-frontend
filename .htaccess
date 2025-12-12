@@ -1,0 +1,8 @@
+# Redirection vers index.html pour toutes les requêtes non existantes
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.html [QSA,L]
+
+# Redirection spécifique de la racine vers index.html
+RewriteRule ^$ /index.html [L]

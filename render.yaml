@@ -1,9 +1,10 @@
 services:
   - type: web
     name: prestige-shop-frontend
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    env: static
+    buildCommand: echo "Building static site"
+    startCommand: echo "Serving static site"
+    staticPublishPath: ./
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.16

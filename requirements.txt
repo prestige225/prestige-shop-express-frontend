@@ -1,0 +1,2 @@
+# Fichier requirements.txt minimal pour le déploiement statique
+# Ce fichier est requis par Render même pour les déploiements statiques

@@ -25,7 +25,7 @@ categories = [
 # ----------------------------
 @app.route('/')
 def home():
-    # Rediriger automatiquement vers index.html pour que la logique de redirection côté client puisse fonctionner
+    # Servir index.html directement
     return render_template('index.html')
 
 @app.route('/login.html')
@@ -53,7 +53,7 @@ def admin_messages():
     return render_template('admin/admin_messages.html')
 
 # ----------------------------
-# CSS et JS
+# Routes pour les assets statiques
 # ----------------------------
 @app.route('/css/<path:filename>')
 def serve_css(filename):
@@ -61,7 +61,11 @@ def serve_css(filename):
 
 @app.route('/js/<path:filename>')
 def serve_js(filename):
-    return send_from_directory('js', filename) if os.path.exists(os.path.join('js', filename)) else send_from_directory('.', filename)
+    return send_from_directory('js', filename)
+
+@app.route('/images/<path:filename>')
+def serve_images(filename):
+    return send_from_directory('images', filename)
 
 # ----------------------------
 # Route pour robots.txt
@@ -109,13 +113,19 @@ def sitemap():
     return Response(xml, mimetype='application/xml')
 
 # ----------------------------
-# Route pour autres fichiers statiques
+# Route catch-all pour SPA
 # ----------------------------
-@app.route('/<path:filename>')
-def serve_static(filename):
-    if os.path.exists(filename):
-        return send_from_directory('.', filename)
-    return render_template(filename) if filename.endswith('.html') else ('File not found', 404)
+@app.route('/<path:path>')
+def catch_all(path):
+    # Si le fichier existe, le servir directement
+    if os.path.exists(path) and os.path.isfile(path):
+        return send_from_directory('.', path)
+    
+    # Sinon, servir index.html pour les routes SPA
+    if path.endswith('.html'):
+        return render_template(path)
+    else:
+        return render_template('index.html')
 
 # ----------------------------
 # Point d'entrée pour Render

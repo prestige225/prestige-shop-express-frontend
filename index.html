@@ -1623,18 +1623,6 @@
     </script>
 </head>
 <body class="bg-gray-50">
-   <!-- Preloader -->
-   <div id="preloader" class="fixed inset-0 bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 z-[9999] flex items-center justify-center">
-       <div class="text-center">
-           <div class="relative">
-               <div class="w-20 h-20 border-4 border-white border-opacity-30 rounded-full animate-spin border-t-white mb-4 mx-auto"></div>
-               <div class="absolute inset-0 w-20 h-20 border-4 border-transparent border-t-yellow-400 rounded-full animate-spin mx-auto" style="animation-duration: 0.8s; animation-direction: reverse;"></div>
-           </div>
-           <h2 class="text-white text-xl font-bold mb-2">Prestige Shop Express</h2>
-           <p class="text-white text-opacity-80">Chargement en cours...</p>
-       </div>
-   </div>
-
    <!-- Barre de Promotion Sticky - Spécial Fêtes de Décembre -->
    <div id="promo-bar" class="promo-bar bg-gradient-to-r from-red-700 via-green-700 to-red-700 text-white py-3 sticky top-0 z-[60] shadow-2xl">
        <div class="container mx-auto px-4 flex items-center justify-between relative z-10">
@@ -7845,32 +7833,6 @@ Commandez sur Digit Shop Express !`;
         })();
     </script>
     
-    <!-- Script pour masquer le preloader -->
-    <script>
-        // Masquer le preloader une fois que la page est complètement chargée
-        window.addEventListener('load', function() {
-            const preloader = document.getElementById('preloader');
-            if (preloader) {
-                preloader.style.opacity = '0';
-                preloader.style.transition = 'opacity 0.5s ease-out';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 500);
-            }
-        });
-        
-        // Masquer le preloader après 3 secondes maximum (fallback)
-        setTimeout(function() {
-            const preloader = document.getElementById('preloader');
-            if (preloader && preloader.style.display !== 'none') {
-                preloader.style.opacity = '0';
-                preloader.style.transition = 'opacity 0.5s ease-out';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 500);
-            }
-        }, 3000);
-    </script>
     
 </body>
 </html>

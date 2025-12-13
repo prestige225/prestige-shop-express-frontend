@@ -62,6 +62,13 @@ Retour à une configuration de service web Python pour garantir la communication
 - Fichier `requirements.txt` avec les dépendances nécessaires
 - Serveur Flask pour servir les fichiers statiques
 
+## Mise à jour du 13/12/2025
+
+Résolution du problème récurrent de l'interface Render :
+- Suppression du fichier `static.json` qui causait un conflit dans la configuration
+- Le fichier `static.json` forçait Render à traiter le déploiement comme un site statique
+- Maintien de la configuration service web Python
+
 Cette configuration permet :
 1. De servir correctement les fichiers HTML/CSS/JS
 2. De maintenir la communication avec le backend API
@@ -74,7 +81,8 @@ Ce problème survient lorsque Render ne reconnaît pas correctement l'applicatio
 
 1. Assurez-vous que le fichier `render.yaml` est configuré avec `env: python`
 2. Vérifiez que le fichier `requirements.txt` existe avec les dépendances nécessaires
-3. Redéployez l'application après chaque modification de configuration
+3. Supprimez tout fichier `static.json` qui pourrait causer un conflit
+4. Redéployez l'application après chaque modification de configuration
 
 ### Problèmes d'authentification (401/500)
 Ces erreurs peuvent survenir en raison de problèmes de session entre le frontend et le backend :

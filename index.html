@@ -3149,7 +3149,7 @@ if (images && images.length > 0) {
                 
                 // Appeler l'API de déconnexion
                 if (userId) {
-                    const response = await fetch('http://localhost:5000/api/logout', {
+                    const response = await fetch(`${API_BASE_URL}/logout`, { credentials: 'include',
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

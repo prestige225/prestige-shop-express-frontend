@@ -3,7 +3,9 @@ services:
     name: prestige-shop-frontend
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    startCommand: gunicorn wsgi:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.16
+      - key: WEB_CONCURRENCY
+        value: 2

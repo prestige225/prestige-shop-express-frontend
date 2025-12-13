@@ -4,6 +4,9 @@ from flask import Flask, render_template, send_from_directory, Response, redirec
 # Initialisation de l'application Flask
 app = Flask(__name__, static_folder='.', template_folder='.')
 
+# Configuration pour optimiser les performances
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000  # Cache statique 1 an
+
 # ----------------------------
 # Produits et catégories
 # ----------------------------
@@ -27,6 +30,10 @@ categories = [
 def home():
     # Servir index.html directement
     return render_template('index.html')
+
+@app.route('/health')
+def health_check():
+    return {"status": "healthy", "message": "Application is running"}, 200
 
 @app.route('/login.html')
 def login():
@@ -132,4 +139,4 @@ def catch_all(path):
 # ----------------------------
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=False, threaded=True)

@@ -1,9 +1,38 @@
 import os
 from flask import Flask, render_template, send_from_directory, Response, redirect, url_for
+from werkzeug.exceptions import NotFound
 
 # Initialisation de l'application Flask
 # Configuration pour servir tous les fichiers du répertoire courant
 app = Flask(__name__, static_folder='.', static_url_path='', template_folder='.')
+
+# Configuration pour améliorer la compatibilité avec les crawlers
+app.config['JSON_SORT_KEYS'] = False
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
+
+# Middleware pour ajouter les en-têtes appropriés
+@app.after_request
+def add_headers(response):
+    # En-têtes de sécurité
+    response.headers['X-UA-Compatible'] = 'IE=edge'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    
+    # Gestion du cache pour les crawlers
+    if 'text/html' in response.content_type:
+        # Permettre l'indexation Google avec cache court (1 heure)
+        response.headers['Cache-Control'] = 'public, max-age=3600, must-revalidate'
+    elif 'text/plain' in response.content_type or 'application/xml' in response.content_type:
+        # robots.txt et sitemap.xml - courte durée de cache
+        response.headers['Cache-Control'] = 'public, max-age=86400'
+    else:
+        # Assets statiques - cache long
+        response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+    
+    # En-têtes pour éviter les problèmes d'indexation
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    
+    return response
 
 # ----------------------------
 # Produits et catégories
@@ -135,4 +164,5 @@ def catch_all(path):
 # ----------------------------
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
+    # Render va passer le port en variable d'environnement
     app.run(host='0.0.0.0', port=port, debug=False)

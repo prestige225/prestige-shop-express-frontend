@@ -13,7 +13,8 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 # Middleware pour ajouter les en-têtes appropriés
 @app.after_request
 def add_headers(response):
-    # En-têtes de sécurité
+    # En-têtes de sécurité et d'identification du serveur
+    response.headers['Server'] = 'Prestige-Shop-Express/1.0'
     response.headers['X-UA-Compatible'] = 'IE=edge'
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['X-Frame-Options'] = 'SAMEORIGIN'
@@ -25,6 +26,9 @@ def add_headers(response):
     elif 'text/plain' in response.content_type or 'application/xml' in response.content_type:
         # robots.txt et sitemap.xml - courte durée de cache
         response.headers['Cache-Control'] = 'public, max-age=86400'
+        # En-têtes spécifiques pour robots.txt
+        if 'robots' in response.headers.get('Content-Type', ''):
+            response.headers['Content-Disposition'] = 'inline'
     else:
         # Assets statiques - cache long
         response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
@@ -102,7 +106,16 @@ def serve_images(filename):
 # ----------------------------
 @app.route('/robots.txt')
 def robots():
-    return send_from_directory('.', 'robots.txt', mimetype='text/plain')
+    """Servir robots.txt directement pour éviter les problèmes d'indexation"""
+    robots_content = """User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /*.js
+Disallow: /*.css
+
+Sitemap: https://prestige-shop-express.onrender.com/sitemap.xml
+"""
+    return Response(robots_content, mimetype='text/plain')
 
 # ----------------------------
 # Sitemap dynamique

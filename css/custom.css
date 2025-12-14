@@ -111,3 +111,11 @@
     background-color: #166fe5;
     border-color: #166fe5;
 }
+/* ===== SEO CONTENT HIDING (Google reads, Users don't see) ===== */
+#seo-content {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}

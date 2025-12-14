@@ -2,7 +2,8 @@ import os
 from flask import Flask, render_template, send_from_directory, Response, redirect, url_for
 
 # Initialisation de l'application Flask
-app = Flask(__name__, static_folder='.', template_folder='.')
+# Configuration pour servir tous les fichiers du répertoire courant
+app = Flask(__name__, static_folder='.', static_url_path='', template_folder='.')
 
 # ----------------------------
 # Produits et catégories
@@ -113,23 +114,25 @@ def sitemap():
     return Response(xml, mimetype='application/xml')
 
 # ----------------------------
-# Route catch-all pour SPA
+# Route catch-all pour SPA (PRIORITÉ HAUTE)
 # ----------------------------
 @app.route('/<path:path>')
 def catch_all(path):
-    # Si le fichier existe, le servir directement
-    if os.path.exists(path) and os.path.isfile(path):
-        return send_from_directory('.', path)
+    """Servir les fichiers statiques ou index.html pour les routes SPA"""
+    filepath = os.path.join('.', path)
     
-    # Sinon, servir index.html pour les routes SPA
-    if path.endswith('.html'):
-        return render_template(path)
-    else:
-        return render_template('index.html')
+    # Si le fichier existe exactement, le servir
+    if os.path.isfile(filepath):
+        directory = os.path.dirname(filepath) or '.'
+        filename = os.path.basename(filepath)
+        return send_from_directory(directory, filename)
+    
+    # Sinon rediriger vers index.html (pour React/SPA routing)
+    return send_from_directory('.', 'index.html')
 
 # ----------------------------
 # Point d'entrée pour Render
 # ----------------------------
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8000))
+    port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)

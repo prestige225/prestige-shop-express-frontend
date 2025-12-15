@@ -57,6 +57,13 @@ categories = [
 # ----------------------------
 # Routes HTML principales
 # ----------------------------
+
+# Healthcheck pour Render (très important!)
+@app.route('/health')
+def health():
+    """Endpoint de santé pour monitoring et relance automatique"""
+    return {'status': 'healthy', 'service': 'prestige-shop-express'}, 200
+
 @app.route('/')
 def home():
     """Servir index.html avec send_from_directory (plus robuste que render_template)"""
@@ -95,11 +102,17 @@ def chatbot():
 
 @app.route('/demo-video-carousel.html')
 def demo_video():
-    return render_template('demo-video-carousel.html')
+    try:
+        return send_from_directory('.', 'demo-video-carousel.html')
+    except Exception as e:
+        return f"Erreur: {str(e)}", 500
 
 @app.route('/admin/admin_messages.html')
 def admin_messages():
-    return render_template('admin/admin_messages.html')
+    try:
+        return send_from_directory('admin', 'admin_messages.html')
+    except Exception as e:
+        return f"Erreur: {str(e)}", 500
 
 # ----------------------------
 # Routes pour les assets statiques

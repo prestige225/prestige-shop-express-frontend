@@ -1,10 +1,10 @@
 import os
-from flask import Flask, render_template, send_from_directory, Response, redirect, url_for
+from flask import Flask, send_from_directory, Response
 from werkzeug.exceptions import NotFound
 
 # Initialisation de l'application Flask
 # Configuration pour servir tous les fichiers du répertoire courant
-app = Flask(__name__, static_folder='.', static_url_path='', template_folder='.')
+app = Flask(__name__, static_folder='.', static_url_path='')
 
 # Configuration pour améliorer la compatibilité avec les crawlers
 app.config['JSON_SORT_KEYS'] = False
@@ -59,24 +59,39 @@ categories = [
 # ----------------------------
 @app.route('/')
 def home():
-    # Servir index.html directement
-    return render_template('index.html')
+    """Servir index.html avec send_from_directory (plus robuste que render_template)"""
+    try:
+        return send_from_directory('.', 'index.html')
+    except Exception as e:
+        return f"Erreur: {str(e)}", 500
 
 @app.route('/login.html')
 def login():
-    return render_template('login.html')
+    try:
+        return send_from_directory('.', 'login.html')
+    except Exception as e:
+        return f"Erreur: {str(e)}", 500
 
 @app.route('/register.html')
 def register():
-    return render_template('register.html')
+    try:
+        return send_from_directory('.', 'register.html')
+    except Exception as e:
+        return f"Erreur: {str(e)}", 500
 
 @app.route('/welcome.html')
 def welcome():
-    return render_template('welcome.html')
+    try:
+        return send_from_directory('.', 'welcome.html')
+    except Exception as e:
+        return f"Erreur: {str(e)}", 500
 
 @app.route('/chatbot.html')
 def chatbot():
-    return render_template('chatbot.html')
+    try:
+        return send_from_directory('.', 'chatbot.html')
+    except Exception as e:
+        return f"Erreur: {str(e)}", 500
 
 @app.route('/demo-video-carousel.html')
 def demo_video():

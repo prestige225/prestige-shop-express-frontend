@@ -165,38 +165,46 @@ Sitemap: https://prestige-shop-express.onrender.com/sitemap.xml
 # ----------------------------
 @app.route('/sitemap.xml', methods=['GET'])
 def sitemap():
-    base_url = "https://prestige-shop-express.onrender.com"
+    """Générer un sitemap XML pour Google"""
+    try:
+        base_url = "https://prestige-shop-express.onrender.com"
 
-    # Pages fixes
-    pages = [
-        {"loc": f"{base_url}/", "changefreq": "weekly", "priority": "1.0"},
-        {"loc": f"{base_url}/login.html", "changefreq": "monthly", "priority": "0.5"},
-        {"loc": f"{base_url}/register.html", "changefreq": "monthly", "priority": "0.5"},
-        {"loc": f"{base_url}/contact", "changefreq": "monthly", "priority": "0.5"},
-    ]
+        # Pages principales - simples et fiables
+        pages = [
+            {"url": f"{base_url}/", "freq": "weekly", "priority": "1.0"},
+            {"url": f"{base_url}/login.html", "freq": "monthly", "priority": "0.7"},
+            {"url": f"{base_url}/register.html", "freq": "monthly", "priority": "0.7"},
+            {"url": f"{base_url}/welcome.html", "freq": "monthly", "priority": "0.6"},
+            {"url": f"{base_url}/chatbot.html", "freq": "monthly", "priority": "0.5"},
+            {"url": f"{base_url}/demo-video-carousel.html", "freq": "monthly", "priority": "0.5"},
+        ]
 
-    # Ajouter les catégories
-    for cat in categories:
-        pages.append({"loc": f"{base_url}/{cat}", "changefreq": "weekly", "priority": "0.8"})
+        # Générer le XML
+        xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+        xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 
-    # Ajouter les produits
-    for prod in produits:
-        pages.append({"loc": f"{base_url}/produits/{prod['slug']}", "changefreq": "monthly", "priority": "0.6"})
+        for page in pages:
+            xml += '  <url>\n'
+            xml += f'    <loc>{page["url"]}</loc>\n'
+            xml += f'    <changefreq>{page["freq"]}</changefreq>\n'
+            xml += f'    <priority>{page["priority"]}</priority>\n'
+            xml += '  </url>\n'
 
-    # Génération du XML
-    xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        xml += '</urlset>'
 
-    for page in pages:
+        return Response(xml, mimetype='application/xml; charset=utf-8')
+    
+    except Exception as e:
+        # En cas d'erreur, retourner un sitemap minimal
+        xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+        xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         xml += '  <url>\n'
-        xml += f"    <loc>{page['loc']}</loc>\n"
-        xml += f"    <changefreq>{page['changefreq']}</changefreq>\n"
-        xml += f"    <priority>{page['priority']}</priority>\n"
+        xml += '    <loc>https://prestige-shop-express.onrender.com/</loc>\n'
+        xml += '    <changefreq>weekly</changefreq>\n'
+        xml += '    <priority>1.0</priority>\n'
         xml += '  </url>\n'
-
-    xml += '</urlset>'
-
-    return Response(xml, mimetype='application/xml')
+        xml += '</urlset>'
+        return Response(xml, mimetype='application/xml; charset=utf-8')
 
 # ----------------------------
 # Route catch-all pour SPA (PRIORITÉ HAUTE)

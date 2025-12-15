@@ -134,12 +134,27 @@ def serve_images(filename):
 # ----------------------------
 @app.route('/robots.txt')
 def robots():
-    """Servir robots.txt directement pour éviter les problèmes d'indexation"""
+    """Servir robots.txt - permission pour crawler tout sauf admin"""
     robots_content = """User-agent: *
 Allow: /
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /ima/
+Allow: /imageprestige/
+Allow: /videos/
 Disallow: /admin/
-Disallow: /*.js
-Disallow: /*.css
+Disallow: /*.json
+Disallow: /*?*
+
+User-agent: Googlebot
+Allow: /
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /ima/
+Allow: /imageprestige/
+Disallow: /admin/
 
 Sitemap: https://prestige-shop-express.onrender.com/sitemap.xml
 """

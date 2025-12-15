@@ -1,4 +1,22 @@
 User-agent: *
 Allow: /
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /ima/
+Allow: /imageprestige/
+Allow: /videos/
+Disallow: /admin/
+Disallow: /*.json
+Disallow: /*?*
+
+User-agent: Googlebot
+Allow: /
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /ima/
+Allow: /imageprestige/
+Disallow: /admin/
 
 Sitemap: https://prestige-shop-express.onrender.com/sitemap.xml

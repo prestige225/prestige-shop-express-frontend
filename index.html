@@ -3193,7 +3193,8 @@ if (images && images.length > 0) {
                         <div class="space-y-3">
                             ${order.items.map(item => `
                                 <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-all">
-                                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg shadow-md">
+                                    <img src="${getAbsoluteImagePath(item.image)}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg shadow-md"
+                                         onerror="this.src='${IMAGE_BASE_URL}/placeholder.png'; this.alt='Image non disponible';">
                                     <div class="flex-1 min-w-0">
                                         <p class="font-semibold text-gray-800 text-sm truncate">${item.name}</p>
                                         <p class="text-xs text-gray-500 truncate">${item.description || ''}</p>
@@ -3466,36 +3467,7 @@ if (images && images.length > 0) {
         
         // Fonction pour créer un élément média (image ou vidéo)
         function createMediaElement(mediaUrl, index, productName, productId, clickHandler) {
-            if (isVideo(mediaUrl)) {
-                // Créer un élément vidéo
-                return `
-                    <div class="carousel-slide relative">
-                        <video 
-                            class="w-full h-36 sm:h-40 object-cover cursor-pointer"
-                            onclick="${clickHandler || `openImageZoom(${productId}, ${index})`}"
-                            muted
-                            loop
-                            playsinline
-                            onmouseover="this.play()"
-                            onmouseout="this.pause(); this.currentTime=0">
-                            <source src="${mediaUrl}" type="video/mp4">
-                            Votre navigateur ne supporte pas les vidéos HTML5.
-                        </video>
-                        <div class="video-play-indicator">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // Créer un élément image
-                return `
-                    <div class="carousel-slide">
-                        <img src="${mediaUrl}" alt="${productName} - Image ${index + 1}" 
-                             class="w-full h-36 sm:h-40 object-cover cursor-pointer transition-all duration-500 group-hover:scale-110" 
-                             onclick="${clickHandler || `openImageZoom(${productId}, ${index})`}">
-                    </div>
-                `;
-            }
+            return createSanitizedMediaElement(mediaUrl, index, productName, productId, clickHandler);
         }
         
         // Base de données des produits avec plusieurs images
@@ -4843,9 +4815,10 @@ function loadMoreProducts() {
                         <!-- Image du produit -->
                         <div class="flex-shrink-0 relative">
                             <div class="w-24 h-24 rounded-xl overflow-hidden border-2 border-gray-200">
-                                <img src="${item.image || (item.images && item.images[0]) || '/images/prestige-shop.png'}" alt="${item.name}" 
+                                <img src="${getAbsoluteImagePath(item.image || (item.images && item.images[0]) || '/images/prestige-shop.png')}" alt="${item.name}" 
                                      class="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform" 
-                                     onclick="openImageZoom(${item.id}, 0)">
+                                     onclick="openImageZoom(${item.id}, 0)"
+                                     onerror="this.src='${IMAGE_BASE_URL}/placeholder.png'; this.alt='Image non disponible';">
                             </div>
                             <div class="absolute -top-2 -right-2 bg-purple-500 text-white text-sm font-bold px-2 py-1 rounded-full min-w-[24px] text-center">
                                 ${item.quantity}
@@ -6402,14 +6375,14 @@ function loadMoreProducts() {
             const reviewCount = Math.floor(Math.random() * 100) + 15;
             const discount = Math.random() > 0.6 ? Math.floor(Math.random() * 30) + 10 : 0;
             const originalPrice = discount > 0 ? Math.floor(product.price / (1 - discount / 100)) : product.price;
-            const imageSrc = (product.images && product.images.length > 0) ? product.images[0] : 'https://via.placeholder.com/80x80?text=IMG';
+            const imageSrc = getProductMainImage(product);
             const inStock = (product.stock == null || product.stock > 0);
 
             return `
                 <div class="search-result-item flex items-center gap-3 p-3 rounded-xl border border-gray-100 bg-white hover:bg-gray-50 transition-all">
                     <!-- Vignette -->
                     <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                        <img src="${imageSrc}" alt="${product.name}" class="w-full h-full object-cover">
+                        <img src="${imageSrc}" alt="${product.name}" class="w-full h-full object-cover" onerror="this.src='${IMAGE_BASE_URL}/placeholder.png'; this.alt='Image non disponible';">
                     </div>
 
                     <!-- Infos -->
@@ -7536,9 +7509,10 @@ function loadMoreProducts() {
                         <div class="space-y-4">
                             <!-- Image principale -->
                             <div class="relative h-80 sm:h-96 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden group">
-                                <img src="${product.images[0]}" alt="${product.name}" id="quick-view-main-image"
+                                <img src="${getAbsoluteImagePath(product.images[0])}" alt="${product.name}" id="quick-view-main-image"
                                      class="w-full h-full object-cover cursor-pointer transition-transform duration-500 group-hover:scale-110"
-                                     onclick="openImageZoom(${product.id}, 0); this.closest('.fixed').remove(); document.body.style.overflow = 'auto'">
+                                     onclick="openImageZoom(${product.id}, 0); this.closest('.fixed').remove(); document.body.style.overflow = 'auto'"
+                                     onerror="this.src='${IMAGE_BASE_URL}/placeholder.png'; this.alt='Image non disponible';">
                                 <div class="absolute top-4 left-4">
                                     <span class="bg-${getCategoryColor(product.category)} text-white px-3 py-2 rounded-xl text-sm font-bold shadow-lg">
                                         ${getCategoryName(product.category)}
@@ -7564,9 +7538,10 @@ function loadMoreProducts() {
                                 <div class="grid grid-cols-4 gap-2">
                                     ${product.images.slice(0, 4).map((img, idx) => `
                                         <div class="relative h-20 bg-gray-100 rounded-xl overflow-hidden cursor-pointer group"
-                                             onclick="document.getElementById('quick-view-main-image').src = '${img}'">
-                                            <img src="${img}" alt="${product.name} ${idx + 1}"
-                                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                                             onclick="document.getElementById('quick-view-main-image').src = '${getAbsoluteImagePath(img)}'">
+                                            <img src="${getAbsoluteImagePath(img)}" alt="${product.name} ${idx + 1}"
+                                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                                                 onerror="this.src='${IMAGE_BASE_URL}/placeholder.png'; this.alt='Image non disponible';">
                                         </div>
                                     `).join('')}
                                 </div>
@@ -7702,8 +7677,9 @@ function loadMoreProducts() {
                                     <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all cursor-pointer overflow-hidden group transform hover:scale-105 hover:-translate-y-1 duration-300 border border-gray-100" 
                                          onclick="this.closest('.fixed').remove(); document.body.style.overflow = 'auto'; setTimeout(() => quickView(${p.id}), 150)">
                                         <div class="relative h-36 sm:h-40 bg-gradient-to-br from-gray-50 to-gray-100">
-                                            <img src="${p.images[0]}" alt="${p.name}" 
-                                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                            <img src="${getAbsoluteImagePath(p.images[0])}" alt="${p.name}" 
+                                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                 onerror="this.src='${IMAGE_BASE_URL}/placeholder.png'; this.alt='Image non disponible';">
                                             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                             <!-- Badge catégorie -->
                                             <div class="absolute top-2 left-2">
@@ -7996,6 +7972,128 @@ Commandez sur Digit Shop Express !`;
                 closeVideoModal();
             }
         });
+    </script>
+    
+    <!-- ========== UTILITAIRES POUR LE TRAITEMENT DES IMAGES ========== -->
+    <script>
+        // Configuration de base pour les images
+        const IMAGE_BASE_URL = '/images';
+        
+        // Fonction pour nettoyer les noms de fichiers
+        function sanitizeFileName(fileName) {
+            // Extraire le nom de fichier de base (sans le chemin)
+            const baseName = fileName.split('/').pop() || fileName;
+            
+            return baseName
+                .toLowerCase()              // Convertir en minuscules
+                .replace(/\s+/g, '_')       // Remplacer les espaces par des underscores
+                .replace(/[^\w\-_\.]/g, '') // Supprimer les caractères non autorisés
+                .replace(/_{2,}/g, '_');    // Remplacer les underscores multiples par un seul
+        }
+        
+        // Fonction pour convertir un chemin relatif en chemin absolu
+        function getAbsoluteImagePath(relativePath) {
+            // Si c'est déjà un chemin absolu ou une URL externe, la renvoyer telle quelle
+            if (relativePath.startsWith('/') || relativePath.startsWith('http')) {
+                return relativePath;
+            }
+            
+            // Extraire le nom de fichier
+            const fileName = sanitizeFileName(relativePath);
+            
+            // Construire le chemin absolu
+            return `${IMAGE_BASE_URL}/${fileName}`;
+        }
+        
+        // Fonction améliorée pour créer un élément média (image ou vidéo)
+        function createSanitizedMediaElement(mediaUrl, index, productName, productId, clickHandler) {
+            // Si c'est une URL externe (vidéo YouTube, etc.), la garder telle quelle
+            if (mediaUrl.startsWith('http') && !mediaUrl.includes('prestige-shop-express.onrender.com')) {
+                if (isVideo(mediaUrl)) {
+                    // Créer un élément vidéo
+                    return `
+                        <div class="carousel-slide relative">
+                            <video 
+                                class="w-full h-36 sm:h-40 object-cover cursor-pointer"
+                                onclick="${clickHandler || `openImageZoom(${productId}, ${index})`}"
+                                muted
+                                loop
+                                playsinline
+                                onmouseover="this.play()"
+                                onmouseout="this.pause(); this.currentTime=0">
+                                <source src="${mediaUrl}" type="video/mp4">
+                                Votre navigateur ne supporte pas les vidéos HTML5.
+                            </video>
+                            <div class="video-play-indicator">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Créer un élément image avec l'URL externe
+                    return `
+                        <div class="carousel-slide">
+                            <img src="${mediaUrl}" alt="${productName} - Image ${index + 1}" 
+                                 class="w-full h-36 sm:h-40 object-cover cursor-pointer transition-all duration-500 group-hover:scale-110" 
+                                 onclick="${clickHandler || `openImageZoom(${productId}, ${index})`}"
+                                 onerror="this.src='${IMAGE_BASE_URL}/placeholder.png'; this.alt='Image non disponible';">
+                        </div>
+                    `;
+                }
+            }
+            
+            // Pour les images locales, utiliser le chemin absolu
+            const sanitizedUrl = getAbsoluteImagePath(mediaUrl);
+            
+            if (isVideo(mediaUrl)) {
+                // Créer un élément vidéo
+                return `
+                    <div class="carousel-slide relative">
+                        <video 
+                            class="w-full h-36 sm:h-40 object-cover cursor-pointer"
+                            onclick="${clickHandler || `openImageZoom(${productId}, ${index})`}"
+                            muted
+                            loop
+                            playsinline
+                            onmouseover="this.play()"
+                            onmouseout="this.pause(); this.currentTime=0">
+                            <source src="${sanitizedUrl}" type="video/mp4">
+                            Votre navigateur ne supporte pas les vidéos HTML5.
+                        </video>
+                        <div class="video-play-indicator">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Créer un élément image
+                return `
+                    <div class="carousel-slide">
+                        <img src="${sanitizedUrl}" alt="${productName} - Image ${index + 1}" 
+                             class="w-full h-36 sm:h-40 object-cover cursor-pointer transition-all duration-500 group-hover:scale-110" 
+                             onclick="${clickHandler || `openImageZoom(${productId}, ${index})`}"
+                             onerror="this.src='${IMAGE_BASE_URL}/placeholder.png'; this.alt='Image non disponible';">
+                    </div>
+                `;
+            }
+        }
+        
+        // Fonction pour obtenir l'image principale d'un produit
+        function getProductMainImage(product) {
+            if (!product || !product.images || product.images.length === 0) {
+                return `${IMAGE_BASE_URL}/placeholder.png`;
+            }
+            
+            const firstImage = product.images[0];
+            
+            // Si c'est une URL externe, la renvoyer telle quelle
+            if (firstImage.startsWith('http')) {
+                return firstImage;
+            }
+            
+            // Sinon, utiliser le chemin absolu
+            return getAbsoluteImagePath(firstImage);
+        }
     </script>
     
 </main>

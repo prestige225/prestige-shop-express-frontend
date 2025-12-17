@@ -4,7 +4,7 @@ from werkzeug.exceptions import NotFound
 
 # Initialisation de l'application Flask
 # Configuration pour servir tous les fichiers du répertoire courant
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.', static_url_path='')
 
 # Configuration pour améliorer la compatibilité avec les crawlers
 app.config['JSON_SORT_KEYS'] = False
@@ -132,7 +132,7 @@ def serve_images(filename):
 @app.route('/ima/<path:filename>')
 def serve_ima(filename):
     try:
-        return send_from_directory('ima', filename)
+        return send_from_directory('public/ima', filename)
     except FileNotFoundError:
         # Si le fichier n'est pas trouvé, retourner une réponse 404
         return 'File not found', 404

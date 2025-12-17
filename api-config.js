@@ -1,12 +1,13 @@
-// Configuration de l'API
-// Déterminer automatiquement l'URL de base selon l'environnement
-const API_BASE_URL = window.location.hostname.includes('render.com') || window.location.hostname.includes('onrender') 
-    ? 'https://prestige-shop-backend.onrender.com/api'  // Pour l'environnement Render
-    : 'http://localhost:5000/api';  // Pour le développement local
+// Configuration de l'API (idempotente pour éviter les reloads multiples)
+if (typeof window.API_BASE_URL === 'undefined') {
+    window.API_BASE_URL = window.location.hostname.includes('render.com') || window.location.hostname.includes('onrender') 
+        ? 'https://prestige-shop-backend.onrender.com/api'  // Pour l'environnement Render
+        : 'http://localhost:5000/api';  // Pour le développement local
+}
 
 // Fonction utilitaire pour effectuer les appels API avec gestion des erreurs
 function apiCall(endpoint, options = {}) {
-    const url = `${API_BASE_URL}${endpoint}`;
+    const url = `${window.API_BASE_URL}${endpoint}`;
     
     // Ajout des en-têtes par défaut
     const defaultHeaders = {
@@ -40,5 +41,5 @@ function apiCall(endpoint, options = {}) {
 
 // Export pour une utilisation dans d'autres modules
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { API_BASE_URL, apiCall };
+    module.exports = { API_BASE_URL: window.API_BASE_URL, apiCall };
 }

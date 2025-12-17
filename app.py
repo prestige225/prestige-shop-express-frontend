@@ -217,6 +217,20 @@ def sitemap():
         xml += '</urlset>'
         return Response(xml, mimetype='application/xml; charset=utf-8')
 
+@app.route('/ima/<path:filename>')
+def serve_ima(filename):
+    try:
+        # Construire le chemin complet du fichier
+        file_path = os.path.join('public', 'ima', filename)
+        # Vérifier si le fichier existe
+        if os.path.exists(file_path):
+            return send_from_directory('public/ima', filename)
+        else:
+            return f'File not found: {filename}', 404
+    except Exception as e:
+        # Pour toute autre erreur, retourner une erreur 500
+        return f'Internal server error: {str(e)}', 500
+
 # ----------------------------
 # Route catch-all pour SPA (PRIORITÉ HAUTE)
 # ----------------------------

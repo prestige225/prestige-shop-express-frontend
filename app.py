@@ -129,17 +129,6 @@ def serve_js(filename):
 def serve_images(filename):
     return send_from_directory('images', filename)
 
-@app.route('/ima/<path:filename>')
-def serve_ima(filename):
-    try:
-        return send_from_directory('public/ima', filename)
-    except FileNotFoundError:
-        # Si le fichier n'est pas trouvé, retourner une réponse 404
-        return 'File not found', 404
-    except Exception as e:
-        # Pour tout autre erreur, retourner une erreur 500
-        return f'Internal server error: {str(e)}', 500
-
 # ----------------------------
 # Route pour robots.txt
 # ----------------------------

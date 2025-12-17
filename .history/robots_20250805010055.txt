@@ -1,5 +1,0 @@
-
-User-agent: *
-Allow: /
-
-Sitemap: https://prestige-shop-express.onrender.com/sitemap.xml

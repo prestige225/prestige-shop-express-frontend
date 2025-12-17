@@ -129,6 +129,10 @@ def serve_js(filename):
 def serve_images(filename):
     return send_from_directory('images', filename)
 
+@app.route('/ima/<path:filename>')
+def serve_ima(filename):
+    return send_from_directory('ima', filename)
+
 # ----------------------------
 # Route pour robots.txt
 # ----------------------------

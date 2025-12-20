@@ -1635,6 +1635,22 @@
             }catch(e){}
         })();
     </script>
+    <style>
+    /* Overrides: positionner l'assistant (chatbot) à droite et le panier flottant à gauche */
+    .chatbot-button-float { left: auto !important; right: 1.5rem !important; }
+    .chatbot-container     { left: auto !important; right: 1.5rem !important; }
+    /* Ajustements pour petits écrans */
+    @media (max-width: 640px) {
+        .chatbot-button-float { right: 1rem !important; left: auto !important; }
+        .chatbot-container     { right: 0.75rem !important; left: auto !important; max-width: calc(100vw - 1.5rem) !important; }
+    }
+
+    /* Panier flottant à gauche */
+    .cart-float { position: fixed !important; bottom: 1.5rem !important; left: 1.5rem !important; right: auto !important; z-index: 9999; }
+    .cart-float button { position: relative; }
+    /* Badge du panier repositionné pour apparaître sur la gauche du bouton */
+    #cart-float-badge { right: auto !important; left: -0.5rem !important; }
+    </style>
 
     <!-- Schema JSON-LD pour SEO (Google Rich Snippets) -->
     <script type="application/ld+json">

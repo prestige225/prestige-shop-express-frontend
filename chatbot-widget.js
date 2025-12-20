@@ -181,7 +181,7 @@ const chatbotStyles = `
 // Injecter le HTML du chatbot
 const chatbotHTML = `
 <!-- Bouton du chatbot flottant -->
-<div id="chatbot-button" class="chatbot-button-float fixed bottom-6 left-6 z-[9999]" style="z-index: 9999;">
+<div id="chatbot-button" class="chatbot-button-float fixed bottom-6 right-6 left-auto z-[9999]" style="z-index: 9999;">
     <button onclick="toggleChatbot()" class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition-all transform hover:scale-110">
         <i class="fas fa-robot text-2xl"></i>
     </button>
@@ -192,7 +192,7 @@ const chatbotHTML = `
 </div>
 
 <!-- Fenêtre du chatbot -->
-<div id="chatbot-container" class="hidden chatbot-container fixed bottom-24 left-6 w-96 max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-8rem)] bg-white rounded-2xl shadow-2xl z-[9998] flex flex-col overflow-hidden" style="z-index: 9998;">
+<div id="chatbot-container" class="hidden chatbot-container fixed bottom-24 right-6 left-auto w-96 max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-8rem)] bg-white rounded-2xl shadow-2xl z-[9998] flex flex-col overflow-hidden" style="z-index: 9998;">
     
     <!-- Header -->
     <div class="bg-gradient-to-r from-purple-600 to-blue-600 p-4 flex items-center justify-between relative">

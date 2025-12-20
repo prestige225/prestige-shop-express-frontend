@@ -2,14 +2,18 @@
 Script pour vérifier que le backend charge correctement les variables d'environnement
 """
 import os
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except Exception:
+    def load_dotenv(*args, **kwargs):
+        return False
 
 def verifier_variables():
     """Vérifier les variables d'environnement du backend"""
     print("🔍 Vérification des variables d'environnement pour le backend...")
     print("=" * 60)
     
-    # Charger les variables depuis .env
+    # Charger les variables depuis .env (silencieusement si python-dotenv est absent)
     load_dotenv()
     
     # Vérifier les variables

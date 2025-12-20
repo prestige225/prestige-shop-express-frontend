@@ -988,11 +988,19 @@
         .cart-float {
             position: fixed;
             bottom: 20px;
+            /* placer le bouton panier à droite (par défaut) */
             right: 20px;
-            z-index: 1000;
+            left: auto;
+            z-index: 1001;
             animation: bounce 2s infinite;
         }
-        
+
+        /* Pour très petits écrans, réduire l'espacement droit */
+        @media (max-width: 420px) {
+            .cart-float {
+                right: 12px;
+            }
+        }
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
             40% { transform: translateY(-10px); }
@@ -2331,8 +2339,8 @@ if (images && images.length > 0) {
 
     <!-- Floating Cart Button -->
     <div class="cart-float">
-        <button onclick="toggleCart()" class="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl transition-all">
-            <i class="fab fa-whatsapp text-2xl"></i>
+        <button onclick="toggleCart()" aria-label="Panier" class="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl transition-all relative">
+            <i class="fas fa-shopping-cart text-2xl"></i>
             <span id="cart-float-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center hidden">0</span>
         </button>
     </div>
@@ -3474,6 +3482,122 @@ if (images && images.length > 0) {
         const products = [
             // Catégorie Éducatif
             {
+                id: 36,
+                name: "Jean Carpenter \"Gothic Cross\"",
+                price: 10000,
+                category: "mode",
+                subcategory: "homme",
+                images: [
+                    "https://imagesend.fr/uploads/20251220/6bbb07c45dbdf0fc23546cfaf0245f129e380f81.jpg",
+                    "https://imagesend.fr/uploads/20251220/e6a379717a1bf0ee9f24bb69f717b264b8442003.jpg",
+                    "https://imagesend.fr/uploads/20251220/1331ecc28d3d9430915050a1be7d6a328455a48f.jpg"
+            
+                ],
+                description: "Adoptez un look audacieux et contemporain avec le jean Carpenter \"Gothic Cross\". Conçu pour les hommes qui aiment se démarquer, ce jean allie confort et style avec ses détails uniques inspirés de l'esthétique gothique.",
+                sizes: [ "31", "32", "33", "34"],
+                colors: ["Bleu Denim", "Bleu foncé", "Noir"]
+            },
+
+            {
+                id: 63,
+                name: "Jean Carpenter \"Geometric Grid\" – Denim Noir Wash",
+                price: 10000,
+                category: "mode",
+                subcategory: "homme",
+                images: [
+                 "https://imagesend.fr/uploads/20251220/738a96a4762bb9adb695156bccf686c15bc81d10.jpg",
+                 "https://imagesend.fr/uploads/20251220/7fe39e3d14004036e9908525ab4cbf045f600740.jpg",
+                 "https://imagesend.fr/uploads/20251220/9056ae18a974d645c639df5f5aa271280d17e452.jpg"
+
+                ],
+                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
+                sizes: [ "31", "32", "33", "34"],
+                colors: ["Noir délavé","mélange de gris et noir","gris anthracite et noir."],
+            },
+            {
+                id: 64,
+                name: "Jean Carpenter \"Urban Camo\" – Style Camouflage Moderne",
+                price: 10000,
+                category: "mode",
+                subcategory: "homme",
+                images: [
+                 "https://imagesend.fr/uploads/20251220/ddbc702b3900c6adbe235a8ec632f3af3822fca8.jpg",
+                 "https://imagesend.fr/uploads/20251220/26cea469ac10011052dcf29e99e028fda43b7e07.jpg"
+
+                ],
+                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
+                sizes: [ "31", "32", "33", "34"],
+                colors: ["Noir délavé","mélange de gris et noir","gris anthracite et noir."],
+            },
+
+            {
+                id: 65,
+                name: "Jean Carpenter \"Digital Matrix\" ",
+                price: 10000,
+                category: "mode",
+                subcategory: "homme",
+                images: [
+                 "https://imagesend.fr/uploads/20251220/e8c445c1bc0121eebd812f0bd0b2961d7b0eb30d.jpg",
+                 
+
+                ],
+                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
+                sizes: [ "31", "32", "33", "34"],
+            },
+
+            {
+                id: 66,
+                name: "Jean Carpenter \"Neo-Tribal Fusion\" – Motifs Ethniques Modernes",
+                price: 10000,
+                category: "mode",
+                subcategory: "homme",
+                images: [
+                 "https://imagesend.fr/uploads/20251220/bc5a4bf1184c0c2d27c14c46f13da47026032506.jpg",
+                 
+
+                ],
+                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
+                sizes: [ "31", "32", "33", "34"],
+            },
+
+            {
+                id: 67,
+
+                name: "Jean Carpenter \"Neo-Tribal Fusion\" – Motifs Ethniques Modernes",
+                price: 10000,
+                category: "mode",
+                subcategory: "homme",
+                images: [
+                 "https://imagesend.fr/uploads/20251220/6cb66e7b3f53ce933b82bde6ee794ad56902a8e3.jpg",
+                 
+
+                ],
+                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
+                sizes: [ "31", "32", "33", "34"],
+                
+            },
+             
+            {
+                id: 68,
+                name: "Nike Shox TL \"Racer / Metallic Silver\"",
+
+                price: 19000,
+                category: "mode",
+                subcategory: "homme",
+                images: [
+                 "https://imagesend.fr/uploads/20251219/bd06b6bff1e4ee66afb2de5f30014f204607e629.jpg",
+                 "https://imagesend.fr/uploads/20251220/19bdcea21af71b80033323ef4167014a3dd13b5e.jpg",
+                 "https://imagesend.fr/uploads/20251220/8f609f752e77e2d0221059e7b4f443f5d472c386.jpg",
+                 "https://imagesend.fr/uploads/20251220/f4840c193e70c58689efa4147b7e40f02a0f8dff.jpg"
+                 
+
+                ],
+                description: " Découvrez les Nike Shox TL \"Racer / Metallic Silver\", une fusion parfaite de style futuriste et de performance. Avec leur design innovant et leur technologie d'amorti Shox, ces sneakers offrent un confort exceptionnel et un look audacieux pour les amateurs de mode urbaine.",
+                sizes: [ "40", "41", "42", "43", "44","45"],
+                colors: ["Noir","Bleu","dégradé de beige", "Max Orange"],
+            },
+           
+            {
                 id: 1,
                 name: "Veste de Mi-saison Style Safari pour Garçon",
                 price:  15000,
@@ -4252,104 +4376,8 @@ if (images && images.length > 0) {
                 ],
                 description: "Adoptez un style urbain chic avec le sac à main \"Urban Sophistication\". Conçu pour la femme moderne, ce sac allie praticité et élégance avec son design épuré et ses finitions soignées.",
                 colors: ["Gris","Noir","Bleu Marine","Rouge Bordeaux"]
-            },
-            {
-                id: 36,
-                name: "Jean Carpenter \"Gothic Cross\"",
-                price: 10000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                    "https://imagesend.fr/uploads/20251220/6bbb07c45dbdf0fc23546cfaf0245f129e380f81.jpg",
-                    "https://imagesend.fr/uploads/20251220/e6a379717a1bf0ee9f24bb69f717b264b8442003.jpg",
-                    "https://imagesend.fr/uploads/20251220/1331ecc28d3d9430915050a1be7d6a328455a48f.jpg"
-            
-                ],
-                description: "Adoptez un look audacieux et contemporain avec le jean Carpenter \"Gothic Cross\". Conçu pour les hommes qui aiment se démarquer, ce jean allie confort et style avec ses détails uniques inspirés de l'esthétique gothique.",
-                sizes: [ "31", "32", "33", "34"],
-                colors: ["Bleu Denim", "Bleu foncé", "Noir"]
-            },
-
-            {
-                id: 63,
-                name: "Jean Carpenter \"Geometric Grid\" – Denim Noir Wash",
-                price: 10000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/738a96a4762bb9adb695156bccf686c15bc81d10.jpg",
-                 "https://imagesend.fr/uploads/20251220/7fe39e3d14004036e9908525ab4cbf045f600740.jpg",
-                 "https://imagesend.fr/uploads/20251220/9056ae18a974d645c639df5f5aa271280d17e452.jpg"
-
-                ],
-                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
-                sizes: [ "31", "32", "33", "34"],
-                colors: ["Noir délavé","mélange de gris et noir","gris anthracite et noir."],
-            },
-            {
-                id: 64,
-                name: "Jean Carpenter \"Urban Camo\" – Style Camouflage Moderne",
-                price: 10000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/ddbc702b3900c6adbe235a8ec632f3af3822fca8.jpg",
-                 "https://imagesend.fr/uploads/20251220/26cea469ac10011052dcf29e99e028fda43b7e07.jpg"
-
-                ],
-                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
-                sizes: [ "31", "32", "33", "34"],
-                colors: ["Noir délavé","mélange de gris et noir","gris anthracite et noir."],
-            },
-
-            {
-                id: 65,
-                name: "Jean Carpenter \"Digital Matrix\" ",
-                price: 10000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/e8c445c1bc0121eebd812f0bd0b2961d7b0eb30d.jpg",
-                 
-
-                ],
-                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
-                sizes: [ "31", "32", "33", "34"],
-            },
-
-            {
-                id: 66,
-                name: "Jean Carpenter \"Neo-Tribal Fusion\" – Motifs Ethniques Modernes",
-                price: 10000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/bc5a4bf1184c0c2d27c14c46f13da47026032506.jpg",
-                 
-
-                ],
-                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
-                sizes: [ "31", "32", "33", "34"],
-            },
-
-            {
-                id: 67,
-
-                name: "Jean Carpenter \"Neo-Tribal Fusion\" – Motifs Ethniques Modernes",
-                price: 10000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/6cb66e7b3f53ce933b82bde6ee794ad56902a8e3.jpg",
-                 
-
-                ],
-                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
-                sizes: [ "31", "32", "33", "34"],
-                
             }
-
-           
+            
 
         ];
 

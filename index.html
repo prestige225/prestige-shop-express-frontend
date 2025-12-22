@@ -1708,15 +1708,15 @@
          et service client exceptionnel.
       </p>
       <section>
-         <h2>Nos catégories de produits : mode, électronique, éducatif et fast food</h2>
+         <h2>Nos catégories de produits : mode, électronique, éducatif, fast food et business</h2>
          <ul>
             <li>Produits Éducatifs</li>
             <li>Mode et Accessoires</li>
             <li>Électroniques</li>
             <li>Fast Food et Restauration</li>
+            <li>Solutions Business (Bientôt disponible)</li>
          </ul>
-      </section>
-   </main>
+      </section>   </main>
 
    <!-- Barre de Promotion Sticky - Spécial Fêtes de Décembre -->
    <div id="promo-bar" class="promo-bar bg-gradient-to-r from-red-700 via-green-700 to-red-700 text-white py-3 sticky top-0 z-[60] shadow-2xl">
@@ -2189,9 +2189,25 @@ if (images && images.length > 0) {
                     </div>
                     <div class="absolute top-2 right-2 bg-yellow-300 text-purple-900 text-xs font-bold px-2 py-1 rounded-full promo-badge float">✨ Nouveau</div>
                 </button>
+                
+                <!-- Business Starter -->
+                <button onclick="filterProducts('business')" class="category-card group relative overflow-hidden rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:scale-105" style="width: 120px; height: 120px; flex-shrink: 0;">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 via-purple-600 to-indigo-700 opacity-90 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative p-4 text-white text-center h-full flex flex-col items-center justify-center">
+                        <div class="flex justify-center mb-2">
+                            <i class="fas fa-briefcase text-4xl"></i>
+                        </div>
+                        <h3 class="text-sm font-bold whitespace-nowrap">Prestige Business Starter</h3>
+                        <p class="text-sm opacity-90">Bientôt disponible</p>
+                        <!-- Icône de main qui indique le clic -->
+                        <div class="absolute top-2 right-2 text-yellow-300 animate-bounce">
+                            <i class="fas fa-hand-pointer text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="absolute top-2 right-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">🚀 Nouveau</div>
+                </button>
                 </div>
-            </div>
-            </div>
+            </div>            </div>
             
             <!-- Sous-catégories Mode -->
             <div id="mode-subcategories" class="hidden mb-8 animate-slideDown">
@@ -2760,13 +2776,16 @@ if (images && images.length > 0) {
                             <i class="fas fa-hamburger mr-2"></i>
                             Fast Food
                         </a></li>
+                        <li><a href="#produits" onclick="filterProducts('business')" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                            <i class="fas fa-briefcase mr-2"></i>
+                            Business
+                        </a></li>
                         <li><a href="#produits" onclick="filterProducts('mode')" class="text-gray-400 hover:text-white transition-colors flex items-center">
                             <i class="fas fa-tshirt mr-2"></i>
                             Mode
                         </a></li>
                     </ul>
-                </div>
-                
+                </div>                
                 <!-- Newsletter -->
                 <div>
                     <h4 class="text-lg font-bold mb-4 text-orange-400">Restez Informé</h4>
@@ -4593,6 +4612,48 @@ function displayProducts(filter = 'all', reset = true) {
     }
     
     const grid = document.getElementById('products-grid');
+    
+    // Cas spécial pour la catégorie Business
+    if (filter === 'business') {
+        if (reset) {
+            grid.innerHTML = `
+                <div class="col-span-full py-16 text-center">
+                    <div class="max-w-3xl mx-auto px-4">
+                        <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mb-8 shadow-lg">
+                            <i class="fas fa-briefcase text-white text-4xl"></i>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Prestige Business Starter</h2>
+                        <h3 class="text-xl md:text-2xl font-semibold text-indigo-600 mb-8">Démarre ton business avec un petit capital</h3>
+                        
+                        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-8 rounded-r-lg inline-block">
+                            <p class="font-bold text-lg">🟡 Bientôt disponible</p>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-6 text-lg max-w-2xl mx-auto">
+                            Une nouvelle section dédiée aux jeunes entrepreneurs.<br>
+                            Des produits en gros, accessibles, disponibles localement,<br>
+                            pour t'aider à lancer ton activité sans commander en Chine.
+                        </p>
+                        
+                        <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8 max-w-2xl mx-auto">
+                            <p class="text-blue-800 font-semibold">
+                                🔔 En cours de lancement – Inscris-toi pour être informé en priorité
+                            </p>
+                        </div>
+                        
+                        <div class="flex justify-center mt-8">
+                            <button onclick="showNotification('Merci pour votre intérêt ! Nous vous contacterons dès le lancement.', 'info')" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-4 px-10 rounded-full shadow-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 text-lg">
+                                <i class="far fa-bell mr-2"></i>
+                                Être informé
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        return;
+    }
+    
     let filteredProducts;
     
     // Gérer les sous-catégories mode
@@ -4626,7 +4687,6 @@ function displayProducts(filter = 'all', reset = true) {
     
     newProducts.forEach(product => initializeCarousel(product.id));
 }
-
 // Chargement automatique au scroll
 window.addEventListener('scroll', () => {
     const grid = document.getElementById('products-grid');
@@ -4645,6 +4705,9 @@ window.addEventListener('scroll', () => {
 
 // Charger plus de produits avec animation rapide
 function loadMoreProducts() {
+    // Ne rien faire si on est sur la catégorie Business
+    if (currentFilter === 'business') return;
+    
     if (isLoadingMore) return;
     
     let filteredProducts;
@@ -4683,8 +4746,6 @@ function loadMoreProducts() {
     
     isLoadingMore = false;
 }
-
-
 
 
        
@@ -4896,9 +4957,15 @@ function loadMoreProducts() {
                     title: 'Fast Food',
                     subtitle: 'Burgers, pizzas & snacks savoureux',
                     badge: '🍔 Dégustez maintenant !'
+                },
+                'business': {
+                    gradient: 'from-indigo-500 via-purple-600 to-indigo-700',
+                    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=80&h=80&q=80',
+                    title: 'Prestige Business Starter',
+                    subtitle: 'Démarre ton business avec un petit capital',
+                    badge: '🟡 Bientôt disponible'
                 }
-            };
-            
+            };            
             const banner = banners[category] || banners['all'];
             
             bannerDiv.innerHTML = `
@@ -4958,11 +5025,11 @@ function loadMoreProducts() {
                 'educatif': 'Éducatif',
                 'electronique': 'Électronique',
                 'mode': 'Mode',
-                'fastfood': 'Fast Food'
+                'fastfood': 'Fast Food',
+                'business': 'Business'
             };
             return names[category] || category;
         }
-
         function getCategoryIcon(category) {
             const icons = {
                 'all': '<i class="fas fa-th-large text-4xl"></i>',
@@ -4972,11 +5039,11 @@ function loadMoreProducts() {
                 'mode-homme': '<i class="fas fa-male text-4xl"></i>',
                 'mode-femme': '<i class="fas fa-female text-4xl"></i>',
                 'mode-enfants': '<i class="fas fa-child text-4xl"></i>',
-                'fastfood': '<i class="fas fa-hamburger text-4xl"></i>'
+                'fastfood': '<i class="fas fa-hamburger text-4xl"></i>',
+                'business': '<i class="fas fa-briefcase text-4xl"></i>'
             };
             return icons[category] || '<i class="fas fa-box text-4xl"></i>';
         }
-
         // Ajouter au panier
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);

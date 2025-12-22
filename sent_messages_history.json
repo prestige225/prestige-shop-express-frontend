@@ -219,5 +219,44 @@
         "name": "Emile Afanou"
       }
     ]
+  },
+  {
+    "timestamp": "2025-12-22T12:31:33.911449",
+    "subject": "",
+    "message": "",
+    "recipients_count": 1,
+    "recipients": [
+      {
+        "id": 71,
+        "email": "afanouemile6@gmail.com",
+        "name": "Emile Afanou"
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-12-22T12:58:38.500293",
+    "subject": "",
+    "message": "",
+    "recipients_count": 1,
+    "recipients": [
+      {
+        "id": 71,
+        "email": "afanouemile6@gmail.com",
+        "name": "Emile Afanou"
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-12-22T13:02:30.936396",
+    "subject": "",
+    "message": "",
+    "recipients_count": 1,
+    "recipients": [
+      {
+        "id": 71,
+        "email": "afanouemile6@gmail.com",
+        "name": "Emile Afanou"
+      }
+    ]
   }
 ]

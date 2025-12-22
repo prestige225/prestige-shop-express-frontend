@@ -119,8 +119,12 @@ def admin_messages():
 # ----------------------------
 @app.route('/css/<path:filename>')
 def serve_css(filename):
-    return send_from_directory('css', filename)
-
+    response = send_from_directory('css', filename)
+    # Forcer le rafraîchissement des fichiers CSS pour éviter les problèmes de cache
+    response.headers['Cache-Control'] = 'public, max-age=3600'  # 1 heure seulement
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 @app.route('/js/<path:filename>')
 def serve_js(filename):
     return send_from_directory('js', filename)

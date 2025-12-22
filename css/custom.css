@@ -12,14 +12,22 @@
 
 /* Styles pour les cartes de catégories circulaires */
 .category-card {
-    width: 50px !important;
-    height: 50px !important;
+    width: 80px !important;
+    height: 80px !important;
     border-radius: 50% !important;
     flex-shrink: 0 !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
 }
 
 .category-card .relative {
     padding: 0.25rem !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
 }
 
 .category-card i {
@@ -31,14 +39,15 @@
     font-size: 0.6rem !important;
     line-height: 1;
     margin-bottom: 0.15rem !important;
+    text-align: center !important;
 }
 
 .category-card p {
     font-size: 0.55rem !important;
     line-height: 1.1;
     margin: 0;
+    text-align: center !important;
 }
-
 /* Styles pour les bannières de catégories */
 .category-banner {
     width: 120px;

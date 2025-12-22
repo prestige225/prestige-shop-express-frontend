@@ -12,8 +12,8 @@
 
 /* Styles pour les cartes de catégories circulaires */
 .category-card {
-    width: 70px !important;
-    height: 70px !important;
+    width: 80px !important;
+    height: 80px !important;
     border-radius: 50% !important;
     flex-shrink: 0 !important;
     overflow: hidden !important;

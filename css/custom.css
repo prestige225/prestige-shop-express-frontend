@@ -12,25 +12,25 @@
 
 /* Styles pour les cartes de catégories circulaires */
 .category-card {
-    width: 120px !important;
-    height: 120px !important;
+    width: 90px !important;
+    height: 90px !important;
     border-radius: 50% !important;
     flex-shrink: 0 !important;
 }
 
 .category-card .relative {
-    padding: 0.5rem !important;
+    padding: 0.35rem !important;
 }
 
 .category-card i {
-    font-size: 2rem !important;
-    margin-bottom: 0.25rem !important;
+    font-size: 1.6rem !important;
+    margin-bottom: 0.2rem !important;
 }
 
 .category-card h3 {
-    font-size: 0.75rem !important;
-    line-height: 1.2;
-    margin-bottom: 0.25rem !important;
+    font-size: 0.7rem !important;
+    line-height: 1.1;
+    margin-bottom: 0.2rem !important;
 }
 
 .category-card p {

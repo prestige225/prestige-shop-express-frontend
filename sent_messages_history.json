@@ -511,5 +511,18 @@
         "name": "Neliss Gosse"
       }
     ]
+  },
+  {
+    "timestamp": "2025-12-24T11:44:21.475783",
+    "subject": "",
+    "message": "",
+    "recipients_count": 1,
+    "recipients": [
+      {
+        "id": 119,
+        "email": "yvesstephanekouassi066@gmail.com",
+        "name": "Yves stephane Kouassi"
+      }
+    ]
   }
 ]

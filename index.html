@@ -8763,6 +8763,10 @@ Commandez sur Digit Shop Express !`;
     
     <!-- ========== GOOGLE IDENTITY SERVICES ========== -->
     <script>
+        // Réveil de l'application Render
+        fetch("https://prestige-shop-express.onrender.com/ping")
+            .catch(() => {});
+        
         // Initialisation de Google Identity Services
         window.onload = function() {
             // Initialiser Google One Tap si l'utilisateur n'est pas connecté

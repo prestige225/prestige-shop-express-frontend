@@ -64,6 +64,11 @@ def health():
     """Endpoint de santé pour monitoring et relance automatique"""
     return {'status': 'healthy', 'service': 'prestige-shop-express'}, 200
 
+@app.route('/ping')
+def ping():
+    """Endpoint léger pour maintenir l'application active"""
+    return 'OK', 200
+
 @app.route('/')
 def home():
     """Rediriger immédiatement vers index.html pour éviter le message temporaire de Render"""

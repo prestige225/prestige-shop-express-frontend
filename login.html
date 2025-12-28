@@ -504,22 +504,12 @@
                         }
                     }
                     
-                    // Vérifier l'état du profil côté backend avant de rediriger
-                    fetch(`${window.API_BASE_URL}/profile/me`, { credentials: 'include' })
-                      .then(async r => {
-                        if (!r.ok) {
-                          // Si l'endpoint n'existe pas encore (404) ou non authentifié (401), pousser vers complétion
-                          window.location.href = 'complete-profile.html';
-                          return Promise.reject();
-                        }
-                        return r.json();
-                      })
-                      .then(p => {
-                        const prof = p && p.profile ? p.profile : null;
-                        const need = !prof || !prof.whatsapp || !prof.statut;
-                        window.location.href = need ? 'complete-profile.html' : 'index.html';
-                      })
-                      .catch(() => {/* déjà redirigé si non-ok */});
+                    // Utiliser l'information de profil complète fournie par le backend
+                    if (data.profile_complete) {
+                        window.location.href = 'index.html';
+                    } else {
+                        window.location.href = 'complete-profile.html';
+                    }
                 } else {
                     document.getElementById('error-text').textContent = data.message;
                     document.getElementById('error-message').classList.remove('hidden');
@@ -598,22 +588,12 @@
                         localStorage.setItem('userPhone', userData.numero);
                     }
                     
-                    // Vérifier l'état du profil côté backend avant de rediriger
-                    fetch(`${window.API_BASE_URL}/profile/me`, { credentials: 'include' })
-                      .then(async r => {
-                        if (!r.ok) {
-                          // Si l'endpoint n'existe pas encore (404) ou non authentifié (401), pousser vers complétion
-                          window.location.href = 'complete-profile.html';
-                          return Promise.reject();
-                        }
-                        return r.json();
-                      })
-                      .then(p => {
-                        const prof = p && p.profile ? p.profile : null;
-                        const need = !prof || !prof.whatsapp || !prof.statut;
-                        window.location.href = need ? 'complete-profile.html' : 'index.html';
-                      })
-                      .catch(() => {/* déjà redirigé si non-ok */});
+                    // Utiliser l'information de profil complète fournie par le backend
+                    if (data.profile_complete) {
+                        window.location.href = 'index.html';
+                    } else {
+                        window.location.href = 'complete-profile.html';
+                    }
                 } else {
                     document.getElementById('error-text').textContent = data.message;
                     document.getElementById('error-message').classList.remove('hidden');
@@ -643,8 +623,24 @@
         // Initialisation du bouton Google (version précédente)
         // Cette partie est maintenant gérée directement par le lien onclick
         
+        // Fonction pour vérifier si une connexion Google automatique est demandée
+        function checkAutoGoogleLogin() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('autoGoogleLogin') === 'true') {
+                // Simuler un clic sur le bouton Google si le paramètre est présent
+                setTimeout(() => {
+                    const googleButton = document.querySelector('.g_id_signin');
+                    if (googleButton) {
+                        googleButton.click();
+                    }
+                }, 1000); // Délai pour permettre le chargement du bouton Google
+            }
+        }
+        
         // Initialiser un guide léger au chargement de la page
         window.addEventListener('DOMContentLoaded', function() {
+            // Vérifier si une connexion Google automatique est demandée
+            checkAutoGoogleLogin();
             // Démarrer le guide léger après 2 secondes
             setTimeout(showLoginTip, 2000);
         });

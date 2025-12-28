@@ -1625,13 +1625,17 @@
   
     </style>
     <script>
-        // Redirection première visite: envoie vers welcome.html une seule fois
+        // Afficher un message discret pour encourager l'inscription
         (function(){
             try{
-                if (!localStorage.getItem('hasVisited')){
-                    localStorage.setItem('hasVisited', 'true');
-                    window.location.replace('welcome.html');
+                // Vérifier si l'utilisateur est déjà connecté
+                const isLoggedIn = localStorage.getItem('userLoggedIn') || sessionStorage.getItem('userLoggedIn');
+                
+                if (!isLoggedIn) {
+                    // Afficher immédiatement un message d'encouragement pour les nouveaux visiteurs
+                    showWelcomePrompt();
                 }
+                
             }catch(e){}
         })();
     </script>
@@ -1890,6 +1894,8 @@
     </div>
 </header>
 
+
+
 <main>
    
 
@@ -1900,6 +1906,17 @@
     }
     .animate-fadeIn {
         animation: fadeIn 0.2s ease forwards;
+    }
+    
+    @keyframes slideInFromBottom {
+        0% {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
 
@@ -2835,6 +2852,9 @@ if (images && images.length > 0) {
             if (promoBarClosed === 'true') {
                 document.getElementById('promo-bar').style.display = 'none';
             }
+            
+            // Afficher le message de motivation après une minute
+            setTimeout(showGoogleLoginPrompt, 60000); // 60 secondes = 1 minute
         });
         
         // ========== BOUTON RETOUR EN HAUT ==========
@@ -3489,14 +3509,189 @@ if (images && images.length > 0) {
         window.addEventListener('DOMContentLoaded', () => {
             const isLoggedIn = localStorage.getItem('userLoggedIn') || sessionStorage.getItem('userLoggedIn');
             
-            // Si non connecté, rediriger vers welcome.html
-            if (isLoggedIn !== 'true') {
-                window.location.href = 'welcome.html';
+            // Si connecté, afficher le profil
+            if (isLoggedIn === 'true') {
+                checkAuth();
+            } else {
+                // Afficher le message de bienvenue après 1 minute pour les utilisateurs non connectés
+                setTimeout(() => {
+                    showWelcomePrompt();
+                }, 60000); // 1 minute
+                
+                // Rediriger vers la page de complétion du profil après 3 minutes si l'utilisateur n'est pas connecté
+                setTimeout(() => {
+                    if (!localStorage.getItem('userLoggedIn') && !sessionStorage.getItem('userLoggedIn')) {
+                        window.location.href = 'complete-profile.html';
+                    }
+                }, 180000); // 3 minutes
+            }
+        });
+        
+        // Fonction pour afficher un message discret encourageant l'inscription avec Google
+        function showWelcomePrompt() {
+            // Vérifier si le message est déjà affiché
+            if (document.getElementById('welcome-prompt')) return;
+            
+            // Créer un message discret en haut de la page
+            const promptDiv = document.createElement('div');
+            promptDiv.id = 'welcome-prompt';
+            promptDiv.innerHTML = `
+                <div style="position: fixed; top: 60px; left: 0; right: 0; background: linear-gradient(90deg, #4285f4, #34a853, #fbbc05, #ea4335); color: white; padding: 15px 20px; text-align: center; z-index: 9999; font-weight: 500; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="font-size: 24px;">🎉</div>
+                            <div>
+                                <div style="font-size: 16px; font-weight: bold;">Bienvenue chez Prestige Shop Express !</div>
+                                <div style="font-size: 14px; opacity: 0.9;">Continuez avec Google pour profiter pleinement de votre expérience d'achat</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <button onclick="loginWithGoogle()" style="background: white; color: #4285f4; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 14px; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                <i class="fab fa-google"></i>
+                                Continuer avec Google
+                            </button>
+                            <button onclick="this.closest('#welcome-prompt').remove();" style="background: rgba(255,255,255,0.3); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer;">×</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(promptDiv);
+            
+            // Réserver un espace en haut de la page pour le message et la barre de promotion
+            document.body.style.paddingTop = '140px';
+        }
+        
+        // Fonction pour la connexion avec Google
+        function loginWithGoogle() {
+            // Rediriger vers la page de login avec un paramètre pour activer la connexion Google automatique
+            window.location.href = 'login.html?autoGoogleLogin=true';
+        }
+        
+        // Fonction pour gérer la redirection après la connexion Google
+        function handleGoogleLoginSuccess(user) {
+            // Stocker les informations de l'utilisateur dans le localStorage
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userData', JSON.stringify(user));
+            
+            // Rediriger vers la page de profil ou d'accueil
+            window.location.href = 'complete-profile.html';
+        }
+        
+        // Fonction pour afficher un message de motivation après une minute
+        function showGoogleLoginPrompt() {
+            // Vérifier si l'utilisateur est déjà connecté
+            const isLoggedIn = localStorage.getItem('userLoggedIn') || sessionStorage.getItem('userLoggedIn');
+            const userData = localStorage.getItem('userData') || sessionStorage.getItem('userData');
+            
+            // Ne pas afficher le message si l'utilisateur est déjà connecté
+            if (isLoggedIn === 'true' && userData) {
                 return;
             }
             
-            // Si connecté, afficher le profil
-            checkAuth();
+            // Vérifier si le message a déjà été vu par cet utilisateur
+            if (localStorage.getItem('googleLoginPromptSeen')) {
+                return;
+            }
+            
+            // Créer le message de motivation
+            const prompt = document.createElement('div');
+            prompt.id = 'google-login-prompt';
+            prompt.className = 'fixed bottom-6 right-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-2xl shadow-2xl z-50 max-w-sm transform transition-all duration-500 ease-out';
+            prompt.style.cssText = `
+                animation: slideInFromBottom 0.5s ease-out;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255,255,255,0.2);
+            `;
+            
+            prompt.innerHTML = `
+                <div class="flex items-start justify-between mb-3">
+                    <h3 class="font-bold text-lg">Connexion rapide !</h3>
+                    <button onclick="this.closest('#google-login-prompt').remove(); localStorage.setItem('googleLoginPromptSeen', 'true');" class="text-white hover:text-gray-200 text-xl ml-2">&times;</button>
+                </div>
+                <p class="mb-4 text-sm opacity-90">Connectez-vous avec Google pour une expérience d'achat optimale</p>
+                <div class="flex space-x-3">
+                    <button onclick="loginWithGoogle(); document.getElementById('google-login-prompt').remove();" class="flex-1 bg-white text-blue-600 hover:bg-gray-100 font-semibold py-2 px-4 rounded-lg transition-all flex items-center justify-center space-x-2">
+                        <i class="fab fa-google"></i>
+                        <span>Google</span>
+                    </button>
+                    <button onclick="this.closest('#google-login-prompt').remove(); localStorage.setItem('googleLoginPromptSeen', 'true');" class="bg-white/20 hover:bg-white/30 text-white font-semibold py-2 px-4 rounded-lg transition-all">
+                        Plus tard
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(prompt);
+            
+            // Marquer le message comme vu après un certain temps pour éviter de le réafficher
+            setTimeout(() => {
+                if (prompt.parentNode) {
+                    localStorage.setItem('googleLoginPromptSeen', 'true');
+                }
+            }, 30000); // 30 secondes après l'affichage
+        }
+        
+        // Fonction pour suivre les visites des utilisateurs
+        function trackVisitor() {
+            try {
+                // Créer un identifiant de session unique si ce n'est pas déjà fait
+                let sessionId = localStorage.getItem('sessionId');
+                if (!sessionId) {
+                    sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    localStorage.setItem('sessionId', sessionId);
+                }
+                
+                // Collecter les informations de visite
+                const visitData = {
+                    sessionId: sessionId,
+                    timestamp: new Date().toISOString(),
+                    page: window.location.pathname,
+                    referrer: document.referrer,
+                    userAgent: navigator.userAgent,
+                    language: navigator.language,
+                    screenWidth: screen.width,
+                    screenHeight: screen.height,
+                    url: window.location.href
+                };
+                
+                // Enregistrer la visite localement aussi pour référence
+                const visits = JSON.parse(localStorage.getItem('userVisits') || '[]');
+                visits.push(visitData);
+                localStorage.setItem('userVisits', JSON.stringify(visits));
+                
+                // Envoyer les données de visite au backend
+                fetch(`${API_BASE_URL}/track-visit`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(visitData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Visite enregistrée:', data);
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'enregistrement de la visite:', error);
+                    // Si l'API n'est pas disponible, stocker temporairement dans localStorage
+                    const pendingVisits = JSON.parse(localStorage.getItem('pendingVisits') || '[]');
+                    pendingVisits.push(visitData);
+                    localStorage.setItem('pendingVisits', JSON.stringify(pendingVisits));
+                });
+                
+            } catch (error) {
+                console.error('Erreur lors du suivi de la visite:', error);
+            }
+        }
+        
+        // Appeler la fonction de suivi quand la page est chargée
+        window.addEventListener('load', function() {
+            trackVisitor();
+        });
+        
+        // Appeler la fonction de suivi également quand l'utilisateur revient sur la page
+        window.addEventListener('focus', function() {
+            trackVisitor();
         });
         
         // Configuration
@@ -8563,8 +8758,66 @@ Commandez sur Digit Shop Express !`;
     
 </main>
     
-    <!-- ========== CHATBOT ASSISTANT IA ========== -->
+    <!-- ========== CHATBOT WIDGET ========== -->
     <script src="chatbot-widget.js"></script>
+    
+    <!-- ========== GOOGLE IDENTITY SERVICES ========== -->
+    <script>
+        // Initialisation de Google Identity Services
+        window.onload = function() {
+            // Initialiser Google One Tap si l'utilisateur n'est pas connecté
+            const isLoggedIn = localStorage.getItem('userLoggedIn') || sessionStorage.getItem('userLoggedIn');
+            
+            if (!isLoggedIn && window.google) {
+                // Configuration de Google Identity Services
+                google.accounts.id.initialize({
+                    client_id: "722931671687-fj2ph80jpqvlqmqnmc3aepdfqtsl7eqe.apps.googleusercontent.com",
+                    callback: handleGoogleCredentialResponse,
+                    auto_select: false,
+                    cancel_on_tap_outside: false
+                });
+                
+                // Afficher le bouton Google One Tap (optionnel)
+                // google.accounts.id.renderButton(
+                //     document.getElementById("google-button"),
+                //     { theme: "outline", size: "large" }
+                // );
+                
+                // Désactiver One Tap pour éviter les popups non sollicitées
+                // google.accounts.id.prompt();
+            }
+        };
+        
+        // Fonction pour gérer la réponse de Google
+        function handleGoogleCredentialResponse(response) {
+            console.log("Identifiants Google reçus", response);
+            
+            // Envoyer le credential au backend
+            fetch(`${API_BASE_URL}/auth/google/callback/web`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    credential: response.credential
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Connexion Google réussie', data.user);
+                    handleGoogleLoginSuccess(data.user);
+                } else {
+                    console.error('Erreur de connexion Google', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la connexion Google:', error);
+            });
+        }
+    </script>
+    
+    <!-- ========== API CONFIGURATION ONLY ========== -->
     <script src="api-config.js"></script>
     <script>
         (function(){

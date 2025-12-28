@@ -66,9 +66,11 @@ def health():
 
 @app.route('/')
 def home():
-    """Servir index.html avec send_from_directory (plus robuste que render_template)"""
+    """Rediriger immédiatement vers index.html pour éviter le message temporaire de Render"""
     try:
-        return send_from_directory('.', 'index.html')
+        # Redirection permanente vers index.html
+        from flask import redirect
+        return redirect('/index.html')
     except Exception as e:
         return f"Erreur: {str(e)}", 500
 
@@ -111,6 +113,29 @@ def demo_video():
 def admin_messages():
     try:
         return send_from_directory('admin', 'admin_messages.html')
+    except Exception as e:
+        return f"Erreur: {str(e)}", 500
+
+@app.route('/index.html')
+def index():
+    """Servir le fichier index.html"""
+    try:
+        return send_from_directory('.', 'index.html')
+    except Exception as e:
+        return f"Erreur: {str(e)}", 500
+
+@app.route('/admin.html')
+def admin():
+    """Servir le fichier admin.html"""
+    try:
+        return send_from_directory('admin', 'admin.html')
+    except Exception as e:
+        return f"Erreur: {str(e)}", 500
+
+@app.route('/admin/visits_stats.html')
+def visits_stats():
+    try:
+        return send_from_directory('admin', 'visits_stats.html')
     except Exception as e:
         return f"Erreur: {str(e)}", 500
 

@@ -139,6 +139,14 @@ def visits_stats():
     except Exception as e:
         return f"Erreur: {str(e)}", 500
 
+@app.route('/visits_stats.html')
+def visits_stats_root():
+    """Servir le fichier visits_stats.html depuis la racine pour le service admin"""
+    try:
+        return send_from_directory('admin', 'visits_stats.html')
+    except Exception as e:
+        return f"Erreur: {str(e)}", 500
+
 # ----------------------------
 # Routes pour les assets statiques
 # ----------------------------

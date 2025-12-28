@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord administrateur | Prestige Shop Express</title>
+  <link rel="icon" href="/images/prestige shop.png" type="image/png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" rel="stylesheet">
+  <script src="../api-config.js"></script>
+  <style>
+    .card { box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+    .stat-card { transition: transform 0.2s; }
+    .stat-card:hover { transform: translateY(-5px); }
+    /* Style pour les cellules avec texte long */
+    .truncate-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-lg border-b-4 border-purple-500">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user-shield text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Administration</h1>
+                        <p class="text-gray-600 text-sm">Gestion des utilisateurs - Prestige Shop Express</p>
+                    </div>
+                    
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="loadUsers()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center">
+                        <i class="fas fa-sync-alt mr-2"></i>Actualiser
+                        <span id="refresh-indicator" class="ml-2 hidden">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </span>
+                    </button>
+                    <a href="messages.html" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-envelope mr-2"></i>Nouveau Message
+                    </a>
+                    <a href="../backend_render/message_history.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-history mr-2"></i>Historique Messages
+                    </a>
+                    <a href="admin_commandes.html" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-shopping-cart mr-2"></i>Commandes
+                    </a>
+                    <a href="visits_stats.html" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-chart-bar mr-2"></i>Statistiques Visites
+                    </a>
+                    <a href="/index.html" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-home mr-2"></i>Accueil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        
+        <!-- Statistiques -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="admin-card bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Total Utilisateurs</p>
+                        <p class="text-3xl font-bold text-blue-600" id="total-users">-</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-users text-blue-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-card bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Utilisateurs Actifs</p>
+                        <p class="text-3xl font-bold text-green-600" id="active-users">-</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user-check text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-card bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Connectés Maintenant</p>
+                        <p class="text-3xl font-bold text-purple-600" id="online-users">-</p>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-wifi text-purple-600 text-xl status-badge"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-card bg-white rounded-xl shadow-md p-6 border-l-4 border-orange-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Nouveaux Aujourd'hui</p>
+                        <p class="text-3xl font-bold text-orange-600" id="new-today">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user-plus text-orange-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtres et Recherche -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="search-input" placeholder="Rechercher par nom ou email..." 
+                               class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    </div>
+                    <select id="status-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                        <option value="">Tous les statuts</option>
+                        <option value="actif">Actifs</option>
+                        <option value="suspendu">Suspendus</option>
+                    </select>
+                    <label class="inline-flex items-center text-sm text-gray-700 select-none">
+                        <input type="checkbox" id="profil-incomplet-filter" class="mr-2">
+                        Profil à compléter
+                    </label>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-gray-600">Dernière mise à jour:</span>
+                    <span id="last-update" class="text-sm font-medium text-purple-600">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message de statut -->
+        <div id="status-message" class="hidden mb-6">
+            <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg">
+                <div class="flex items-center">
+                    <div class="loading mr-3"></div>
+                    <span>Chargement des données...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tableau des utilisateurs -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                <h2 class="text-xl font-semibold text-gray-800 flex items-center">
+                    <i class="fas fa-table mr-2 text-purple-600"></i>
+                    Liste des Utilisateurs
+                </h2>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Téléphone</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Connexion</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dernière connexion</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profil</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">WhatsApp</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut Profil</th>
+                            <!-- Ajout des en-têtes pour les nouveaux champs -->
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sexe</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Âge</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Adresse</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Centres d'intérêt</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body" class="bg-white divide-y divide-gray-200">
+                        <!-- Les données seront chargées ici -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Message si aucun utilisateur -->
+        <div id="no-users-message" class="hidden text-center py-12">
+            <div class="max-w-md mx-auto">
+                <i class="fas fa-users text-gray-300 text-6xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-600 mb-2">Aucun utilisateur trouvé</h3>
+                <p class="text-gray-500">Il n'y a pas encore d'utilisateurs inscrits ou ils ne correspondent pas aux filtres appliqués.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Variables globales
+        let allUsers = [];
+        let filteredUsers = [];
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Charger les utilisateurs sans vérifier la session
+            // L'administrateur peut accéder à cette page même sans être connecté
+            loadUsers();
+            setupEventListeners();
+            
+            // Démarrer l'actualisation automatique
+            setTimeout(autoRefresh, 30000);
+        });
+        
+        // Fonction simplifiée pour vérifier la session (optionnelle)
+        async function checkAdminSession() {
+            try {
+                // Vérifier la session Flask via le point de terminaison admin
+                const response = await fetch(`${API_BASE_URL}/check-admin-session`, { credentials: 'include' });
+                const data = await response.json();
+                
+                return data.success && data.authenticated;
+            } catch (error) {
+                console.error('Erreur lors de la vérification de session admin:', error);
+                return false;
+            }
+        }
+        
+        function setupEventListeners() {
+            document.getElementById('search-input').addEventListener('input', filterUsers);
+            document.getElementById('status-filter').addEventListener('change', filterUsers);
+            document.getElementById('profil-incomplet-filter').addEventListener('change', filterUsers);
+        }
+        
+        async function loadUsers() {
+            // Afficher l'indicateur de chargement
+            const refreshIndicator = document.getElementById('refresh-indicator');
+            if (refreshIndicator) {
+                refreshIndicator.classList.remove('hidden');
+            }
+            
+            showStatusMessage('Chargement des données...', 'loading');
+            
+            try {
+                let response = await fetch(`${API_BASE_URL}/admin/users-profiles`, { credentials: 'include' });
+                if (response.status === 404) {
+                    // Fallback si l'endpoint n'est pas disponible sur le backend déployé
+                    response = await fetch(`${API_BASE_URL}/users`, { credentials: 'include' });
+                }
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                if (data.success) {
+                    allUsers = data.users;
+                    // Trier les utilisateurs par dernière connexion (descendant) pour que les plus récents soient en haut
+                    allUsers.sort((a, b) => {
+                        // Gérer les cas où derniere_connexion est null
+                        if (!a.derniere_connexion && !b.derniere_connexion) return 0;
+                        if (!a.derniere_connexion) return 1;
+                        if (!b.derniere_connexion) return -1;
+                        
+                        // Convertir les dates en objets Date pour comparaison
+                        const dateA = new Date(a.derniere_connexion);
+                        const dateB = new Date(b.derniere_connexion);
+                        return dateB - dateA; // Ordre descendant
+                    });
+                    
+                    filteredUsers = [...allUsers];
+                    updateStatistics();
+                    displayUsers();
+                    updateLastUpdate();
+                    hideStatusMessage();
+                } else {
+                    showStatusMessage('Erreur lors du chargement des données: ' + (data.message || 'Données invalides'), 'error');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showStatusMessage(`Erreur de connexion au serveur: ${error.message || 'Vérifiez que le serveur est démarré et accessible'}`, 'error');
+            } finally {
+                // Masquer l'indicateur de chargement
+                if (refreshIndicator) {
+                    setTimeout(() => {
+                        refreshIndicator.classList.add('hidden');
+                    }, 500);
+                }
+            }
+        }
+        
+        function updateStatistics() {
+            const total = allUsers.length;
+            const active = allUsers.filter(u => u.statut === 'actif').length;
+            const online = allUsers.filter(u => u.statut_connexion === 'CONNECTÉ').length;
+            
+            document.getElementById('total-users').textContent = total;
+            document.getElementById('active-users').textContent = active;
+            document.getElementById('online-users').textContent = online;
+            document.getElementById('new-today').textContent = '0';
+        }
+        
+        // Nouvelle fonction pour actualiser automatiquement les données
+        function autoRefresh() {
+            loadUsers();
+            // Actualiser toutes les 30 secondes
+            setTimeout(autoRefresh, 30000);
+        }
+        
+        function displayUsers() {
+            const tbody = document.getElementById('users-table-body');
+            const noUsersMessage = document.getElementById('no-users-message');
+            
+            if (filteredUsers.length === 0) {
+                tbody.innerHTML = '';
+                noUsersMessage.classList.remove('hidden');
+                return;
+            }
+            
+            noUsersMessage.classList.add('hidden');
+            
+            tbody.innerHTML = filteredUsers.map(user => {
+                // Ajouter une classe spéciale pour les utilisateurs récemment connectés
+                const isConnected = user.statut_connexion === 'CONNECTÉ';
+                const rowClass = isConnected ? 'bg-blue-50 border-l-4 border-blue-500' : 'hover:bg-gray-50';
+                const profilComplet = !!(user.profil_whatsapp && user.profil_statut);
+                const profilBadgeClass = profilComplet ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800';
+                const profilBadgeText = profilComplet ? 'Complet' : 'À compléter';
+                
+                return `
+                <tr class="${rowClass} transition-colors">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        #${user.id}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                ${user.nom_complet ? user.nom_complet.charAt(0).toUpperCase() : 'U'}
+                            </div>
+                            <div class="ml-3">
+                                <div class="text-sm font-medium text-gray-900">${user.nom_complet || 'N/A'}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${user.email}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${user.numero || 'Non renseigné'}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadgeClass(user.statut)}">
+                            ${user.statut}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full ${getConnectionBadgeClass(user.statut_connexion)}">
+                            <i class="fas ${isConnected ? 'fa-circle' : 'fa-circle'} mr-1"></i>
+                            ${user.statut_connexion}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${formatDate(user.derniere_connexion)}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full ${profilBadgeClass}">
+                            ${profilBadgeText}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${user.profil_whatsapp || '<span class="text-gray-400">-</span>'}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${user.profil_statut || '<span class="text-gray-400">-</span>'}
+                    </td>
+                    <!-- Ajout des autres champs du profil -->
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${user.profil_sexe || '<span class="text-gray-400">-</span>'}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${user.profil_age || '<span class="text-gray-400">-</span>'}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${user.profil_adresse || '<span class="text-gray-400">-</span>'}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${user.profil_centre_interet || '<span class="text-gray-400">-</span>'}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div class="flex space-x-2">
+                            ${user.statut === 'actif' ? 
+                                `<button onclick="toggleUserStatus(${user.id}, 'suspendu')" class="text-yellow-600 hover:text-yellow-900 transition-colors mr-2">
+                                    <i class="fas fa-ban"></i> Suspendre
+                                </button>` :
+                                `<button onclick="toggleUserStatus(${user.id}, 'actif')" class="text-green-600 hover:text-green-900 transition-colors mr-2">
+                                    <i class="fas fa-check"></i> Activer
+                                </button>`
+                            }
+                            <button onclick="deleteUser(${user.id}, '${user.nom_complet || 'cet utilisateur'}')" class="text-red-600 hover:text-red-900 transition-colors">
+                                <i class="fas fa-trash-alt"></i> Supprimer
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `}).join('');
+        }
+        
+        function filterUsers() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const statusFilter = document.getElementById('status-filter').value;
+            const onlyIncomplete = document.getElementById('profil-incomplet-filter').checked;
+            
+            filteredUsers = allUsers.filter(user => {
+                const matchesSearch = !searchTerm || 
+                    (user.nom_complet && user.nom_complet.toLowerCase().includes(searchTerm)) ||
+                    user.email.toLowerCase().includes(searchTerm) ||
+                    (user.numero && user.numero.includes(searchTerm));
+                
+                const matchesStatus = !statusFilter || user.statut === statusFilter;
+                
+                const profilComplet = !!(user.profil_whatsapp && user.profil_statut);
+                const matchesProfile = !onlyIncomplete || !profilComplet;
+                return matchesSearch && matchesStatus && matchesProfile;
+            });
+            
+            displayUsers();
+        }
+        
+        async function toggleUserStatus(userId, newStatus) {
+            const action = newStatus === 'actif' ? 'activer' : 'suspendre';
+            
+            if (!confirm(`Êtes-vous sûr de vouloir ${action} cet utilisateur ?`)) {
+                return;
+            }
+            
+            try {
+                const endpoint = newStatus === 'actif' ? 'activer' : 'suspendre';
+                const response = await fetch(`${API_BASE_URL}/${endpoint}/${userId}`, { credentials: 'include', 
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showStatusMessage(`Utilisateur ${action} avec succès`, 'success');
+                    loadUsers(); // Recharger les données
+                } else {
+                    showStatusMessage(`Erreur lors de l'${action}`, 'error');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showStatusMessage('Erreur de connexion', 'error');
+            }
+        }
+        
+        async function deleteUser(userId, userName) {
+            if (!confirm(`Êtes-vous sûr de vouloir supprimer ${userName} ? Cette action est irréversible.`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/${userId}`, { credentials: 'include', 
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showStatusMessage('Utilisateur supprimé avec succès', 'success');
+                    loadUsers(); // Recharger les données
+                } else {
+                    showStatusMessage(`Erreur lors de la suppression: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showStatusMessage('Erreur de connexion', 'error');
+            }
+        }
+        
+        function refreshData() {
+            loadUsers();
+        }
+        
+        function getStatusBadgeClass(status) {
+            switch(status) {
+                case 'actif': return 'bg-green-100 text-green-800';
+                case 'suspendu': return 'bg-red-100 text-red-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+        
+        function getConnectionBadgeClass(status) {
+            return status === 'CONNECTÉ' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800';
+        }
+        
+        function formatDate(dateString) {
+            if (!dateString) return 'Jamais';
+            
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+            
+            if (diffMins < 1) return 'À l\'instant';
+            if (diffMins < 60) return `Il y a ${diffMins} min`;
+            if (diffHours < 24) return `Il y a ${diffHours}h`;
+            if (diffDays < 7) return `Il y a ${diffDays} jour(s)`;
+            
+            return date.toLocaleDateString('fr-FR');
+        }
+        
+        function updateLastUpdate() {
+            const now = new Date();
+            document.getElementById('last-update').textContent = now.toLocaleTimeString('fr-FR');
+        }
+        
+        function showStatusMessage(message, type) {
+            const statusDiv = document.getElementById('status-message');
+            const classes = {
+                loading: 'bg-blue-50 border-blue-500 text-blue-700',
+                success: 'bg-green-50 border-green-500 text-green-700',
+                error: 'bg-red-50 border-red-500 text-red-700'
+            };
+            
+            statusDiv.className = `mb-6 border-l-4 p-4 rounded-lg ${classes[type] || classes.loading}`;
+            statusDiv.innerHTML = `
+                <div class="flex items-center">
+                    ${type === 'loading' ? '<div class="loading mr-3"></div>' : 
+                      type === 'success' ? '<i class="fas fa-check-circle mr-3"></i>' :
+                      '<i class="fas fa-exclamation-circle mr-3"></i>'}
+                    <span>${message}</span>
+                </div>
+            `;
+            statusDiv.classList.remove('hidden');
+        }
+        
+        function hideStatusMessage() {
+            document.getElementById('status-message').classList.add('hidden');
+        }
+        
+        // Fonction pour vérifier si l'utilisateur est un administrateur
+        async function isAdmin() {
+            // Pour l'instant, nous considérons que tout utilisateur connecté peut accéder à l'admin
+            // Dans une implémentation future, nous pourrions avoir un système de rôles
+            return true;
+        }
+    </script>
+</body>
+</html>

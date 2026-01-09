@@ -3709,1273 +3709,1273 @@ if (images && images.length > 0) {
         }
         
         // Base de données des produits avec plusieurs images
-        const products = [
+        // const products = [
             // Catégorie Éducatif
-            {
-                id: 36,
-                name: "Jean Carpenter \"Gothic Cross\"",
-                price: 10000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                    "https://imagesend.fr/uploads/20251220/6bbb07c45dbdf0fc23546cfaf0245f129e380f81.jpg",
-                    "https://imagesend.fr/uploads/20251220/e6a379717a1bf0ee9f24bb69f717b264b8442003.jpg",
-                    "https://imagesend.fr/uploads/20251220/1331ecc28d3d9430915050a1be7d6a328455a48f.jpg"
+        //     {
+        //         id: 36,
+        //         name: "Jean Carpenter \"Gothic Cross\"",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //             "https://imagesend.fr/uploads/20251220/6bbb07c45dbdf0fc23546cfaf0245f129e380f81.jpg",
+        //             "https://imagesend.fr/uploads/20251220/e6a379717a1bf0ee9f24bb69f717b264b8442003.jpg",
+        //             "https://imagesend.fr/uploads/20251220/1331ecc28d3d9430915050a1be7d6a328455a48f.jpg"
             
-                ],
-                description: "Adoptez un look audacieux et contemporain avec le jean Carpenter \"Gothic Cross\". Conçu pour les hommes qui aiment se démarquer, ce jean allie confort et style avec ses détails uniques inspirés de l'esthétique gothique.",
-                sizes: [ "31", "32", "33", "34"],
-                colors: ["Bleu Denim", "Bleu foncé", "Noir"]
-            },
+        //         ],
+        //         description: "Adoptez un look audacieux et contemporain avec le jean Carpenter \"Gothic Cross\". Conçu pour les hommes qui aiment se démarquer, ce jean allie confort et style avec ses détails uniques inspirés de l'esthétique gothique.",
+        //         sizes: [ "31", "32", "33", "34"],
+        //         colors: ["Bleu Denim", "Bleu foncé", "Noir"]
+        //     },
 
-            {
-                id: 63,
-                name: "Jean Carpenter \"Geometric Grid\" – Denim Noir Wash",
-                price: 10000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/738a96a4762bb9adb695156bccf686c15bc81d10.jpg",
-                 "https://imagesend.fr/uploads/20251220/7fe39e3d14004036e9908525ab4cbf045f600740.jpg",
-                 "https://imagesend.fr/uploads/20251220/9056ae18a974d645c639df5f5aa271280d17e452.jpg"
+        //     {
+        //         id: 63,
+        //         name: "Jean Carpenter \"Geometric Grid\" – Denim Noir Wash",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251220/738a96a4762bb9adb695156bccf686c15bc81d10.jpg",
+        //          "https://imagesend.fr/uploads/20251220/7fe39e3d14004036e9908525ab4cbf045f600740.jpg",
+        //          "https://imagesend.fr/uploads/20251220/9056ae18a974d645c639df5f5aa271280d17e452.jpg"
 
-                ],
-                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
-                sizes: [ "31", "32", "33", "34"],
-                colors: ["Noir délavé","mélange de gris et noir","gris anthracite et noir."],
-            },
-            {
-                id: 64,
-                name: "Jean Carpenter \"Urban Camo\" – Style Camouflage Moderne",
-                price: 10000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/ddbc702b3900c6adbe235a8ec632f3af3822fca8.jpg",
-                 "https://imagesend.fr/uploads/20251220/26cea469ac10011052dcf29e99e028fda43b7e07.jpg"
+        //         ],
+        //         description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
+        //         sizes: [ "31", "32", "33", "34"],
+        //         colors: ["Noir délavé","mélange de gris et noir","gris anthracite et noir."],
+        //     },
+        //     {
+        //         id: 64,
+        //         name: "Jean Carpenter \"Urban Camo\" – Style Camouflage Moderne",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251220/ddbc702b3900c6adbe235a8ec632f3af3822fca8.jpg",
+        //          "https://imagesend.fr/uploads/20251220/26cea469ac10011052dcf29e99e028fda43b7e07.jpg"
 
-                ],
-                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
-                sizes: [ "31", "32", "33", "34"],
-                colors: ["Noir délavé","mélange de gris et noir","gris anthracite et noir."],
-            },
+        //         ],
+        //         description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
+        //         sizes: [ "31", "32", "33", "34"],
+        //         colors: ["Noir délavé","mélange de gris et noir","gris anthracite et noir."],
+        //     },
 
-            {
-                id: 65,
-                name: "Jean Carpenter \"Digital Matrix\" ",
-                price: 10000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/e8c445c1bc0121eebd812f0bd0b2961d7b0eb30d.jpg",
+        //     {
+        //         id: 65,
+        //         name: "Jean Carpenter \"Digital Matrix\" ",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251220/e8c445c1bc0121eebd812f0bd0b2961d7b0eb30d.jpg",
                  
 
-                ],
-                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
-                sizes: [ "31", "32", "33", "34"],
-            },
+        //         ],
+        //         description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
+        //         sizes: [ "31", "32", "33", "34"],
+        //     },
 
-            {
-                id: 66,
-                name: "Jean Carpenter \"Neo-Tribal Fusion\" – Motifs Ethniques Modernes",
-                price: 10000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/bc5a4bf1184c0c2d27c14c46f13da47026032506.jpg",
+        //     {
+        //         id: 66,
+        //         name: "Jean Carpenter \"Neo-Tribal Fusion\" – Motifs Ethniques Modernes",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251220/bc5a4bf1184c0c2d27c14c46f13da47026032506.jpg",
                  
 
-                ],
-                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
-                sizes: [ "31", "32", "33", "34"],
-            },
+        //         ],
+        //         description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
+        //         sizes: [ "31", "32", "33", "34"],
+        //     },
 
-            {
-                id: 67,
+        //     {
+        //         id: 67,
 
-                name: "Jean Carpenter \"Neo-Tribal Fusion\" – Motifs Ethniques Modernes",
-                price: 10000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/6cb66e7b3f53ce933b82bde6ee794ad56902a8e3.jpg",
+        //         name: "Jean Carpenter \"Neo-Tribal Fusion\" – Motifs Ethniques Modernes",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251220/6cb66e7b3f53ce933b82bde6ee794ad56902a8e3.jpg",
                  
 
-                ],
-                description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
-                sizes: [ "31", "32", "33", "34"],
+        //         ],
+        //         description: "Élevez votre garde-robe avec ce jean Carpenter au design audacieux.",
+        //         sizes: [ "31", "32", "33", "34"],
                 
-            },
+        //     },
              
-            {
-                id: 68,
-                name: "Nike Shox TL \"Racer / Metallic Silver\"",
+        //     {
+        //         id: 68,
+        //         name: "Nike Shox TL \"Racer / Metallic Silver\"",
 
-                price: 19000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251219/bd06b6bff1e4ee66afb2de5f30014f204607e629.jpg",
-                 "https://imagesend.fr/uploads/20251220/19bdcea21af71b80033323ef4167014a3dd13b5e.jpg",
-                 "https://imagesend.fr/uploads/20251220/8f609f752e77e2d0221059e7b4f443f5d472c386.jpg",
-                 "https://imagesend.fr/uploads/20251220/f4840c193e70c58689efa4147b7e40f02a0f8dff.jpg"
+        //         price: 19000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251219/bd06b6bff1e4ee66afb2de5f30014f204607e629.jpg",
+        //          "https://imagesend.fr/uploads/20251220/19bdcea21af71b80033323ef4167014a3dd13b5e.jpg",
+        //          "https://imagesend.fr/uploads/20251220/8f609f752e77e2d0221059e7b4f443f5d472c386.jpg",
+        //          "https://imagesend.fr/uploads/20251220/f4840c193e70c58689efa4147b7e40f02a0f8dff.jpg"
                  
 
-                ],
-                description: " Découvrez les Nike Shox TL \"Racer / Metallic Silver\", une fusion parfaite de style futuriste et de performance. Avec leur design innovant et leur technologie d'amorti Shox, ces sneakers offrent un confort exceptionnel et un look audacieux pour les amateurs de mode urbaine.",
-                sizes: [ "40", "41", "42", "43", "44","45"],
-                colors: ["Noir","Bleu","dégradé de beige", "Max Orange"],
-            },
+        //         ],
+        //         description: " Découvrez les Nike Shox TL \"Racer / Metallic Silver\", une fusion parfaite de style futuriste et de performance. Avec leur design innovant et leur technologie d'amorti Shox, ces sneakers offrent un confort exceptionnel et un look audacieux pour les amateurs de mode urbaine.",
+        //         sizes: [ "40", "41", "42", "43", "44","45"],
+        //         colors: ["Noir","Bleu","dégradé de beige", "Max Orange"],
+        //     },
            
-            {
-                id: 1,
-                name: "Veste de Mi-saison Style Safari pour Garçon",
-                price:  15000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                    "https://images.wakelet.com/resize?id=2bj9wwE8P72ORKJP7SGa0&w=1600&h=actual&q=85",
-                    "https://images.wakelet.com/resize?id=hW45t_xRKuFfH68Lk5VH2&w=1600&h=actual&q=85",
-                    "https://images.wakelet.com/resize?id=LMxO_jqMzRmrs53AUGH2O&w=1600&h=actual&q=85"
+        //     {
+        //         id: 1,
+        //         name: "Veste de Mi-saison Style Safari pour Garçon",
+        //         price:  15000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //             "https://images.wakelet.com/resize?id=2bj9wwE8P72ORKJP7SGa0&w=1600&h=actual&q=85",
+        //             "https://images.wakelet.com/resize?id=hW45t_xRKuFfH68Lk5VH2&w=1600&h=actual&q=85",
+        //             "https://images.wakelet.com/resize?id=LMxO_jqMzRmrs53AUGH2O&w=1600&h=actual&q=85"
                    
                     
-                ],
-                description: "Offrez à votre enfant un look à la fois moderne et intemporel avec cette superbe veste de style saharienne. Conçue pour allier style et confort, cette pièce est l'ajout parfait à la garde-robe d'un jeune garçon dynamique.",
-               sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //         ],
+        //         description: "Offrez à votre enfant un look à la fois moderne et intemporel avec cette superbe veste de style saharienne. Conçue pour allier style et confort, cette pièce est l'ajout parfait à la garde-robe d'un jeune garçon dynamique.",
+        //        sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
                 
-            },
-            {
-                id: 2,
-                name: "Sneakers Nike \"Urban Legend\" – Le Classique Intemporel \"Taille 43\"",
-                price: 13000,
-                category: "mode",
-                images: [
-                    "https://images.wakelet.com/resize?id=cUXtA_gzrn0MsauKGBq3n&w=1600&h=actual&q=85",
-                    "https://images.wakelet.com/resize?id=j4pLlhquANIBSvGOURKXj&w=1600&h=actual&q=85"
-                ],
-                description: "Redécouvrez le plaisir de marcher avec cette paire de sneakers Nike au design emblématique. Inspirée des chaussures de running classiques, elle a été revisitée pour s'imposer comme un incontournable du vestiaire urbain.",
-                sizes: ["40", "41", "42", "43", "44", "45"]
-            },
-            {
-                id: 3,
-                name: "Air Jordan 1 Mid \"Wolf Grey\" – L'Icône Intemporelle ,\"Taille 43\"",
-                price: 13000,
-                subcategory: "hommes",
-                category: "mode",
-                images: [
-                    "https://i.imghos.co/zpLEUIFP.png",
-                    "https://i.imghos.co/xUPKuXhg.png"
+        //     },
+        //     {
+        //         id: 2,
+        //         name: "Sneakers Nike \"Urban Legend\" – Le Classique Intemporel \"Taille 43\"",
+        //         price: 13000,
+        //         category: "mode",
+        //         images: [
+        //             "https://images.wakelet.com/resize?id=cUXtA_gzrn0MsauKGBq3n&w=1600&h=actual&q=85",
+        //             "https://images.wakelet.com/resize?id=j4pLlhquANIBSvGOURKXj&w=1600&h=actual&q=85"
+        //         ],
+        //         description: "Redécouvrez le plaisir de marcher avec cette paire de sneakers Nike au design emblématique. Inspirée des chaussures de running classiques, elle a été revisitée pour s'imposer comme un incontournable du vestiaire urbain.",
+        //         sizes: ["40", "41", "42", "43", "44", "45"]
+        //     },
+        //     {
+        //         id: 3,
+        //         name: "Air Jordan 1 Mid \"Wolf Grey\" – L'Icône Intemporelle ,\"Taille 43\"",
+        //         price: 13000,
+        //         subcategory: "hommes",
+        //         category: "mode",
+        //         images: [
+        //             "https://i.imghos.co/zpLEUIFP.png",
+        //             "https://i.imghos.co/xUPKuXhg.png"
                     
-                ],
-                description: "Idéal pour les exercices et révisions en mathématiques et physique-chimie. Un outil pratique et fiable pour réussir vos études.",
-                sizes: ["40", "41", "42", "43", "44", "45"]
+        //         ],
+        //         description: "Idéal pour les exercices et révisions en mathématiques et physique-chimie. Un outil pratique et fiable pour réussir vos études.",
+        //         sizes: ["40", "41", "42", "43", "44", "45"]
                
-            },
-            {
-                id: 4,
-                name: "Sneakers Nike \"Urban Legend\" – Le Classique Intemporel\" taille 43",
-                price: 12000,
-                category: "mode",
-                subcategory: "hommes",
-                images: [
-                    "https://i.imghos.co/MwHPAywO.png",
-                    "https://i.imghos.co/NprTaQka.png"
-                ],
-                description: "Redécouvrez le plaisir de marcher avec cette paire de sneakers Nike au design emblématique. Inspirée des chaussures de running classiques, elle a été revisitée pour s'imposer comme un incontournable du vestiaire urbain.",
-                sizes: ["40", "41", "42", "43", "44"]
-            },
+        //     },
+        //     {
+        //         id: 4,
+        //         name: "Sneakers Nike \"Urban Legend\" – Le Classique Intemporel\" taille 43",
+        //         price: 12000,
+        //         category: "mode",
+        //         subcategory: "hommes",
+        //         images: [
+        //             "https://i.imghos.co/MwHPAywO.png",
+        //             "https://i.imghos.co/NprTaQka.png"
+        //         ],
+        //         description: "Redécouvrez le plaisir de marcher avec cette paire de sneakers Nike au design emblématique. Inspirée des chaussures de running classiques, elle a été revisitée pour s'imposer comme un incontournable du vestiaire urbain.",
+        //         sizes: ["40", "41", "42", "43", "44"]
+        //     },
             
-            // Catégorie Électronique
-            {
-                id: 5,
-                name: "iPhone 12 – 128 Go – Quasi Neuf (AVEC VIDÉO 🎥)",
-                price: 143000,
-                category: "electronique",
-                images: [
-                    "https://i.imghos.co/lbANANmJ.jpg",
-                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",  // 🎥 VIDÉO DE DÉMO
-                    "https://i.imghos.co/MV-zRfzq.jpg"
+        //     // Catégorie Électronique
+        //     {
+        //         id: 5,
+        //         name: "iPhone 12 – 128 Go – Quasi Neuf (AVEC VIDÉO 🎥)",
+        //         price: 143000,
+        //         category: "electronique",
+        //         images: [
+        //             "https://i.imghos.co/lbANANmJ.jpg",
+        //             "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",  // 🎥 VIDÉO DE DÉMO
+        //             "https://i.imghos.co/MV-zRfzq.jpg"
                    
-                ],
-                description: "iPhone 12 quasi neuf, écran 6,1, 5G, batterie parfaite et performance rapide. ⭐ AVEC VIDÉO DE DÉMONSTRATION !"
-            },
-            {
-                id: 6,
-                name: "iPhone XR – 128 Go – Quasi Neuf",
-                price: 95000,
-                category: "electronique",
-                images: [
-                    "https://i.imghos.co/i-HpQfyF.jpg",
-                    "https://i.imghos.co/oyFUAJXG.jpg"
-                ],
-                description: "iPhone XR – Smartphone Apple élégant avec écran Liquid Retina 6,1, Face ID, appareil photo 12 MP, processeur A12 Bionic puissant et design moderne."
-            },
-            {
-                id: 7,
-                name: "HP Pavilion 15-er0125od (Core i5 de 11ᵉ génération, 8 Go RAM, 512 Go SSD, écran tactile 15,6)",
-                price: 510000,
-                category: "electronique",
-                images: [
-                    "https://i.imghos.co/aYzAQLBI.jpg"
-                ],
-                description: "HP Core i5 – 15.6\" Full HD, 8 Go RAM, 256 Go SSD, Windows 11, performance fiable pour le travail."
-            },
-            {
-                id: 8,
-                name: "PC Portable Dell Inspiron 15 3000 (Core i3 de 11ᵉ génération, 8 Go RAM, 256 Go SSD, écran 15,6)",
-                price: 350000,
-                category: "electronique",
-                images: [
-                    "https://i.imghos.co/JCSZIcQG.jpg",
-                    "https://i.imghos.co/yYmiSjbc.jpg"
-                ],
-                description: "Dell Inspiron 15 – PC portable avec écran 15,6\", processeur Intel Core i3 de 11ᵉ génération, 8 Go RAM, 256 Go SSD, Windows 11."
-            },
+        //         ],
+        //         description: "iPhone 12 quasi neuf, écran 6,1, 5G, batterie parfaite et performance rapide. ⭐ AVEC VIDÉO DE DÉMONSTRATION !"
+        //     },
+        //     {
+        //         id: 6,
+        //         name: "iPhone XR – 128 Go – Quasi Neuf",
+        //         price: 95000,
+        //         category: "electronique",
+        //         images: [
+        //             "https://i.imghos.co/i-HpQfyF.jpg",
+        //             "https://i.imghos.co/oyFUAJXG.jpg"
+        //         ],
+        //         description: "iPhone XR – Smartphone Apple élégant avec écran Liquid Retina 6,1, Face ID, appareil photo 12 MP, processeur A12 Bionic puissant et design moderne."
+        //     },
+        //     {
+        //         id: 7,
+        //         name: "HP Pavilion 15-er0125od (Core i5 de 11ᵉ génération, 8 Go RAM, 512 Go SSD, écran tactile 15,6)",
+        //         price: 510000,
+        //         category: "electronique",
+        //         images: [
+        //             "https://i.imghos.co/aYzAQLBI.jpg"
+        //         ],
+        //         description: "HP Core i5 – 15.6\" Full HD, 8 Go RAM, 256 Go SSD, Windows 11, performance fiable pour le travail."
+        //     },
+        //     {
+        //         id: 8,
+        //         name: "PC Portable Dell Inspiron 15 3000 (Core i3 de 11ᵉ génération, 8 Go RAM, 256 Go SSD, écran 15,6)",
+        //         price: 350000,
+        //         category: "electronique",
+        //         images: [
+        //             "https://i.imghos.co/JCSZIcQG.jpg",
+        //             "https://i.imghos.co/yYmiSjbc.jpg"
+        //         ],
+        //         description: "Dell Inspiron 15 – PC portable avec écran 15,6\", processeur Intel Core i3 de 11ᵉ génération, 8 Go RAM, 256 Go SSD, Windows 11."
+        //     },
             
-            // Catégorie Mode
-            {
-                id: 9,
-                name: "Baskets Adidas Tendance Noir & Rose – Style audacieux et unique",
-                price: 24500,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                    "https://i.imghos.co/yDtAzlPP.jpg",
-                    "https://i.imghos.co/Gy-JvfNk.jpg",
-                    "https://i.imghos.co/GOGtLrdA.jpg"
-                ],
-                description: "Alliez confort, durabilité et look moderne avec ces baskets Adidas au contraste noir et rose éclatant, parfaites pour le sport ou le quotidien.",
-                sizes: ["36", "37", "38", "39", "40"],
-            },
-            {
-                id: 10,
-                name: "Baskets Rétro Élégantes – L'icône du style urbain",
-                price: 28000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                    "https://i.imghos.co/BSvuPcyR.jpg",
-                    "https://i.imghos.co/vHiPUCGW.jpg"
-                ],
-                description: "Élégantes et confortables, ces baskets blanc et bleu marine allient style intemporel et polyvalence pour toutes vos tenues quotidiennes."
-            },
-            {
-                id: 11,
-                name: "Baskets Hautes Élégance Poudrée – Chic et streetwear",
-                price: 23750,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                    "https://i.imghos.co/XlQTcFxl.jpg",
-                    "https://i.imghos.co/PKHhzAoQ.jpg"
+        //     // Catégorie Mode
+        //     {
+        //         id: 9,
+        //         name: "Baskets Adidas Tendance Noir & Rose – Style audacieux et unique",
+        //         price: 24500,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //             "https://i.imghos.co/yDtAzlPP.jpg",
+        //             "https://i.imghos.co/Gy-JvfNk.jpg",
+        //             "https://i.imghos.co/GOGtLrdA.jpg"
+        //         ],
+        //         description: "Alliez confort, durabilité et look moderne avec ces baskets Adidas au contraste noir et rose éclatant, parfaites pour le sport ou le quotidien.",
+        //         sizes: ["36", "37", "38", "39", "40"],
+        //     },
+        //     {
+        //         id: 10,
+        //         name: "Baskets Rétro Élégantes – L'icône du style urbain",
+        //         price: 28000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //             "https://i.imghos.co/BSvuPcyR.jpg",
+        //             "https://i.imghos.co/vHiPUCGW.jpg"
+        //         ],
+        //         description: "Élégantes et confortables, ces baskets blanc et bleu marine allient style intemporel et polyvalence pour toutes vos tenues quotidiennes."
+        //     },
+        //     {
+        //         id: 11,
+        //         name: "Baskets Hautes Élégance Poudrée – Chic et streetwear",
+        //         price: 23750,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //             "https://i.imghos.co/XlQTcFxl.jpg",
+        //             "https://i.imghos.co/PKHhzAoQ.jpg"
         
             
-                ],
-                description: "Élégantes et confortables, ces baskets hautes bleu marine et rose poudré allient style raffiné, originalité et polyvalence pour toutes vos tenues.",
+        //         ],
+        //         description: "Élégantes et confortables, ces baskets hautes bleu marine et rose poudré allient style raffiné, originalité et polyvalence pour toutes vos tenues.",
 
-                sizes: ["36", "37", "38", "39", "40"],
-                colors: ["Rose poudré", "Bleu marine"],
-            },
-            {
-                id: 12,
-                name: "Baskets Blanches Pures – L'icône du style intemporel",
-                price: 25250,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                    "https://i.imghos.co/GGkBiVvM.jpg",
-                    "https://i.imghos.co/wYoLrvRV.jpg"
-                ],
-                description: "Classiques et polyvalentes, ces baskets blanches au design épuré allient confort et style minimaliste pour toutes vos tenues.",
-                sizes: ["40", "41", "42", "43", "44", "45"],
-            },
+        //         sizes: ["36", "37", "38", "39", "40"],
+        //         colors: ["Rose poudré", "Bleu marine"],
+        //     },
+        //     {
+        //         id: 12,
+        //         name: "Baskets Blanches Pures – L'icône du style intemporel",
+        //         price: 25250,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //             "https://i.imghos.co/GGkBiVvM.jpg",
+        //             "https://i.imghos.co/wYoLrvRV.jpg"
+        //         ],
+        //         description: "Classiques et polyvalentes, ces baskets blanches au design épuré allient confort et style minimaliste pour toutes vos tenues.",
+        //         sizes: ["40", "41", "42", "43", "44", "45"],
+        //     },
             
-            // Produits supplémentaires pour démontrer la pagination
-            {
-                id: 13,
-                name: "La Tenue Décontractée Chic \"Oasis\":",
-                price: 15000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                    "https://i.imghos.co/jiJoJoIA.png",
-                    "https://i.imghos.co/NSyouFIf.png"
-                ],
-                description:"Élégance Décontractée et Touche d'Ailleurs. L'ensemble \"Vagues d'Été\" est la pièce maîtresse idéale pour une silhouette chic et rafraîchissante, parfaite pour les belles journées ensoleillées ou les soirées douces.",
-                sizes: ["S", "M", "L", "XL", "XXL"]
-            },
-            {
-                id: 14,
-                name: "iPhone 13 simple/ 128 Go – Quasi Neuf (AVEC VIDÉO DE DÉMO 🎥)",
-                price: 190000,
-                category: "electronique",
-                images: [
-                    "https://i.imghos.co/-VPvoqfK.jpg",
-                    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",  // 🎥 VIDÉO DE DÉMO
-                    "https://i.imghos.co/rnq-mDrF.jpg"
+        //     // Produits supplémentaires pour démontrer la pagination
+        //     {
+        //         id: 13,
+        //         name: "La Tenue Décontractée Chic \"Oasis\":",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //             "https://i.imghos.co/jiJoJoIA.png",
+        //             "https://i.imghos.co/NSyouFIf.png"
+        //         ],
+        //         description:"Élégance Décontractée et Touche d'Ailleurs. L'ensemble \"Vagues d'Été\" est la pièce maîtresse idéale pour une silhouette chic et rafraîchissante, parfaite pour les belles journées ensoleillées ou les soirées douces.",
+        //         sizes: ["S", "M", "L", "XL", "XXL"]
+        //     },
+        //     {
+        //         id: 14,
+        //         name: "iPhone 13 simple/ 128 Go – Quasi Neuf (AVEC VIDÉO DE DÉMO 🎥)",
+        //         price: 190000,
+        //         category: "electronique",
+        //         images: [
+        //             "https://i.imghos.co/-VPvoqfK.jpg",
+        //             "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",  // 🎥 VIDÉO DE DÉMO
+        //             "https://i.imghos.co/rnq-mDrF.jpg"
                     
-                ],
-                description: "iPhone 13 simple/ 128 Go – Écran Super Retina XDR, double caméra, processeur A15 Bionic, autonomie longue durée et design élégant. ⭐ AVEC VIDÉO DE DÉMONSTRATION !"
-            },
+        //         ],
+        //         description: "iPhone 13 simple/ 128 Go – Écran Super Retina XDR, double caméra, processeur A15 Bionic, autonomie longue durée et design élégant. ⭐ AVEC VIDÉO DE DÉMONSTRATION !"
+        //     },
            
-            {
-                id: 15,
-                name: "L'Ensemble \"Afro-Chic\" – Kimono Imprimé & Pantalon Fluide",
-                price: 15000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                    "https://i.imghos.co/MPxOLCK-.png",
-                    "https://i.imghos.co/LAPSfgAp.png"
-                ],
-                description: "Sublimez votre garde-robe avec cet ensemble deux pièces exceptionnel, conçu pour la femme moderne qui ne veut pas choisir entre confort et élégance.",
-                sizes: ["S", "M", "L", "XL", "XXL"]
-            },
-            {
-                id: 16,
-                name: "La Robe \"Duo Élégance\" : Fusion Batik & Blanc Pur",
-                price: 15000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                    "https://i.imghos.co/nKpMJeto.png",
-                    "https://i.imghos.co/UJvsrLrh.png"
-                ],
-                description: "Découvrez la quintessence du chic afro-contemporain avec cette robe exceptionnelle qui joue sur les contrastes pour sublimer votre silhouette.",
-                sizes: ["S", "M", "L", "XL", "XXL"]
-            },
+        //     {
+        //         id: 15,
+        //         name: "L'Ensemble \"Afro-Chic\" – Kimono Imprimé & Pantalon Fluide",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //             "https://i.imghos.co/MPxOLCK-.png",
+        //             "https://i.imghos.co/LAPSfgAp.png"
+        //         ],
+        //         description: "Sublimez votre garde-robe avec cet ensemble deux pièces exceptionnel, conçu pour la femme moderne qui ne veut pas choisir entre confort et élégance.",
+        //         sizes: ["S", "M", "L", "XL", "XXL"]
+        //     },
+        //     {
+        //         id: 16,
+        //         name: "La Robe \"Duo Élégance\" : Fusion Batik & Blanc Pur",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //             "https://i.imghos.co/nKpMJeto.png",
+        //             "https://i.imghos.co/UJvsrLrh.png"
+        //         ],
+        //         description: "Découvrez la quintessence du chic afro-contemporain avec cette robe exceptionnelle qui joue sur les contrastes pour sublimer votre silhouette.",
+        //         sizes: ["S", "M", "L", "XL", "XXL"]
+        //     },
            
-            {
-                id: 18,
-                name: "L'Audacieux Fuschia : Chemise Homme Mix-Wax",
-                price: 15000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                    "https://i.imghos.co/HTxvSTjE.png",
-                    "https://i.imghos.co/rVniEuOQ.png"
+        //     {
+        //         id: 18,
+        //         name: "L'Audacieux Fuschia : Chemise Homme Mix-Wax",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //             "https://i.imghos.co/HTxvSTjE.png",
+        //             "https://i.imghos.co/rVniEuOQ.png"
                     
-                ],
-                description: " Illuminez votre garde-robe avec cette superbe chemise à manches courtes qui marie parfaitement le style contemporain et l'authenticité africaine. Le tissu mix-wax aux motifs vibrants en fuschia et blanc apporte une touche d'originalité et de fraîcheur, idéale pour l'homme moderne qui ose se démarquer.",
-                sizes: ["S", "M", "L", "XL", "XXL"]
-            },
+        //         ],
+        //         description: " Illuminez votre garde-robe avec cette superbe chemise à manches courtes qui marie parfaitement le style contemporain et l'authenticité africaine. Le tissu mix-wax aux motifs vibrants en fuschia et blanc apporte une touche d'originalité et de fraîcheur, idéale pour l'homme moderne qui ose se démarquer.",
+        //         sizes: ["S", "M", "L", "XL", "XXL"]
+        //     },
            
            
-            {
-                id: 21,
-                name: "L'Estivale \"Urban Pop\" – Jaune Éclatant et Touche Marine",
-                price: 15000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                    "https://i.imghos.co/zzQiYspn.png",
-                    "https://i.imghos.co/LJKSJYQC.png"
+        //     {
+        //         id: 21,
+        //         name: "L'Estivale \"Urban Pop\" – Jaune Éclatant et Touche Marine",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //             "https://i.imghos.co/zzQiYspn.png",
+        //             "https://i.imghos.co/LJKSJYQC.png"
                     
-                ],
-                description: "Mettez de la lumière dans votre dressing avec cette chemise à manches courtes au design unique. Parfaite pour l'homme qui aime se démarquer, elle joue sur un color block audacieux et maîtrisé.",
-                sizes: ["S", "M", "L", "XL", "XXL"]
-            },
+        //         ],
+        //         description: "Mettez de la lumière dans votre dressing avec cette chemise à manches courtes au design unique. Parfaite pour l'homme qui aime se démarquer, elle joue sur un color block audacieux et maîtrisé.",
+        //         sizes: ["S", "M", "L", "XL", "XXL"]
+        //     },
 
-            {
-                id: 22,
-                name: "Ensemble Coordonné Chemise et Pantalon Style",
-                price: 1000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                    "https://i.imghos.co/-aoGwtbL.png"
+        //     {
+        //         id: 22,
+        //         name: "Ensemble Coordonné Chemise et Pantalon Style",
+        //         price: 1000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //             "https://i.imghos.co/-aoGwtbL.png"
                     
-                ],
-                description: "Apportez une touche de sophistication décontractée à votre garde-robe avec ce magnifique ensemble deux pièces. Conçu pour la femme moderne qui ne veut pas choisir entre style et confort, cet ensemble se distingue par sa couleur bleu vibrant et ses motifs ornementaux dorés et blancs inspirés du style baroque."
-            },
-            {
-                id: 23,
-                name: "Le Classique Revisité – Tunique Col Mao et Pantalon Blanc",
-                price: 15000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                    "https://i.imghos.co/rkbs-nab.png",
-                    "https://i.imghos.co/cZRk-ohB.png"
+        //         ],
+        //         description: "Apportez une touche de sophistication décontractée à votre garde-robe avec ce magnifique ensemble deux pièces. Conçu pour la femme moderne qui ne veut pas choisir entre style et confort, cet ensemble se distingue par sa couleur bleu vibrant et ses motifs ornementaux dorés et blancs inspirés du style baroque."
+        //     },
+        //     {
+        //         id: 23,
+        //         name: "Le Classique Revisité – Tunique Col Mao et Pantalon Blanc",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //             "https://i.imghos.co/rkbs-nab.png",
+        //             "https://i.imghos.co/cZRk-ohB.png"
                     
-                ],
-                description: "Affirmez votre charisme avec cet ensemble \"Sénateur\" d'un blanc immaculé, symbole d'élégance et de raffinement. C'est la tenue idéale pour l'homme moderne qui souhaite allier respect des traditions vestimentaires et coupe contemporaine.",
-                sizes: ["S", "M", "L", "XL", "XXL"]
-            },
+        //         ],
+        //         description: "Affirmez votre charisme avec cet ensemble \"Sénateur\" d'un blanc immaculé, symbole d'élégance et de raffinement. C'est la tenue idéale pour l'homme moderne qui souhaite allier respect des traditions vestimentaires et coupe contemporaine.",
+        //         sizes: ["S", "M", "L", "XL", "XXL"]
+        //     },
 
-            {
-                id: 24,
-                name: "Sac à dos Fantaisie LNX – Douceur et originalité",
-                price: 8500,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                 "https://i.imghos.co/nXNOMHAi.jpg",
-                 "https://i.imghos.co/VUEgteky.jpg",
-                 "https://i.imghos.co/g-DwJzmE.jpg"
-                ],
-                description: "Léger et pratique, ce sac à dos lila au motif ourson argenté allie style unique et rangement optimisé pour vos journées de cours ou sorties."
+        //     {
+        //         id: 24,
+        //         name: "Sac à dos Fantaisie LNX – Douceur et originalité",
+        //         price: 8500,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //          "https://i.imghos.co/nXNOMHAi.jpg",
+        //          "https://i.imghos.co/VUEgteky.jpg",
+        //          "https://i.imghos.co/g-DwJzmE.jpg"
+        //         ],
+        //         description: "Léger et pratique, ce sac à dos lila au motif ourson argenté allie style unique et rangement optimisé pour vos journées de cours ou sorties."
 
 
-            },
+        //     },
 
-            {
-             id: 25,
-                name: "Sac à dos Fantaisie LNX – Douceur et originalité",
-                price: 8500,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                 "https://i.imghos.co/XTGzuXoc.jpg",
-                 "https://i.imghos.co/pFSnzeHd.jpg"
-                ],
-                description: "Léger et pratique, ce sac à dos lila au motif ourson argenté allie style unique et rangement optimisé pour vos journées de cours ou sorties."
-            },
+        //     {
+        //      id: 25,
+        //         name: "Sac à dos Fantaisie LNX – Douceur et originalité",
+        //         price: 8500,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //          "https://i.imghos.co/XTGzuXoc.jpg",
+        //          "https://i.imghos.co/pFSnzeHd.jpg"
+        //         ],
+        //         description: "Léger et pratique, ce sac à dos lila au motif ourson argenté allie style unique et rangement optimisé pour vos journées de cours ou sorties."
+        //     },
 
-            {
-                id: 26,
-                name: "Modèle \"L'Alliance\" – Style Afro-Contemporain Asymétrique",
-                price: 15000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                    "https://i.imghos.co/hoRlMbej.png"
+        //     {
+        //         id: 26,
+        //         name: "Modèle \"L'Alliance\" – Style Afro-Contemporain Asymétrique",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //             "https://i.imghos.co/hoRlMbej.png"
                 
                     
-                ],
-                description: " Adoptez un look audacieux et moderne avec cette chemise asymétrique qui marie habilement tradition africaine et design contemporain. Parfaite pour l'homme confiant qui souhaite se démarquer avec élégance.",
-                sizes: ["S", "M", "L", "XL", "XXL"]
-            },
-            {
-                id: 27,
-                name: "L'Estivale \"Urban Pop\" – Jaune Éclatant et Touche Marine",
-                price: 15000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                    "https://i.imghos.co/BJvFenjH.png",
-                    "https://i.imghos.co/eOwdhSGK.png"
+        //         ],
+        //         description: " Adoptez un look audacieux et moderne avec cette chemise asymétrique qui marie habilement tradition africaine et design contemporain. Parfaite pour l'homme confiant qui souhaite se démarquer avec élégance.",
+        //         sizes: ["S", "M", "L", "XL", "XXL"]
+        //     },
+        //     {
+        //         id: 27,
+        //         name: "L'Estivale \"Urban Pop\" – Jaune Éclatant et Touche Marine",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //             "https://i.imghos.co/BJvFenjH.png",
+        //             "https://i.imghos.co/eOwdhSGK.png"
                     
-                ],
-                description: "Apportez une touche de fraîcheur et de dynamisme à votre garde-robe estivale avec cette chemise jaune vif rehaussée de détails bleu marine. Parfaite pour l'homme moderne qui aime se démarquer avec élégance.",
-                sizes: ["S", "M", "L", "XL", "XXL"]
-            },
+        //         ],
+        //         description: "Apportez une touche de fraîcheur et de dynamisme à votre garde-robe estivale avec cette chemise jaune vif rehaussée de détails bleu marine. Parfaite pour l'homme moderne qui aime se démarquer avec élégance.",
+        //         sizes: ["S", "M", "L", "XL", "XXL"]
+        //     },
 
-            {
-                id: 28,
-                name: "Calculatrice Scientifique Casio",
-                price: 6500,
-                category: "educatif",
-                images: [
-                    "https://i.imghos.co/bsMxxfGR.jpg"
+        //     {
+        //         id: 28,
+        //         name: "Calculatrice Scientifique Casio",
+        //         price: 6500,
+        //         category: "educatif",
+        //         images: [
+        //             "https://i.imghos.co/bsMxxfGR.jpg"
                     
-                ],
-                description: "Fiable et pratique, cette calculatrice scientifique Casio offre toutes les fonctions essentielles pour réussir vos calculs en cours de mathématiques, physique et autres disciplines scientifiques. Idéale pour les étudiants et les examens."
-            },
-            {
-                id: 29,
-                name: "Calculatrice Scientifique TRIO",
-                price: 6000,
-                category: "educatif",
-                images: [
-                    "https://i.imghos.co/udDlzXLH.jpg"
+        //         ],
+        //         description: "Fiable et pratique, cette calculatrice scientifique Casio offre toutes les fonctions essentielles pour réussir vos calculs en cours de mathématiques, physique et autres disciplines scientifiques. Idéale pour les étudiants et les examens."
+        //     },
+        //     {
+        //         id: 29,
+        //         name: "Calculatrice Scientifique TRIO",
+        //         price: 6000,
+        //         category: "educatif",
+        //         images: [
+        //             "https://i.imghos.co/udDlzXLH.jpg"
                     
-                ],
-                description: "Pratique et complète, la calculatrice scientifique TRIO propose toutes les fonctions nécessaires pour vos cours et examens. Un outil fiable et accessible, idéal pour les étudiants."
-            },
-            {
-                id: 30,
-                name: "Tenue \"Petit Urbain\" – Veste Bleu Nuit à 4 Poches",
-                price: 9000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                    "https://i.imghos.co/eMMvSwMJ.png",
-                ],
-                description: "Habillez votre garçon avec style grâce à cet ensemble en jean \"Total Look\" qui allie robustesse et élégance moderne. C'est la tenue idéale pour la rentrée, les sorties en famille ou simplement pour être le plus beau de la cour de récréation.",
-                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
-            },
+        //         ],
+        //         description: "Pratique et complète, la calculatrice scientifique TRIO propose toutes les fonctions nécessaires pour vos cours et examens. Un outil fiable et accessible, idéal pour les étudiants."
+        //     },
+        //     {
+        //         id: 30,
+        //         name: "Tenue \"Petit Urbain\" – Veste Bleu Nuit à 4 Poches",
+        //         price: 9000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //             "https://i.imghos.co/eMMvSwMJ.png",
+        //         ],
+        //         description: "Habillez votre garçon avec style grâce à cet ensemble en jean \"Total Look\" qui allie robustesse et élégance moderne. C'est la tenue idéale pour la rentrée, les sorties en famille ou simplement pour être le plus beau de la cour de récréation.",
+        //         sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //     },
 
-            {
-                id: 31,
-                name: "iPhone 11 simple dans carton/ 64 Go",
-                price:125000 ,
-                category: "electronique",
-                images: [
-                    "https://i.imghos.co/JfPwAyob.jpg",
-                    "https://i.imghos.co/kEAcVniF.jpg"
-                ],
-                description: "Performant et élégant, avec écran Liquid Retina HD 6,1, puce A13 Bionic, double appareil photo 12 MP et design raffiné en noir. Stockage 64 Go, parfait pour une utilisation fluide au quotidien.",
-                colors: ["Noir" ,"Blanc", "Rouge", "Vert" ]
-            },
+        //     {
+        //         id: 31,
+        //         name: "iPhone 11 simple dans carton/ 64 Go",
+        //         price:125000 ,
+        //         category: "electronique",
+        //         images: [
+        //             "https://i.imghos.co/JfPwAyob.jpg",
+        //             "https://i.imghos.co/kEAcVniF.jpg"
+        //         ],
+        //         description: "Performant et élégant, avec écran Liquid Retina HD 6,1, puce A13 Bionic, double appareil photo 12 MP et design raffiné en noir. Stockage 64 Go, parfait pour une utilisation fluide au quotidien.",
+        //         colors: ["Noir" ,"Blanc", "Rouge", "Vert" ]
+        //     },
             
-            // Catégorie Fast Food
-            {
-                id: 32,
-                name: "Burger Royal Deluxe - Avec Frites & Boisson",
-                price: 2500,
-                category: "fastfood",
-                images: [
-                    "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
-                ],
-                description: "Savoureux burger avec viande de bœuf grillée, fromage cheddar, laitue, tomate, oignon, cornichons et sauce spéciale. Servi avec frites croustillantes et boisson au choix."
-            },
-            {
-                id: 33,
-                name: "Pizza Pepperoni Maxi - Famille",
-                price: 7500,
-                category: "fastfood",
-                images: [
-                    "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
-                ],
-                description: "Pizza géante au pepperoni épicé, sauce tomate maison, mozzarella fondante et herbes aromatiques. Parfaite pour partager en famille (jusqu'à 4 personnes)."
-            },
-            {
-                id: 34,
-                name: "Wrap Poulet Grillé - Healthy Choice",
-                price: 3200,
-                category: "fastfood",
-                images: [
-                    "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
-                ],
-                description: "Wrap tendre au poulet grillé, avocat, laitue, tomate et sauce yogurt. Option plus légère pour un repas équilibré et savoureux."
-            },
-            {
-                id: 35,
-                name: "Combo Chicken Wings - 12 Pièces",
-                price: 4500,
-                category: "fastfood",
-                images: [
-                    "https://images.unsplash.com/photo-1606755962773-d324e0a13086?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
-                ],
-                description: "12 ailes de poulet croustillantes, marinées dans notre sauce spéciale. Servies avec sauce au choix : BBQ, piquante ou fromagère. Accompagnées de frites et boisson."
-            },
+        //     // Catégorie Fast Food
+        //     {
+        //         id: 32,
+        //         name: "Burger Royal Deluxe - Avec Frites & Boisson",
+        //         price: 2500,
+        //         category: "fastfood",
+        //         images: [
+        //             "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+        //         ],
+        //         description: "Savoureux burger avec viande de bœuf grillée, fromage cheddar, laitue, tomate, oignon, cornichons et sauce spéciale. Servi avec frites croustillantes et boisson au choix."
+        //     },
+        //     {
+        //         id: 33,
+        //         name: "Pizza Pepperoni Maxi - Famille",
+        //         price: 7500,
+        //         category: "fastfood",
+        //         images: [
+        //             "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+        //         ],
+        //         description: "Pizza géante au pepperoni épicé, sauce tomate maison, mozzarella fondante et herbes aromatiques. Parfaite pour partager en famille (jusqu'à 4 personnes)."
+        //     },
+        //     {
+        //         id: 34,
+        //         name: "Wrap Poulet Grillé - Healthy Choice",
+        //         price: 3200,
+        //         category: "fastfood",
+        //         images: [
+        //             "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+        //         ],
+        //         description: "Wrap tendre au poulet grillé, avocat, laitue, tomate et sauce yogurt. Option plus légère pour un repas équilibré et savoureux."
+        //     },
+        //     {
+        //         id: 35,
+        //         name: "Combo Chicken Wings - 12 Pièces",
+        //         price: 4500,
+        //         category: "fastfood",
+        //         images: [
+        //             "https://images.unsplash.com/photo-1606755962773-d324e0a13086?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+        //         ],
+        //         description: "12 ailes de poulet croustillantes, marinées dans notre sauce spéciale. Servies avec sauce au choix : BBQ, piquante ou fromagère. Accompagnées de frites et boisson."
+        //     },
             
 
-            {
-                id: 37,
-                name: "L'Élégance \"Afro-Urban\" – Chemise Homme à Contraste",
-                price: 15000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                    "https://i.imghos.co/SjXSRCam.png"
-                ],
-                description: "Démarquez-vous avec cette chemise unique qui revisite le vestiaire masculin avec créativité. Conçue pour l'homme de caractère, elle joue sur un contraste saisissant entre l'uni et l'imprimé.",
-                sizes: ["S", "M", "L", "XL", "XXL"]
-            },
-            {
-                id: 38,
-                name: "La Robe \"Éclat Africain\" – Jaune & M",
-                price: 15000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                    "https://i.imghos.co/VZLASJPe.png",
-                    "https://i.imghos.co/yzwYmnzc.png"
-                ],
-                description: "Rayonnez de beauté et de culture avec cette robe exceptionnelle qui marie harmonieusement le jaune vif à des motifs traditionnels africains. Parfaite pour la femme moderne qui souhaite affirmer son style avec élégance et originalité.",
-                sizes: ["S", "M", "L", "XL", "XXL"]
-            },
-            {
-                id: 39,
-                name: "L'Ensemble \"Little Gentleman\" – Veste Tartan & Chemise Graphique",
-                price: 15000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                    "https://i.imghos.co/lbVrpSvw.png",
-                    "https://i.imghos.co/wZmCt-op.png"
-                ],
-                description: "Offrez à votre enfant un look à la fois élégant et décontracté avec cet ensemble deux pièces haut de gamme.",
-                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
-            },
-            {
-                id: 40,
-                name: "Veste Safari Rouge Brique, L'Ensemble Aventurier Chic",
-                price: 15000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                    "https://i.imghos.co/rdxglWYF.png",
-                    "https://i.imghos.co/tIfMvPxW.png"
-                ],
-                description: "Un look audacieux et structuré pour les jeunes garçons stylés.",
-                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
-            },
-            {
-                id: 41,
-                name: "Chemise Manches Courtes Rouge Éclat, Le Modèle \"Red Speckle\"",
-                price: 5000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                    "https://i.imghos.co/AAnnqYLJ.png",
-                    "https://i.imghos.co/wNXDivKU.png"
-                ],
-                description:" Un classique revisité pour un style estival vibrant et moderne.",
-                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //     {
+        //         id: 37,
+        //         name: "L'Élégance \"Afro-Urban\" – Chemise Homme à Contraste",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //             "https://i.imghos.co/SjXSRCam.png"
+        //         ],
+        //         description: "Démarquez-vous avec cette chemise unique qui revisite le vestiaire masculin avec créativité. Conçue pour l'homme de caractère, elle joue sur un contraste saisissant entre l'uni et l'imprimé.",
+        //         sizes: ["S", "M", "L", "XL", "XXL"]
+        //     },
+        //     {
+        //         id: 38,
+        //         name: "La Robe \"Éclat Africain\" – Jaune & M",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //             "https://i.imghos.co/VZLASJPe.png",
+        //             "https://i.imghos.co/yzwYmnzc.png"
+        //         ],
+        //         description: "Rayonnez de beauté et de culture avec cette robe exceptionnelle qui marie harmonieusement le jaune vif à des motifs traditionnels africains. Parfaite pour la femme moderne qui souhaite affirmer son style avec élégance et originalité.",
+        //         sizes: ["S", "M", "L", "XL", "XXL"]
+        //     },
+        //     {
+        //         id: 39,
+        //         name: "L'Ensemble \"Little Gentleman\" – Veste Tartan & Chemise Graphique",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //             "https://i.imghos.co/lbVrpSvw.png",
+        //             "https://i.imghos.co/wZmCt-op.png"
+        //         ],
+        //         description: "Offrez à votre enfant un look à la fois élégant et décontracté avec cet ensemble deux pièces haut de gamme.",
+        //         sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //     },
+        //     {
+        //         id: 40,
+        //         name: "Veste Safari Rouge Brique, L'Ensemble Aventurier Chic",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //             "https://i.imghos.co/rdxglWYF.png",
+        //             "https://i.imghos.co/tIfMvPxW.png"
+        //         ],
+        //         description: "Un look audacieux et structuré pour les jeunes garçons stylés.",
+        //         sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //     },
+        //     {
+        //         id: 41,
+        //         name: "Chemise Manches Courtes Rouge Éclat, Le Modèle \"Red Speckle\"",
+        //         price: 5000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //             "https://i.imghos.co/AAnnqYLJ.png",
+        //             "https://i.imghos.co/wNXDivKU.png"
+        //         ],
+        //         description:" Un classique revisité pour un style estival vibrant et moderne.",
+        //         sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
 
-            },
-            {
-                id: 42,
-                name: "Chemisette Blanche \"Little Gentleman\"",
-                price: 5000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                    "https://i.imghos.co/swDPwDHM.png",
-                    "https://i.imghos.co/Sh-tcllq.png"
-                ],
-                description: "Une chemisette blanche classique, parfaite pour un look estival élégant et décontracté.",
-                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //     },
+        //     {
+        //         id: 42,
+        //         name: "Chemisette Blanche \"Little Gentleman\"",
+        //         price: 5000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //             "https://i.imghos.co/swDPwDHM.png",
+        //             "https://i.imghos.co/Sh-tcllq.png"
+        //         ],
+        //         description: "Une chemisette blanche classique, parfaite pour un look estival élégant et décontracté.",
+        //         sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
 
-            },
-            {
-                id: 43,
-                name: "Robe Fille en Brocart à Motifs Rouges et Nœud Satiné",
-                price: 10000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                    "https://i.imghos.co/znlVCWnf.png",
-                    "https://i.imghos.co/wmPpIOZZ.png"
-                ],
-                description: "Cette pièce d'exception est conçue pour faire briller votre petite princesse lors des grands événements (Noël, mariages, anniversaires, fêtes de fin d'année).",
-                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
-            },
-            {
-                id: 44,
-                name: "Robe de Fête \"Douceur Florale\"",
-                price: 10000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                    "https://i.imghos.co/IlvftKMK.png",
-                    "https://i.imghos.co/DJCnVgJI.png"
-                ],
-                description: "Faites de chaque événement un moment magique avec cette robe digne d'un conte de fées.",
-                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
-            },
-            {
-                id: 45,
-                name: "Robe de Princesse \"Éclat Rouge & Tulle\"",
-                price: 10000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                    "https://i.imghos.co/R-kmuvPq.png",
-                    "https://i.imghos.co/uZPOlKOk.png"
-                ],
-                description: "Offrez-lui une allure de star avec cette robe rouge spectaculaire !",
-                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
-            },
-            {
-                id: 46,
-                name: "Robe de Cérémonie Fille \"Princesse Gold & Rose\"",
-                price: 10000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                    "https://i.imghos.co/MGyVszSQ.png",
-                    "https://i.imghos.co/JEjrWzaR.png"
-                ],
-                description: "Transformez chaque occasion spéciale en un moment magique avec notre sublime robe \"Princesse Gold & Rose\". Conçue pour faire briller les yeux de votre petite fille, cette tenue allie l'élégance des paillettes à la douceur du tulle",
-                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
-            },
-            {
-                id: 47,
-                name: "Robe de Cérémonie Fille \"Princesse Rubis & Dentelle\"",
-                price: 10000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                 "https://i.imghos.co/hRwLYc-u.png",
-                 "https://i.imghos.co/DvxdNDrP.png"
-                ],
-                description: "Illuminez les grandes occasions avec la robe \"Princesse Rubis & Dentelle\". Une tenue éclatante qui allie la pureté du blanc à l'intensité d'un rouge vibrant, parfaite pour faire de votre fille la star de l'événement.",
-                sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
-            },
-            {
-                id: 48,
-                name: "Sandales Spirale \"Butterfly Dream\"",
-                price: 10000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://i.imghos.co/yXnNqAZr.png",
-                 "https://i.imghos.co/rrJ-sqfa.png"
-                ],
-                description:"Illuminez chaque pas avec nos nouvelles sandales \"Prestige Papillon\". Conçues pour la femme moderne et audacieuse, ces chaussures sont le mélange parfait entre glamour et féérie.",
+        //     },
+        //     {
+        //         id: 43,
+        //         name: "Robe Fille en Brocart à Motifs Rouges et Nœud Satiné",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //             "https://i.imghos.co/znlVCWnf.png",
+        //             "https://i.imghos.co/wmPpIOZZ.png"
+        //         ],
+        //         description: "Cette pièce d'exception est conçue pour faire briller votre petite princesse lors des grands événements (Noël, mariages, anniversaires, fêtes de fin d'année).",
+        //         sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //     },
+        //     {
+        //         id: 44,
+        //         name: "Robe de Fête \"Douceur Florale\"",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //             "https://i.imghos.co/IlvftKMK.png",
+        //             "https://i.imghos.co/DJCnVgJI.png"
+        //         ],
+        //         description: "Faites de chaque événement un moment magique avec cette robe digne d'un conte de fées.",
+        //         sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //     },
+        //     {
+        //         id: 45,
+        //         name: "Robe de Princesse \"Éclat Rouge & Tulle\"",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //             "https://i.imghos.co/R-kmuvPq.png",
+        //             "https://i.imghos.co/uZPOlKOk.png"
+        //         ],
+        //         description: "Offrez-lui une allure de star avec cette robe rouge spectaculaire !",
+        //         sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //     },
+        //     {
+        //         id: 46,
+        //         name: "Robe de Cérémonie Fille \"Princesse Gold & Rose\"",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //             "https://i.imghos.co/MGyVszSQ.png",
+        //             "https://i.imghos.co/JEjrWzaR.png"
+        //         ],
+        //         description: "Transformez chaque occasion spéciale en un moment magique avec notre sublime robe \"Princesse Gold & Rose\". Conçue pour faire briller les yeux de votre petite fille, cette tenue allie l'élégance des paillettes à la douceur du tulle",
+        //         sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //     },
+        //     {
+        //         id: 47,
+        //         name: "Robe de Cérémonie Fille \"Princesse Rubis & Dentelle\"",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //          "https://i.imghos.co/hRwLYc-u.png",
+        //          "https://i.imghos.co/DvxdNDrP.png"
+        //         ],
+        //         description: "Illuminez les grandes occasions avec la robe \"Princesse Rubis & Dentelle\". Une tenue éclatante qui allie la pureté du blanc à l'intensité d'un rouge vibrant, parfaite pour faire de votre fille la star de l'événement.",
+        //         sizes: ["2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //     },
+        //     {
+        //         id: 48,
+        //         name: "Sandales Spirale \"Butterfly Dream\"",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://i.imghos.co/yXnNqAZr.png",
+        //          "https://i.imghos.co/rrJ-sqfa.png"
+        //         ],
+        //         description:"Illuminez chaque pas avec nos nouvelles sandales \"Prestige Papillon\". Conçues pour la femme moderne et audacieuse, ces chaussures sont le mélange parfait entre glamour et féérie.",
 
-                sizes: ["36", "37", "38", "39", "40", "41"]
-            },
+        //         sizes: ["36", "37", "38", "39", "40", "41"]
+        //     },
 
-            {
-                id: 49,
-                name: "Sandales \"Prestige Onyx\"",
-                price: 10000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://i.imghos.co/WghFAjmM.png",
-                 "https://i.imghos.co/muIuZnJq.png"
-                ],
-                description: "Révélez votre côté \"femme fatale\" avec les sandales \"Midnight Butterfly\" de chez Prestige Shop Express. L'alliance intemporelle du noir profond et de l'éclat des cristaux crée un contraste saisissant, parfait pour vos soirées les plus chics.",
-                sizes: ["36", "37", "38", "39", "40", "41"]
-            },
-            {
-                id: 50,
-                name: "Sandales à Brides Croisées \"L'Élégante\" ",
-                price: 10000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://i.imghos.co/kVuTTmnz.png",
-                 "https://i.imghos.co/-AwnPUuX.png"
-                ],
-                description: "Ces sandales à talons noires sont l'incarnation parfaite de la féminité et de l'élégance. Conçues pour celles qui recherchent à la fois style et maintien, elles deviendront rapidement la pièce maîtresse de votre garde-robe.",
-                sizes: ["36", "37", "38", "39", "40", "41"]
-            },
-            {
-                id: 51,
-                name: "Sandales à Talons \"Golden Grace\"",
-                price: 10000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://i.imghos.co/-WVmAQhZ.png",
-                 "https://i.imghos.co/BsBMxQgL.png"
-                ],
-                description: "Talons Hauts \"Beige Prestige\" à Brides Fines",
-                sizes: ["36", "37", "38", "39", "40", "41"]
-            },
-            {
-                id: 52,
-                name: "Sandales à Talons \"Camel Prestige\"",
-                price: 10000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://i.imghos.co/aphUjFww.png",
-                 "https://i.imghos.co/wQhpNitL.png"
-                ],
-                description: "Apportez une touche de caractère à votre style avec les sandales \"Camel Prestige\". Cette déclinaison signée Amitin offre une teinte marron chaud (cognac) riche et profonde, idéale pour réchauffer vos tenues, du jean brut décontracté à la robe de soirée sophistiquée.",
-                sizes: ["36", "37", "38", "39", "40", "41"]
-            },
-            {
-                id: 53,
-                name: "Costume Garçon Col Mao & Cargo – Look Urbain & Chic",
-                price: 15000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                 "https://i.imghos.co/xzBruJgd.png",
-                 "https://i.imghos.co/SRqAtdKT.png"
-                ],
-                description: "Offrez à votre garçon un look à la fois moderne et élégant avec ce costume deux pièces. Parfait pour les occasions spéciales ou les événements festifs, il allie confort et style urbain."
-            },
-            {
-                id: 54,
-                name: "Nike Air Max Plus",
-                price: 19000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://i.imghos.co/jQgKIEhi.png",
-                 "https://i.imghos.co/uUgLJtNa.png"
-                ],
-                description:"Découvrez le confort ultime et le style audacieux avec les Nike Air Max Plus. Ces baskets emblématiques offrent un design distinctif avec des lignes fluides et une technologie d'amorti avancée, parfaite pour les amateurs de sneakers à la recherche de performance et d'esthétique.",
-                sizes: ["40", "41", "42", "43", "44"]
-            },
+        //     {
+        //         id: 49,
+        //         name: "Sandales \"Prestige Onyx\"",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://i.imghos.co/WghFAjmM.png",
+        //          "https://i.imghos.co/muIuZnJq.png"
+        //         ],
+        //         description: "Révélez votre côté \"femme fatale\" avec les sandales \"Midnight Butterfly\" de chez Prestige Shop Express. L'alliance intemporelle du noir profond et de l'éclat des cristaux crée un contraste saisissant, parfait pour vos soirées les plus chics.",
+        //         sizes: ["36", "37", "38", "39", "40", "41"]
+        //     },
+        //     {
+        //         id: 50,
+        //         name: "Sandales à Brides Croisées \"L'Élégante\" ",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://i.imghos.co/kVuTTmnz.png",
+        //          "https://i.imghos.co/-AwnPUuX.png"
+        //         ],
+        //         description: "Ces sandales à talons noires sont l'incarnation parfaite de la féminité et de l'élégance. Conçues pour celles qui recherchent à la fois style et maintien, elles deviendront rapidement la pièce maîtresse de votre garde-robe.",
+        //         sizes: ["36", "37", "38", "39", "40", "41"]
+        //     },
+        //     {
+        //         id: 51,
+        //         name: "Sandales à Talons \"Golden Grace\"",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://i.imghos.co/-WVmAQhZ.png",
+        //          "https://i.imghos.co/BsBMxQgL.png"
+        //         ],
+        //         description: "Talons Hauts \"Beige Prestige\" à Brides Fines",
+        //         sizes: ["36", "37", "38", "39", "40", "41"]
+        //     },
+        //     {
+        //         id: 52,
+        //         name: "Sandales à Talons \"Camel Prestige\"",
+        //         price: 10000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://i.imghos.co/aphUjFww.png",
+        //          "https://i.imghos.co/wQhpNitL.png"
+        //         ],
+        //         description: "Apportez une touche de caractère à votre style avec les sandales \"Camel Prestige\". Cette déclinaison signée Amitin offre une teinte marron chaud (cognac) riche et profonde, idéale pour réchauffer vos tenues, du jean brut décontracté à la robe de soirée sophistiquée.",
+        //         sizes: ["36", "37", "38", "39", "40", "41"]
+        //     },
+        //     {
+        //         id: 53,
+        //         name: "Costume Garçon Col Mao & Cargo – Look Urbain & Chic",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //          "https://i.imghos.co/xzBruJgd.png",
+        //          "https://i.imghos.co/SRqAtdKT.png"
+        //         ],
+        //         description: "Offrez à votre garçon un look à la fois moderne et élégant avec ce costume deux pièces. Parfait pour les occasions spéciales ou les événements festifs, il allie confort et style urbain."
+        //     },
+        //     {
+        //         id: 54,
+        //         name: "Nike Air Max Plus",
+        //         price: 19000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://i.imghos.co/jQgKIEhi.png",
+        //          "https://i.imghos.co/uUgLJtNa.png"
+        //         ],
+        //         description:"Découvrez le confort ultime et le style audacieux avec les Nike Air Max Plus. Ces baskets emblématiques offrent un design distinctif avec des lignes fluides et une technologie d'amorti avancée, parfaite pour les amateurs de sneakers à la recherche de performance et d'esthétique.",
+        //         sizes: ["40", "41", "42", "43", "44"]
+        //     },
 
-            {
-                id: 55,
-                name: "Robe Longue Asymétrique \"Sunset Éclat\" – Orange Floral & Design Fluide",
-                price: 85000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://i.imghos.co/YDIDhRSs.png"
+        //     {
+        //         id: 55,
+        //         name: "Robe Longue Asymétrique \"Sunset Éclat\" – Orange Floral & Design Fluide",
+        //         price: 85000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://i.imghos.co/YDIDhRSs.png"
                  
-                ],
-                description: "Sublimez votre silhouette avec cette robe longue asymétrique aux teintes chaudes et vibrantes. Parfaite pour les occasions spéciales ou les soirées d'été, elle allie élégance et confort avec son design fluide et ses motifs floraux éclatants.",
-                sizes: ["S", "M", "L", "XL", "XXL"]
+        //         ],
+        //         description: "Sublimez votre silhouette avec cette robe longue asymétrique aux teintes chaudes et vibrantes. Parfaite pour les occasions spéciales ou les soirées d'été, elle allie élégance et confort avec son design fluide et ses motifs floraux éclatants.",
+        //         sizes: ["S", "M", "L", "XL", "XXL"]
 
-            },
-            {
-                id: 56,
-                name: "Adidas Campus 00s Noir et Blanc",
-                price: 15000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://i.imghos.co/IvJoMYyS.png",
-                 "https://i.imghos.co/HTRQWzNE.png"
+        //     },
+        //     {
+        //         id: 56,
+        //         name: "Adidas Campus 00s Noir et Blanc",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://i.imghos.co/IvJoMYyS.png",
+        //          "https://i.imghos.co/HTRQWzNE.png"
 
-                ],
-                description: "Alliez confort et style rétro avec les Adidas Campus 00s Noir et Blanc. Ces baskets emblématiques offrent une silhouette classique revisitée, parfaite pour un look urbain et décontracté au quotidien.",
-                sizes: ["37","38","40", "41", "42", "43", "44"]
-            },
-            {
-                id: 57,
-                name: "Robe Longue Sirène \"Chocolat Sculpté\"",
-                price: 8500,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://i.imghos.co/teEQWhTI.png",
-                 "public/ima/F15V.mp4",
-                ],
-                description: "Faites une entrée remarquée avec cette robe longue sirène au coloris chocolat riche et profond. Parfaite pour les occasions spéciales, elle épouse vos courbes avec élégance tout en offrant un confort optimal grâce à son tissu extensible de haute qualité.",
-                sizes: [ "S", "M", "L", "XL", "XXL"],
-                colors: ["Chocolat", "Noir", "blanc"],
-                 sizes: ["S", "M", "L", "XL", "XXL"],
-                 colors: ["Chocolat", "jaune", "blanc"]
+        //         ],
+        //         description: "Alliez confort et style rétro avec les Adidas Campus 00s Noir et Blanc. Ces baskets emblématiques offrent une silhouette classique revisitée, parfaite pour un look urbain et décontracté au quotidien.",
+        //         sizes: ["37","38","40", "41", "42", "43", "44"]
+        //     },
+        //     {
+        //         id: 57,
+        //         name: "Robe Longue Sirène \"Chocolat Sculpté\"",
+        //         price: 8500,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://i.imghos.co/teEQWhTI.png",
+        //          "public/ima/F15V.mp4",
+        //         ],
+        //         description: "Faites une entrée remarquée avec cette robe longue sirène au coloris chocolat riche et profond. Parfaite pour les occasions spéciales, elle épouse vos courbes avec élégance tout en offrant un confort optimal grâce à son tissu extensible de haute qualité.",
+        //         sizes: [ "S", "M", "L", "XL", "XXL"],
+        //         colors: ["Chocolat", "Noir", "blanc"],
+        //          sizes: ["S", "M", "L", "XL", "XXL"],
+        //          colors: ["Chocolat", "jaune", "blanc"]
 
-            },
-            {
-                id: 58,
-                name: "Ensemble Casual Chic Automne 3 Pièces - Polo Ralph Lauren",
-                price: 15000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                 "https://i.imghos.co/SOwyBwgY.png",
-                 "https://i.imghos.co/oGkHNkPV.png"
+        //     },
+        //     {
+        //         id: 58,
+        //         name: "Ensemble Casual Chic Automne 3 Pièces - Polo Ralph Lauren",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //          "https://i.imghos.co/SOwyBwgY.png",
+        //          "https://i.imghos.co/oGkHNkPV.png"
 
-                ],
-                description:" Adoptez un look décontracté et élégant avec cet ensemble casual chic automne 3 pièces pour garçons. Composé d'un polo Ralph Lauren, d'un pantalon chino beige et d'une veste légère, cet ensemble est parfait pour les journées fraîches de la saison.",
-                sizes: [  "2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //         ],
+        //         description:" Adoptez un look décontracté et élégant avec cet ensemble casual chic automne 3 pièces pour garçons. Composé d'un polo Ralph Lauren, d'un pantalon chino beige et d'une veste légère, cet ensemble est parfait pour les journées fraîches de la saison.",
+        //         sizes: [  "2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
             
-            },
-            {
-                id: 59,
-                name: "Surchemise Camel & Bermuda Cargo Rouge",
-                price: 15000,
-                category: "mode",
-                subcategory: "enfants",
-                images: [
-                 "https://i.imghos.co/ElUfhIrt.png",
-                 "https://i.imghos.co/FEOhcdnR.png"
+        //     },
+        //     {
+        //         id: 59,
+        //         name: "Surchemise Camel & Bermuda Cargo Rouge",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "enfants",
+        //         images: [
+        //          "https://i.imghos.co/ElUfhIrt.png",
+        //          "https://i.imghos.co/FEOhcdnR.png"
 
-                ],
-                description: " Adoptez un look tendance et confortable avec cet ensemble estival pour garçons. La surchemise camel légère associée au bermuda cargo rouge vif crée un contraste dynamique, parfait pour les journées ensoleillées et les aventures estivales.",
-                sizes: [  "2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
-            },
+        //         ],
+        //         description: " Adoptez un look tendance et confortable avec cet ensemble estival pour garçons. La surchemise camel légère associée au bermuda cargo rouge vif crée un contraste dynamique, parfait pour les journées ensoleillées et les aventures estivales.",
+        //         sizes: [  "2 ans", "4 ans", "6 ans", "8 ans", "10 ans"]
+        //     },
 
-            {
-                id: 60,
-                name: "Sac à Main \"Lady Chic\"",
-                price: 7500,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://i.imghos.co/ZsEquSeC.png",
-                 "https://i.imghos.co/isIoPqUJ.png"
+        //     {
+        //         id: 60,
+        //         name: "Sac à Main \"Lady Chic\"",
+        //         price: 7500,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://i.imghos.co/ZsEquSeC.png",
+        //          "https://i.imghos.co/isIoPqUJ.png"
 
-                ],
-                description: "Sublimez votre allure avec l'accessoire ultime de la saison. Une fusion parfaite entre élégance intemporelle et design moderne.",
-                colors: ["Bleue","Noir","Rouge","Marron","Blanc","Rose"]
-            },
-            {
-                id: 61,
-                name: "Sac à Main \"Classic Elegance\"",
-                price: 7500,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://i.imghos.co/MjPXaNpG.png",
-                 "https://i.imghos.co/R-FpEfBU.png"
+        //         ],
+        //         description: "Sublimez votre allure avec l'accessoire ultime de la saison. Une fusion parfaite entre élégance intemporelle et design moderne.",
+        //         colors: ["Bleue","Noir","Rouge","Marron","Blanc","Rose"]
+        //     },
+        //     {
+        //         id: 61,
+        //         name: "Sac à Main \"Classic Elegance\"",
+        //         price: 7500,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://i.imghos.co/MjPXaNpG.png",
+        //          "https://i.imghos.co/R-FpEfBU.png"
 
-                ],
-                description: "Découvrez le sac à main \"Classic Elegance\", l'accessoire parfait pour sublimer toutes vos tenues. Alliant sophistication intemporelle et fonctionnalité moderne, ce sac est conçu pour la femme élégante et active.",
-                colors: ["Noir","Blanc","Beige","Rouge","Vert","Marron","Bleu" ,"Rose"]
-            },
+        //         ],
+        //         description: "Découvrez le sac à main \"Classic Elegance\", l'accessoire parfait pour sublimer toutes vos tenues. Alliant sophistication intemporelle et fonctionnalité moderne, ce sac est conçu pour la femme élégante et active.",
+        //         colors: ["Noir","Blanc","Beige","Rouge","Vert","Marron","Bleu" ,"Rose"]
+        //     },
 
-            { 
-                id: 62,
-                name: "Sac à Main \"Urban Sophistication\"",
-                price: 7500,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://i.imghos.co/XONRPTOg.png",
-                 "https://i.imghos.co/ZMJ-zQFc.png"
+        //     { 
+        //         id: 62,
+        //         name: "Sac à Main \"Urban Sophistication\"",
+        //         price: 7500,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://i.imghos.co/XONRPTOg.png",
+        //          "https://i.imghos.co/ZMJ-zQFc.png"
 
-                ],
-                description: "Adoptez un style urbain chic avec le sac à main \"Urban Sophistication\". Conçu pour la femme moderne, ce sac allie praticité et élégance avec son design épuré et ses finitions soignées.",
-                colors: ["Gris","Noir","Bleu Marine","Rouge Bordeaux"]
-            },
+        //         ],
+        //         description: "Adoptez un style urbain chic avec le sac à main \"Urban Sophistication\". Conçu pour la femme moderne, ce sac allie praticité et élégance avec son design épuré et ses finitions soignées.",
+        //         colors: ["Gris","Noir","Bleu Marine","Rouge Bordeaux"]
+        //     },
 
-            {
-              id: 71,
-                name: "Urban Glow Sandals",
-                price:14000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/41053306d772bb5fed708dd02c10fb6f25d57a0b.jpg",
+        //     {
+        //       id: 71,
+        //         name: "Urban Glow Sandals",
+        //         price:14000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251220/41053306d772bb5fed708dd02c10fb6f25d57a0b.jpg",
                 
 
-                ],
-                description: "Affirmez votre style avec ces sandales compensées uniques, mélange parfait entre l'esthétique streetwear et le glamour.",
-                sizes: ["36", "37", "38", "39", "40", "41"]
-            },
+        //         ],
+        //         description: "Affirmez votre style avec ces sandales compensées uniques, mélange parfait entre l'esthétique streetwear et le glamour.",
+        //         sizes: ["36", "37", "38", "39", "40", "41"]
+        //     },
 
-            {
-                id: 69,
-                name: "Sunset Breeze Sandals",
-                price: 15000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/7b6f9969ba2730fd3c8d94b9d540f924a635ca5c.jpg",
+        //     {
+        //         id: 69,
+        //         name: "Sunset Breeze Sandals",
+        //         price: 15000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251220/7b6f9969ba2730fd3c8d94b9d540f924a635ca5c.jpg",
                  
-                 "https://imagesend.fr/uploads/20251220/339e645c12887dac59365bf017b7b4361e78bd3b.jpg"
+        //          "https://imagesend.fr/uploads/20251220/339e645c12887dac59365bf017b7b4361e78bd3b.jpg"
                 
 
-                ],
-                description: "Affirmez votre style avec ces sandales compensées uniques, mélange parfait entre l'esthétique streetwear et le glamour.",
-                sizes: ["36", "37", "38", "39", "40", "41"],
-                colors: ["Blanc", "Noir"]
-            },
+        //         ],
+        //         description: "Affirmez votre style avec ces sandales compensées uniques, mélange parfait entre l'esthétique streetwear et le glamour.",
+        //         sizes: ["36", "37", "38", "39", "40", "41"],
+        //         colors: ["Blanc", "Noir"]
+        //     },
 
-            {
-                id: 70,
-                name: "Luxe Streetwear Wedges",
-                price: 14000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://imagesend.fr/uploads/20251219/e07cfe7767847cbadee11055c5857ee4d20b8459.jpg",
+        //     {
+        //         id: 70,
+        //         name: "Luxe Streetwear Wedges",
+        //         price: 14000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251219/e07cfe7767847cbadee11055c5857ee4d20b8459.jpg",
                  
             
                 
 
-                ],
-                description: "Affirmez votre style avec ces sandales compensées uniques, mélange parfait entre l'esthétique streetwear et le glamour.",
-                sizes: ["36", "37", "38", "39", "40", "41"],
-                colors: ["Beige", "Noir", "Rouge"]
-            },
-            {
-               id: 72,
-               name: "Nike Air Force 1 Low",
-               price: 19000,
-               category: "mode",
-               subcategory: "femme",
-               images: [
-                "https://imagesend.fr/uploads/20251219/8e92993b2538dfa7c88ec6ef7aa20b28feaba76d.jpg",
+        //         ],
+        //         description: "Affirmez votre style avec ces sandales compensées uniques, mélange parfait entre l'esthétique streetwear et le glamour.",
+        //         sizes: ["36", "37", "38", "39", "40", "41"],
+        //         colors: ["Beige", "Noir", "Rouge"]
+        //     },
+        //     {
+        //        id: 72,
+        //        name: "Nike Air Force 1 Low",
+        //        price: 19000,
+        //        category: "mode",
+        //        subcategory: "femme",
+        //        images: [
+        //         "https://imagesend.fr/uploads/20251219/8e92993b2538dfa7c88ec6ef7aa20b28feaba76d.jpg",
                 
-               ],
-                description: "Offrez-vous un look sport-chic avec les Nike Air Force 1 Low. Conçus pour vous faire sentir comme jamais auparavant, ces sneakers offrent un mix parfait de style et de performance.",
-               sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
+        //        ],
+        //         description: "Offrez-vous un look sport-chic avec les Nike Air Force 1 Low. Conçus pour vous faire sentir comme jamais auparavant, ces sneakers offrent un mix parfait de style et de performance.",
+        //        sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
                
-            },
-            {
-                id: 73,
-                name: "Adidas Campus 00s",
-                price: 19000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/5354ead4bfc5d983ce2b54a750623bb8ded82c10.jpg",
+        //     },
+        //     {
+        //         id: 73,
+        //         name: "Adidas Campus 00s",
+        //         price: 19000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251220/5354ead4bfc5d983ce2b54a750623bb8ded82c10.jpg",
                  
-                ],
-                 description: " Un mélange parfait de style rétro et de confort moderne, particulièrement apprécié pour son look bicolore doux et original.",
-                sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
+        //         ],
+        //          description: " Un mélange parfait de style rétro et de confort moderne, particulièrement apprécié pour son look bicolore doux et original.",
+        //         sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
                
-            },
-            {
-               id: 74,
-               name: "Air Jordan 13 Retro \"Black Cat\"",
-               price: 20000,
-               category: "mode",
-               subcategory: "femme",
-               images: [
-                "https://imagesend.fr/uploads/20251220/c34168f48c68a7c3e42441231048c407c7af3674.jpg",
+        //     },
+        //     {
+        //        id: 74,
+        //        name: "Air Jordan 13 Retro \"Black Cat\"",
+        //        price: 20000,
+        //        category: "mode",
+        //        subcategory: "femme",
+        //        images: [
+        //         "https://imagesend.fr/uploads/20251220/c34168f48c68a7c3e42441231048c407c7af3674.jpg",
                 
-               ],
-                description: " Une chaussure au design agressif mais sophistiqué, très appréciée pour sa polyvalence et son côté mystérieux.",
-               sizes: ["36", "37", "38", "39", "40", "41"],
+        //        ],
+        //         description: " Une chaussure au design agressif mais sophistiqué, très appréciée pour sa polyvalence et son côté mystérieux.",
+        //        sizes: ["36", "37", "38", "39", "40", "41"],
               
-            },
+        //     },
 
-            {
-                id: 75,
-                name: "Air Jordan 1 Mid",
-                price: 18000,
-                category: "mode",
-                subcategory: "femme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/baf7a4e012938a6c4a38d55923103e099106c361.jpg",
+        //     {
+        //         id: 75,
+        //         name: "Air Jordan 1 Mid",
+        //         price: 18000,
+        //         category: "mode",
+        //         subcategory: "femme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251220/baf7a4e012938a6c4a38d55923103e099106c361.jpg",
                  
-                ],
-                 description: "Conçus pour offrir une performance optimale tout en restant sobres et minimalistes, les Air Jordan 1 Mid sont une référence dans le monde du streetwear.",   
-                sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
+        //         ],
+        //          description: "Conçus pour offrir une performance optimale tout en restant sobres et minimalistes, les Air Jordan 1 Mid sont une référence dans le monde du streetwear.",   
+        //         sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
                 
-            },
-            {
-                id: 76,
-                name: "Vans Knu Skool",
-                price: 18000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/697e9d8ab0b1366f77a10c95cccd0881fd113dd8.jpg",
+        //     },
+        //     {
+        //         id: 76,
+        //         name: "Vans Knu Skool",
+        //         price: 18000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251220/697e9d8ab0b1366f77a10c95cccd0881fd113dd8.jpg",
                  
-                ],
-                 description: "Les Vans Knit Skool sont conçus pour offrir un confort maximal tout en conservant un look streetstyle impeccable. Idéal pour les jours chauds, ces baskets sont faites pour être portées toute la journée.", 
-                sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
+        //         ],
+        //          description: "Les Vans Knit Skool sont conçus pour offrir un confort maximal tout en conservant un look streetstyle impeccable. Idéal pour les jours chauds, ces baskets sont faites pour être portées toute la journée.", 
+        //         sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
                 
-            },
+        //     },
             
-            {
-                id: 77,
-                name: "Asics Gel-Kayano 14",
-                price: 19000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251220/f9863d9bd03cf8cf242feee57c80c3d02cbc0d52.jpg",
-                 "https://imagesend.fr/uploads/20251220/16d0b813fa7adfa5ee1221f36ef2ca83bff14c55.jpg",
-                 "https://imagesend.fr/uploads/20251220/157d975582138db0e6e2ec4d26ad4d4fcf2574a7.jpg"
+        //     {
+        //         id: 77,
+        //         name: "Asics Gel-Kayano 14",
+        //         price: 19000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251220/f9863d9bd03cf8cf242feee57c80c3d02cbc0d52.jpg",
+        //          "https://imagesend.fr/uploads/20251220/16d0b813fa7adfa5ee1221f36ef2ca83bff14c55.jpg",
+        //          "https://imagesend.fr/uploads/20251220/157d975582138db0e6e2ec4d26ad4d4fcf2574a7.jpg"
                  
-                ],
-                 description: " Les Asics Gel-Kayano 14 sont conçus pour offrir un confort optimal tout en conservant un design élégant et sportif. Idéales pour les courses et les entraînements, ces chaussures sont également adaptées aux déplacements quotidiens.",
-                sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
-                colors: [ "Vert", "Gris","Noir"],
+        //         ],
+        //          description: " Les Asics Gel-Kayano 14 sont conçus pour offrir un confort optimal tout en conservant un design élégant et sportif. Idéales pour les courses et les entraînements, ces chaussures sont également adaptées aux déplacements quotidiens.",
+        //         sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
+        //         colors: [ "Vert", "Gris","Noir"],
                 
-            },
+        //     },
 
-            {
-                id: 78,
-                name: "Nike SB Dunk Low",
-                price: 19000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251219/0f55687cf9f1178fc76e919d05e763ee3a11112a.jpg",
+        //     {
+        //         id: 78,
+        //         name: "Nike SB Dunk Low",
+        //         price: 19000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251219/0f55687cf9f1178fc76e919d05e763ee3a11112a.jpg",
                  
-                ],
-                 description: "Les Nike SB Dunk Low sont conçus pour offrir un confort optimal tout en conservant un design élégant et sportif. Idéales pour les courses et les entraînements, ces chaussures sont également adaptées aux déplacements quotidiens.",
-                sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
+        //         ],
+        //          description: "Les Nike SB Dunk Low sont conçus pour offrir un confort optimal tout en conservant un design élégant et sportif. Idéales pour les courses et les entraînements, ces chaussures sont également adaptées aux déplacements quotidiens.",
+        //         sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
                 
-            },
+        //     },
 
-            {
-                id: 79,
-                name: "Short Denim \"Fire Face\"",
-                price: 8000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/c352ce34e58ca88f136b5457d9e72290d94017e1.jpg",
+        //     {
+        //         id: 79,
+        //         name: "Short Denim \"Fire Face\"",
+        //         price: 8000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/c352ce34e58ca88f136b5457d9e72290d94017e1.jpg",
                  
-                ],
-                 description: "Le Short Denim \"Fire Face\" est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
-                sizes: ["31", "32", "33", "34"],
+        //         ],
+        //          description: "Le Short Denim \"Fire Face\" est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
+        //         sizes: ["31", "32", "33", "34"],
                 
-            },
+        //     },
             
-            {
-                id: 80,
-                name: "Short Denim Jacket",
-                price: 8000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/b37404664c3324c4b29f267c5b486e669080d1f3.jpg",
+        //     {
+        //         id: 80,
+        //         name: "Short Denim Jacket",
+        //         price: 8000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/b37404664c3324c4b29f267c5b486e669080d1f3.jpg",
                  
-                ],
-                 description: "Le Long Denim Jacket est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce pull denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
-                sizes: ["31", "32", "33", "34"],
+        //         ],
+        //          description: "Le Long Denim Jacket est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce pull denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
+        //         sizes: ["31", "32", "33", "34"],
                 
-            },
+        //     },
 
-            {
-                id: 81,
-                name: "Short Denim",
-                price: 8000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/311a979a18d3a53548d3e798083a47a9f222b907.jpg",
+        //     {
+        //         id: 81,
+        //         name: "Short Denim",
+        //         price: 8000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/311a979a18d3a53548d3e798083a47a9f222b907.jpg",
                  
-                ],
-                 description: "Le Short Denim est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
-                sizes: ["31", "32", "33", "34"],
+        //         ],
+        //          description: "Le Short Denim est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
+        //         sizes: ["31", "32", "33", "34"],
                 
-            },
-            {
-                id: 82,
-                name: "Short Denim Jacket",
-                price: 8000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/08bcc2b70b30a65697edf153675836e155c52131.jpg",
+        //     },
+        //     {
+        //         id: 82,
+        //         name: "Short Denim Jacket",
+        //         price: 8000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/08bcc2b70b30a65697edf153675836e155c52131.jpg",
                  
-                ],
-                 description: "Le Short Denim Jacket est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
-                sizes: ["31", "32", "33", "34"],
+        //         ],
+        //          description: "Le Short Denim Jacket est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
+        //         sizes: ["31", "32", "33", "34"],
                 
-            },
-            {
-                id: 83,
-                name: "Short Denim Jacket",
-                price: 8000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/56aff2466507d707d4771f05e592dbe7c46d3e02.jpg",
+        //     },
+        //     {
+        //         id: 83,
+        //         name: "Short Denim Jacket",
+        //         price: 8000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/56aff2466507d707d4771f05e592dbe7c46d3e02.jpg",
                  
-                ],
-                 description: "Le Short Denim Jacket est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
-                sizes: ["31", "32", "33", "34"],
+        //         ],
+        //          description: "Le Short Denim Jacket est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
+        //         sizes: ["31", "32", "33", "34"],
                 
-            },
+        //     },
 
-            {
-                id: 84,
-                name: "Short Denim Jacket",
-                price: 8000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/372d36e4c3e64088e9e3535733f124938867172a.jpg",
+        //     {
+        //         id: 84,
+        //         name: "Short Denim Jacket",
+        //         price: 8000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/372d36e4c3e64088e9e3535733f124938867172a.jpg",
                  
-                ],
-                 description: "Le Short Denim Jacket est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
-                sizes: ["31", "32", "33", "34"],
+        //         ],
+        //          description: "Le Short Denim Jacket est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
+        //         sizes: ["31", "32", "33", "34"],
                 
-            },
-            {
-                id:85,
-                name: "Short Denim Jacket",
-                price: 8000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/c504d43bd9ed8c5b84688ab9823b588b77a6e7a0.jpg",
+        //     },
+        //     {
+        //         id:85,
+        //         name: "Short Denim Jacket",
+        //         price: 8000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/c504d43bd9ed8c5b84688ab9823b588b77a6e7a0.jpg",
                  
-                ],
-                 description: "Le Short Denim Jacket est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
-                sizes: ["31", "32", "33", "34"],
+        //         ],
+        //          description: "Le Short Denim Jacket est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
+        //         sizes: ["31", "32", "33", "34"],
                 
-            },
+        //     },
 
-            {
-                id: 86,
-                name: "Short Denim Jacket",
-                price: 8000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/347d9b964b128af10abbc527406d5f19819bc50d.jpg",
+        //     {
+        //         id: 86,
+        //         name: "Short Denim Jacket",
+        //         price: 8000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/347d9b964b128af10abbc527406d5f19819bc50d.jpg",
                  
-                ],
-                 description: "Le Short Denim Jacket est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
-                sizes: ["31", "32", "33", "34"],
+        //         ],
+        //          description: "Le Short Denim Jacket est un accessoire essentiel pour tous les fans de streetwear. Conçu avec un look streetstyle impeccable, ce short denim est idéal pour ajouter un touche de personnalité à votre look quotidien.",
+        //         sizes: ["31", "32", "33", "34"],
                 
-            },
-            {
-                id: 87,
-                name: "Ensemble de Survêtement Puma",
-                price: 18000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/0aeaf90cb39f5609525dee957dcffbb4c7866c5b.jpg",
+        //     },
+        //     {
+        //         id: 87,
+        //         name: "Ensemble de Survêtement Puma",
+        //         price: 18000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/0aeaf90cb39f5609525dee957dcffbb4c7866c5b.jpg",
                  
-                ],
-                 description: " Alliez confort et style avec cet ensemble de survêtement Puma au design moderne. Parfait pour vos sorties quotidiennes ou vos moments de détente, ce complet se distingue par sa coupe ajustée et son jeu de couleurs bicolore audacieux. Un indispensable du vestiaire streetwear pour un look décontracté sans compromis.",
-                sizes: ["XL", "XXL"],
-            },
-            {
-                id: 88,
-                name: "Ensemble de Survêtement Nike",
-                name: "",
-                price: 18000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/36176fd1ec09ff217242325193afdd8c1293bb28.jpg",
-                 "https://imagesend.fr/uploads/20251221/a97c8037193e98483387d8c9b8f8c59ea6d77a3b.jpg",
-                 "https://imagesend.fr/uploads/20251221/7da1d7d5b230092a2d61ebf868d0b84bf9fd8a37.jpg",
-                 "https://imagesend.fr/uploads/20251221/6619d163b66a3461ba41eb5dbaa460c51ccb1b7d.jpg"
+        //         ],
+        //          description: " Alliez confort et style avec cet ensemble de survêtement Puma au design moderne. Parfait pour vos sorties quotidiennes ou vos moments de détente, ce complet se distingue par sa coupe ajustée et son jeu de couleurs bicolore audacieux. Un indispensable du vestiaire streetwear pour un look décontracté sans compromis.",
+        //         sizes: ["XL", "XXL"],
+        //     },
+        //     {
+        //         id: 88,
+        //         name: "Ensemble de Survêtement Nike",
+        //         name: "",
+        //         price: 18000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/36176fd1ec09ff217242325193afdd8c1293bb28.jpg",
+        //          "https://imagesend.fr/uploads/20251221/a97c8037193e98483387d8c9b8f8c59ea6d77a3b.jpg",
+        //          "https://imagesend.fr/uploads/20251221/7da1d7d5b230092a2d61ebf868d0b84bf9fd8a37.jpg",
+        //          "https://imagesend.fr/uploads/20251221/6619d163b66a3461ba41eb5dbaa460c51ccb1b7d.jpg"
                  
-                ],
-                 description: "Alliez confort et style avec cet ensemble de survêtement Puma au design moderne. Parfait pour vos sorties quotidiennes ou vos moments de détente, ce complet se distingue par sa coupe ajustée et son jeu de couleurs bicolore audacieux. Un indispensable du vestiaire streetwear pour un look décontracté sans compromis.",
-                sizes: ["XL", "XXL"],
-                colors: [" Tout-Bleu", " Bleu-Rouge","Noir-vert","Gris-Noir"],
-            },
-            {
-                id: 89,
-                name: "Ensemble de Survêtement Adidas",
-                price: 18000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/5f9c9346879cfa52609f1d62f4be78f7a8aaa024.jpg",
-                 "https://imagesend.fr/uploads/20251221/f5e789dc175c4aafb6b9495f4025748ad46e06ec.jpg"
+        //         ],
+        //          description: "Alliez confort et style avec cet ensemble de survêtement Puma au design moderne. Parfait pour vos sorties quotidiennes ou vos moments de détente, ce complet se distingue par sa coupe ajustée et son jeu de couleurs bicolore audacieux. Un indispensable du vestiaire streetwear pour un look décontracté sans compromis.",
+        //         sizes: ["XL", "XXL"],
+        //         colors: [" Tout-Bleu", " Bleu-Rouge","Noir-vert","Gris-Noir"],
+        //     },
+        //     {
+        //         id: 89,
+        //         name: "Ensemble de Survêtement Adidas",
+        //         price: 18000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/5f9c9346879cfa52609f1d62f4be78f7a8aaa024.jpg",
+        //          "https://imagesend.fr/uploads/20251221/f5e789dc175c4aafb6b9495f4025748ad46e06ec.jpg"
                  
-                ],
-                 description: "Alliez confort et style avec cet ensemble de survêtement Puma au design moderne. Parfait pour vos sorties quotidiennes ou vos moments de détente, ce complet se distingue par sa coupe ajustée et son jeu de couleurs bicolore audacieux. Un indispensable du vestiaire streetwear pour un look décontracté sans compromis.",
-                sizes: ["XL", "XXL"],
-                colors: ["Vert Eau","Beige Sable"],
-            },
-            {
-                id: 90,
-                name: "Ensemble de Survêtement Under Armour Tech Fleece",
-                price: 18000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/0aeaf90cb39f5609525dee957dcffbb4c7866c5b.jpg",
-                 "https://imagesend.fr/uploads/20251221/829fa2361a269bb7038e6b89078f7645e9317722.jpg",
-                 "https://imagesend.fr/uploads/20251221/7da1d7d5b230092a2d61ebf868d0b84bf9fd8a37.jpg",
+        //         ],
+        //          description: "Alliez confort et style avec cet ensemble de survêtement Puma au design moderne. Parfait pour vos sorties quotidiennes ou vos moments de détente, ce complet se distingue par sa coupe ajustée et son jeu de couleurs bicolore audacieux. Un indispensable du vestiaire streetwear pour un look décontracté sans compromis.",
+        //         sizes: ["XL", "XXL"],
+        //         colors: ["Vert Eau","Beige Sable"],
+        //     },
+        //     {
+        //         id: 90,
+        //         name: "Ensemble de Survêtement Under Armour Tech Fleece",
+        //         price: 18000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/0aeaf90cb39f5609525dee957dcffbb4c7866c5b.jpg",
+        //          "https://imagesend.fr/uploads/20251221/829fa2361a269bb7038e6b89078f7645e9317722.jpg",
+        //          "https://imagesend.fr/uploads/20251221/7da1d7d5b230092a2d61ebf868d0b84bf9fd8a37.jpg",
                  
-                ],
-                 description: "Alliez confort et style avec cet ensemble de survêtement Puma au design moderne. Parfait pour vos sorties quotidiennes ou vos moments de détente, ce complet se distingue par sa coupe ajustée et son jeu de couleurs bicolore audacieux. Un indispensable du vestiaire streetwear pour un look décontracté sans compromis.",
-                sizes: ["XL", "XXL"],
-                colors: ["Menthe Givrée","Gris Sable",""],
-            },
-            {
-                id: 91,
-                name: "Ensemble Survêtement Luxe",
-                price: 18000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/acae8edd654e5dee5a73794b3053855e6a0596ae.jpg",
-                 "https://imagesend.fr/uploads/20251221/87f5c439918ac5a208b6da897f0b96cafb109b7b.jpg"
+        //         ],
+        //          description: "Alliez confort et style avec cet ensemble de survêtement Puma au design moderne. Parfait pour vos sorties quotidiennes ou vos moments de détente, ce complet se distingue par sa coupe ajustée et son jeu de couleurs bicolore audacieux. Un indispensable du vestiaire streetwear pour un look décontracté sans compromis.",
+        //         sizes: ["XL", "XXL"],
+        //         colors: ["Menthe Givrée","Gris Sable",""],
+        //     },
+        //     {
+        //         id: 91,
+        //         name: "Ensemble Survêtement Luxe",
+        //         price: 18000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/acae8edd654e5dee5a73794b3053855e6a0596ae.jpg",
+        //          "https://imagesend.fr/uploads/20251221/87f5c439918ac5a208b6da897f0b96cafb109b7b.jpg"
                  
                  
-                ],
-                 description: "Alliez confort et style avec cet ensemble de survêtement Puma au design moderne. Parfait pour vos sorties quotidiennes ou vos moments de détente, ce complet se distingue par sa coupe ajustée et son jeu de couleurs bicolore audacieux. Un indispensable du vestiaire streetwear pour un look décontracté sans compromis.",
-                sizes: ["XL", "XXL"],
-                colors: ["Bleu Marine","marron chocolat"],
-            },
+        //         ],
+        //          description: "Alliez confort et style avec cet ensemble de survêtement Puma au design moderne. Parfait pour vos sorties quotidiennes ou vos moments de détente, ce complet se distingue par sa coupe ajustée et son jeu de couleurs bicolore audacieux. Un indispensable du vestiaire streetwear pour un look décontracté sans compromis.",
+        //         sizes: ["XL", "XXL"],
+        //         colors: ["Bleu Marine","marron chocolat"],
+        //     },
 
-            {
-                id: 92,
-                name: "Ensemble Survêtement Luxe",
-                price: 18000,
-                category: "mode",
-                subcategory: "homme",
-                images: [
-                 "https://imagesend.fr/uploads/20251221/7f39afdd011e21079e01e9154ae4b356107ac90f.jpg",
+        //     {
+        //         id: 92,
+        //         name: "Ensemble Survêtement Luxe",
+        //         price: 18000,
+        //         category: "mode",
+        //         subcategory: "homme",
+        //         images: [
+        //          "https://imagesend.fr/uploads/20251221/7f39afdd011e21079e01e9154ae4b356107ac90f.jpg",
 
-                 "https://imagesend.fr/uploads/20251221/58f183f59cd22c509710f45b8a3de49688fae103.jpg",
-                 "https://imagesend.fr/uploads/20251221/7358c0a4886e7cd65d0046fb6a8588d9889a2929.jpg"
+        //          "https://imagesend.fr/uploads/20251221/58f183f59cd22c509710f45b8a3de49688fae103.jpg",
+        //          "https://imagesend.fr/uploads/20251221/7358c0a4886e7cd65d0046fb6a8588d9889a2929.jpg"
 
                  
-                ],
-                 description: "Alliez confort et style avec cet ensemble de survêtement Puma au design moderne. Parfait pour vos sorties quotidiennes ou vos moments de détente, ce complet se distingue par sa coupe ajustée et son jeu de couleurs bicolore audacieux. Un indispensable du vestiaire streetwear pour un look décontracté sans compromis.",
-                sizes: ["XL", "XXL"],
-                colors: ["Rouge Vif","Gris Sauge","Vert Olive"],
-            },
+        //         ],
+        //          description: "Alliez confort et style avec cet ensemble de survêtement Puma au design moderne. Parfait pour vos sorties quotidiennes ou vos moments de détente, ce complet se distingue par sa coupe ajustée et son jeu de couleurs bicolore audacieux. Un indispensable du vestiaire streetwear pour un look décontracté sans compromis.",
+        //         sizes: ["XL", "XXL"],
+        //         colors: ["Rouge Vif","Gris Sauge","Vert Olive"],
+        //     },
                 
             
            
@@ -4984,7 +4984,7 @@ if (images && images.length > 0) {
             
         
 
-        ];
+        // ];
 
 // Variables globales
 let cart = [];
@@ -4995,10 +4995,108 @@ let isSearchFocused = false;
 let productsPerPage = 8; // Nombre de produits par page
 let currentPage = 1;
 let isLoadingMore = false;
+let allProducts = []; // Stockage de tous les produits récupérés de l'API
+
+// Fonction pour mapper les données de l'API au format attendu par le frontend
+function mapApiProductToFrontend(apiProduct) {
+    // Gestion robuste des images - s'assurer qu'on a toujours un tableau d'images
+    let images = [];
+    if (apiProduct.images_urls) {
+        if (Array.isArray(apiProduct.images_urls)) {
+            images = apiProduct.images_urls;
+        } else if (typeof apiProduct.images_urls === 'string') {
+            try {
+                images = JSON.parse(apiProduct.images_urls);
+            } catch (e) {
+                console.warn('Erreur parsing images_urls:', e);
+                images = [apiProduct.image_url || '/images/prestige-shop.png'];
+            }
+        } else {
+            images = [apiProduct.image_url || '/images/prestige-shop.png'];
+        }
+    } else {
+        // Si pas de images_urls, utiliser image_url ou image par défaut
+        images = [apiProduct.image_url || '/images/prestige-shop.png'];
+    }
+    
+    // S'assurer qu'on a toujours au moins une image
+    if (images.length === 0) {
+        images = [apiProduct.image_url || '/images/prestige-shop.png'];
+    }
+    
+    return {
+        id: apiProduct.id,
+        name: apiProduct.nom,
+        price: apiProduct.prix,
+        category: apiProduct.categorie,
+        subcategory: apiProduct.subcategorie || apiProduct.sous_categorie || '',
+        images: images,
+        description: apiProduct.description || '',
+        sizes: Array.isArray(apiProduct.taille_disponible) ? apiProduct.taille_disponible : 
+                (typeof apiProduct.taille_disponible === 'string' ? JSON.parse(apiProduct.taille_disponible || '[]') : []),
+        colors: Array.isArray(apiProduct.couleur_disponible) ? apiProduct.couleur_disponible : 
+                (typeof apiProduct.couleur_disponible === 'string' ? JSON.parse(apiProduct.couleur_disponible || '[]') : []),
+        stock: apiProduct.stock || 0
+    };
+}
+
+// Fonction pour charger les produits depuis l'API
+async function loadProductsFromApi() {
+    const grid = document.getElementById('products-grid');
+    
+    try {
+        // Afficher un indicateur de chargement
+        grid.innerHTML = `
+            <div class="col-span-full flex justify-center items-center py-16">
+                <div class="text-center">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+                    <p class="text-gray-600 font-medium">Chargement des produits...</p>
+                </div>
+            </div>
+        `;
+        
+        const response = await fetch(`${window.API_BASE_URL}/produits`);
+        
+        if (!response.ok) {
+            throw new Error(`Erreur réseau: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (!data.success) {
+            throw new Error(data.message || 'Erreur lors du chargement des produits');
+        }
+        
+        // Mapper les produits de l'API au format frontend
+        allProducts = data.produits.map(mapApiProductToFrontend);
+        
+        // Réinitialiser la pagination et afficher les produits
+        currentPage = 1;
+        displayProducts(currentFilter, true);
+        
+    } catch (error) {
+        console.error('Erreur lors du chargement des produits:', error);
+        
+        // Afficher un message d'erreur
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-16">
+                <div class="text-red-500 mb-4">
+                    <i class="fas fa-exclamation-triangle text-4xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Erreur de chargement</h3>
+                <p class="text-gray-600 mb-4">Impossible de charger les produits. Veuillez réessayer plus tard.</p>
+                <button onclick="loadProductsFromApi()" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-2 px-6 rounded-lg transition-all">
+                    <i class="fas fa-redo mr-2"></i>
+                    Réessayer
+                </button>
+            </div>
+        `;
+    }
+}
 
 // Initialisation
 document.addEventListener('DOMContentLoaded', function() {
-    displayProducts();
+    loadProductsFromApi(); // Charger les produits depuis l'API au lieu d'utiliser la fonction displayProducts()
     updateCartUI();
     checkAuth();
     showCategoryBanner('all'); // Afficher la bannière par défaut
@@ -5067,16 +5165,30 @@ function displayProducts(filter = 'all', reset = true) {
         return;
     }
     
+    // Vérifier si les produits sont chargés
+    if (!allProducts || allProducts.length === 0) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-16">
+                <div class="text-gray-500 mb-4">
+                    <i class="fas fa-box-open text-4xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Aucun produit trouvé</h3>
+                <p class="text-gray-600">Il n'y a pas encore de produits dans la base de données.</p>
+            </div>
+        `;
+        return;
+    }
+    
     let filteredProducts;
     
     // Gérer les sous-catégories mode
     if (filter.startsWith('mode-')) {
         const subcategory = filter.replace('mode-', '');
-        filteredProducts = products.filter(p => p.category === 'mode' && p.subcategory === subcategory);
+        filteredProducts = allProducts.filter(p => p.category === 'mode' && p.subcategory === subcategory);
     } else if (filter === 'all') {
-        filteredProducts = products;
+        filteredProducts = allProducts;
     } else {
-        filteredProducts = products.filter(p => p.category === filter);
+        filteredProducts = allProducts.filter(p => p.category === filter);
     }
     
     filteredProducts = sortProductsArray(filteredProducts, currentSort);
@@ -5127,11 +5239,11 @@ function loadMoreProducts() {
     // Gérer les sous-catégories mode
     if (currentFilter.startsWith('mode-')) {
         const subcategory = currentFilter.replace('mode-', '');
-        filteredProducts = products.filter(p => p.category === 'mode' && p.subcategory === subcategory);
+        filteredProducts = allProducts.filter(p => p.category === 'mode' && p.subcategory === subcategory);
     } else if (currentFilter === 'all') {
-        filteredProducts = products;
+        filteredProducts = allProducts;
     } else {
-        filteredProducts = products.filter(p => p.category === currentFilter);
+        filteredProducts = allProducts.filter(p => p.category === currentFilter);
     }
     
     if (currentPage * productsPerPage >= filteredProducts.length) return; // Plus de produits
@@ -5459,7 +5571,7 @@ function loadMoreProducts() {
         }
         // Ajouter au panier
         function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             const existingItem = cart.find(item => item.id === productId);
             
             if (existingItem) {
@@ -5942,7 +6054,7 @@ function loadMoreProducts() {
 
         // Initialisation du carousel
         function initializeCarousel(productId) {
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             if (!product || product.images.length <= 1) return;
             
             carouselStates[productId] = { currentIndex: 0 };
@@ -6063,7 +6175,7 @@ function loadMoreProducts() {
                     let newTransform = initialTransform + dragPercent;
                     
                     // Ajouter une résistance aux bords
-                    const product = products.find(p => p.id === productId);
+                    const product = allProducts.find(p => p.id === productId);
                     const maxIndex = product ? product.images.length - 1 : 0;
                     
                     if (state.currentIndex === 0 && diffX > 0) {
@@ -6188,7 +6300,7 @@ function loadMoreProducts() {
         // Obtenir l'index suivant
         function getNextIndex(container) {
             const productId = parseInt(container.querySelector('.carousel-track').id.replace('carousel-', ''));
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             const state = carouselStates[productId] || { currentIndex: 0 };
             
             if (!product) return 0;
@@ -6198,7 +6310,7 @@ function loadMoreProducts() {
         // Obtenir l'index précédent
         function getPrevIndex(container) {
             const productId = parseInt(container.querySelector('.carousel-track').id.replace('carousel-', ''));
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             const state = carouselStates[productId] || { currentIndex: 0 };
             
             if (!product) return 0;
@@ -6207,7 +6319,7 @@ function loadMoreProducts() {
 
         // Navigation du carousel - image précédente
         function previousImage(productId) {
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             if (!product) return;
             
             const state = carouselStates[productId];
@@ -6226,7 +6338,7 @@ function loadMoreProducts() {
 
         // Navigation du carousel - image suivante
         function nextImage(productId) {
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             if (!product) return;
             
             const state = carouselStates[productId];
@@ -6269,7 +6381,7 @@ function loadMoreProducts() {
 
         // Ouverture du zoom d'image ou vidéo
         function openImageZoom(productId, startIndex = 0) {
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             if (!product) return;
             
             // Mémoriser l'état d'ouverture des panneaux de recherche
@@ -6370,7 +6482,7 @@ function loadMoreProducts() {
         function previousZoomImage() {
             if (!zoomState.isOpen) return;
             
-            const product = products.find(p => p.id === zoomState.productId);
+            const product = allProducts.find(p => p.id === zoomState.productId);
             if (!product) return;
             
             zoomState.currentIndex = (zoomState.currentIndex - 1 + product.images.length) % product.images.length;
@@ -6381,7 +6493,7 @@ function loadMoreProducts() {
         function nextZoomImage() {
             if (!zoomState.isOpen) return;
             
-            const product = products.find(p => p.id === zoomState.productId);
+            const product = allProducts.find(p => p.id === zoomState.productId);
             if (!product) return;
             
             zoomState.currentIndex = (zoomState.currentIndex + 1) % product.images.length;
@@ -6503,7 +6615,7 @@ function loadMoreProducts() {
                     let newOpacity = 1;
                     
                     // Ajouter une résistance progressive aux bords
-                    const product = products.find(p => p.id === zoomState.productId);
+                    const product = allProducts.find(p => p.id === zoomState.productId);
                     const maxIndex = product ? product.images.length - 1 : 0;
                     
                     if (zoomState.currentIndex === 0 && diffX > 0) {
@@ -6670,7 +6782,7 @@ function loadMoreProducts() {
             if (!indicator) return;
             
             const dragPercent = Math.abs(dragDistance) / overlayWidth;
-            const product = products.find(p => p.id === zoomState.productId);
+            const product = allProducts.find(p => p.id === zoomState.productId);
             if (!product) return;
             
             // Animation de l'opacité basée sur le drag et la vélocité
@@ -6752,7 +6864,7 @@ function loadMoreProducts() {
             indicator.style.boxShadow = '';
             
             // Remettre le texte normal
-            const product = products.find(p => p.id === zoomState.productId);
+            const product = allProducts.find(p => p.id === zoomState.productId);
             if (product) {
                 indicator.innerHTML = `${zoomState.currentIndex + 1} / ${product.images.length}`;
             }
@@ -6805,7 +6917,7 @@ function loadMoreProducts() {
 
         // Mise à jour du média dans le zoom
         function updateZoomImage() {
-            const product = products.find(p => p.id === zoomState.productId);
+            const product = allProducts.find(p => p.id === zoomState.productId);
             if (!product) return;
             
             const currentMedia = product.images[zoomState.currentIndex];
@@ -6919,7 +7031,7 @@ function loadMoreProducts() {
             }
             const searchTerm = normalizeText(query);
             
-            return products.filter(product => {
+            return allProducts.filter(product => {
                 const nameMatch = normalizeText(product.name).includes(searchTerm);
                 const descMatch = normalizeText(product.description).includes(searchTerm);
                 const categoryMatch = normalizeText(getCategoryName(product.category)).includes(searchTerm);
@@ -7322,7 +7434,7 @@ function loadMoreProducts() {
         
         // Ajouter au panier depuis la recherche avec gestion des variantes
         function addToCartFromSearch(productId, isMobile = false) {
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             if (product && ((product.sizes && product.sizes.length) || (product.colors && product.colors.length))) {
                 // Ouvrir le sélecteur taille/couleur si variantes
                 openOptionModal(productId);
@@ -7415,7 +7527,7 @@ function loadMoreProducts() {
             }
             
             // Ouvrir directement le zoom de l'image du produit
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             if (product) {
                 // Ouvrir le zoom immédiatement
                 openImageZoom(productId, 0);
@@ -7434,9 +7546,9 @@ function loadMoreProducts() {
             // Trouver la carte du produit
             const productCards = document.querySelectorAll('.product-card');
             productCards.forEach((card, index) => {
-                const product = products.find(p => p.id === productId);
+                const product = allProducts.find(p => p.id === productId);
                 if (product) {
-                    const productIndex = products.indexOf(product);
+                    const productIndex = allProducts.indexOf(product);
                     if (index === productIndex) {
                         // Animation de mise en évidence
                         card.style.transform = 'scale(1.05)';
@@ -8005,38 +8117,6 @@ function loadMoreProducts() {
             }
         }
         
-        // Mettre à jour l'interface du panier
-        function updateCartUI() {
-            // Mettre à jour le badge du panier flottant
-            const cartBadge = document.getElementById('cart-float-badge');
-            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-            
-            if (totalItems > 0) {
-                cartBadge.textContent = totalItems;
-                cartBadge.classList.remove('hidden');
-            } else {
-                cartBadge.classList.add('hidden');
-            }
-            
-            // Mettre à jour le total dans le panier modal
-            const cartTotal = document.getElementById('cart-total');
-            if (cartTotal) {
-                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                cartTotal.textContent = total.toFixed(2) + ' FCFA';
-            }
-            
-            // Mettre à jour le badge du bouton panier dans le header
-            const headerCartBadge = document.getElementById('cart-badge');
-            if (headerCartBadge) {
-                if (totalItems > 0) {
-                    headerCartBadge.textContent = totalItems;
-                    headerCartBadge.classList.remove('hidden');
-                } else {
-                    headerCartBadge.classList.add('hidden');
-                }
-            }
-        }
-        
         // Fonction pour créer un effet de confettis de fête
         function createFestiveConfetti() {
             const confettiColors = [
@@ -8090,7 +8170,7 @@ function loadMoreProducts() {
                 existingItem.quantity += 1;
             } else {
                 // Ajouter un nouveau produit au panier
-                const product = products.find(p => p.id === productId);
+                const product = allProducts.find(p => p.id === productId);
                 if (product) {
                     cart.push({
                         id: product.id,
@@ -8120,7 +8200,7 @@ function loadMoreProducts() {
         }
 
         function openOptionModal(productId) {
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             if (!product) return;
             const overlay = document.createElement('div');
             overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
@@ -8203,7 +8283,7 @@ function loadMoreProducts() {
         }
 
         function addToCartWithOptions(productId, size, color) {
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             if (!product) return;
             const requiresSize = product.sizes && product.sizes.length;
             const requiresColor = product.colors && product.colors.length;
@@ -8237,11 +8317,11 @@ function loadMoreProducts() {
 
         // Vue rapide du produit avec produits similaires en dessous
         function quickView(productId) {
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             if (!product) return;
             
             // Trouver les autres produits de la même catégorie
-            const relatedProducts = products.filter(p => 
+            const relatedProducts = allProducts.filter(p => 
                 p.category === product.category && p.id !== productId
             ).slice(0, 8); // Limiter à 8 produits
             
@@ -8510,7 +8590,7 @@ function loadMoreProducts() {
         
         // Partage de produit
         function shareProduct(productId) {
-            const product = products.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             if (!product) return;
             
             const shareData = {

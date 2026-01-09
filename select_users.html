@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sélection des Utilisateurs | Prestige Shop Express</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" rel="stylesheet">
+    <script src="../api-config.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="text-3xl font-bold text-gray-800">
+                    <i class="fas fa-users mr-3 text-blue-600"></i>
+                    Sélection des Utilisateurs
+                </h1>
+                <a href="admin_messages.html" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>Retour Messages
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Panneau de filtres -->
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-filter mr-2"></i>
+                        Filtres
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Rechercher par nom/email
+                            </label>
+                            <input type="text" id="searchInput" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Entrez un nom ou email...">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Statut
+                            </label>
+                            <select id="statusFilter" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">Tous les statuts</option>
+                                <option value="actif">Actif</option>
+                                <option value="suspendu">Suspendu</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Tri
+                            </label>
+                            <select id="sortOrder" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="id">Par ID</option>
+                                <option value="nom">Par Nom</option>
+                                <option value="email">Par Email</option>
+                                <option value="derniere_connexion">Par Dernière Connexion</option>
+                            </select>
+                        </div>
+                        
+                        <button id="applyFilters" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                            <i class="fas fa-search mr-2"></i>
+                            Appliquer les Filtres
+                        </button>
+                        
+                        <button id="clearFilters" class="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors mt-2">
+                            <i class="fas fa-times mr-2"></i>
+                            Effacer les Filtres
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Liste des utilisateurs -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-bold text-gray-800">
+                                <i class="fas fa-list mr-2"></i>
+                                Liste des Utilisateurs
+                            </h2>
+                            <div class="text-sm text-gray-600">
+                                <span id="userCount">0</span> utilisateurs trouvés
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center">
+                                <button id="selectAll" class="text-sm text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-check-square mr-1"></i>
+                                    Tout sélectionner
+                                </button>
+                                <span class="mx-2 text-gray-300">|</span>
+                                <button id="deselectAll" class="text-sm text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-square mr-1"></i>
+                                    Tout déselectionner
+                                </button>
+                            </div>
+                            
+                            <button id="sendToSelected" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Envoyer aux sélectionnés
+                            </button>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="overflow-y-auto max-h-96">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50 border-b border-gray-200">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">
+                                                <input type="checkbox" id="selectAllHeader" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                            </th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Utilisateur
+                                            </th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Email
+                                            </th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Téléphone
+                                            </th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Statut
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="usersTableBody" class="divide-y divide-gray-200">
+                                        <!-- Les utilisateurs seront chargés ici -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div id="noUsersMessage" class="hidden text-center py-8">
+                            <i class="fas fa-users-slash text-gray-300 text-4xl mb-2"></i>
+                            <p class="text-gray-500">Aucun utilisateur trouvé</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allUsers = [];
+        let filteredUsers = [];
+        let selectedUsers = new Set();
+        
+        // Charger tous les utilisateurs
+        async function loadUsers() {
+            try {
+                showLoading();
+                
+                const response = await fetch(`${API_BASE_URL}/users`, { credentials: 'include' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    allUsers = data.users;
+                    filteredUsers = [...allUsers];
+                    displayUsers(filteredUsers);
+                    document.getElementById('userCount').textContent = filteredUsers.length;
+                } else {
+                    showError('Erreur lors du chargement des utilisateurs');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion au serveur');
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        // Afficher les utilisateurs dans le tableau
+        function displayUsers(users) {
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = '';
+            
+            if (users.length === 0) {
+                document.getElementById('noUsersMessage').classList.remove('hidden');
+                document.getElementById('userCount').textContent = '0';
+                return;
+            }
+            
+            document.getElementById('noUsersMessage').classList.add('hidden');
+            document.getElementById('userCount').textContent = users.length;
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="px-4 py-3 whitespace-nowrap">
+                        <input type="checkbox" 
+                               data-user-id="${user.id}" 
+                               class="user-checkbox h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                               ${selectedUsers.has(user.id) ? 'checked' : ''}>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-blue-600"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">${user.nom_complet || user.prenom + ' ' + user.nom}</div>
+                                <div class="text-sm text-gray-500">ID: ${user.id}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${user.email || '-'}</div>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${user.numero || '-'}</div>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                              ${user.statut === 'actif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${user.statut === 'actif' ? 'Actif' : 'Suspendu'}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // Ajouter les écouteurs d'événements pour les cases à cocher
+            document.querySelectorAll('.user-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const userId = parseInt(this.getAttribute('data-user-id'));
+                    if (this.checked) {
+                        selectedUsers.add(userId);
+                    } else {
+                        selectedUsers.delete(userId);
+                    }
+                    updateSelectAllCheckbox();
+                });
+            });
+        }
+        
+        // Filtrer les utilisateurs
+        function filterUsers() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const sortOrder = document.getElementById('sortOrder').value;
+            
+            filteredUsers = allUsers.filter(user => {
+                // Filtre de recherche
+                const matchesSearch = !searchTerm || 
+                    (user.nom_complet && user.nom_complet.toLowerCase().includes(searchTerm)) ||
+                    (user.email && user.email.toLowerCase().includes(searchTerm));
+                
+                // Filtre de statut
+                const matchesStatus = !statusFilter || user.statut === statusFilter;
+                
+                return matchesSearch && matchesStatus;
+            });
+            
+            // Tri
+            filteredUsers.sort((a, b) => {
+                switch (sortOrder) {
+                    case 'nom':
+                        return (a.nom_complet || '').localeCompare(b.nom_complet || '');
+                    case 'email':
+                        return (a.email || '').localeCompare(b.email || '');
+                    case 'derniere_connexion':
+                        return new Date(b.derniere_connexion) - new Date(a.derniere_connexion);
+                    default:
+                        return a.id - b.id;
+                }
+            });
+            
+            displayUsers(filteredUsers);
+        }
+        
+        // Sélectionner tous les utilisateurs affichés
+        function selectAllDisplayed() {
+            document.querySelectorAll('.user-checkbox').forEach(checkbox => {
+                checkbox.checked = true;
+                const userId = parseInt(checkbox.getAttribute('data-user-id'));
+                selectedUsers.add(userId);
+            });
+            updateSelectAllCheckbox();
+        }
+        
+        // Désélectionner tous les utilisateurs
+        function deselectAll() {
+            document.querySelectorAll('.user-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            selectedUsers.clear();
+            updateSelectAllCheckbox();
+        }
+        
+        // Mettre à jour l'état de la case à cocher "Tout sélectionner"
+        function updateSelectAllCheckbox() {
+            const allCheckboxes = document.querySelectorAll('.user-checkbox');
+            const checkedCheckboxes = document.querySelectorAll('.user-checkbox:checked');
+            const selectAllHeader = document.getElementById('selectAllHeader');
+            
+            if (allCheckboxes.length > 0 && checkedCheckboxes.length === allCheckboxes.length) {
+                selectAllHeader.checked = true;
+                selectAllHeader.indeterminate = false;
+            } else if (checkedCheckboxes.length > 0) {
+                selectAllHeader.checked = false;
+                selectAllHeader.indeterminate = true;
+            } else {
+                selectAllHeader.checked = false;
+                selectAllHeader.indeterminate = false;
+            }
+        }
+        
+        // Envoyer aux utilisateurs sélectionnés
+        function sendToSelectedUsers() {
+            if (selectedUsers.size === 0) {
+                alert('Veuillez sélectionner au moins un utilisateur');
+                return;
+            }
+            
+            // Passer les IDs des utilisateurs sélectionnés à la page de messagerie
+            const selectedIds = Array.from(selectedUsers);
+            localStorage.setItem('selectedUserIds', JSON.stringify(selectedIds));
+            
+            // Rediriger vers la page de messagerie
+            window.location.href = 'admin_messages.html';
+        }
+        
+        // Afficher le chargement
+        function showLoading() {
+            // Vous pouvez implémenter une animation de chargement ici
+        }
+        
+        // Masquer le chargement
+        function hideLoading() {
+            // Vous pouvez implémenter une animation de chargement ici
+        }
+        
+        // Afficher une erreur
+        function showError(message) {
+            alert('Erreur: ' + message);
+        }
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Charger les utilisateurs
+            loadUsers();
+            
+            // Écouteurs d'événements
+            document.getElementById('applyFilters').addEventListener('click', filterUsers);
+            document.getElementById('clearFilters').addEventListener('click', function() {
+                document.getElementById('searchInput').value = '';
+                document.getElementById('statusFilter').value = '';
+                document.getElementById('sortOrder').value = 'id';
+                filteredUsers = [...allUsers];
+                displayUsers(filteredUsers);
+            });
+            
+            document.getElementById('selectAll').addEventListener('click', selectAllDisplayed);
+            document.getElementById('deselectAll').addEventListener('click', deselectAll);
+            document.getElementById('sendToSelected').addEventListener('click', sendToSelectedUsers);
+            
+            document.getElementById('selectAllHeader').addEventListener('change', function() {
+                if (this.checked) {
+                    selectAllDisplayed();
+                } else {
+                    deselectAll();
+                }
+            });
+            
+            // Rechercher en temps réel
+            document.getElementById('searchInput').addEventListener('input', filterUsers);
+            document.getElementById('statusFilter').addEventListener('change', filterUsers);
+            document.getElementById('sortOrder').addEventListener('change', filterUsers);
+        });
+    </script>
+</body>
+</html>

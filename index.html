@@ -53,6 +53,7 @@
     
     <!-- JavaScript -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script src="./api-config.js"></script>
     
     <style>
@@ -2292,6 +2293,10 @@ if (images && images.length > 0) {
                     <button onclick="sortProducts('price-desc')" class="sort-btn bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-all text-sm">
                         <i class="fas fa-sort-numeric-up mr-1"></i>
                         Prix décroissant
+                    </button>
+                    <button onclick="sortProducts('order')" class="sort-btn bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-all text-sm">
+                        <i class="fas fa-sort mr-1"></i>
+                        Ordre personnalisé
                     </button>
                 </div>
             </div>
@@ -4989,7 +4994,7 @@ if (images && images.length > 0) {
 // Variables globales
 let cart = [];
 let currentFilter = 'all';
-let currentSort = 'default';
+let currentSort = 'order';
 let searchTimeout = null;
 let isSearchFocused = false;
 let productsPerPage = 8; // Nombre de produits par page
@@ -5036,7 +5041,8 @@ function mapApiProductToFrontend(apiProduct) {
                 (typeof apiProduct.taille_disponible === 'string' ? JSON.parse(apiProduct.taille_disponible || '[]') : []),
         colors: Array.isArray(apiProduct.couleur_disponible) ? apiProduct.couleur_disponible : 
                 (typeof apiProduct.couleur_disponible === 'string' ? JSON.parse(apiProduct.couleur_disponible || '[]') : []),
-        stock: apiProduct.stock || 0
+        stock: apiProduct.stock || 0,
+        ordre: apiProduct.ordre || 9999
     };
 }
 
@@ -5069,6 +5075,9 @@ async function loadProductsFromApi() {
         
         // Mapper les produits de l'API au format frontend
         allProducts = data.produits.map(mapApiProductToFrontend);
+        
+        // Trier les produits par ordre personnalisé
+        allProducts.sort((a, b) => a.ordre - b.ordre);
         
         // Réinitialiser la pagination et afficher les produits
         currentPage = 1;
@@ -5110,6 +5119,7 @@ function sortProductsArray(productsArray, sortType) {
         case 'name-desc': return sortedProducts.sort((a, b) => b.name.localeCompare(a.name, 'fr'));
         case 'price-asc': return sortedProducts.sort((a, b) => a.price - b.price);
         case 'price-desc': return sortedProducts.sort((a, b) => b.price - a.price);
+        case 'order': return sortedProducts.sort((a, b) => a.ordre - b.ordre);
         case 'default':
         default: return sortedProducts;
     }
@@ -5585,6 +5595,15 @@ function loadMoreProducts() {
             
             updateCartUI();
             showNotification('Produit ajouté au panier !', 'success');
+            
+            // Lancer l'effet de confettis
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#bb0000', '#ffffff', '#0000ff'],
+                shapes: ['circle', 'square']
+            });
         }
 
         // Supprimer du panier
@@ -8105,8 +8124,14 @@ function loadMoreProducts() {
             // Mettre à jour l'interface utilisateur
             updateCartUI();
             
-            // Créer l'effet de confettis de fête
-            createFestiveConfetti();
+            // Lancer l'effet de confettis
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#bb0000', '#ffffff', '#0000ff'],
+                shapes: ['circle', 'square']
+            });
             
             // Sauvegarder dans localStorage
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -8114,49 +8139,6 @@ function loadMoreProducts() {
             // Feedback haptique
             if (window.navigator && window.navigator.vibrate) {
                 window.navigator.vibrate([50, 30, 50]);
-            }
-        }
-        
-        // Fonction pour créer un effet de confettis de fête
-        function createFestiveConfetti() {
-            const confettiColors = [
-                '#ff0000', '#00ff00', '#0000ff', '#ffff00', 
-                '#ff00ff', '#00ffff', '#ff9900', '#ff66cc',
-                '#66ff66', '#6666ff', '#ffcc00', '#cc66ff'
-            ];
-            
-            const container = document.body;
-            
-            // Créer 150 confettis
-            for (let i = 0; i < 150; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti-piece';
-                
-                // Propriétés aléatoires
-                const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-                const size = Math.random() * 10 + 5;
-                const left = Math.random() * 100;
-                const animationDuration = Math.random() * 3 + 2;
-                const animationDelay = Math.random() * 2;
-                const shape = Math.random() > 0.5 ? '50%' : '0';
-                
-                // Appliquer les styles
-                confetti.style.backgroundColor = color;
-                confetti.style.width = `${size}px`;
-                confetti.style.height = `${size}px`;
-                confetti.style.left = `${left}vw`;
-                confetti.style.borderRadius = shape;
-                confetti.style.animation = `confetti-fall ${animationDuration}s ease-in ${animationDelay}s forwards`;
-                
-                // Ajouter au document
-                container.appendChild(confetti);
-                
-                // Supprimer après l'animation
-                setTimeout(() => {
-                    if (confetti.parentNode) {
-                        confetti.parentNode.removeChild(confetti);
-                    }
-                }, (animationDuration + animationDelay) * 1000);
             }
         }
         
@@ -8187,8 +8169,14 @@ function loadMoreProducts() {
             // Mettre à jour l'interface utilisateur
             updateCartUI();
             
-            // Créer l'effet de confettis de fête
-            createFestiveConfetti();
+            // Lancer l'effet de confettis
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#bb0000', '#ffffff', '#0000ff'],
+                shapes: ['circle', 'square']
+            });
             
             // Sauvegarder dans localStorage
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -8313,6 +8301,15 @@ function loadMoreProducts() {
                 window.navigator.vibrate([30]);
             }
             showNotification('Produit ajouté au panier !', 'success');
+            
+            // Lancer l'effet de confettis
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#bb0000', '#ffffff', '#0000ff'],
+                shapes: ['circle', 'square']
+            });
         }
 
         // Vue rapide du produit avec produits similaires en dessous
@@ -8503,7 +8500,7 @@ function loadMoreProducts() {
                                     </h3>
                                     <button onclick="this.closest('.fixed').remove(); document.body.style.overflow = 'auto'; filterProducts('${product.category}'); setTimeout(() => document.getElementById('produits').scrollIntoView({behavior: 'smooth'}), 100)" 
                                             class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-bold text-sm hover:shadow-lg transition-all flex items-center">
-                                        Voir tout (${products.filter(p => p.category === product.category).length})
+                                        Voir tout (${allProducts.filter(p => p.category === product.category).length})
                                         <i class="fas fa-arrow-right ml-2"></i>
                                     </button>
                                 </div>

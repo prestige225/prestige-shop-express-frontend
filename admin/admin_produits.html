@@ -6,6 +6,7 @@
     <title>Administration - Gestion des Produits</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <style>
         .product-card {
             transition: all 0.3s ease;
@@ -166,6 +167,10 @@
                             <option value="mode de vie">Mode de vie</option>
                             <option value="autre">Autre</option>
                         </select>
+                        <button onclick="sortProductsByOrder()" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center">
+                            <i class="fas fa-sort-amount-down mr-2"></i>
+                            Trier par ordre
+                        </button>
                     </div>
                 </div>
                 
@@ -228,6 +233,8 @@
                     data.produits.forEach(product => {
                         container.innerHTML += createProductCard(product);
                     });
+                    // Activer le glisser-déposer après le chargement des produits
+                    setTimeout(enableDragAndDrop, 100);
                 } else {
                     noProducts.classList.remove('hidden');
                 }
@@ -261,7 +268,7 @@
                            (typeof product.couleur_disponible === 'string' ? JSON.parse(product.couleur_disponible) : []);
             
             return `
-                <div class="product-card bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden hover:shadow-xl transition-all">
+                <div class="product-card bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden hover:shadow-xl transition-all" data-product-id="${product.id}">
                     <div class="relative">
                         <!-- Carrousel d'images -->
                         <div class="carousel-container relative h-48 overflow-hidden">
@@ -323,7 +330,12 @@
                         ` : ''}
                         
                         <div class="flex justify-between items-center mt-4">
-                            <span class="text-sm text-gray-500">Stock: ${product.stock || 0}</span>
+                            <div class="flex items-center space-x-4">
+                                <span class="text-sm text-gray-500">Stock: ${product.stock || 0}</span>
+                                <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
+                                    Ordre: ${product.ordre || 9999}
+                                </span>
+                            </div>
                             <div class="space-x-2">
                                 <button onclick="editProduct(${product.id})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
                                     <i class="fas fa-edit"></i>
@@ -532,6 +544,63 @@
             const search = document.getElementById('search-input').value.trim();
             loadProducts({ categorie: category || undefined, search: search || undefined });
         });
+        
+        // Fonction pour trier les produits par ordre
+        function sortProductsByOrder() {
+            // Recharger les produits triés par ordre
+            loadProducts();
+        }
+        
+        // Activer le glisser-déposer pour réorganiser les produits
+        function enableDragAndDrop() {
+            const container = document.getElementById('products-container');
+            
+            // Activer sortableJS ou implémentation native
+            if (typeof Sortable !== 'undefined') {
+                const sortable = new Sortable(container, {
+                    animation: 150,
+                    ghostClass: 'drag-ghost',
+                    onEnd: function(evt) {
+                        updateProductOrder();
+                    }
+                });
+            }
+        }
+        
+        // Mettre à jour l'ordre des produits sur le serveur
+        async function updateProductOrder() {
+            const container = document.getElementById('products-container');
+            const productCards = container.querySelectorAll('.product-card');
+            
+            const orderedProducts = [];
+            
+            productCards.forEach((card, index) => {
+                const productId = card.dataset.productId;
+                orderedProducts.push({
+                    id: parseInt(productId),
+                    ordre: index
+                });
+            });
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/produits/update_ordre`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ produits: orderedProducts })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    console.log('Ordre des produits mis à jour');
+                } else {
+                    console.error('Erreur lors de la mise à jour de l\'ordre:', result.message);
+                }
+            } catch (error) {
+                console.error('Erreur réseau:', error);
+            }
+        }
     </script>
 </body>
 </html>

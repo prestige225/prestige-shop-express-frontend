@@ -6,7 +6,6 @@
     <title>Administration - Gestion des Produits</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <style>
         .product-card {
             transition: all 0.3s ease;
@@ -101,12 +100,6 @@
                     </div>
                     
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">URLs des vidéos (séparées par des virgules)</label>
-                        <input type="text" id="product-videos" placeholder="https://example.com/video1.mp4,https://youtube.com/watch?v=...,https://vimeo.com/..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                        <p class="text-xs text-gray-500 mt-1">Formats supportés : MP4, YouTube, Vimeo, etc.</p>
-                    </div>
-                    
-                    <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Tailles disponibles (séparées par des virgules)</label>
                         <input type="text" id="product-sizes" placeholder="S,M,L,XL" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
                     </div>
@@ -119,12 +112,6 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Stock disponible</label>
                         <input type="number" id="product-stock" min="0" value="0" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Ordre d'affichage</label>
-                        <input type="number" id="product-order" min="0" value="9999" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                        <p class="text-xs text-gray-500 mt-1">Plus le nombre est petit, plus le produit sera en haut</p>
                     </div>
                     
                     <div>
@@ -167,10 +154,6 @@
                             <option value="mode de vie">Mode de vie</option>
                             <option value="autre">Autre</option>
                         </select>
-                        <button onclick="sortProductsByOrder()" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center">
-                            <i class="fas fa-sort-amount-down mr-2"></i>
-                            Trier par ordre
-                        </button>
                     </div>
                 </div>
                 
@@ -233,8 +216,6 @@
                     data.produits.forEach(product => {
                         container.innerHTML += createProductCard(product);
                     });
-                    // Activer le glisser-déposer après le chargement des produits
-                    setTimeout(enableDragAndDrop, 100);
                 } else {
                     noProducts.classList.remove('hidden');
                 }
@@ -268,7 +249,7 @@
                            (typeof product.couleur_disponible === 'string' ? JSON.parse(product.couleur_disponible) : []);
             
             return `
-                <div class="product-card bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden hover:shadow-xl transition-all" data-product-id="${product.id}">
+                <div class="product-card bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden hover:shadow-xl transition-all">
                     <div class="relative">
                         <!-- Carrousel d'images -->
                         <div class="carousel-container relative h-48 overflow-hidden">
@@ -330,12 +311,7 @@
                         ` : ''}
                         
                         <div class="flex justify-between items-center mt-4">
-                            <div class="flex items-center space-x-4">
-                                <span class="text-sm text-gray-500">Stock: ${product.stock || 0}</span>
-                                <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
-                                    Ordre: ${product.ordre || 9999}
-                                </span>
-                            </div>
+                            <span class="text-sm text-gray-500">Stock: ${product.stock || 0}</span>
                             <div class="space-x-2">
                                 <button onclick="editProduct(${product.id})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
                                     <i class="fas fa-edit"></i>
@@ -414,11 +390,9 @@
                 description: document.getElementById('product-description').value,
                 image_url: document.getElementById('product-image').value,
                 images_urls: document.getElementById('product-images').value.split(',').map(url => url.trim()).filter(url => url),
-                videos_urls: document.getElementById('product-videos').value.split(',').map(url => url.trim()).filter(url => url),
                 taille_disponible: document.getElementById('product-sizes').value.split(',').map(size => size.trim()).filter(size => size),
                 couleur_disponible: document.getElementById('product-colors').value.split(',').map(color => color.trim()).filter(color => color),
                 stock: parseInt(document.getElementById('product-stock').value) || 0,
-                ordre: parseInt(document.getElementById('product-order').value) || 9999,
                 statut: document.getElementById('product-status').value
             };
 
@@ -480,12 +454,10 @@
                         
                         // Remplir les champs avec les tableaux
                         document.getElementById('product-images').value = Array.isArray(product.images_urls) ? product.images_urls.join(',') : '';
-                        document.getElementById('product-videos').value = Array.isArray(product.videos_urls) ? product.videos_urls.join(',') : '';
                         document.getElementById('product-sizes').value = Array.isArray(product.taille_disponible) ? product.taille_disponible.join(',') : '';
                         document.getElementById('product-colors').value = Array.isArray(product.couleur_disponible) ? product.couleur_disponible.join(',') : '';
                         
                         document.getElementById('product-stock').value = product.stock || 0;
-                        document.getElementById('product-order').value = product.ordre || 9999;
                         document.getElementById('product-status').value = product.statut || 'actif';
                         
                         document.getElementById('form-title').textContent = 'Modifier le produit';
@@ -544,63 +516,6 @@
             const search = document.getElementById('search-input').value.trim();
             loadProducts({ categorie: category || undefined, search: search || undefined });
         });
-        
-        // Fonction pour trier les produits par ordre
-        function sortProductsByOrder() {
-            // Recharger les produits triés par ordre
-            loadProducts();
-        }
-        
-        // Activer le glisser-déposer pour réorganiser les produits
-        function enableDragAndDrop() {
-            const container = document.getElementById('products-container');
-            
-            // Activer sortableJS ou implémentation native
-            if (typeof Sortable !== 'undefined') {
-                const sortable = new Sortable(container, {
-                    animation: 150,
-                    ghostClass: 'drag-ghost',
-                    onEnd: function(evt) {
-                        updateProductOrder();
-                    }
-                });
-            }
-        }
-        
-        // Mettre à jour l'ordre des produits sur le serveur
-        async function updateProductOrder() {
-            const container = document.getElementById('products-container');
-            const productCards = container.querySelectorAll('.product-card');
-            
-            const orderedProducts = [];
-            
-            productCards.forEach((card, index) => {
-                const productId = card.dataset.productId;
-                orderedProducts.push({
-                    id: parseInt(productId),
-                    ordre: index
-                });
-            });
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/produits/update_ordre`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ produits: orderedProducts })
-                });
-                
-                const result = await response.json();
-                if (result.success) {
-                    console.log('Ordre des produits mis à jour');
-                } else {
-                    console.error('Erreur lors de la mise à jour de l\'ordre:', result.message);
-                }
-            } catch (error) {
-                console.error('Erreur réseau:', error);
-            }
-        }
     </script>
 </body>
 </html>

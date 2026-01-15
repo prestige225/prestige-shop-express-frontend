@@ -5194,10 +5194,19 @@ function displayProducts(filter = 'all', reset = true) {
     // Gérer les sous-catégories mode
     if (filter.startsWith('mode-')) {
         const subcategory = filter.replace('mode-', '');
-        filteredProducts = allProducts.filter(p => p.category === 'mode' && p.subcategory === subcategory);
+        // Filtrer par catégorie 'mode' et sous-catégorie correspondante
+        filteredProducts = allProducts.filter(p => 
+            p.category === 'mode' && 
+            (p.subcategory?.toLowerCase() === subcategory.toLowerCase() || 
+             p.subcategory?.toLowerCase().includes(subcategory.toLowerCase()))
+        );
     } else if (filter === 'all') {
         filteredProducts = allProducts;
+    } else if (filter === 'mode') {
+        // Afficher tous les produits de la catégorie 'mode'
+        filteredProducts = allProducts.filter(p => p.category === 'mode');
     } else {
+        // Filtrage par catégorie principale
         filteredProducts = allProducts.filter(p => p.category === filter);
     }
     
@@ -5249,10 +5258,19 @@ function loadMoreProducts() {
     // Gérer les sous-catégories mode
     if (currentFilter.startsWith('mode-')) {
         const subcategory = currentFilter.replace('mode-', '');
-        filteredProducts = allProducts.filter(p => p.category === 'mode' && p.subcategory === subcategory);
+        // Filtrer par catégorie 'mode' et sous-catégorie correspondante
+        filteredProducts = allProducts.filter(p => 
+            p.category === 'mode' && 
+            (p.subcategory?.toLowerCase() === subcategory.toLowerCase() || 
+             p.subcategory?.toLowerCase().includes(subcategory.toLowerCase()))
+        );
     } else if (currentFilter === 'all') {
         filteredProducts = allProducts;
+    } else if (currentFilter === 'mode') {
+        // Afficher tous les produits de la catégorie 'mode'
+        filteredProducts = allProducts.filter(p => p.category === 'mode');
     } else {
+        // Filtrage par catégorie principale
         filteredProducts = allProducts.filter(p => p.category === currentFilter);
     }
     

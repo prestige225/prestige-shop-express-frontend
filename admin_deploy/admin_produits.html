@@ -73,6 +73,7 @@
                             <option value="mode">Mode</option>
                             <option value="electronique">Électronique</option>
                             <option value="educatif">Éducatif</option>
+                            <option value="beaute">Beauté & Cosmétique</option>
                             <option value="fastfood">Fast Food</option>
                             <option value="mode de vie">Mode de vie</option>
                             <option value="autre">Autre</option>
@@ -234,6 +235,43 @@
         }
 
         // Création d'une carte de produit
+        function isVideo(url) {
+            const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.mkv'];
+            return videoExtensions.some(ext => url.toLowerCase().endsWith(ext));
+        }
+        
+        function isYouTubeUrl(url) {
+            return url.includes('youtube.com') || url.includes('youtu.be');
+        }
+        
+        function isVimeoUrl(url) {
+            return url.includes('vimeo.com');
+        }
+        
+        function getYouTubeEmbedUrl(url) {
+            const videoId = url.includes('youtu.be') 
+                ? url.split('youtu.be/')[1]
+                : url.split('v=')[1];
+            return `https://www.youtube.com/embed/${videoId}`;
+        }
+        
+        function getVimeoEmbedUrl(url) {
+            const videoId = url.split('vimeo.com/')[1];
+            return `https://player.vimeo.com/video/${videoId}`;
+        }
+        
+        function createMediaElement(mediaUrl, productId) {
+            if (isYouTubeUrl(mediaUrl)) {
+                return `<iframe class="w-full h-48 object-cover" src="${getYouTubeEmbedUrl(mediaUrl)}" frameborder="0" allowfullscreen></iframe>`;
+            } else if (isVimeoUrl(mediaUrl)) {
+                return `<iframe class="w-full h-48 object-cover" src="${getVimeoEmbedUrl(mediaUrl)}" frameborder="0" allowfullscreen></iframe>`;
+            } else if (isVideo(mediaUrl)) {
+                return `<video class="w-full h-48 object-cover" controls><source src="${mediaUrl}" type="video/mp4">Votre navigateur ne supporte pas la vidéo.</video>`;
+            } else {
+                return `<img src="${mediaUrl}" alt="Produit" class="w-full h-48 object-cover">`;
+            }
+        }
+        
         function createProductCard(product) {
             const images = Array.isArray(product.images_urls) ? product.images_urls : 
                           (typeof product.images_urls === 'string' ? JSON.parse(product.images_urls) : []);
@@ -241,7 +279,13 @@
             if (images.length === 0 && product.image_url) {
                 images.push(product.image_url);
             }
-            const mainImage = images[0] || '/images/prestige-shop.png';
+            
+            const videos = Array.isArray(product.videos_urls) ? product.videos_urls : 
+                          (typeof product.videos_urls === 'string' ? JSON.parse(product.videos_urls) : []);
+            
+            // Combiner images et vidéos
+            const allMedia = [...images, ...videos];
+            const mainImage = allMedia[0] || '/images/prestige-shop.png';
             
             const sizes = Array.isArray(product.taille_disponible) ? product.taille_disponible : 
                           (typeof product.taille_disponible === 'string' ? JSON.parse(product.taille_disponible) : []);
@@ -251,12 +295,12 @@
             return `
                 <div class="product-card bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden hover:shadow-xl transition-all">
                     <div class="relative">
-                        <!-- Carrousel d'images -->
+                        <!-- Carrousel d'images et vidéos -->
                         <div class="carousel-container relative h-48 overflow-hidden">
                             <div class="carousel-track flex transition-transform duration-300 ease-in-out" id="carousel-${product.id}">
-                                ${images.length > 0 ? images.map(img => `
+                                ${allMedia.length > 0 ? allMedia.map(media => `
                                     <div class="carousel-slide w-full flex-shrink-0">
-                                        <img src="${img}" alt="${product.nom}" class="w-full h-48 object-cover">
+                                        ${createMediaElement(media, product.id)}
                                     </div>
                                 `).join('') : `
                                     <div class="carousel-slide w-full flex-shrink-0">
@@ -264,16 +308,16 @@
                                     </div>
                                 `}
                             </div>
-                            ${images.length > 1 ? `
-                            <button onclick="prevSlide(${product.id}, ${images.length})" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 rounded-full hover:bg-opacity-75">
+                            ${allMedia.length > 1 ? `
+                            <button onclick="prevSlide(${product.id}, ${allMedia.length})" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 rounded-full hover:bg-opacity-75">
                                 <i class="fas fa-chevron-left"></i>
                             </button>
-                            <button onclick="nextSlide(${product.id}, ${images.length})" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 rounded-full hover:bg-opacity-75">
+                            <button onclick="nextSlide(${product.id}, ${allMedia.length})" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 rounded-full hover:bg-opacity-75">
                                 <i class="fas fa-chevron-right"></i>
                             </button>
                             <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
-                                ${images.map((_, idx) => `
-                                    <button onclick="goToSlide(${product.id}, ${idx}, ${images.length})" class="w-2 h-2 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100"></button>
+                                ${allMedia.map((_, idx) => `
+                                    <button onclick="goToSlide(${product.id}, ${idx}, ${allMedia.length})" class="w-2 h-2 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100"></button>
                                 `).join('')}
                             </div>
                             ` : ''}
@@ -283,6 +327,14 @@
                                 ${product.statut}
                             </span>
                         </div>
+                        <!-- Indicateur vidéo -->
+                        ${videos.length > 0 ? `
+                        <div class="absolute top-2 left-2">
+                            <span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold flex items-center">
+                                <i class="fas fa-video mr-1"></i> ${videos.length} vidéo(s)
+                            </span>
+                        </div>
+                        ` : ''}
                     </div>
                     <div class="p-4">
                         <h3 class="font-bold text-gray-800 mb-2 line-clamp-2">${product.nom}</h3>

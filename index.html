@@ -2328,12 +2328,6 @@ if (images && images.length > 0) {
                             <i class="fab fa-whatsapp mr-2 text-xl"></i>
                             Valider ma commande
                         </button>
-                        <div id="wa-fallback" class="hidden text-center mb-4">
-                            <a id="wa-fallback-link" href="#" target="_blank" rel="noopener noreferrer"
-                               class="inline-flex items-center justify-center text-green-600 hover:text-green-700 font-semibold underline">
-                                <i class="fab fa-whatsapp mr-2"></i>Ouvrir dans WhatsApp
-                            </a>
-                        </div>
                         
                         <div class="text-xs text-gray-500 text-center flex items-center justify-center space-x-4 bg-white rounded-lg p-3">
                             <span><i class="fas fa-truck mr-1"></i> Livraison gratuite</span>
@@ -2341,6 +2335,105 @@ if (images && images.length > 0) {
                             <span><i class="fas fa-shield-alt mr-1"></i> Sécurisé</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Connexion pour Passer une Commande -->
+    <div id="auth-order-modal" class="fixed inset-0 bg-black bg-opacity-60 modal-overlay hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden slide-up">
+            <!-- Header avec gradient -->
+            <div class="bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 text-white p-8 text-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+                <div class="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full -ml-16 -mb-16"></div>
+                <div class="relative z-10">
+                    <div class="text-5xl mb-4">🎉</div>
+                    <h2 class="text-3xl font-black mb-2">Presque là !</h2>
+                    <p class="text-purple-100 text-sm">Connectez-vous pour finaliser votre commande</p>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div class="p-8">
+                <!-- Message motivant -->
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-5 mb-6 border-2 border-yellow-200">
+                    <p class="text-gray-800 font-semibold flex items-start">
+                        <i class="fas fa-lightbulb text-yellow-500 mr-3 mt-1 flex-shrink-0 text-xl"></i>
+                        <span>
+                            En vous connectant, vous pourrez <strong>suivre vos commandes</strong>, <strong>sauvegarder</strong> vos adresses et <strong>accéder rapidement</strong> à vos favoris !
+                        </span>
+                    </p>
+                </div>
+
+                <!-- Avantages -->
+                <div class="space-y-3 mb-6">
+                    <div class="flex items-center space-x-3 text-sm text-gray-700">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-green-600 text-sm"></i>
+                        </div>
+                        <span><strong>Historique</strong> de vos commandes</span>
+                    </div>
+                    <div class="flex items-center space-x-3 text-sm text-gray-700">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-blue-600 text-sm"></i>
+                        </div>
+                        <span><strong>Suivi</strong> en temps réel</span>
+                    </div>
+                    <div class="flex items-center space-x-3 text-sm text-gray-700">
+                        <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-purple-600 text-sm"></i>
+                        </div>
+                        <span><strong>Panier sauvegardé</strong> automatiquement</span>
+                    </div>
+                    <div class="flex items-center space-x-3 text-sm text-gray-700">
+                        <div class="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-pink-600 text-sm"></i>
+                        </div>
+                        <span><strong>Offres spéciales</strong> réservées</span>
+                    </div>
+                </div>
+
+                <!-- Boutons -->
+                <div class="space-y-3 mb-4">
+                    <!-- Google Login -->
+                    <button onclick="closeAuthOrderModal(); handleGoogleLogin()" class="w-full bg-white border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:bg-gray-50 py-3 px-4 rounded-xl font-bold transition-all flex items-center justify-center group">
+                        <i class="fab fa-google text-red-500 mr-3 text-lg group-hover:scale-110 transition-transform"></i>
+                        Se connecter avec Google
+                    </button>
+
+                    <!-- Register -->
+                    <button onclick="closeAuthOrderModal(); goToRegister()" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 px-4 rounded-xl font-bold transition-all transform hover:scale-[1.02] shadow-lg flex items-center justify-center">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Créer un compte
+                    </button>
+
+                    <!-- Login -->
+                    <button onclick="closeAuthOrderModal(); goToLogin()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-4 rounded-xl font-bold transition-all">
+                        J'ai déjà un compte
+                    </button>
+                </div>
+
+                <!-- Divider -->
+                <div class="relative mb-4">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">ou continuer sans compte</span>
+                    </div>
+                </div>
+
+                <!-- Continue as Guest -->
+                <button onclick="closeAuthOrderModal(); continueAsGuest()" class="w-full bg-orange-50 hover:bg-orange-100 text-orange-700 border-2 border-orange-200 py-3 px-4 rounded-xl font-bold transition-all flex items-center justify-center">
+                    <i class="fas fa-arrow-right mr-2"></i>
+                    Continuer en tant qu'invité
+                </button>
+
+                <!-- Secure badge -->
+                <div class="mt-5 text-center text-xs text-gray-500 flex items-center justify-center">
+                    <i class="fas fa-lock text-green-600 mr-1"></i>
+                    Vos données sont sécurisées et chiffrées
                 </div>
             </div>
         </div>
@@ -3248,101 +3341,6 @@ if (images && images.length > 0) {
         }
         
         // Validation de la commande
-        async function validateOrder() {
-            const name = document.getElementById('customer-name').value.trim();
-            const phone = document.getElementById('customer-phone').value.trim();
-            const address = document.getElementById('customer-address').value.trim();
-            const city = document.getElementById('customer-city').value;
-
-            // Validation des champs
-            if (!name || !phone || !address || !city) {
-                showNotification('Veuillez remplir tous les champs obligatoires', 'error');
-                return;
-            }
-
-            if (cart.length === 0) {
-                showNotification('Votre panier est vide', 'error');
-                return;
-            }
-
-            
-
-            // Vérifier taille/couleur pour les produits à variantes
-            for (const item of cart) {
-                const p = (typeof products !== 'undefined' ? products : []).find(pr => pr.id === item.id);
-                const needsSize = p && p.sizes && p.sizes.length;
-                const needsColor = p && p.colors && p.colors.length;
-                if ((needsSize && !item.size) || (needsColor && !item.color)) {
-                    showNotification('Veuillez sélectionner une taille et une couleur', 'error');
-                    return;
-                }
-            }
-
-            // Calculer le total
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-            // **✅ ENREGISTREMENT DANS LA BASE DE DONNÉES MYSQL**
-            const userData = JSON.parse(localStorage.getItem('userData') || sessionStorage.getItem('userData') || '{}');
-            const userId = userData.id;
-
-            if (userId) {
-                try {
-                    const commandeData = {
-                        user_id: userId,
-                        montant_total: total,
-                        adresse_livraison: `${address}, ${city}`,
-                        telephone: phone,
-                        notes: `Client: ${name} - ${cart.length} article(s)`
-                    };
-
-                    console.log('📤 Envoi de la commande au serveur...', commandeData);
-                    console.log('🌐 URL de l\'API:', `${API_BASE_URL}/commandes`);
-
-                    const response = await fetch(`${API_BASE_URL}/commandes`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(commandeData)
-                    });
-                    
-                    console.log('📥 Réponse HTTP:', response.status, response.statusText);
-                    
-                    // Vérifier si la réponse est OK
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const result = await response.json();
-                    console.log('📥 Données reçues:', result);
-
-                    if (result.success) {
-                        console.log('✅ Commande enregistrée dans MySQL:', result.numero_commande);
-                        showNotification(`✅ Commande ${result.numero_commande} enregistrée !`, 'success');
-                    } else {
-                        console.error('❌ Erreur enregistrement:', result.message);
-                        showNotification('⚠️ Commande non enregistrée en BDD, mais WhatsApp OK', 'info');
-                    }
-                } catch (error) {
-                    console.error('❌ Erreur connexion serveur:', error);
-                    console.error('🔍 Détails de l\'erreur:', {
-                        name: error.name,
-                        message: error.message,
-                        stack: error.stack
-                    });
-                    
-                    // Vérifier si c'est une erreur de réseau
-                    if (error.name === 'TypeError' && error.message.includes('fetch')) {
-                        showNotification('⚠️ Impossible de joindre le serveur. Vérifiez votre connexion internet ou réessayez plus tard.', 'error');
-                    } else {
-                        showNotification('⚠️ Serveur inaccessible, commande envoyée sur WhatsApp', 'info');
-                    }
-                }
-            } else {
-                console.warn('⚠️ Utilisateur non connecté, commande non enregistrée en BDD');
-                showNotification('💡 Connectez-vous pour sauvegarder vos commandes', 'info');
-            }
-        }
         
         window.addEventListener('DOMContentLoaded', () => {
             const isLoggedIn = localStorage.getItem('userLoggedIn') || sessionStorage.getItem('userLoggedIn');
@@ -3536,7 +3534,7 @@ if (images && images.length > 0) {
         });
         
         // Configuration
-        const WHATSAPP_NUMBER = "+2250717869699"; // Remplacez par votre numéro WhatsApp
+        const WHATSAPP_NUMBER = "2250717869699"; // Format correct pour wa.me
         
         // Fonction utilitaire pour détecter si un fichier est une vidéo
         function isVideo(filename) {
@@ -4828,7 +4826,7 @@ if (images && images.length > 0) {
         ];
 
 // Variables globales
-let cart = [];
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 let currentFilter = 'all';
 let currentSort = 'order';
 let searchTimeout = null;
@@ -4865,6 +4863,24 @@ function mapApiProductToFrontend(apiProduct) {
         images = [apiProduct.image_url || '/images/prestige-shop.png'];
     }
     
+    // Gestion des vidéos
+    let videos = [];
+    if (apiProduct.videos_urls) {
+        if (Array.isArray(apiProduct.videos_urls)) {
+            videos = apiProduct.videos_urls;
+        } else if (typeof apiProduct.videos_urls === 'string') {
+            try {
+                videos = JSON.parse(apiProduct.videos_urls);
+            } catch (e) {
+                console.warn('Erreur parsing videos_urls:', e);
+                videos = [];
+            }
+        }
+    }
+    
+    // Combiner images et vidéos dans un tableau media
+    const mediaArray = [...images, ...videos];
+    
     // Appliquer une réduction fixe de 20% à tous les produits
     const discountPercent = 20; // Réduction fixe de 20%
     const originalPrice = Math.floor(apiProduct.prix / (1 - discountPercent / 100));
@@ -4877,7 +4893,8 @@ function mapApiProductToFrontend(apiProduct) {
         discountPercent: discountPercent,
         category: apiProduct.categorie,
         subcategory: apiProduct.subcategorie || apiProduct.sous_categorie || '',
-        images: images,
+        images: mediaArray,
+        videos: videos,
         description: apiProduct.description || '',
         sizes: Array.isArray(apiProduct.taille_disponible) ? apiProduct.taille_disponible : 
                 (typeof apiProduct.taille_disponible === 'string' ? JSON.parse(apiProduct.taille_disponible || '[]') : []),
@@ -5498,6 +5515,15 @@ function loadMoreProducts() {
 
         // Validation de la commande
         async function validateOrder() {
+            // ✅ VÉRIFIER SI L'UTILISATEUR EST CONNECTÉ
+            const isLoggedIn = localStorage.getItem('userLoggedIn') || sessionStorage.getItem('userLoggedIn');
+            
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                // Afficher la modale de connexion motivante
+                document.getElementById('auth-order-modal').classList.remove('hidden');
+                return;
+            }
+
             const name = document.getElementById('customer-name').value.trim();
             const phone = document.getElementById('customer-phone').value.trim();
             const address = document.getElementById('customer-address').value.trim();
@@ -5579,9 +5605,6 @@ function loadMoreProducts() {
                     console.error('❌ Erreur connexion serveur:', error);
                     showNotification('⚠️ Serveur inaccessible, commande envoyée sur WhatsApp', 'info');
                 }
-            } else {
-                console.warn('⚠️ Utilisateur non connecté, commande non enregistrée en BDD');
-                showNotification('💡 Connectez-vous pour sauvegarder vos commandes', 'info');
             }
 
             // Génération du message WhatsApp
@@ -5604,7 +5627,7 @@ function loadMoreProducts() {
                 message += `   📝 ${item.description}\n`;
                 const mainImg = item.images && item.images[0] ? (originBase ? new URL(item.images[0], originBase).href : item.images[0]) : '';
                 if (mainImg) { message += `   🖼️ Image: ${mainImg}\n`; }
-                if (item.images.length > 1) {
+                if (item.images && item.images.length > 1) {
                     message += `   📸 Images supplémentaires:\n`;
                     item.images.slice(1).forEach((img) => {
                         const url = originBase ? new URL(img, originBase).href : img;
@@ -5634,7 +5657,7 @@ function loadMoreProducts() {
                         name: item.name,
                         price: item.price,
                         quantity: item.quantity,
-                        image: item.images[0],
+                        image: item.images && item.images[0],
                         description: item.description,
                         size: item.size || null,
                         color: item.color || null
@@ -5645,51 +5668,47 @@ function loadMoreProducts() {
                 }, userEmail);
             }
 
-            // Ouverture de WhatsApp avec méthodes et fallbacks robustes
+            // Ouverture AUTOMATIQUE de WhatsApp
             const phoneDigits = (WHATSAPP_NUMBER || '').toString().replace(/\D/g, '');
             const waText = encodeURIComponent(message);
-            const waUrls = [
-                phoneDigits ? `https://wa.me/${phoneDigits}?text=${waText}` : `https://wa.me/?text=${waText}`,
-                phoneDigits ? `https://api.whatsapp.com/send?phone=${phoneDigits}&text=${waText}` : `https://api.whatsapp.com/send?text=${waText}`,
-                `https://wa.me/?text=${waText}`
-            ];
-
-            let opened = false;
-            for (const url of waUrls) {
+            
+            // URL WhatsApp principale
+            const whatsappUrl = phoneDigits 
+                ? `https://wa.me/${phoneDigits}?text=${waText}` 
+                : `https://wa.me/?text=${waText}`;
+            
+            console.log('📱 Ouverture WhatsApp:', whatsappUrl);
+            
+            // Ouvrir WhatsApp avec un délai court pour s'assurer que la commande est enregistrée
+            setTimeout(() => {
                 try {
-                    // Essayer avec lien temporaire (souvent moins bloqué)
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.target = '_blank';
-                    a.rel = 'noopener noreferrer';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    opened = true;
-                    break;
-                } catch (e) {
-                    // Essayer la redirection de la fenêtre courante
-                    try {
-                        window.location.href = url;
-                        opened = true;
-                        break;
-                    } catch (e2) {}
+                    // Méthode 1: window.open - la plus directe
+                    const wa = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+                    if (wa) {
+                        console.log('✅ WhatsApp ouvert avec window.open');
+                        showNotification('✅ WhatsApp s\'ouvre...', 'success');
+                    } else {
+                        // Méthode 2: Si window.open échoue, essayer createElement
+                        const link = document.createElement('a');
+                        link.href = whatsappUrl;
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        console.log('✅ WhatsApp ouvert avec createElement');
+                        showNotification('✅ WhatsApp s\'ouvre...', 'success');
+                    }
+                } catch (err) {
+                    console.error('❌ Erreur ouverture WhatsApp:', err);
+                    showNotification('❌ Impossible d\'ouvrir WhatsApp automatiquement', 'error');
                 }
-            }
-            // Afficher un lien de secours si l'ouverture automatique a échoué
-            if (!opened) {
-                const fb = document.getElementById('wa-fallback');
-                const fbl = document.getElementById('wa-fallback-link');
-                if (fb && fbl) {
-                    fbl.href = waUrls[0];
-                    fb.classList.remove('hidden');
-                    showNotification('Cliquez sur "Ouvrir dans WhatsApp" si l\'ouverture est bloquée', 'info');
-                }
-            }
+            }, 500);
             
             // Vider le panier après la commande
             cart = [];
-            updateCart();
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
             toggleCart();
             
             showNotification('✅ Commande enregistrée et envoyée sur WhatsApp !', 'success');
@@ -5699,9 +5718,6 @@ function loadMoreProducts() {
                 const userEmail = localStorage.getItem('userEmail') || sessionStorage.getItem('userEmail');
                 if (userEmail) {
                     openOrdersModal();
-                } else {
-                    // Si pas connecté, afficher un message d'information
-                    showNotification('💡 Connectez-vous pour voir vos commandes dans votre profil', 'info');
                 }
             }, 1500);
         }
@@ -5746,6 +5762,39 @@ function loadMoreProducts() {
                 console.error('Erreur lors de la récupération des commandes:', error);
                 return [];
             }
+        }
+
+        // ========== FONCTIONS DE GESTION DE LA MODALE DE CONNEXION ==========
+        
+        function closeAuthOrderModal() {
+            document.getElementById('auth-order-modal').classList.add('hidden');
+        }
+
+        function handleGoogleLogin() {
+            // Déclencher la connexion Google
+            const button = document.querySelector('[role="button"]');
+            if (button) {
+                button.click();
+            } else {
+                // Fallback si le bouton Google n'existe pas
+                window.location.href = 'login.html';
+            }
+        }
+
+        function goToLogin() {
+            closeAuthOrderModal();
+            window.location.href = 'login.html';
+        }
+
+        function goToRegister() {
+            closeAuthOrderModal();
+            window.location.href = 'register.html';
+        }
+
+        function continueAsGuest() {
+            closeAuthOrderModal();
+            // L'utilisateur peut continuer avec le formulaire de commande
+            showNotification('⚠️ Attention: Votre commande ne sera pas sauvegardée dans votre profil', 'info');
         }
 
         // Système de notifications

@@ -274,23 +274,49 @@
         
         function createProductCard(product) {
             const images = Array.isArray(product.images_urls) ? product.images_urls : 
-                          (typeof product.images_urls === 'string' ? JSON.parse(product.images_urls) : []);
+                          (typeof product.images_urls === 'string' ? (() => {
+                              try {
+                                  return product.images_urls ? JSON.parse(product.images_urls) : [];
+                              } catch(e) {
+                                  console.warn('Erreur parsing images_urls:', e);
+                                  return [];
+                              }
+                          })() : []);
             // Si pas d'images dans le tableau, utiliser l'image principale
             if (images.length === 0 && product.image_url) {
                 images.push(product.image_url);
             }
             
             const videos = Array.isArray(product.videos_urls) ? product.videos_urls : 
-                          (typeof product.videos_urls === 'string' ? JSON.parse(product.videos_urls) : []);
+                          (typeof product.videos_urls === 'string' ? (() => {
+                              try {
+                                  return product.videos_urls ? JSON.parse(product.videos_urls) : [];
+                              } catch(e) {
+                                  console.warn('Erreur parsing videos_urls:', e);
+                                  return [];
+                              }
+                          })() : []);
             
             // Combiner images et vidéos
             const allMedia = [...images, ...videos];
             const mainImage = allMedia[0] || '/images/prestige-shop.png';
             
             const sizes = Array.isArray(product.taille_disponible) ? product.taille_disponible : 
-                          (typeof product.taille_disponible === 'string' ? JSON.parse(product.taille_disponible) : []);
+                          (typeof product.taille_disponible === 'string' ? (() => {
+                              try {
+                                  return product.taille_disponible ? JSON.parse(product.taille_disponible) : [];
+                              } catch(e) {
+                                  return [];
+                              }
+                          })() : []);
             const colors = Array.isArray(product.couleur_disponible) ? product.couleur_disponible : 
-                           (typeof product.couleur_disponible === 'string' ? JSON.parse(product.couleur_disponible) : []);
+                           (typeof product.couleur_disponible === 'string' ? (() => {
+                              try {
+                                  return product.couleur_disponible ? JSON.parse(product.couleur_disponible) : [];
+                              } catch(e) {
+                                  return [];
+                              }
+                          })() : []);
             
             return `
                 <div class="product-card bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden hover:shadow-xl transition-all">

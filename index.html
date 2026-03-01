@@ -294,6 +294,7 @@
         .category-tag {
             position: relative;
             overflow: hidden;
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
@@ -307,6 +308,8 @@
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
         }
         
         .category-tag:hover::before {
@@ -349,6 +352,9 @@
             color: #fff;
             font-size: 20px;
             animation: fall linear forwards;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
             user-select: none;
             pointer-events: none;
             z-index: 100;
@@ -837,6 +843,9 @@
             color: #fff;
             font-size: 20px;
             animation: fall linear forwards;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
             user-select: none;
             pointer-events: none;
             z-index: 100;
@@ -882,7 +891,35 @@
         }
         
         .modal-overlay {
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
+        }
+        
+        .cart-scroll {
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        
+        .cart-summary-hidden {
+            display: none;
+        }
+        
+        .video-modal-bg {
+            background: rgba(0, 0, 0, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+        
+        .video-modal-container {
+            animation: videoModalSlideIn 0.4s ease-out;
+        }
+        
+        .pulse-gradient {
+            animation-delay: 1s;
+        }
+        
+        .video-modal-player {
+            max-height: 80vh;
         }
         
         .slide-up {
@@ -904,20 +941,20 @@
             position: relative;
             overflow: hidden;
             touch-action: pan-y pinch-zoom;
-            user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
+            user-select: none;
         }
         
         .carousel-container.dragging {
-            cursor: grabbing;
             cursor: -webkit-grabbing;
+            cursor: grabbing;
         }
         
         .carousel-container:not(.dragging) {
-            cursor: grab;
             cursor: -webkit-grab;
+            cursor: grab;
         }
         
         .carousel-track {
@@ -939,15 +976,14 @@
         .carousel-slide img,
         .carousel-slide video {
             pointer-events: auto;
-            user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
+            user-select: none;
             -webkit-user-drag: none;
             -khtml-user-drag: none;
             -moz-user-drag: none;
             -o-user-drag: none;
-            /* user-drag: none; */
         }
         
         .carousel-slide video {
@@ -1006,10 +1042,10 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
-            user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
+            user-select: none;
         }
         
         .carousel-nav:hover,
@@ -1055,6 +1091,7 @@
             background: rgba(0,0,0,0.3);
             padding: 6px 12px;
             border-radius: 20px;
+            -webkit-backdrop-filter: blur(5px);
             backdrop-filter: blur(5px);
         }
         
@@ -1091,23 +1128,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            -webkit-backdrop-filter: blur(15px);
             backdrop-filter: blur(15px);
             animation: fadeIn 0.3s ease-out;
             touch-action: pan-y pinch-zoom;
-            user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
+            user-select: none;
         }
         
         .zoom-overlay.dragging {
-            cursor: grabbing;
             cursor: -webkit-grabbing;
+            cursor: grabbing;
         }
         
         .zoom-overlay:not(.dragging) {
-            cursor: grab;
             cursor: -webkit-grab;
+            cursor: grab;
         }
         
         @keyframes fadeIn {
@@ -1138,10 +1176,10 @@
             border-radius: 15px;
             box-shadow: 0 25px 80px rgba(0,0,0,0.7);
             transition: all 0.3s ease;
-            user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
+            user-select: none;
             -webkit-user-drag: none;
             -khtml-user-drag: none;
             -moz-user-drag: none;
@@ -1166,6 +1204,7 @@
             display: flex;
             gap: 15px;
             align-items: center;
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             z-index: 100;
         }
@@ -1203,7 +1242,7 @@
             right: -60px;
             background: rgba(255,255,255,0.15);
             color: white;
-            border: none;
+            border: 2px solid rgba(255,255,255,0.2);
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -1213,14 +1252,14 @@
             justify-content: center;
             font-size: 24px;
             transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(255,255,255,0.2);
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
-            user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
+            user-select: none;
         }
         
         .zoom-close:hover,
@@ -1230,6 +1269,10 @@
             transform: scale(1.15);
             border-color: rgba(255,255,255,0.4);
             outline: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         
         @media (max-width: 768px) {
@@ -1254,7 +1297,7 @@
             transform: translateY(-50%);
             background: rgba(255,255,255,0.15);
             color: white;
-            border: none;
+            border: 2px solid rgba(255,255,255,0.2);
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -1264,14 +1307,14 @@
             justify-content: center;
             font-size: 24px;
             transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(255,255,255,0.2);
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
-            user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
+            user-select: none;
         }
         
         .zoom-nav:hover,
@@ -1325,14 +1368,15 @@
             background: rgba(0,0,0,0.7);
             padding: 12px 20px;
             border-radius: 25px;
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
-            user-select: none;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
+            user-select: none;
         }
         
         @media (max-width: 768px) {
@@ -1590,7 +1634,7 @@
             <li>Mode et Accessoires</li>
             <li>Électroniques</li>
             <li>Fast Food et Restauration</li>
-            <li>Solutions Business (Bientôt disponible)</li>
+            <li>Solutions Business - Prestige Business Starter</li>
          </ul>
       </section>   </main>
 
@@ -1607,7 +1651,7 @@
                    <span class="font-bold text-sm md:text-base">🎁 Livraison GRATUITE pour vos cadeaux de Noël dès 40 000 FCFA</span>
                </div>
            </div>
-           <button onclick="closePromoBar()" class="ml-4 text-white hover:text-gray-200 transition-colors relative z-20">
+           <button onclick="closePromoBar()" title="Fermer la barre de promotion" class="ml-4 text-white hover:text-gray-200 transition-colors relative z-20">
                <i class="fas fa-times text-xl"></i>
            </button>
        </div>
@@ -1650,7 +1694,7 @@
                 </div>
                 
                 <!-- Bouton Profil utilisateur (si connecté) -->
-                <button id="user-menu-btn" onclick="openUserModal()" class="hidden md:flex items-center space-x-2 bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded-lg transition-all">
+                <button id="user-menu-btn" onclick="openUserModal()" title="Ouvrir le menu utilisateur" class="hidden md:flex items-center space-x-2 bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded-lg transition-all">
                     <i class="fas fa-user text-purple-600"></i>
                     <span id="user-fullname-header" class="text-sm font-semibold text-gray-800 hidden lg:inline"></span>
                     <i class="fas fa-chevron-down text-xs text-purple-600"></i>
@@ -1661,7 +1705,7 @@
                     <span id="cart-badge" class="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center hidden">0</span>
                 </button>
 
-                <button onclick="toggleMobileMenu()" class="md:hidden bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors">
+                <button onclick="toggleMobileMenu()" title="Ouvrir le menu" class="md:hidden bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
                 </div>
@@ -1682,7 +1726,7 @@
                     <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-700">
                         <i class="fas fa-search"></i>
                     </div>
-                    <button onclick="clearSearch()"
+                    <button onclick="clearSearch()" title="Effacer la recherche"
                             id="clear-search"
                             class="absolute right-12 top-1/2 transform -translate-y-1/2 text-purple-700 hover:text-purple-900 hidden transition-colors">
                         <i class="fas fa-times"></i>
@@ -2051,9 +2095,9 @@ if (images && images.length > 0) {
                 <div id="desc-business" class="category-description hidden bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl p-4">
                     <h4 class="text-lg font-bold text-indigo-800 mb-2 flex items-center">
                         <i class="fas fa-briefcase mr-2"></i>
-                        💼 Catégorie Prestige Business Starter
+                        💼 Prestige Business Starter
                     </h4>
-                    <p class="text-indigo-700 text-sm mb-3">Produits en gros pour entrepreneurs - Bientôt disponible pour vous aider à lancer votre business.</p>
+                    <p class="text-indigo-700 text-sm mb-3">Produits en gros pour entrepreneurs - Aide à lancer votre business avec des partenaires de confiance.</p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                         <div class="flex items-center text-gray-600">
                             <i class="fas fa-boxes mr-2 text-indigo-500"></i>
@@ -2105,90 +2149,7 @@ if (images && images.length > 0) {
             
             <!-- Products Grid -->
             <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-6 pt-2">
-                <!-- Produits statiques pour l'indexation Google -->
-                <div class="product-card group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 bg-white border border-gray-200">
-                    <div class="relative block">
-                        <div class="aspect-square overflow-hidden bg-gray-200 group-hover:scale-110 transition-transform">
-                            <img loading="lazy" src="public/ima/E2.png" alt="Veste Safari enfant - Mode prestige" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-800 line-clamp-2 mb-2">Veste de Mi-saison Style Safari pour Garçon</h3>
-                        <p class="text-lg font-bold text-purple-600 mb-2">15 000 CFA</p>
-                        <p class="text-xs text-gray-600 mb-3 line-clamp-2">Look moderne et confortable pour jeunes garçons</p>
-                        <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg font-semibold text-sm hover:from-purple-700 hover:to-pink-700 transition-all">Ajouter au Panier</button>
-                    </div>
-                </div>
-
-                <div class="product-card group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 bg-white border border-gray-200">
-                    <div class="relative block">
-                        <div class="aspect-square overflow-hidden bg-gray-200 group-hover:scale-110 transition-transform">
-                            <img loading="lazy" src="public/ima/air blanc1.png" alt="Sneakers Nike Urban Legend - Chaussures mode" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-800 line-clamp-2 mb-2">Sneakers Nike "Urban Legend" Taille 43</h3>
-                        <p class="text-lg font-bold text-purple-600 mb-2">13 000 CFA</p>
-                        <p class="text-xs text-gray-600 mb-3 line-clamp-2">Design classique pour l'urbain intemporel</p>
-                        <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg font-semibold text-sm hover:from-purple-700 hover:to-pink-700 transition-all">Ajouter au Panier</button>
-                    </div>
-                </div>
-
-                <div class="product-card group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 bg-white border border-gray-200">
-                    <div class="relative block">
-                        <div class="aspect-square overflow-hidden bg-gray-200 group-hover:scale-110 transition-transform">
-                            <img loading="lazy" src="public/ima/air vert1.png" alt="Air Jordan 1 Mid Wolf Grey - Sneakers premium" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-800 line-clamp-2 mb-2">Air Jordan 1 Mid "Wolf Grey" Taille 43</h3>
-                        <p class="text-lg font-bold text-purple-600 mb-2">13 000 CFA</p>
-                        <p class="text-xs text-gray-600 mb-3 line-clamp-2">Icône intemporelle du style urbain</p>
-                        <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg font-semibold text-sm hover:from-purple-700 hover:to-pink-700 transition-all">Ajouter au Panier</button>
-                    </div>
-                </div>
-
-                <div class="product-card group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 bg-white border border-gray-200">
-                    <div class="relative block">
-                        <div class="aspect-square overflow-hidden bg-gray-200 group-hover:scale-110 transition-transform">
-                            <img loading="lazy" src="public/ima/adidas1.png" alt="Adidas sneakers - Chaussures sport urbain" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-800 line-clamp-2 mb-2">Sneakers Nike "Urban Legend" Taille 43</h3>
-                        <p class="text-lg font-bold text-purple-600 mb-2">12 000 CFA</p>
-                        <p class="text-xs text-gray-600 mb-3 line-clamp-2">Confort et style combinés</p>
-                        <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg font-semibold text-sm hover:from-purple-700 hover:to-pink-700 transition-all">Ajouter au Panier</button>
-                    </div>
-                </div>
-
-                <div class="product-card group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 bg-white border border-gray-200">
-                    <div class="relative block">
-                        <div class="aspect-square overflow-hidden bg-gray-200 group-hover:scale-110 transition-transform">
-                            <img loading="lazy" src="imageprestige/I12D.jpg" alt="iPhone 12 128Go - Téléphone reconditionné" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-800 line-clamp-2 mb-2">iPhone 12 – 128 Go – Quasi Neuf</h3>
-                        <p class="text-lg font-bold text-purple-600 mb-2">143 000 CFA</p>
-                        <p class="text-xs text-gray-600 mb-3 line-clamp-2">5G, batterie excellente, écran 6,1</p>
-                        <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg font-semibold text-sm hover:from-purple-700 hover:to-pink-700 transition-all">Ajouter au Panier</button>
-                    </div>
-                </div>
-
-                <div class="product-card group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 bg-white border border-gray-200">
-                    <div class="relative block">
-                        <div class="aspect-square overflow-hidden bg-gray-200 group-hover:scale-110 transition-transform">
-                            <img loading="lazy" src="imageprestige/I12D.jpg" alt="iPhone XR 128Go - Apple reconditionné" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-semibold text-gray-800 line-clamp-2 mb-2">iPhone XR – 128 Go – Quasi Neuf</h3>
-                        <p class="text-lg font-bold text-purple-600 mb-2">95 000 CFA</p>
-                        <p class="text-xs text-gray-600 mb-3 line-clamp-2">État excellent, écran OLED durable</p>
-                        <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg font-semibold text-sm hover:from-purple-700 hover:to-pink-700 transition-all">Ajouter au Panier</button>
-                    </div>
-                </div>
+                <!-- Grille vide - sera remplie par l'API -->
             </div>
         </div>
     </section>
@@ -2222,14 +2183,14 @@ if (images && images.length > 0) {
                                 <p id="cart-header-count" class="text-sm opacity-90">0 article</p>
                             </div>
                         </div>
-                        <button onclick="toggleCart()" class="text-white hover:text-gray-200 text-xl sm:text-2xl p-3 hover:bg-white hover:bg-opacity-20 rounded-full transition-all">
+                <button onclick="toggleCart()" title="Ouvrir le panier" class="text-white hover:text-gray-200 text-xl sm:text-2xl p-3 hover:bg-white hover:bg-opacity-20 rounded-full transition-all">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
                 
                 <!-- Cart Content - Scrollable -->
-                <div class="flex-1 overflow-y-auto" style="max-height: calc(100vh - 120px);">
+                <div class="flex-1 overflow-y-auto cart-scroll">
                     <div id="cart-items" class="p-4 sm:p-6">
                         <!-- Empty State -->
                         <div class="text-center text-gray-500 py-12 sm:py-16">
@@ -2246,7 +2207,7 @@ if (images && images.length > 0) {
                     </div>
                     
                     <!-- Cart Summary - Dans la zone scrollable -->
-                    <div id="cart-summary" class="border-t border-gray-200 bg-gray-50 p-4 sm:p-6" style="display: none;">
+                    <div id="cart-summary" class="border-t border-gray-200 bg-gray-50 p-4 sm:p-6 cart-summary-hidden">
                         <!-- Total Section -->
                         <div class="bg-white rounded-xl p-4 mb-4 shadow-sm">
                             <div class="flex items-center justify-between mb-2">
@@ -2445,7 +2406,7 @@ if (images && images.length > 0) {
             <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col slide-up" onclick="event.stopPropagation()">
                 <!-- Header - Fixed -->
                 <div class="gradient-bg text-white p-6 rounded-t-3xl relative flex-shrink-0">
-                    <button onclick="closeUserModal()" class="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors">
+                    <button onclick="closeUserModal()" title="Fermer" class="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors">
                         <i class="fas fa-times text-2xl"></i>
                     </button>
                     <div class="flex items-center space-x-4">
@@ -2536,7 +2497,7 @@ if (images && images.length > 0) {
             <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col slide-up" onclick="event.stopPropagation()">
                 <!-- Header - Fixed -->
                 <div class="gradient-bg text-white p-6 rounded-t-3xl relative flex-shrink-0">
-                    <button onclick="closeOrdersModal()" class="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors">
+                    <button onclick="closeOrdersModal()" title="Fermer" class="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors">
                         <i class="fas fa-times text-2xl"></i>
                     </button>
                     <div class="flex items-center space-x-4">
@@ -2562,7 +2523,7 @@ if (images && images.length > 0) {
     <section id="contact" class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-16 relative overflow-hidden">
         <!-- Formes décoratives -->
         <div class="absolute top-0 right-0 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
-        <div class="absolute bottom-0 left-0 w-96 h-96 bg-orange-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-orange-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse pulse-gradient"></div>
         
         <div class="container mx-auto px-4 relative z-10">
             <!-- En-tête -->
@@ -2605,28 +2566,28 @@ if (images && images.length > 0) {
             <div class="text-center mb-12">
                 <h4 class="text-3xl font-black mb-8">Rejoignez Notre Communauté</h4>
                 <div class="flex flex-wrap justify-center gap-6">
-                    <a href="https://www.facebook.com/share/1AD8UJ4gQj/?mibextid=wwXIfr" target="_blank" class="group">
+                    <a href="https://www.facebook.com/share/1AD8UJ4gQj/?mibextid=wwXIfr" target="_blank" rel="noopener" class="group">
                         <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 rounded-2xl flex items-center justify-center transition-all transform group-hover:scale-110 group-hover:rotate-6 shadow-xl">
                             <i class="fab fa-facebook-f text-white text-2xl"></i>
                         </div>
                         <p class="text-sm mt-3 text-gray-400 group-hover:text-white transition-colors font-semibold">Facebook</p>
                     </a>
                     
-                    <a href="https://www.instagram.com/prestigeshopexpress" target="_blank" class="group">
+                    <a href="https://www.instagram.com/prestigeshopexpress" target="_blank" rel="noopener" class="group">
                         <div class="w-16 h-16 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 rounded-2xl flex items-center justify-center transition-all transform group-hover:scale-110 group-hover:rotate-6 shadow-xl">
                             <i class="fab fa-instagram text-white text-2xl"></i>
                         </div>
                         <p class="text-sm mt-3 text-gray-400 group-hover:text-white transition-colors font-semibold">Instagram</p>
                     </a>
                     
-                    <a href="https://www.tiktok.com/@prestige.shop.exp" target="_blank" class="group">
+                    <a href="https://www.tiktok.com/@prestige.shop.exp" target="_blank" rel="noopener" class="group">
                         <div class="w-16 h-16 bg-gradient-to-br from-gray-800 to-black hover:from-gray-900 hover:to-black rounded-2xl flex items-center justify-center transition-all transform group-hover:scale-110 group-hover:rotate-6 shadow-xl">
                             <i class="fab fa-tiktok text-white text-2xl"></i>
                         </div>
                         <p class="text-sm mt-3 text-gray-400 group-hover:text-white transition-colors font-semibold">TikTok</p>
                     </a>
                     
-                    <a href="https://wa.me/+2250717869699" target="_blank" class="group">
+                    <a href="https://wa.me/+2250717869699" target="_blank" rel="noopener" class="group">
                         <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 rounded-2xl flex items-center justify-center transition-all transform group-hover:scale-110 group-hover:rotate-6 shadow-xl">
                             <i class="fab fa-whatsapp text-white text-2xl"></i>
                         </div>
@@ -2741,7 +2702,7 @@ if (images && images.length > 0) {
                     <p class="text-gray-400 text-sm mb-4">Recevez nos offres spéciales</p>
                     <div class="flex gap-2">
                         <input type="email" placeholder="Votre email" class="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all">
-                        <button class="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg transition-all transform hover:scale-105">
+                        <button title="Ajouter au panier" class="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg transition-all transform hover:scale-105">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
@@ -3540,6 +3501,26 @@ if (images && images.length > 0) {
         function isVideo(filename) {
             const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.mkv'];
             return videoExtensions.some(ext => filename.toLowerCase().endsWith(ext));
+        }
+        
+        function isYouTubeUrl(url) {
+            return url.includes('youtube.com') || url.includes('youtu.be');
+        }
+        
+        function isVimeoUrl(url) {
+            return url.includes('vimeo.com');
+        }
+        
+        function getYouTubeEmbedUrl(url) {
+            const videoId = url.includes('youtu.be') 
+                ? url.split('youtu.be/')[1]
+                : url.split('v=')[1];
+            return `https://www.youtube.com/embed/${videoId}`;
+        }
+        
+        function getVimeoEmbedUrl(url) {
+            const videoId = url.split('vimeo.com/')[1];
+            return `https://player.vimeo.com/video/${videoId}`;
         }
         
         // Fonction pour créer un élément média (image ou vidéo)
@@ -4909,18 +4890,87 @@ function mapApiProductToFrontend(apiProduct) {
 async function loadProductsFromApi(forceRefresh = false) {
     const grid = document.getElementById('products-grid');
     
-    // Charger immédiatement les produits du cache si disponibles
-    const cachedProducts = localStorage.getItem('cachedProducts');
-    if (cachedProducts) {
-        console.log('Affichage immédiat des produits du cache');
-        allProducts = JSON.parse(cachedProducts);
-        currentPage = 1;
-        displayProducts(currentFilter, true);
-    }
-    
-    // Charger les produits du backend en arrière-plan
     try {
-        const response = await fetch(`${window.API_BASE_URL}/produits`);
+        // ⚡ 1️⃣ CHARGEMENT RAPIDE DES 5 PREMIERS (comme Jumia)
+        console.log('⚡ Chargement rapide des 5 premiers produits...');
+        const quickResponse = await fetch(`${window.API_BASE_URL}/produits/quick`, {
+            signal: AbortSignal.timeout(2000) // Timeout 2s pour la rapidité
+        });
+        
+        if (quickResponse.ok) {
+            const quickData = await quickResponse.json();
+            if (quickData.success && quickData.produits) {
+                // Afficher les 5 premiers produits IMMÉDIATEMENT
+                const firstProducts = quickData.produits.map(mapApiProductToFrontend);
+                firstProducts.sort((a, b) => a.ordre - b.ordre);
+                
+                allProducts = firstProducts;
+                currentPage = 1;
+                displayProducts(currentFilter, true);
+                console.log('✅ 5 premiers produits affichés instantanément');
+                
+                // Sauvegarder dans localStorage
+                localStorage.setItem('cachedProducts', JSON.stringify(allProducts));
+                localStorage.setItem('productsCacheTime', Date.now().toString());
+            }
+        } else {
+            console.warn('Endpoint rapide non disponible, utilisation du chargement normal');
+            throw new Error('Endpoint rapide échoué');
+        }
+        
+        // 🔄 2️⃣ CHARGEMENT DU RESTE EN ARRIÈRE-PLAN (sans bloquer)
+        loadRemainingProducts(5);
+        
+    } catch (error) {
+        console.error('⚠️ Erreur chargement rapide:', error);
+        
+        // Fallback: charger tous les produits normalement
+        try {
+            const response = await fetch(`${window.API_BASE_URL}/produits?limit=500`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    const allProds = data.produits.map(mapApiProductToFrontend);
+                    allProds.sort((a, b) => a.ordre - b.ordre);
+                    allProducts = allProds;
+                    currentPage = 1;
+                    displayProducts(currentFilter, true);
+                    localStorage.setItem('cachedProducts', JSON.stringify(allProducts));
+                }
+            }
+        } catch (fallbackError) {
+            console.error('Erreur fallback:', fallbackError);
+            
+            // Dernier recours: cache
+            const cachedProducts = localStorage.getItem('cachedProducts');
+            if (cachedProducts) {
+                allProducts = JSON.parse(cachedProducts);
+                currentPage = 1;
+                displayProducts(currentFilter, true);
+            } else {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <div class="text-red-500 mb-4">
+                            <i class="fas fa-exclamation-triangle text-4xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Erreur de chargement</h3>
+                        <p class="text-gray-600 mb-4">Impossible de charger les produits. Veuillez réessayer plus tard.</p>
+                        <button onclick="loadProductsFromApi(true)" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-2 px-6 rounded-lg transition-all">
+                            <i class="fas fa-redo mr-2"></i>
+                            Réessayer
+                        </button>
+                    </div>
+                `;
+            }
+        }
+    }
+}
+
+// Charger le reste des produits en arrière-plan
+async function loadRemainingProducts(offset) {
+    try {
+        console.log(`Chargement des produits restants (offset: ${offset})...`);
+        const response = await fetch(`${window.API_BASE_URL}/produits?limit=500&offset=${offset}`);
         
         if (!response.ok) {
             throw new Error(`Erreur réseau: ${response.status}`);
@@ -4928,47 +4978,24 @@ async function loadProductsFromApi(forceRefresh = false) {
         
         const data = await response.json();
         
-        if (!data.success) {
-            throw new Error(data.message || 'Erreur lors du chargement des produits');
+        if (!data.success || !data.produits) {
+            return; // Pas d'autres produits
         }
         
-        // Mapper les produits de l'API au format frontend
-        const freshProducts = data.produits.map(mapApiProductToFrontend);
+        // Mapper les produits restants
+        const remainingProducts = data.produits.map(mapApiProductToFrontend);
+        remainingProducts.sort((a, b) => a.ordre - b.ordre);
         
-        // Trier les produits par ordre personnalisé
-        freshProducts.sort((a, b) => a.ordre - b.ordre);
+        // Ajouter aux produits existants
+        allProducts = [...allProducts, ...remainingProducts];
         
-        // Mettre à jour les produits avec les données fraîches
-        allProducts = freshProducts;
-        
-        // Sauvegarder dans localStorage
+        // Mettre à jour le cache
         localStorage.setItem('cachedProducts', JSON.stringify(allProducts));
-        localStorage.setItem('productsCacheTime', Date.now().toString());
         
-        // Réafficher avec les produits mis à jour
-        currentPage = 1;
-        displayProducts(currentFilter, true);
+        console.log(`✅ Total de ${allProducts.length} produits chargés`);
         
     } catch (error) {
-        console.error('Erreur lors du chargement des produits:', error);
-        
-        // Si le chargement échoue mais qu'on a un cache, on continue avec le cache
-        if (!cachedProducts) {
-            // Si pas de cache et erreur, afficher le message d'erreur
-            grid.innerHTML = `
-                <div class="col-span-full text-center py-16">
-                    <div class="text-red-500 mb-4">
-                        <i class="fas fa-exclamation-triangle text-4xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Erreur de chargement</h3>
-                    <p class="text-gray-600 mb-4">Impossible de charger les produits. Veuillez réessayer plus tard.</p>
-                    <button onclick="loadProductsFromApi(true)" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-2 px-6 rounded-lg transition-all">
-                        <i class="fas fa-redo mr-2"></i>
-                        Réessayer
-                    </button>
-                </div>
-            `;
-        }
+        console.error('Erreur lors du chargement des produits restants:', error);
     }
 }
 
@@ -5002,61 +5029,6 @@ function displayProducts(filter = 'all', reset = true) {
     }
     
     const grid = document.getElementById('products-grid');
-    
-    // Cas spécial pour la catégorie Business
-    if (filter === 'business') {
-        if (reset) {
-            grid.innerHTML = `
-                <div class="col-span-full py-16 text-center">
-                    <div class="max-w-3xl mx-auto px-4">
-                        <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mb-8 shadow-lg">
-                            <i class="fas fa-briefcase text-white text-4xl"></i>
-                        </div>
-                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Prestige Business Starter</h2>
-                        <h3 class="text-xl md:text-2xl font-semibold text-indigo-600 mb-8">Démarre ton business avec un petit capital</h3>
-                        
-                        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-8 rounded-r-lg inline-block">
-                            <p class="font-bold text-lg">🟡 Bientôt disponible</p>
-                        </div>
-                        
-                        <p class="text-gray-600 mb-6 text-lg max-w-2xl mx-auto">
-                            Une nouvelle section dédiée aux jeunes entrepreneurs.<br>
-                            Des produits en gros, accessibles, disponibles localement,<br>
-                            pour t'aider à lancer ton activité sans commander en Chine.
-                        </p>
-                        
-                        <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8 max-w-2xl mx-auto">
-                            <p class="text-blue-800 font-semibold">
-                                🔔 En cours de lancement – Inscris-toi pour être informé en priorité
-                            </p>
-                        </div>
-                        
-                        <div class="flex justify-center mt-8">
-                            <button onclick="showNotification('Merci pour votre intérêt ! Nous vous contacterons dès le lancement.', 'info')" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-4 px-10 rounded-full shadow-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 text-lg">
-                                <i class="far fa-bell mr-2"></i>
-                                Être informé
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-        return;
-    }
-    
-    // Vérifier si les produits sont chargés
-    if (!allProducts || allProducts.length === 0) {
-        grid.innerHTML = `
-            <div class="col-span-full text-center py-16">
-                <div class="text-gray-500 mb-4">
-                    <i class="fas fa-box-open text-4xl"></i>
-                </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2">Aucun produit trouvé</h3>
-                <p class="text-gray-600">Il n'y a pas encore de produits dans la base de données.</p>
-            </div>
-        `;
-        return;
-    }
     
     let filteredProducts;
     
@@ -5292,7 +5264,9 @@ function loadMoreProducts() {
                 'educatif': 'blue-500',
                 'electronique': 'green-500',
                 'mode': 'pink-500',
-                'fastfood': 'orange-500'
+                'beaute': 'pink-500',
+                'fastfood': 'orange-500',
+                'business': 'indigo-500'
             };
             return colors[category] || 'gray-500';
         }
@@ -5302,6 +5276,7 @@ function loadMoreProducts() {
                 'educatif': 'Éducatif',
                 'electronique': 'Électronique',
                 'mode': 'Mode',
+                'beaute': 'Beauté & Cosmétique',
                 'fastfood': 'Fast Food',
                 'business': 'Business'
             };
@@ -5313,6 +5288,7 @@ function loadMoreProducts() {
                 'educatif': '<i class="fas fa-graduation-cap text-4xl"></i>',
                 'electronique': '<i class="fas fa-laptop text-4xl"></i>',
                 'mode': '<i class="fas fa-tshirt text-4xl"></i>',
+                'beaute': '<i class="fas fa-spa text-4xl"></i>',
                 'mode-homme': '<i class="fas fa-male text-4xl"></i>',
                 'mode-femme': '<i class="fas fa-female text-4xl"></i>',
                 'mode-enfants': '<i class="fas fa-child text-4xl"></i>',
@@ -8493,11 +8469,11 @@ Commandez sur Digit Shop Express !`;
     </script>
     
     <!-- Modal Vidéo Plein Écran -->
-    <div id="video-modal" class="fixed inset-0 z-[9999] hidden" style="background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px);">
+    <div id="video-modal" class="fixed inset-0 z-[9999] hidden video-modal-bg">
         <div class="absolute inset-0 flex items-center justify-center p-4" onclick="closeVideoModal()">
-            <div class="relative max-w-6xl w-full" onclick="event.stopPropagation()" style="animation: videoModalSlideIn 0.4s ease-out;">
+            <div class="relative max-w-6xl w-full video-modal-container" onclick="event.stopPropagation()">
                 <!-- Bouton fermer -->
-                <button onclick="closeVideoModal()" 
+                <button onclick="closeVideoModal()" title="Fermer la vidéo"
                         class="absolute -top-12 right-0 bg-white bg-opacity-10 border-2 border-white border-opacity-30 text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-opacity-20 transition-all hover:rotate-90 backdrop-blur-sm">
                     <i class="fas fa-times text-xl"></i>
                 </button>
@@ -8507,10 +8483,8 @@ Commandez sur Digit Shop Express !`;
                 
                 <!-- Lecteur vidéo -->
                 <video id="video-modal-player" 
-                       controls 
-                       controlsList="nodownload"
-                       class="w-full rounded-2xl shadow-2xl"
-                       style="max-height: 80vh;">
+                       controls
+                       class="w-full rounded-2xl shadow-2xl video-modal-player">
                     <source id="video-modal-source" type="video/mp4">
                     Votre navigateur ne supporte pas la vidéo.
                 </video>

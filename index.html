@@ -5167,21 +5167,34 @@ function displayProducts(filter = 'all', reset = true) {
     
     newProducts.forEach(product => initializeCarousel(product.id));
 }
-// Chargement automatique au scroll
+// Chargement automatique au scroll avec DEBOUNCE pour éviter les appels multiples sur Android
+let lastScrollTime = 0;
+let scrollDebounceTimeout;
 window.addEventListener('scroll', () => {
-    const grid = document.getElementById('products-grid');
-    if (!grid) return;
+    const now = Date.now();
+    const timeSinceLastCall = now - lastScrollTime;
     
-    const lastProduct = grid.lastElementChild;
-    if (!lastProduct) return;
+    // Ignorer les appels rapides (moins de 500ms)
+    if (timeSinceLastCall < 500) return;
     
-    const lastProductOffset = lastProduct.offsetTop + lastProduct.clientHeight;
-    const pageOffset = window.pageYOffset + window.innerHeight;
-    
-    if (pageOffset > lastProductOffset - 300) { // 300px avant la fin de la grille
-        loadMoreProducts();
-    }
-});
+    // Debounce: attendre 300ms avant d'exécuter
+    clearTimeout(scrollDebounceTimeout);
+    scrollDebounceTimeout = setTimeout(() => {
+        const grid = document.getElementById('products-grid');
+        if (!grid || isLoadingMore) return; // Ignorer si déjà en cours de chargement
+        
+        const lastProduct = grid.lastElementChild;
+        if (!lastProduct) return;
+        
+        const lastProductOffset = lastProduct.offsetTop + lastProduct.clientHeight;
+        const pageOffset = window.pageYOffset + window.innerHeight;
+        
+        if (pageOffset > lastProductOffset - 300) { // 300px avant la fin de la grille
+            lastScrollTime = now; // Mettre à jour le timestamp
+            loadMoreProducts();
+        }
+    }, 300);
+}, { passive: true });
 
 // Charger plus de produits avec animation rapide
 function loadMoreProducts() {
@@ -8777,9 +8790,6 @@ Commandez sur Digit Shop Express !`;
     </script>
     
 </main>
-    
-    <!-- ========== CHATBOT WIDGET ========== -->
-    <script src="chatbot-widget.js"></script>
     
     <!-- ========== GOOGLE IDENTITY SERVICES ========== -->
     <script>

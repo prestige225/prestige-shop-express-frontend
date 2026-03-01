@@ -4896,77 +4896,68 @@ async function loadProductsFromApi(forceRefresh = false) {
     const grid = document.getElementById('products-grid');
     
     try {
-        // ⚡ 1️⃣ CHARGEMENT RAPIDE DES 5 PREMIERS (comme Jumia)
-        console.log('⚡ Chargement rapide des 5 premiers produits...');
+        // 📌 1️⃣ AFFICHER LE CACHE EN PREMIER (instantané - comme les grandes apps!)
+        const cachedProducts = localStorage.getItem('cachedProducts');
+        if (cachedProducts && !forceRefresh) {
+            console.log('📌 Affichage immédiat du cache');
+            allProducts = JSON.parse(cachedProducts);
+            currentPage = 1;
+            displayProducts(currentFilter, true);
+        }
+        
+        // ⚡ 2️⃣ CHARGEMENT RAPIDE DES 10 PREMIERS (mise à jour)
+        console.log('⚡ Chargement rapide des 10 premiers produits...');
         const quickResponse = await fetch(`${window.API_BASE_URL}/produits/quick`, {
-            signal: AbortSignal.timeout(2000) // Timeout 2s pour la rapidité
+            signal: AbortSignal.timeout(3000)
         });
         
         if (quickResponse.ok) {
             const quickData = await quickResponse.json();
             if (quickData.success && quickData.produits) {
-                // Afficher les 5 premiers produits IMMÉDIATEMENT
                 const firstProducts = quickData.produits.map(mapApiProductToFrontend);
                 firstProducts.sort((a, b) => a.ordre - b.ordre);
                 
                 allProducts = firstProducts;
                 currentPage = 1;
                 displayProducts(currentFilter, true);
-                console.log('✅ 5 premiers produits affichés instantanément');
+                console.log('✅ 10 premiers produits affichés');
                 
-                // Sauvegarder dans localStorage
                 localStorage.setItem('cachedProducts', JSON.stringify(allProducts));
                 localStorage.setItem('productsCacheTime', Date.now().toString());
             }
         } else {
-            console.warn('Endpoint rapide non disponible, utilisation du chargement normal');
-            throw new Error('Endpoint rapide échoué');
+            console.warn('Endpoint rapide non disponible');
+            if (!cachedProducts) throw new Error('Pas de cache et endpoint échoué');
         }
         
-        // 🔄 2️⃣ CHARGEMENT DU RESTE EN ARRIÈRE-PLAN (sans bloquer)
-        loadRemainingProducts(5);
+        // 🔄 3️⃣ CHARGEMENT DU RESTE EN ARRIÈRE-PLAN
+        loadRemainingProducts(10);
         
     } catch (error) {
-        console.error('⚠️ Erreur chargement rapide:', error);
+        console.error('⚠️ Erreur:', error);
         
-        // Fallback: charger tous les produits normalement
-        try {
-            const response = await fetch(`${window.API_BASE_URL}/produits?limit=500`);
-            if (response.ok) {
-                const data = await response.json();
-                if (data.success) {
-                    const allProds = data.produits.map(mapApiProductToFrontend);
-                    allProds.sort((a, b) => a.ordre - b.ordre);
-                    allProducts = allProds;
-                    currentPage = 1;
-                    displayProducts(currentFilter, true);
-                    localStorage.setItem('cachedProducts', JSON.stringify(allProducts));
-                }
-            }
-        } catch (fallbackError) {
-            console.error('Erreur fallback:', fallbackError);
-            
-            // Dernier recours: cache
-            const cachedProducts = localStorage.getItem('cachedProducts');
-            if (cachedProducts) {
-                allProducts = JSON.parse(cachedProducts);
-                currentPage = 1;
-                displayProducts(currentFilter, true);
-            } else {
-                grid.innerHTML = `
-                    <div class="col-span-full text-center py-16">
-                        <div class="text-red-500 mb-4">
-                            <i class="fas fa-exclamation-triangle text-4xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Erreur de chargement</h3>
-                        <p class="text-gray-600 mb-4">Impossible de charger les produits. Veuillez réessayer plus tard.</p>
-                        <button onclick="loadProductsFromApi(true)" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-2 px-6 rounded-lg transition-all">
-                            <i class="fas fa-redo mr-2"></i>
-                            Réessayer
-                        </button>
+        // Fallback: utiliser le cache
+        const cachedProducts = localStorage.getItem('cachedProducts');
+        if (cachedProducts) {
+            console.log('✅ Utilisation du cache');
+            allProducts = JSON.parse(cachedProducts);
+            currentPage = 1;
+            displayProducts(currentFilter, true);
+        } else {
+            // Pas de cache du tout - afficher erreur
+            grid.innerHTML = `
+                <div class="col-span-full text-center py-16">
+                    <div class="text-red-500 mb-4">
+                        <i class="fas fa-exclamation-triangle text-4xl"></i>
                     </div>
-                `;
-            }
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Erreur de chargement</h3>
+                    <p class="text-gray-600 mb-4">Impossible de charger les produits. Veuillez réessayer plus tard.</p>
+                    <button onclick="loadProductsFromApi(true)" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-2 px-6 rounded-lg transition-all">
+                        <i class="fas fa-redo mr-2"></i>
+                        Réessayer
+                    </button>
+                </div>
+            `;
         }
     }
 }

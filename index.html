@@ -1569,6 +1569,47 @@
     .cart-float button { position: relative; }
     /* Badge du panier repositionné pour apparaître sur la gauche du bouton */
     #cart-float-badge { right: auto !important; left: -0.5rem !important; }
+    
+    /* SPLASH SCREEN ANIMATIONS */
+    @keyframes progress {
+        0% { width: 0%; }
+        50% { width: 70%; }
+        100% { width: 100%; }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes spinSmooth {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    .animate-progress {
+        animation: progress 2s ease-in-out forwards;
+    }
+    
+    .animate-bounce {
+        animation: bounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .animate-fadeIn {
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
     </style>
 
     <!-- Schema JSON-LD pour SEO (Google Rich Snippets) -->
@@ -1618,6 +1659,35 @@
     </script>
 </head>
 <body class="bg-gray-50">
+    
+    <!-- SPLASH SCREEN - Comme Jumia/Alibaba -->
+    <div id="splash-screen" class="fixed inset-0 bg-gradient-to-br from-purple-600 via-blue-600 to-purple-700 z-[999] flex items-center justify-center flex-col">
+        <!-- Conteneur du logo avec animation -->
+        <div class="relative w-32 h-32 mb-8">
+            <!-- Cercle de pulsation -->
+            <div class="absolute inset-0 bg-white rounded-full opacity-20 animate-ping"></div>
+            <div class="absolute inset-0 bg-white rounded-full opacity-10 animate-pulse"></div>
+            
+            <!-- Logo -->
+            <div class="absolute inset-0 flex items-center justify-center">
+                <img src="https://res.cloudinary.com/drc6imxzn/image/upload/v1772333571/prestige-shop_rd9w4m.png" 
+                     alt="Prestige Shop Express" 
+                     class="w-24 h-24 drop-shadow-2xl animate-bounce">
+            </div>
+        </div>
+        
+        <!-- Texte et barre de progression -->
+        <div class="text-center">
+            <h1 class="text-white text-3xl font-black mb-2 animate-fadeIn">Prestige Shop</h1>
+            <p class="text-purple-100 text-sm font-semibold mb-6 animate-fadeIn" style="animation-delay: 0.3s">Express</p>
+            
+            <!-- Barre de progression -->
+            <div class="w-40 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-yellow-300 to-yellow-500 rounded-full animate-progress"></div>
+            </div>
+        </div>
+    </div>
+   
    <!-- CONTENU SEO POUR GOOGLE (OBLIGATOIRE) -->
    <main id="seo-content">
       <h1>Prestige Shop Express</h1>
@@ -4895,6 +4965,11 @@ function mapApiProductToFrontend(apiProduct) {
 async function loadProductsFromApi(forceRefresh = false) {
     const grid = document.getElementById('products-grid');
     
+    // Démarrer le timeout pour masquer le splash screen après 2 secondes
+    const splashTimeout = setTimeout(() => {
+        hideSplashScreen();
+    }, 2000);
+    
     try {
         // 📌 1️⃣ AFFICHER LE CACHE EN PREMIER (instantané - comme les grandes apps!)
         const cachedProducts = localStorage.getItem('cachedProducts');
@@ -4903,6 +4978,7 @@ async function loadProductsFromApi(forceRefresh = false) {
             allProducts = JSON.parse(cachedProducts);
             currentPage = 1;
             displayProducts(currentFilter, true);
+            hideSplashScreen(); // Cacher le splash dès que le cache est affiché
         }
         
         // ⚡ 2️⃣ CHARGEMENT RAPIDE DES 10 PREMIERS (mise à jour)
@@ -4920,6 +4996,7 @@ async function loadProductsFromApi(forceRefresh = false) {
                 allProducts = firstProducts;
                 currentPage = 1;
                 displayProducts(currentFilter, true);
+                hideSplashScreen(); // Cacher le splash quand les produits sont affichés
                 console.log('✅ 10 premiers produits affichés');
                 
                 localStorage.setItem('cachedProducts', JSON.stringify(allProducts));
@@ -4935,6 +5012,7 @@ async function loadProductsFromApi(forceRefresh = false) {
         
     } catch (error) {
         console.error('⚠️ Erreur:', error);
+        hideSplashScreen(); // Cacher le splash même en cas d'erreur
         
         // Fallback: utiliser le cache
         const cachedProducts = localStorage.getItem('cachedProducts');
@@ -4959,6 +5037,19 @@ async function loadProductsFromApi(forceRefresh = false) {
                 </div>
             `;
         }
+    }
+}
+
+// Fonction pour masquer le splash screen avec animation
+function hideSplashScreen() {
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+        splash.style.transition = 'opacity 0.5s ease-out';
+        splash.style.opacity = '0';
+        setTimeout(() => {
+            splash.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restaurer le scroll
+        }, 500);
     }
 }
 
@@ -4997,6 +5088,9 @@ async function loadRemainingProducts(offset) {
 
 // Initialisation
 document.addEventListener('DOMContentLoaded', function() {
+    // Désactiver le scroll pendant le splash screen
+    document.body.style.overflow = 'hidden';
+    
     loadProductsFromApi(); // Charger les produits depuis l'API au lieu d'utiliser la fonction displayProducts()
     updateCartUI();
     checkAuth();

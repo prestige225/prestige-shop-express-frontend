@@ -5000,12 +5000,36 @@ function mapApiProductToFrontend(apiProduct) {
 async function loadProductsFromApi(forceRefresh = false) {
     const grid = document.getElementById('products-grid');
     
-    // 🔄 REINITIALISER pour éviter les doublons multiples
-    if (forceRefresh) {
+    // ⚠️ VÉRIFIER SI LE CACHE A CHANGÉ (signal du localStorage depuis admin)
+    const cacheInvalidationFlag = localStorage.getItem('productsCacheInvalidated');
+    if (cacheInvalidationFlag === 'true') {
+        console.log('🔄 Cache invalidé détecté - Forçage du rechargement COMPLET');
         allProducts = [];
         loadedProductIds.clear();
         localStorage.removeItem('cachedProducts');
         localStorage.removeItem('productsCacheTime');
+        localStorage.removeItem('productsCacheInvalidated'); // Réinitialiser le flag
+        forceRefresh = true;
+        // Ajouter un timestamp pour forcer le rechargement du serveur
+        sessionStorage.setItem('lastProductRefresh', Date.now().toString());
+    }
+    
+    // 🔄 REINITIALISER pour éviter les doublons multiples
+    if (forceRefresh) {
+        console.log('🔄🔄 RECHARGEMENT FORCÉ - Vidage du cache localStorage');
+        allProducts = [];
+        loadedProductIds.clear();
+        // 🧹 Vider TOUS les localStorage liés aux produits
+        localStorage.removeItem('cachedProducts');
+        localStorage.removeItem('productsCacheTime');
+        localStorage.removeItem('productsCacheInvalidated');
+        // Vider aussi les autres clés potentielles
+        Object.keys(localStorage).forEach(key => {
+            if (key.includes('product') || key.includes('cache') || key.includes('produit')) {
+                console.log(`🗑️ Suppression de ${key}`);
+                localStorage.removeItem(key);
+            }
+        });
     }
     
     // Démarrer le timeout pour masquer le splash screen après 2 secondes
@@ -5014,92 +5038,107 @@ async function loadProductsFromApi(forceRefresh = false) {
     }, 2000);
     
     try {
-        // 📌 1️⃣ AFFICHER LE CACHE EN PREMIER (instantané - comme les grandes apps!)
-        const cachedProducts = localStorage.getItem('cachedProducts');
-        if (cachedProducts && !forceRefresh && allProducts.length === 0) {
-            console.log('📌 Affichage immédiat du cache');
-            const parsed = JSON.parse(cachedProducts);
-            allProducts = removeDuplicateProducts(parsed);
-            // Remplir loadedProductIds avec les IDs du cache
+        // 📌 1️⃣ AFFICHER LE CACHE DES 8 PREMIERS (instantané!)
+        if (!forceRefresh && allProducts.length === 0) {
+            const cachedProducts = localStorage.getItem('cachedProducts');
+            if (cachedProducts) {
+                try {
+                    const parsed = JSON.parse(cachedProducts);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        console.log(`📌 Cache trouvé: ${parsed.length} produits`);
+                        allProducts = parsed; // Charger tous les produits du cache
+                        allProducts.forEach(p => loadedProductIds.add(String(p.id).trim()));
+                        currentPage = 1;
+                        displayProducts(currentFilter, true);
+                        hideSplashScreen();
+                        console.log(`✅ ${allProducts.length} produits du cache affichés`);
+                    }
+                } catch(e) {
+                    console.log('Cache invalide, rechargement depuis l\'API');
+                    localStorage.removeItem('cachedProducts');
+                    localStorage.removeItem('productsCacheTime');
+                }
+            }
+        }
+        
+        // ⚡ 2️⃣ CHARGER DEPUIS L'API (toujours, pour synchro)
+        console.log('⚡ Synchronisation avec l\'API...');
+        const response = await fetch(`${window.API_BASE_URL}/produits?limit=500&offset=0`);
+        
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.success && data.produits && Array.isArray(data.produits)) {
+            console.log(`📡 API: ${data.produits.length} produits récupérés`);
+            
+            // Mapper les produits
+            const apiProducts = data.produits.map(p => mapApiProductToFrontend(p));
+            const idsFromApi = new Set(apiProducts.map(p => String(p.id).trim()));
+            
+            // 🔍 VÉRIFIER LES CHANGEMENTS
+            if (!forceRefresh && allProducts.length > 0) {
+                // Vérifier si les produits du cache existent toujours
+                const removedProducts = allProducts.filter(p => !idsFromApi.has(String(p.id).trim()));
+                if (removedProducts.length > 0) {
+                    console.warn(`⚠️ ${removedProducts.length} produits supprimés détectés - Synchronisation`);
+                }
+            }
+            
+            // 💾 REMPLACER AVEC les données fraîches de l'API
+            allProducts = apiProducts;
+            loadedProductIds.clear();
             allProducts.forEach(p => loadedProductIds.add(String(p.id).trim()));
+            
+            // Trier
+            allProducts.sort((a, b) => a.ordre - b.ordre);
+            
+            // Afficher
             currentPage = 1;
             displayProducts(currentFilter, true);
-            hideSplashScreen(); // Cacher le splash dès que le cache est affiché
-            console.log(`📊 ${allProducts.length} produits du cache`);
-        }
-        
-        // ⚡ 2️⃣ CHARGEMENT RAPIDE DES 10 PREMIERS (mise à jour)
-        console.log('⚡ Chargement rapide des 10 premiers produits...');
-        const quickResponse = await fetch(`${window.API_BASE_URL}/produits/quick`, {
-            signal: AbortSignal.timeout(3000)
-        });
-        
-        if (quickResponse.ok) {
-            const quickData = await quickResponse.json();
-            if (quickData.success && quickData.produits) {
-                const firstProducts = quickData.produits
-                    .map(mapApiProductToFrontend)
-                    .filter(p => !loadedProductIds.has(String(p.id).trim())); // Filtrer les doublons
-                
-                firstProducts.sort((a, b) => a.ordre - b.ordre);
-                
-                // Ajouter les nouveaux produits
-                allProducts = allProducts.concat(firstProducts);
-                
-                // Tracker les nouveaux IDs
-                firstProducts.forEach(p => loadedProductIds.add(String(p.id).trim()));
-                
-                // Trier tous les produits
-                allProducts.sort((a, b) => a.ordre - b.ordre);
-                
-                currentPage = 1;
-                displayProducts(currentFilter, true);
-                hideSplashScreen(); // Cacher le splash quand les produits sont affichés
-                console.log(`✅ ${firstProducts.length} nouveaux produits affichés (Total: ${allProducts.length})`);
-                
-                localStorage.setItem('cachedProducts', JSON.stringify(allProducts));
-                localStorage.setItem('productsCacheTime', Date.now().toString());
-            }
+            hideSplashScreen();
+            
+            console.log(`✅ ${allProducts.length} produits affichés (synchronisés avec API)`);
+            
+            // 📝 SAUVEGARDER EN CACHE (tous les produits pour la prochaine fois)
+            localStorage.setItem('cachedProducts', JSON.stringify(allProducts));
+            localStorage.setItem('productsCacheTime', Date.now().toString());
+            
+            isInitialLoadComplete = true;
+            return;
         } else {
-            console.warn('Endpoint rapide non disponible');
-            if (allProducts.length === 0 && !cachedProducts) throw new Error('Pas de cache et endpoint échoué');
+            throw new Error('Réponse API invalide');
         }
-        
-        // 🔄 3️⃣ CHARGEMENT DU RESTE EN ARRIÈRE-PLAN
-        loadRemainingProducts().then(() => {
-            isInitialLoadComplete = true; // Marquer comme chargé quand fini
-            console.log(`✅ Chargement initial complet - Total: ${allProducts.length} produits`);
-        });
         
     } catch (error) {
-        console.error('⚠️ Erreur:', error);
-        hideSplashScreen(); // Cacher le splash même en cas d'erreur
+        console.error('⚠️ Erreur chargement:', error);
+        console.error('Message:', error.message);
+        hideSplashScreen();
         
-        // Fallback: utiliser le cache
-        const cachedProducts = localStorage.getItem('cachedProducts');
-        if (cachedProducts && allProducts.length === 0) {
-            console.log('✅ Utilisation du cache');
-            const parsed = JSON.parse(cachedProducts);
-            allProducts = removeDuplicateProducts(parsed);
-            allProducts.forEach(p => loadedProductIds.add(String(p.id).trim()));
-            currentPage = 1;
-            displayProducts(currentFilter, true);
-        } else if (allProducts.length === 0) {
-            // Pas de cache du tout - afficher erreur
+        // Si on n'a rien affichage, montrer l'erreur
+        if (allProducts.length === 0) {
+            const errorMessage = error.message.includes('Failed to fetch') 
+                ? `Le serveur API n'est pas accessible. Vérifiez que le backend est lancé à ${window.API_BASE_URL}`
+                : error.message;
+            
             grid.innerHTML = `
                 <div class="col-span-full text-center py-16">
                     <div class="text-red-500 mb-4">
                         <i class="fas fa-exclamation-triangle text-4xl"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">Erreur de chargement</h3>
-                    <p class="text-gray-600 mb-4">Impossible de charger les produits. Veuillez réessayer plus tard.</p>
-                    <button onclick="loadProductsFromApi(true)" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-2 px-6 rounded-lg transition-all">
+                    <p class="text-gray-600 mb-2">${errorMessage}</p>
+                    <p class="text-gray-500 text-xs mb-4">API: ${window.API_BASE_URL}</p>
+                    <button onclick="location.reload()" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-2 px-6 rounded-lg transition-all">
                         <i class="fas fa-redo mr-2"></i>
-                        Réessayer
+                        Recharger
                     </button>
                 </div>
             `;
         }
+        isInitialLoadComplete = true;
     }
 }
 
@@ -5231,7 +5270,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
     
-    loadProductsFromApi(); // Charger les produits depuis l'API au lieu d'utiliser la fonction displayProducts()
+    
+    // Charger les produits avec le système de cache intelligent
+    loadProductsFromApi();
     updateCartUI();
     checkAuth();
     // Bannière supprimée pour design simplifié

@@ -514,9 +514,15 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    alert(editingProduct ? 'Produit mis à jour avec succès!' : 'Produit ajouté avec succès!');
+                    alert(editingProduct ? 'Produit mis à jour avec succès! ✅\nLes modifications s\'afficheront sur la page d\'accueil au prochain chargement.' : 'Produit ajouté avec succès! ✅\nIl s\'affichera sur la page d\'accueil au prochain chargement.');
                     resetForm();
                     loadProducts();
+                    
+                    // ✅ Invalider le cache localStorage de la page index
+                    localStorage.removeItem('cachedProducts');
+                    localStorage.removeItem('productsCacheTime');
+                    localStorage.setItem('productsCacheInvalidated', 'true'); // Flag pour index.html
+                    console.log('✅ Cache produits invalidé - Les produits se mettront à jour automatiquement sur la page d\'accueil');
                 } else {
                     alert('Erreur: ' + (result.message || 'Une erreur est survenue'));
                 }
@@ -578,6 +584,11 @@
                     if (result.success) {
                         alert('Produit supprimé avec succès!');
                         loadProducts();
+                        
+                        // ✅ Invalider le cache localStorage de la page index
+                        localStorage.removeItem('cachedProducts');
+                        localStorage.removeItem('productsCacheTime');
+                        console.log('✅ Cache produits invalidé - Les produits se mettront à jour automatiquement sur la page d\'accueil');
                     } else {
                         alert('Erreur: ' + (result.message || 'Une erreur est survenue'));
                     }

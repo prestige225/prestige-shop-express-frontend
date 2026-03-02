@@ -4897,6 +4897,35 @@ let currentPage = 1;
 let isLoadingMore = false;
 let isInitialLoadComplete = false; // Flag pour empêcher loadMoreProducts() pendant le chargement initial
 let allProducts = []; // Stockage de tous les produits récupérés de l'API
+let loadedProductIds = new Set(); // Tracker des produits déjà chargés
+let isLoadingRemainingProducts = false; // Flag pour éviter les appels multiples au chargement du reste
+
+// Fonction pour éliminer les doublons basé sur l'ID du produit
+function removeDuplicateProducts(products) {
+    if (!Array.isArray(products)) return [];
+    
+    const seen = new Set();
+    const duplicates = [];
+    const unique = [];
+    
+    products.forEach(product => {
+        if (!product || !product.id) return; // Sauter les produits invalides
+        
+        const productId = String(product.id).trim();
+        if (seen.has(productId)) {
+            duplicates.push(productId);
+        } else {
+            seen.add(productId);
+            unique.push(product);
+        }
+    });
+    
+    if (duplicates.length > 0) {
+        console.warn(`⚠️ ${duplicates.length} produit(s) en doublon détecté(s) et supprimé(s):`, duplicates);
+    }
+    
+    return unique;
+}
 
 // Fonction pour mapper les données de l'API au format attendu par le frontend
 function mapApiProductToFrontend(apiProduct) {
@@ -4971,6 +5000,14 @@ function mapApiProductToFrontend(apiProduct) {
 async function loadProductsFromApi(forceRefresh = false) {
     const grid = document.getElementById('products-grid');
     
+    // 🔄 REINITIALISER pour éviter les doublons multiples
+    if (forceRefresh) {
+        allProducts = [];
+        loadedProductIds.clear();
+        localStorage.removeItem('cachedProducts');
+        localStorage.removeItem('productsCacheTime');
+    }
+    
     // Démarrer le timeout pour masquer le splash screen après 2 secondes
     const splashTimeout = setTimeout(() => {
         hideSplashScreen();
@@ -4979,12 +5016,16 @@ async function loadProductsFromApi(forceRefresh = false) {
     try {
         // 📌 1️⃣ AFFICHER LE CACHE EN PREMIER (instantané - comme les grandes apps!)
         const cachedProducts = localStorage.getItem('cachedProducts');
-        if (cachedProducts && !forceRefresh) {
+        if (cachedProducts && !forceRefresh && allProducts.length === 0) {
             console.log('📌 Affichage immédiat du cache');
-            allProducts = JSON.parse(cachedProducts);
+            const parsed = JSON.parse(cachedProducts);
+            allProducts = removeDuplicateProducts(parsed);
+            // Remplir loadedProductIds avec les IDs du cache
+            allProducts.forEach(p => loadedProductIds.add(String(p.id).trim()));
             currentPage = 1;
             displayProducts(currentFilter, true);
             hideSplashScreen(); // Cacher le splash dès que le cache est affiché
+            console.log(`📊 ${allProducts.length} produits du cache`);
         }
         
         // ⚡ 2️⃣ CHARGEMENT RAPIDE DES 10 PREMIERS (mise à jour)
@@ -4996,27 +5037,38 @@ async function loadProductsFromApi(forceRefresh = false) {
         if (quickResponse.ok) {
             const quickData = await quickResponse.json();
             if (quickData.success && quickData.produits) {
-                const firstProducts = quickData.produits.map(mapApiProductToFrontend);
+                const firstProducts = quickData.produits
+                    .map(mapApiProductToFrontend)
+                    .filter(p => !loadedProductIds.has(String(p.id).trim())); // Filtrer les doublons
+                
                 firstProducts.sort((a, b) => a.ordre - b.ordre);
                 
-                allProducts = firstProducts;
+                // Ajouter les nouveaux produits
+                allProducts = allProducts.concat(firstProducts);
+                
+                // Tracker les nouveaux IDs
+                firstProducts.forEach(p => loadedProductIds.add(String(p.id).trim()));
+                
+                // Trier tous les produits
+                allProducts.sort((a, b) => a.ordre - b.ordre);
+                
                 currentPage = 1;
                 displayProducts(currentFilter, true);
                 hideSplashScreen(); // Cacher le splash quand les produits sont affichés
-                console.log('✅ 10 premiers produits affichés');
+                console.log(`✅ ${firstProducts.length} nouveaux produits affichés (Total: ${allProducts.length})`);
                 
                 localStorage.setItem('cachedProducts', JSON.stringify(allProducts));
                 localStorage.setItem('productsCacheTime', Date.now().toString());
             }
         } else {
             console.warn('Endpoint rapide non disponible');
-            if (!cachedProducts) throw new Error('Pas de cache et endpoint échoué');
+            if (allProducts.length === 0 && !cachedProducts) throw new Error('Pas de cache et endpoint échoué');
         }
         
         // 🔄 3️⃣ CHARGEMENT DU RESTE EN ARRIÈRE-PLAN
-        loadRemainingProducts(10).then(() => {
+        loadRemainingProducts().then(() => {
             isInitialLoadComplete = true; // Marquer comme chargé quand fini
-            console.log('✅ Chargement initial complet');
+            console.log(`✅ Chargement initial complet - Total: ${allProducts.length} produits`);
         });
         
     } catch (error) {
@@ -5025,12 +5077,14 @@ async function loadProductsFromApi(forceRefresh = false) {
         
         // Fallback: utiliser le cache
         const cachedProducts = localStorage.getItem('cachedProducts');
-        if (cachedProducts) {
+        if (cachedProducts && allProducts.length === 0) {
             console.log('✅ Utilisation du cache');
-            allProducts = JSON.parse(cachedProducts);
+            const parsed = JSON.parse(cachedProducts);
+            allProducts = removeDuplicateProducts(parsed);
+            allProducts.forEach(p => loadedProductIds.add(String(p.id).trim()));
             currentPage = 1;
             displayProducts(currentFilter, true);
-        } else {
+        } else if (allProducts.length === 0) {
             // Pas de cache du tout - afficher erreur
             grid.innerHTML = `
                 <div class="col-span-full text-center py-16">
@@ -5063,9 +5117,16 @@ function hideSplashScreen() {
 }
 
 // Charger le reste des produits en arrière-plan
-async function loadRemainingProducts(offset) {
+async function loadRemainingProducts() {
+    // Éviter les appels multiples
+    if (isLoadingRemainingProducts) return;
+    isLoadingRemainingProducts = true;
+    
     try {
+        // Utiliser le nombre de produits déjà chargés comme offset
+        const offset = allProducts.length;
         console.log(`Chargement des produits restants (offset: ${offset})...`);
+        
         const response = await fetch(`${window.API_BASE_URL}/produits?limit=500&offset=${offset}`);
         
         if (!response.ok) {
@@ -5074,31 +5135,51 @@ async function loadRemainingProducts(offset) {
         
         const data = await response.json();
         
-        if (!data.success || !data.produits) {
+        if (!data.success || !data.produits || data.produits.length === 0) {
             isInitialLoadComplete = true; // Marquer comme complet même s'il n'y a pas de produits restants
+            isLoadingRemainingProducts = false;
+            console.log('✤ Tous les produits ont été chargés');
             return;
         }
         
-        // Mapper les produits restants
-        const remainingProducts = data.produits.map(mapApiProductToFrontend);
+        // Mapper les produits restants et filtrer les doublons
+        const remainingProducts = data.produits
+            .map(mapApiProductToFrontend)
+            .filter(p => !loadedProductIds.has(String(p.id).trim())); // Filtrer les doublons
+        
+        if (remainingProducts.length === 0) {
+            console.log('⚠️ Aucun nouveau produit trouvé (tous étaient des doublons)');
+            isInitialLoadComplete = true;
+            isLoadingRemainingProducts = false;
+            return;
+        }
+        
         remainingProducts.sort((a, b) => a.ordre - b.ordre);
         
-        // Ajouter aux produits existants
-        allProducts = [...allProducts, ...remainingProducts];
+        // Ajouter les nouveaux produits
+        allProducts = allProducts.concat(remainingProducts);
+        allProducts.sort((a, b) => a.ordre - b.ordre);
+        
+        // Tracker les nouveaux IDs
+        remainingProducts.forEach(p => loadedProductIds.add(String(p.id).trim()));
         
         // Mettre à jour le cache
         localStorage.setItem('cachedProducts', JSON.stringify(allProducts));
         
-        console.log(`✅ Total de ${allProducts.length} produits chargés`);
-        
-        // 🔄 Réafficher les produits avec les nouveaux ajoutés
-        displayProducts(currentFilter, false);
-        
+        console.log(`✅ ${remainingProducts.length} nouveaux produits ajoutés. Total: ${allProducts.length}`);
         isInitialLoadComplete = true; // Marquer comme complet
+        
+        // Si l'utilisateur est en train de regarder tous les produits, rafraîchir l'affichage
+        if (currentFilter === 'all') {
+            console.log('🔄 Rafraîchissement de l\'affichage - nouveaux produits ajoutés');
+            displayProducts(currentFilter, true);
+        }
         
     } catch (error) {
         console.error('Erreur lors du chargement des produits restants:', error);
         isInitialLoadComplete = true; // Marquer comme complet même en cas d'erreur
+    } finally {
+        isLoadingRemainingProducts = false;
     }
 }
 
@@ -5106,6 +5187,49 @@ async function loadRemainingProducts(offset) {
 document.addEventListener('DOMContentLoaded', function() {
     // Désactiver le scroll pendant le splash screen
     document.body.style.overflow = 'hidden';
+    
+    // 🔍 Fonction de diagnostic globale pour surveiller les doublons
+    window.diagnosticProductsDuplicates = function() {
+        console.log('=== DIAGNOSTIC PRODUITS ===');
+        console.log(`📊 Total produits: ${allProducts.length}`);
+        console.log(`🔍 IDs uniques tracés: ${loadedProductIds.size}`);
+        
+        // Vérifier les doublons
+        const ids = new Set();
+        let duplicateCount = 0;
+        const duplicateIds = [];
+        
+        allProducts.forEach(p => {
+            const id = String(p.id).trim();
+            if (ids.has(id)) {
+                duplicateCount++;
+                duplicateIds.push(id);
+            } else {
+                ids.add(id);
+            }
+        });
+        
+        console.log(`⚠️ Doublons détectés: ${duplicateCount}`);
+        if (duplicateIds.length > 0) {
+            console.warn('🚨 IDs en doublon:', duplicateIds);
+        } else {
+            console.log('✅ Aucun doublon détecté!');
+        }
+        
+        // Vérifier la cohérence entre allProducts et loadedProductIds
+        const mismatch = allProducts.length !== loadedProductIds.size;
+        console.log(`${mismatch ? '⚠️' : '✅'} Cohérence: allProducts(${allProducts.length}) vs loadedProductIds(${loadedProductIds.size})`);
+        
+        // Afficher un résumé par catégorie
+        console.log('📈 Produits par catégorie:');
+        const categories = {};
+        allProducts.forEach(p => {
+            categories[p.category] = (categories[p.category] || 0) + 1;
+        });
+        Object.entries(categories).forEach(([cat, count]) => {
+            console.log(`  - ${cat}: ${count}`);
+        });
+    };
     
     loadProductsFromApi(); // Charger les produits depuis l'API au lieu d'utiliser la fonction displayProducts()
     updateCartUI();
@@ -5138,6 +5262,15 @@ function displayProducts(filter = 'all', reset = true) {
     
     let filteredProducts;
     
+    // Vérifier que allProducts ne contient pas de doublons
+    if (allProducts.length > 0) {
+        const beforeLength = allProducts.length;
+        allProducts = removeDuplicateProducts(allProducts);
+        if (allProducts.length < beforeLength) {
+            console.warn(`🔄 ${beforeLength - allProducts.length} doublon(s) supprimé(s) dans displayProducts`);
+        }
+    }
+    
     // Gérer les sous-catégories mode
     if (filter.startsWith('mode-')) {
         const subcategory = filter.replace('mode-', '');
@@ -5156,6 +5289,9 @@ function displayProducts(filter = 'all', reset = true) {
         // Filtrage par catégorie principale
         filteredProducts = allProducts.filter(p => p.category === filter);
     }
+    
+    // Déduplique les produits filtrés
+    filteredProducts = removeDuplicateProducts(filteredProducts);
     
     filteredProducts = sortProductsArray(filteredProducts, currentSort);
     
@@ -5209,13 +5345,19 @@ window.addEventListener('scroll', () => {
 
 // Charger plus de produits avec animation rapide
 function loadMoreProducts() {
-    // Ne rien faire si le chargement initial n'est pas fini (éviter les doublons sur Android)
-    if (!isInitialLoadComplete) return;
-    
     // Ne rien faire si on est sur la catégorie Business
     if (currentFilter === 'business') return;
     
     if (isLoadingMore) return;
+    
+    // Si le chargement initial n'est pas fini mais que nous avons assez de produits pour paginer, continuer
+    if (!isInitialLoadComplete && allProducts.length < productsPerPage * 2) {
+        // Lancer le chargement du reste si pas déjà en cours
+        if (!isLoadingRemainingProducts) {
+            loadRemainingProducts();
+        }
+        return;
+    }
     
     let filteredProducts;
     // Gérer les sous-catégories mode
@@ -5315,6 +5457,14 @@ function loadMoreProducts() {
         function filterProducts(category) {
             currentFilter = category;
             currentPage = 1; // Reset à la première page
+            
+            // Si l'utilisateur demande "Tous les produits" et que le chargement initial n'est pas fini,
+            // lancer immédiatement le chargement du reste
+            if (category === 'all' && !isInitialLoadComplete && !isLoadingRemainingProducts) {
+                console.log('📌 Chargement urgent des produits restants...');
+                loadRemainingProducts();
+            }
+            
             displayProducts(category, true);
             
             // Mise à jour des tags de catégories actifs
@@ -6922,7 +7072,7 @@ function loadMoreProducts() {
             }
             const searchTerm = normalizeText(query);
             
-            return allProducts.filter(product => {
+            let results = allProducts.filter(product => {
                 const nameMatch = normalizeText(product.name).includes(searchTerm);
                 const descMatch = normalizeText(product.description).includes(searchTerm);
                 const categoryMatch = normalizeText(getCategoryName(product.category)).includes(searchTerm);
@@ -6931,6 +7081,11 @@ function loadMoreProducts() {
                 
                 return nameMatch || descMatch || categoryMatch || keywordMatch;
             });
+            
+            // Éliminer les doublons dans les résultats de recherche
+            results = removeDuplicateProducts(results);
+            
+            return results;
         }
         
         // Mots-clés pour améliorer la recherche
@@ -8180,9 +8335,15 @@ function loadMoreProducts() {
             if (!product) return;
             
             // Trouver les autres produits de la même catégorie
-            const relatedProducts = allProducts.filter(p => 
+            let relatedProducts = allProducts.filter(p => 
                 p.category === product.category && p.id !== productId
-            ).slice(0, 8); // Limiter à 8 produits
+            );
+            
+            // Déduplique les produits connexes
+            relatedProducts = removeDuplicateProducts(relatedProducts);
+            
+            // Limiter à 8 produits
+            relatedProducts = relatedProducts.slice(0, 8);
             
             // Créer le modal de vue rapide
             const modal = document.createElement('div');
@@ -8909,23 +9070,32 @@ Commandez sur Digit Shop Express !`;
                 const product = allProducts.find(p => p.id === productId);
                 if (!product) return [];
                 
-                return allProducts
+                const recommendations = allProducts
                     .filter(p => p.category === product.category && p.id !== product.id)
                     .sort(() => 0.5 - Math.random())
                     .slice(0, 6);
+                
+                // Éliminer les doublons potentiels dans les recommandations
+                return removeDuplicateProducts(recommendations);
             }
             
             // Recommander des produits populaires
             getPopularRecommendations(allProducts) {
-                return allProducts
+                const recommendations = allProducts
                     .sort((a, b) => b.price - a.price) // Tri par prix décroissant pour simuler popularité
                     .slice(0, 6);
+                
+                // Éliminer les doublons potentiels
+                return removeDuplicateProducts(recommendations);
             }
             
             // Recommander des produits récents
             getRecentRecommendations(allProducts) {
-                return allProducts
+                const recommendations = allProducts
                     .slice(0, 6); // Les premiers produits comme produits récents
+                
+                // Éliminer les doublons potentiels
+                return removeDuplicateProducts(recommendations);
             }
         }
         

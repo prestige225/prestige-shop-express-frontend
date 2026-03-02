@@ -8698,7 +8698,7 @@ Commandez sur Digit Shop Express !`;
                     return `
                         <div class="carousel-slide relative">
                             <video 
-                                class="w-full h-36 sm:h-40 object-cover cursor-pointer"
+                                class="w-full h-36 sm:h-40 object-contain cursor-pointer"
                                 onclick="${clickHandler || `openImageZoom(${productId}, ${index})`}"
                                 muted
                                 loop
@@ -8718,7 +8718,7 @@ Commandez sur Digit Shop Express !`;
                     return `
                         <div class="carousel-slide">
                             <img src="${mediaUrl}" alt="${productName} - Image ${index + 1}" 
-                                 class="w-full h-36 sm:h-40 object-cover cursor-pointer transition-all duration-500 group-hover:scale-110" 
+                                 class="w-full h-36 sm:h-40 object-contain cursor-pointer transition-all duration-500" 
                                  onclick="${clickHandler || `openImageZoom(${productId}, ${index})`}"
                                  onerror="this.src='${IMAGE_BASE_URL}/placeholder.png'; this.alt='Image non disponible';">
                         </div>
@@ -8734,7 +8734,7 @@ Commandez sur Digit Shop Express !`;
                 return `
                     <div class="carousel-slide relative">
                         <video 
-                            class="w-full h-36 sm:h-40 object-cover cursor-pointer"
+                            class="w-full h-36 sm:h-40 object-contain cursor-pointer"
                             onclick="${clickHandler || `openImageZoom(${productId}, ${index})`}"
                             muted
                             loop
@@ -8754,7 +8754,7 @@ Commandez sur Digit Shop Express !`;
                 return `
                     <div class="carousel-slide">
                         <img src="${sanitizedUrl}" alt="${productName} - Image ${index + 1}" 
-                             class="w-full h-36 sm:h-40 object-cover cursor-pointer transition-all duration-500 group-hover:scale-110" 
+                             class="w-full h-36 sm:h-40 object-contain cursor-pointer transition-all duration-500" 
                              onclick="${clickHandler || `openImageZoom(${productId}, ${index})`}"
                              onerror="this.src='${IMAGE_BASE_URL}/placeholder.png'; this.alt='Image non disponible';">
                     </div>

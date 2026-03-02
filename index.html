@@ -4895,6 +4895,7 @@ let isSearchFocused = false;
 let productsPerPage = 8; // Nombre de produits par page
 let currentPage = 1;
 let isLoadingMore = false;
+let isInitialLoadComplete = false; // Flag pour empêcher loadMoreProducts() pendant le chargement initial
 let allProducts = []; // Stockage de tous les produits récupérés de l'API
 
 // Fonction pour mapper les données de l'API au format attendu par le frontend
@@ -5013,7 +5014,10 @@ async function loadProductsFromApi(forceRefresh = false) {
         }
         
         // 🔄 3️⃣ CHARGEMENT DU RESTE EN ARRIÈRE-PLAN
-        loadRemainingProducts(10);
+        loadRemainingProducts(10).then(() => {
+            isInitialLoadComplete = true; // Marquer comme chargé quand fini
+            console.log('✅ Chargement initial complet');
+        });
         
     } catch (error) {
         console.error('⚠️ Erreur:', error);
@@ -5071,7 +5075,8 @@ async function loadRemainingProducts(offset) {
         const data = await response.json();
         
         if (!data.success || !data.produits) {
-            return; // Pas d'autres produits
+            isInitialLoadComplete = true; // Marquer comme complet même s'il n'y a pas de produits restants
+            return;
         }
         
         // Mapper les produits restants
@@ -5085,9 +5090,11 @@ async function loadRemainingProducts(offset) {
         localStorage.setItem('cachedProducts', JSON.stringify(allProducts));
         
         console.log(`✅ Total de ${allProducts.length} produits chargés`);
+        isInitialLoadComplete = true; // Marquer comme complet
         
     } catch (error) {
         console.error('Erreur lors du chargement des produits restants:', error);
+        isInitialLoadComplete = true; // Marquer comme complet même en cas d'erreur
     }
 }
 
@@ -5198,6 +5205,9 @@ window.addEventListener('scroll', () => {
 
 // Charger plus de produits avec animation rapide
 function loadMoreProducts() {
+    // Ne rien faire si le chargement initial n'est pas fini (éviter les doublons sur Android)
+    if (!isInitialLoadComplete) return;
+    
     // Ne rien faire si on est sur la catégorie Business
     if (currentFilter === 'business') return;
     

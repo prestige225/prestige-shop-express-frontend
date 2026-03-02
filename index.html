@@ -5090,6 +5090,10 @@ async function loadRemainingProducts(offset) {
         localStorage.setItem('cachedProducts', JSON.stringify(allProducts));
         
         console.log(`✅ Total de ${allProducts.length} produits chargés`);
+        
+        // 🔄 Réafficher les produits avec les nouveaux ajoutés
+        displayProducts(currentFilter, false);
+        
         isInitialLoadComplete = true; // Marquer comme complet
         
     } catch (error) {

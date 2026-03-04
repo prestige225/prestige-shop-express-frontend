@@ -76,18 +76,18 @@
         body {
             font-family: 'Poppins', sans-serif;
             max-width: 100vw;
-            padding-top: 148px;
+            padding-top: 140px;
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             body {
-                padding-top: 168px;
+                padding-top: 130px;
             }
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 640px) {
             body {
-                padding-top: 110px;
+                padding-top: 130px;
             }
         }
         
@@ -1583,6 +1583,228 @@
     /* Badge du panier repositionné pour apparaître sur la gauche du bouton */
     #cart-float-badge { right: auto !important; left: -0.5rem !important; }
     
+    /* ===== HEADER PROFESSIONNEL STYLE E-COMMERCE ===== */
+    header {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Première ligne du header - Logo + Barre de recherche + Actions */
+    header > div:first-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 1rem !important;
+        padding: 0.75rem 0.75rem !important;
+    }
+    
+    @media (min-width: 768px) {
+        header > div:first-child {
+            padding: 1rem 1.5rem !important;
+        }
+    }
+    
+    /* Logo compact */
+    header .w-10 {
+        flex-shrink: 0;
+    }
+    
+    /* Barre de recherche - input professionnel */
+    header input[id="search-input"] {
+        border-radius: 8px !important;
+        padding: 0.75rem 1rem 0.75rem 1rem !important;
+        font-size: 0.875rem !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+        background: linear-gradient(to right, #ffffff 0%, #fafafa 100%) !important;
+    }
+    
+    header input[id="search-input"]:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    header input[id="search-input"]:focus {
+        box-shadow: 
+            0 0 0 4px rgba(147, 51, 234, 0.12),
+            0 4px 20px rgba(147, 51, 234, 0.25) !important;
+        background: #ffffff !important;
+    }
+    
+    /* Icons compacts dans le header */
+    header button[title="Mon compte"],
+    header button[onclick*="toggleCart"] {
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+    }
+    
+    header button:hover {
+        background-color: rgba(147, 51, 234, 0.1);
+    }
+    
+    /* Badge du panier */
+    header #cart-badge {
+        animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+    }
+    
+    /* ===== AMÉLIORATION BARRE DE RECHERCHE - STYLE PREMIUM (Amazon/Jumia) ===== */
+    #search-input {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        font-weight: 500;
+        letter-spacing: 0.2px;
+        background: linear-gradient(to right, #ffffff 0%, #fafafa 100%);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    #search-input:hover {
+        border-color: #d1d5db !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        background: #ffffff;
+    }
+    
+    #search-input:focus {
+        border-color: #9333ea !important;
+        box-shadow: 
+            0 0 0 4px rgba(147, 51, 234, 0.12),
+            0 4px 20px rgba(147, 51, 234, 0.25),
+            inset 0 0 0 1px rgba(147, 51, 234, 0.1) !important;
+        background: #ffffff;
+        outline: none;
+    }
+    
+    #search-input::placeholder {
+        color: #9ca3af !important;
+        font-weight: 400;
+    }
+    
+    /* Bouton clear professionnel */
+    #clear-search {
+        cursor: pointer;
+        opacity: 0.7;
+    }
+    
+    #clear-search:hover {
+        opacity: 1;
+        background-color: rgba(239, 68, 68, 0.08) !important;
+    }
+    
+    /* Conteneur des résultats de recherche - Premium Style */
+    #search-results {
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16) !important;
+        border-radius: 10px !important;
+        border: 1px solid #e5e7eb !important;
+        animation: slideDown 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    
+    .fadeOut {
+        animation: fadeIn 0.3s ease-out reverse !important;
+    }
+    
+    .animate-fadeIn {
+        animation: fadeIn 0.3s ease-out;
+    }
+    
+    #search-content {
+        max-height: 500px;
+    }
+    
+    /* Scroll personnalisé pour les résultats */
+    #search-content::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    #search-content::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    #search-content::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 3px;
+    }
+    
+    #search-content::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
+    }
+    
+    /* Bouton clear de la recherche */
+    #clear-search {
+        cursor: pointer;
+        padding: 0.5rem;
+        margin-right: 0.25rem;
+    }
+    
+    #clear-search:hover {
+        color: #4b5563 !important;
+    }
+    
+    /* Animation pour les résultats de recherche */
+    .search-result-item {
+        transition: all 0.15s ease;
+        border-radius: 0;
+        margin: 0 !important;
+    }
+    
+    .search-result-item:hover {
+        background-color: #fafafa !important;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
+    .search-result-item:active {
+        background-color: #f3f4f6 !important;
+    }
+    
+    /* En-tête des résultats de recherche */
+    .search-header {
+        background: linear-gradient(135deg, #f8f9fa 0%, #f3f4f6 100%);
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    /* Badge des catégories dans les résultats */
+    .search-category-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: #f0f4ff;
+        color: #6366f1;
+        border: 1px solid #c7d2fe;
+    }
+    
+    /* Texte surligné dans les résultats */
+    mark {
+        background: linear-gradient(120deg, #fef08a 0%, #fde047 100%);
+        padding: 2px 4px;
+        border-radius: 2px;
+        font-weight: 600;
+        color: inherit;
+    }
+    
+    
     /* SPLASH SCREEN ANIMATIONS */
     @keyframes progress {
         0% { width: 0%; }
@@ -1745,175 +1967,102 @@
        </div>
    </div>
 
-   <!-- Header -->
+   <!-- Header Professionnel Style E-commerce -->
 <header class="bg-white shadow-md fixed top-0 left-0 right-0 z-[70] w-full">
-    <div class="w-full">
-        <!-- Ligne 1: Logo + Recherche/Actions -->
-        <div class="flex items-center justify-between gap-2 px-2 md:px-6 py-3 w-full">
-            <!-- Logo + Brand (compact sur mobile) -->
-            <div class="flex items-center gap-2 flex-shrink-0">
-                <div class="w-9 h-9 md:w-12 md:h-12 rounded-full overflow-hidden bg-white shadow">
-                    <img src="https://images.wakelet.com/resize?id=Cjp9phOoaN97gDLXDdPNk&w=1600&h=actual&q=85" alt="Logo" class="w-full h-full object-cover">
-                </div>
-                <div class="hidden sm:block text-xs md:text-sm">
-                    <div class="font-bold text-purple-600">Prestige Shop</div>
-                    <div class="text-gray-600 text-[10px] md:text-xs">Express</div>
-                </div>
-            </div>
-
-            <!-- Barre de recherche - visible sur md+ SEULEMENT -->
-            <div class="flex-1 gap-2 hidden md:block max-w-2xl">
-                <div class="relative">
-                    <input type="text"
-                           id="search-input"
-                           placeholder="Rechercher produits, marques..."
-                           class="w-full pl-10 pr-12 py-2 text-sm bg-gray-50 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-purple-600 transition-all text-gray-800 placeholder-gray-500"
-                           oninput="handleSearch()"
-                           onfocus="showSearchResults()"
-                           onblur="setTimeout(hideSearchResults, 200)">
-                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
-                    <button onclick="(function(){ const v=document.getElementById('search-input').value.trim(); performSearch(v, false); })()" title="Rechercher" class="absolute right-1 top-1/2 transform -translate-y-1/2 bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded transition-all text-sm font-semibold">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                <div id="search-results" class="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-2xl max-h-[400px] overflow-y-auto z-50 hidden">
-                    <div id="search-content"></div>
-                </div>
-            </div>
-
-            <!-- Actions droite -->
-            <div class="flex items-center gap-1.5 md:gap-3 flex-shrink-0">
-                <!-- Bouton recherche mobile ICON ONLY -->
-                <button onclick="document.getElementById('mobile-search-input').focus()" class="md:hidden text-gray-700 hover:text-purple-600 text-lg">
-                    <i class="fas fa-search"></i>
-                </button>
-                
-                <!-- Boutons Connexion mobile -->
-                <div id="auth-buttons-mobile" class="flex md:hidden items-center gap-1">
-                    <a href="login.html" class="text-purple-600 hover:text-purple-700 text-base transition-colors">
-                        <i class="fas fa-sign-in-alt"></i>
-                    </a>
-                </div>
-                
-                <!-- Connexion desktop -->
-                <div id="auth-buttons" class="hidden md:flex items-center gap-1">
-                    <a href="login.html" class="text-purple-600 hover:text-purple-700 font-medium text-xs md:text-sm transition-colors">
-                        <i class="fas fa-sign-in-alt"></i>
-                    </a>
-                </div>
-                
-                <!-- Menu utilisateur -->
-                <button id="user-menu-btn" onclick="openUserModal()" title="Mon compte" class="hidden md:flex items-center gap-1 text-gray-700 hover:text-purple-600 transition-colors">
-                    <i class="fas fa-user text-base"></i>
-                    <span id="user-fullname-header" class="text-xs font-medium hidden lg:inline"></span>
-                </button>
-
-                <!-- Panier visible partout -->
-                <button onclick="toggleCart()" class="relative text-purple-600 hover:text-purple-700 transition-colors text-lg md:text-base">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden font-bold">0</span>
-                </button>
-
-                <!-- Menu mobile -->
-                <button onclick="toggleMobileMenu()" title="Menu" class="md:hidden text-gray-700 hover:text-purple-600 text-lg">
-                    <i class="fas fa-bars"></i>
-                </button>
+    <div class="w-full px-3 md:px-6 py-3 flex items-center justify-between gap-2">
+        <!-- Logo -->
+        <div class="flex items-center gap-2 flex-shrink-0">
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden bg-purple-600 shadow">
+                <img src="https://images.wakelet.com/resize?id=Cjp9phOoaN97gDLXDdPNk&w=1600&h=actual&q=85" alt="Logo" class="w-full h-full object-cover">
             </div>
         </div>
 
-        <!-- Ligne 2: Recherche mobile -->
-        <div class="md:hidden border-t border-gray-100 px-2 py-2">
-            <div class="relative">
+        <!-- Barre de recherche (visible partout) -->
+        <div class="flex-1 min-w-0 mx-2 md:mx-4">
+            <div class="relative group">
                 <input type="text"
-                       id="mobile-search-input"
-                       placeholder="Rechercher..."
-                       class="w-full pl-9 pr-3 py-2 text-sm bg-gray-50 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-purple-600 transition-all"
+                       id="search-input"
+                       placeholder="Rechercher produits, marques..."
+                       class="w-full px-4 py-3 text-sm bg-white border-2 border-gray-300 rounded-lg hover:border-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 focus:shadow-lg transition-all text-gray-800 placeholder-gray-500 font-medium"
                        oninput="handleSearch()"
                        onfocus="showSearchResults()"
-                       onblur="setTimeout(hideSearchResults, 200)">
-                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                       onblur="setTimeout(() => hideSearchResults(), 300)">
+                
+                <!-- Conteneur des résultats de recherche - Style Premium -->
+                <div id="search-results" 
+                     class="absolute top-full left-0 right-0 mt-2 bg-white border-0 rounded-lg shadow-2xl max-h-96 overflow-hidden z-50 hidden"
+                     onmousedown="isSearchFocused = true"
+                     onmouseup="isSearchFocused = false">
+                    <div id="search-content" class="overflow-y-auto max-h-96"></div>
+                </div>
             </div>
         </div>
 
-        <!-- Ligne 2: Catégories (sticky) -->
-        <div class="border-t border-gray-100 bg-white">
-            <div class="flex items-center overflow-x-auto px-3 md:px-6 py-2" style="scroll-behavior: smooth;">
-                <div class="flex gap-2 md:gap-4 flex-nowrap">
-                    <span onclick="filterProducts('all')" class="px-3 py-1.5 text-xs md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-purple-600">
-                        <i class="fas fa-th mr-1"></i>Tous
-                    </span>
-                    <span onclick="filterProducts('educatif')" class="px-3 py-1.5 text-xs md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-purple-600">
-                        <i class="fas fa-graduation-cap mr-1"></i>Éducatif
-                    </span>
-                    <span onclick="filterProducts('electronique')" class="px-3 py-1.5 text-xs md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-purple-600">
-                        <i class="fas fa-laptop mr-1"></i>Électronique
-                    </span>
-                    <span onclick="filterProducts('mode')" class="px-3 py-1.5 text-xs md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-purple-600">
-                        <i class="fas fa-tshirt mr-1"></i>Mode
-                    </span>
-                    <span onclick="filterProducts('beaute')" class="px-2 md:px-3 py-1.5 text-[11px] md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-purple-600">
-                        <i class="fas fa-spa mr-1"></i><span class="hidden md:inline">Beauté & Cosmétique</span><span class="md:hidden">Beauté</span>
-                    </span>
-                    <span onclick="filterProducts('fastfood')" class="px-2 md:px-3 py-1.5 text-[11px] md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-purple-600">
-                        <i class="fas fa-hamburger mr-1"></i><span class="hidden md:inline">Fast Food</span><span class="md:hidden">Fast Food</span>
-                    </span>
-                    <span onclick="filterProducts('business')" class="px-2 md:px-3 py-1.5 text-[11px] md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-purple-600">
-                        <i class="fas fa-briefcase mr-1"></i><span class="hidden md:inline">Prestige Business</span><span class="md:hidden">Prestige</span>
-                    </span>
-                </div>
+        <!-- Actions droite -->
+        <div class="flex items-center gap-3 flex-shrink-0">
+            <!-- Menu utilisateur (Profil) -->
+            <button id="user-menu-btn" onclick="openUserModal()" title="Mon compte" class="flex items-center text-gray-700 hover:text-purple-600 transition-colors">
+                <i class="fas fa-user text-xl"></i>
+            </button>
+
+            <!-- Panier -->
+            <button onclick="toggleCart()" class="relative text-purple-600 hover:text-purple-700 transition-colors">
+                <i class="fas fa-shopping-cart text-xl"></i>
+                <span id="cart-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden font-bold">0</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Ligne 2: Catégories -->
+    <div class="border-t border-gray-100 bg-white">
+        <div class="flex items-center overflow-x-auto px-3 md:px-6 py-2">
+            <div class="flex gap-2 md:gap-4 flex-nowrap">
+                <span onclick="filterProducts('all')" class="px-3 py-1.5 text-xs md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-purple-600">
+                    <i class="fas fa-th mr-1"></i>Tous
+                </span>
+                <span onclick="filterProducts('educatif')" class="px-3 py-1.5 text-xs md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-purple-600">
+                    <i class="fas fa-graduation-cap mr-1"></i>Éducatif
+                </span>
+                <span onclick="filterProducts('electronique')" class="px-3 py-1.5 text-xs md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-purple-600">
+                    <i class="fas fa-laptop mr-1"></i>Électronique
+                </span>
+                <span onclick="filterProducts('mode')" class="px-3 py-1.5 text-xs md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer whitespace-nowrap transition-colors border-b-2 border-transparent hover:border-purple-600">
+                    <i class="fas fa-tshirt mr-1"></i>Mode
+                </span>
+                <span onclick="filterProducts('beaute')" class="px-2 py-1.5 text-xs md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer transition-colors border-b-2 border-transparent hover:border-purple-600 whitespace-nowrap">
+                    <i class="fas fa-spa mr-1"></i><span class="inline">Beauté</span>
+                </span>
+                <span onclick="filterProducts('fastfood')" class="px-2 py-1.5 text-xs md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer transition-colors border-b-2 border-transparent hover:border-purple-600 whitespace-nowrap">
+                    <i class="fas fa-hamburger mr-1"></i><span class="inline">Fast Food</span>
+                </span>
+                <span onclick="filterProducts('business')" class="px-2 py-1.5 text-xs md:text-sm font-medium text-gray-700 hover:text-purple-600 cursor-pointer transition-colors border-b-2 border-transparent hover:border-purple-600 whitespace-nowrap">
+                    <i class="fas fa-briefcase mr-1"></i><span class="inline">Prestige Business</span>
+                </span>
             </div>
         </div>
     </div>
 </header>
 
-
-        <!-- Menu mobile -->
-        <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
-            <div class="px-4 py-3 space-y-3">
-                <!-- Profil utilisateur mobile (si connecté) -->
-                <div id="mobile-user-profile" class="hidden bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-4 mb-3 border border-purple-200">
-                    <div class="flex items-center space-x-3 mb-3">
-                        <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
-                            <i class="fas fa-user text-white text-xl"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-gray-900" id="mobile-user-fullname"></p>
-                            <p class="text-xs text-gray-600" id="mobile-user-email"></p>
-                        </div>
-                    </div>
-                    <button onclick="logout()" class="w-full bg-red-100 hover:bg-red-200 text-red-600 px-4 py-2.5 rounded-lg font-semibold transition-all flex items-center justify-center">
-                        <i class="fas fa-sign-out-alt mr-2"></i>
-                        Déconnexion
-                    </button>
-                </div>
-                
-                <!-- Boutons connexion/inscription mobile (si non connecté) -->
-                <div id="mobile-auth-buttons" class="hidden space-y-2 mb-3">
-                    <a href="login.html" class="block w-full bg-white border-2 border-purple-600 text-purple-600 hover:bg-purple-50 px-4 py-3 rounded-lg font-bold transition-all text-center">
-                        <i class="fas fa-sign-in-alt mr-2"></i>
-                        Connexion
-                    </a>
-                    <a href="register.html" class="block w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-4 py-3 rounded-lg font-bold transition-all text-center shadow-lg">
-                        <i class="fas fa-user-plus mr-2"></i>
-                        Créer un compte
-                    </a>
-                </div>
-                
-                <a href="#accueil" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
-                    <i class="fas fa-home mr-3 text-purple-600"></i> Accueil
-                </a>
-                <a href="#produits" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
-                    <i class="fas fa-box mr-3 text-purple-600"></i> Produits
-                </a>
-                <a href="#contact" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-purple-600 font-medium transition-colors py-2">
-                    <i class="fas fa-envelope mr-3 text-purple-600"></i> Contact
-                </a>
+<!-- Section des résultats de recherche - Affichage normal en grille -->
+<section id="search-results-section" class="w-full bg-gradient-to-b from-purple-50 to-white border-b border-gray-200 hidden py-8">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-2 flex items-center">
+                    <i class="fas fa-search text-purple-600 mr-3"></i>
+                    <span id="search-results-title">Résultats de recherche</span>
+                </h2>
+                <p id="search-results-count" class="text-gray-600"></p>
             </div>
+            <button onclick="closeSearchResults()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-semibold transition-all flex items-center">
+                <i class="fas fa-times mr-2"></i>Fermer
+            </button>
+        </div>
+        <div id="search-results-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <!-- Les cartes de produits seront affichées ici -->
         </div>
     </div>
-</header>
-
-
+</section>
 
 <main>
    
@@ -2732,7 +2881,7 @@ if (images && images.length > 0) {
                         </a></li>
                         <li><a href="#produits" onclick="filterProducts('business')" class="text-gray-300 hover:text-white transition-all duration-300 flex items-center px-3 py-2 rounded-lg hover:bg-gray-800 bg-gray-900/50 border border-gray-700 hover:border-gray-600">
                             <i class="fas fa-briefcase mr-3 text-lg"></i>
-                            <span class="font-medium">💼 Business</span>
+                            <span class="font-medium">💼 Prestige Business</span>
                         </a></li>
                         <li><a href="#produits" onclick="filterProducts('beaute')" class="text-gray-300 hover:text-white transition-all duration-300 flex items-center px-3 py-2 rounded-lg hover:bg-gray-800 bg-gray-900/50 border border-gray-700 hover:border-gray-600">
                             <i class="fas fa-spa mr-3 text-lg"></i>
@@ -4968,9 +5117,10 @@ function mapApiProductToFrontend(apiProduct) {
     // Combiner images et vidéos dans un tableau media
     const mediaArray = [...images, ...videos];
     
-    // Appliquer une réduction fixe de 20% à tous les produits
-    const discountPercent = 20; // Réduction fixe de 20%
-    const originalPrice = Math.floor(apiProduct.prix / (1 - discountPercent / 100));
+    // Réduction COHÉRENTE et DÉTERMINISTE basée sur le produit ID
+    // ~20% des produits auront une réduction de 5-40%, les autres 0%
+    const discountPercent = (apiProduct.id % 5 === 0) ? ((apiProduct.id % 30) + 5) : 0;
+    const originalPrice = discountPercent > 0 ? Math.floor(apiProduct.prix / (1 - discountPercent / 100)) : apiProduct.prix;
     
     return {
         id: apiProduct.id,
@@ -7154,17 +7304,16 @@ function loadMoreProducts() {
         }
         
         // Gestion de la recherche desktop
+        function clearSearchInput() {
+            const input = document.getElementById('search-input');
+            input.value = '';
+            document.getElementById('search-results-section').classList.add('hidden');
+            input.focus();
+        }
+        
         function handleSearch() {
             const input = document.getElementById('search-input');
-            const clearBtn = document.getElementById('clear-search');
             const query = input.value.trim();
-            
-            // Afficher/masquer le bouton de suppression
-            if (query.length > 0) {
-                clearBtn.classList.remove('hidden');
-            } else {
-                clearBtn.classList.add('hidden');
-            }
             
             // Débounce pour éviter trop de requêtes
             clearTimeout(searchTimeout);
@@ -7176,15 +7325,7 @@ function loadMoreProducts() {
         // Gestion de la recherche mobile
         function handleMobileSearch() {
             const input = document.getElementById('search-input');
-            const clearBtn = document.getElementById('clear-search');
             const query = input.value.trim();
-            
-            // Afficher/masquer le bouton de suppression
-            if (query.length > 0) {
-                clearBtn.classList.remove('hidden');
-            } else {
-                clearBtn.classList.add('hidden');
-            }
             
             // Débounce pour éviter trop de requêtes
             clearTimeout(searchTimeout);
@@ -7195,16 +7336,9 @@ function loadMoreProducts() {
         
         // Exécution de la recherche
         function performSearch(query, isMobile = false) {
-            const resultsContainer = isMobile ? 
-                document.getElementById('search-content') : 
-                document.getElementById('search-content');
-            
             // Recherche dès la première lettre
             if (!query || query.length < 1) {
-                resultsContainer.innerHTML = '';
-                if (isMobile) {
-                    document.getElementById('search-results').classList.add('hidden');
-                }
+                document.getElementById('search-results-section').classList.add('hidden');
                 return;
             }
             
@@ -7212,83 +7346,69 @@ function loadMoreProducts() {
             displaySearchResults(results, query, isMobile);
         }
         
-        // Affichage des résultats de recherche - VERSION AMÉLIORÉE
+        // Affichage des résultats de recherche - SECTION VISIBLE EN GRILLE
         function displaySearchResults(results, query, isMobile = false) {
-            const resultsContainer = isMobile ? 
-                document.getElementById('search-content') : 
-                document.getElementById('search-content');
+            const searchSection = document.getElementById('search-results-section');
+            const resultsGrid = document.getElementById('search-results-grid');
+            const resultsTitle = document.getElementById('search-results-title');
+            const resultsCount = document.getElementById('search-results-count');
             
             if (results.length === 0) {
-                resultsContainer.innerHTML = `
-                    <div class="p-6 text-center text-gray-500">
-                        <div class="bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-search text-4xl text-gray-300"></i>
+                resultsTitle.textContent = `Aucun résultat pour "${query}"`;
+                resultsCount.textContent = '';
+                resultsGrid.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <div class="bg-gray-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-search text-5xl text-gray-300"></i>
                         </div>
-                        <p class="font-bold text-lg mb-2">Aucun produit trouvé</p>
-                        <p class="text-sm">Essayez avec d'autres mots-clés</p>
-                        <p class="text-xs mt-2 text-gray-400">Suggestions: fournitures, électronique, mode</p>
+                        <p class="font-semibold text-gray-700 text-lg mb-2">Aucun produit trouvé</p>
+                        <p class="text-gray-500 mb-4">Essayez avec d'autres mots-clés</p>
+                        <p class="text-gray-400 text-sm">Suggestions: cahier, batterie, mode, chaussure, enceinte</p>
                     </div>
                 `;
+                searchSection.classList.remove('hidden');
             } else {
-                // Limiter à 5 résultats pour l'aperçu rapide
-                const displayResults = results.slice(0, 5);
+                // Afficher tous les résultats en grille
+                resultsTitle.textContent = `${results.length} résultat${results.length > 1 ? 's' : ''} trouvé${results.length > 1 ? 's' : ''}`;
+                resultsCount.innerHTML = `<span class="text-purple-600 font-semibold">"${query}"</span>`;
                 
-                resultsContainer.innerHTML = `
-                    <div class="${isMobile ? 'p-2' : 'p-3'}">
-                        <!-- En-tête des résultats -->
-                        <div class="flex items-center justify-between mb-4 px-2">
-                            <div class="flex items-center space-x-2">
-                                <div class="bg-purple-100 p-2 rounded-lg">
-                                    <i class="fas fa-search text-purple-600"></i>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-gray-800">${results.length} résultat${results.length > 1 ? 's' : ''}</p>
-                                    <p class="text-xs text-gray-500">pour "${query}"</p>
-                                </div>
-                            </div>
-                            ${results.length > 5 ? `
-                                <button onclick="showAllResults('${query}', ${isMobile})" 
-                                        class="text-purple-600 hover:text-purple-700 text-xs font-medium">
-                                    Tout voir →
-                                </button>
-                            ` : ''}
-                        </div>
-                        
-                        <!-- Filtres rapides par catégorie (si plusieurs catégories) -->
-                        ${getSearchCategoryFilters(results, query, isMobile)}
-                        
-                        <!-- Liste de cartes produits - Style Amazon -->
-                        <div class="flex flex-col gap-3">
-                            ${displayResults.map(product => createSearchProductCard(product, query, isMobile)).join('')}
-                        </div>
-                        
-                        <!-- Bouton voir tous les résultats -->
-                        ${results.length > 5 ? `
-                            <div class="mt-4 pt-3 border-t border-gray-200">
-                                <button onclick="showAllResults('${query}', ${isMobile})" 
-                                        class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 px-4 rounded-xl font-bold transition-all transform active:scale-95 shadow-lg">
-                                    <i class="fas fa-th mr-2"></i>
-                                    Voir tous les ${results.length} résultats
-                                </button>
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
+                // Utiliser la même fonction createProductCard pour la cohérence
+                resultsGrid.innerHTML = results.map(product => createProductCard(product)).join('');
                 
-                // Ajouter les gestionnaires d'événements pour mobile après création du DOM
-                if (isMobile) {
-                    setTimeout(() => {
-                        addMobileSearchEventListeners();
-                    }, 100);
-                }
+                // Initialiser les carrousels pour les nouvelles cartes
+                setTimeout(() => {
+                    results.forEach(product => {
+                        initializeCarousel(product.id);
+                    });
+                }, 100);
+                
+                // Afficher la section
+                searchSection.classList.remove('hidden');
+                
+                // Scroller vers la section
+                setTimeout(() => {
+                    searchSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
             }
-            
-            // Afficher les résultats
-            if (isMobile) {
-                document.getElementById('search-results').classList.remove('hidden');
-            } else {
-                document.getElementById('search-results').classList.remove('hidden');
-            }
+        }
+        
+        // Fermer la section de résultats de recherche
+        function closeSearchResults() {
+            document.getElementById('search-results-section').classList.add('hidden');
+            document.getElementById('search-input').value = '';
+        }
+        
+        // Ajouter les gestionnaires d'événements pour les résultats
+        function addSearchEventListeners() {
+            const resultItems = document.querySelectorAll('.search-result-item');
+            resultItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f3f4f6';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = 'white';
+                });
+            });
         }
         
         // Créer des filtres rapides par catégorie pour les résultats de recherche
@@ -7325,8 +7445,77 @@ function loadMoreProducts() {
             displaySearchResults(results, query, isMobile);
         }
         
-        // Créer une carte produit pour les résultats de recherche - COMPACTE
+        // Créer une carte produit pour les résultats de recherche - AFFICHAGE DIRECT SANS MODALE
         function createSearchProductCard(product, query, isMobile = false) {
+            const rating = (4.2 + Math.random() * 0.8).toFixed(1);
+            const reviewCount = Math.floor(Math.random() * 100) + 15;
+            // Réduction cohérente bazée sur le produit ID
+            const discount = (product.id % 5 === 0) ? ((product.id % 30) + 5) : 0;
+            const originalPrice = discount > 0 ? Math.floor(product.price / (1 - discount / 100)) : product.price;
+            const imageSrc = getProductMainImage(product);
+
+            return `
+                <div class="search-result-item flex items-start gap-4 p-4 hover:bg-gray-50 transition-all duration-200 cursor-pointer border-b border-gray-100 last:border-b-0" 
+                     onclick="event.stopPropagation(); openProductQuickView(${product.id});">
+                    
+                    <!-- Image Produit -->
+                    <div class="relative w-24 h-24 rounded-lg overflow-hidden bg-gray-50 flex-shrink-0 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="${imageSrc}" alt="${product.name}" class="w-full h-full object-cover" onerror="this.src='${IMAGE_BASE_URL}/placeholder.png';">
+                        
+                        <!-- Badge Discount -->
+                        ${discount > 0 ? `
+                            <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg">
+                                -${discount}%
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <!-- Infos Produit -->
+                    <div class="flex-1 min-w-0 flex flex-col">
+                        <!-- Badge Catégorie -->
+                        <span class="inline-block w-fit search-category-badge mb-2">
+                            ${getCategoryName(product.category)}
+                        </span>
+                        
+                        <!-- Nom -->
+                        <h3 class="text-sm font-bold text-gray-900 line-clamp-2 mb-1 hover:text-purple-600 transition-colors">
+                            ${highlightSearchTerm(product.name, query)}
+                        </h3>
+                        
+                        <!-- Description courte -->
+                        <p class="text-xs text-gray-600 line-clamp-1 mb-3">
+                            ${highlightSearchTerm(product.description, query)}
+                        </p>
+                        
+                        <!-- Rating & Reviews -->
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="flex text-yellow-400 text-xs">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-xs text-gray-700 font-semibold">${rating}</span>
+                            <span class="text-xs text-gray-500">(${reviewCount})</span>
+                        </div>
+                        
+                        <!-- Prix -->
+                        <div class="flex items-center gap-2 mt-auto">
+                            <span class="text-lg font-bold text-purple-600">${product.price.toLocaleString()} FCFA</span>
+                            ${originalPrice > product.price ? `
+                                <span class="text-xs text-gray-400 line-through">${originalPrice.toLocaleString()}</span>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <!-- Flèche -->
+                    <div class="text-gray-300 self-center">
+                        <i class="fas fa-angle-right text-xl"></i>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Fonction pour remplacer createSearchProductCard
+        // Créer une carte produit pour les résultats de recherche - COMPACTE
+        function createSearchProductCardOld(product, query, isMobile = false) {
             const rating = (4.2 + Math.random() * 0.8).toFixed(1);
             const reviewCount = Math.floor(Math.random() * 100) + 15;
             const discount = Math.random() > 0.6 ? Math.floor(Math.random() * 30) + 10 : 0;
@@ -7389,6 +7578,163 @@ function loadMoreProducts() {
             const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`(${escapedTerm})`, 'gi');
             return text.replace(regex, '<mark class="bg-yellow-200 px-1 rounded">$1</mark>');
+        }
+        
+        // Ouvrir la modal de détails du produit (Quick View)
+        function openProductQuickView(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+            
+            document.getElementById('search-results-section').classList.add('hidden');
+            document.getElementById('search-results').classList.add('hidden');
+            
+            // Créer et afficher la modal
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4 animate-fadeIn';
+            modal.id = 'product-quick-view-modal';
+            modal.onclick = (e) => {
+                if (e.target === modal) closeProductQuickView();
+            };
+            
+            // Réduction cohérente bazée sur le produit ID
+            const discount = (product.id % 5 === 0) ? ((product.id % 30) + 5) : 0;
+            const originalPrice = discount > 0 ? Math.floor(product.price / (1 - discount / 100)) : product.price;
+            const rating = (4.2 + Math.random() * 0.8).toFixed(1);
+            const reviewCount = Math.floor(Math.random() * 100) + 15;
+            const imageSrc = getProductMainImage(product);
+            
+            // Trouver produits similaires
+            const similarProducts = allProducts.filter(p => 
+                p.category === product.category && p.id !== product.id
+            ).slice(0, 4);
+            
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+                    <!-- Header avec bouton fermer -->
+                    <div class="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between z-10">
+                        <h2 class="text-xl font-bold text-gray-900">Détails du produit</h2>
+                        <button onclick="closeProductQuickView()" class="text-gray-500 hover:text-gray-700 transition-colors">
+                            <i class="fas fa-times text-2xl"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Contenu -->
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <!-- Image -->
+                            <div class="flex items-center justify-center bg-gray-50 rounded-xl overflow-hidden min-h-80 relative">
+                                <img src="${imageSrc}" alt="${product.name}" class="w-full h-full object-cover" onerror="this.src='${IMAGE_BASE_URL}/placeholder.png';">
+                                
+                                <!-- Badge Discount -->
+                                ${discount > 0 ? `
+                                    <div class="absolute top-4 right-4 bg-red-500 text-white text-lg font-bold px-3 py-2 rounded-full shadow-lg">
+                                        -${discount}%
+                                    </div>
+                                ` : ''}
+                            </div>
+                            
+                            <!-- Détails -->
+                            <div class="flex flex-col">
+                                <!-- Catégorie -->
+                                <span class="inline-block w-fit search-category-badge mb-3">
+                                    ${getCategoryName(product.category)}
+                                </span>
+                                
+                                <!-- Nom -->
+                                <h1 class="text-2xl font-bold text-gray-900 mb-3">
+                                    ${product.name}
+                                </h1>
+                                
+                                <!-- Rating -->
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="flex text-yellow-400">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span class="font-semibold text-gray-900">${rating}</span>
+                                    <span class="text-gray-600">(${reviewCount} avis)</span>
+                                </div>
+                                
+                                <!-- Prix -->
+                                <div class="mb-6 p-4 bg-purple-50 rounded-lg border border-purple-100">
+                                    <div class="flex items-baseline gap-3 mb-2">
+                                        <span class="text-3xl font-bold text-purple-600">${product.price.toLocaleString()} FCFA</span>
+                                        ${originalPrice > product.price ? `
+                                            <span class="text-lg text-gray-400 line-through">${originalPrice.toLocaleString()}</span>
+                                            <span class="text-lg font-bold text-red-500">-${discount}%</span>
+                                        ` : ''}
+                                    </div>
+                                    <p class="text-sm text-gray-600">✓ Livraison rapide disponible</p>
+                                </div>
+                                
+                                <!-- Description -->
+                                <div class="mb-6">
+                                    <h3 class="font-semibold text-gray-900 mb-2">Description</h3>
+                                    <p class="text-gray-700 text-sm leading-relaxed">
+                                        ${product.description}
+                                    </p>
+                                </div>
+                                
+                                <!-- Bouton Ajouter au panier -->
+                                <button onclick="addToCart(${product.id}); closeProductQuickView();" 
+                                        class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 rounded-lg font-bold transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Ajouter au panier
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Produits similaires -->
+                        ${similarProducts.length > 0 ? `
+                            <div class="border-t border-gray-100 pt-6">
+                                <h3 class="text-lg font-bold text-gray-900 mb-4">
+                                    <i class="fas fa-cube text-purple-600 mr-2"></i>Produits similaires
+                                </h3>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    ${similarProducts.map(sp => {
+                                        const spDiscount = (sp.id % 5 === 0) ? ((sp.id % 30) + 5) : 0;
+                                        const spImage = getProductMainImage(sp);
+                                        return `
+                                            <div onclick="openProductQuickView(${sp.id});" 
+                                                 class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors relative">
+                                                <div class="aspect-square bg-gray-200 rounded-lg mb-2 overflow-hidden">
+                                                    <img src="${spImage}" alt="${sp.name}" class="w-full h-full object-cover">
+                                                </div>
+                                                ${spDiscount > 0 ? `
+                                                    <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded">
+                                                        -${spDiscount}%
+                                                    </div>
+                                                ` : ''}
+                                                <p class="text-xs font-semibold text-gray-900 line-clamp-2">${sp.name}</p>
+                                                <p class="text-sm font-bold text-purple-600 mt-1">${sp.price.toLocaleString()} FCFA</p>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        // Fermer la modal de détails du produit
+        function closeProductQuickView() {
+            const modal = document.getElementById('product-quick-view-modal');
+            if (modal) {
+                modal.classList.add('fadeOut');
+                setTimeout(() => modal.remove(), 300);
+            }
+        }
+        
+        // Fermer la modal de détails du produit (ancien nom)
+        function closeSearchProductModal() {
+            closeProductQuickView();
         }
         
         // Afficher un indicateur de chargement pendant la recherche
@@ -7876,53 +8222,31 @@ function loadMoreProducts() {
         // Gestion de l'affichage des résultats
         function showSearchResults() {
             isSearchFocused = true;
-            const results = document.getElementById('search-results');
-            const input = document.getElementById('search-input');
-            
-            if (input.value.trim().length >= 1) {
-                results.classList.remove('hidden');
-            }
+            // On ne montre rien au focus - les résultats s'affichent au fur et à mesure de la frappe
         }
         
         function hideSearchResults(isMobile = false) {
-            setTimeout(() => {
-                if (!isSearchFocused) {
-                    if (isMobile) {
-                        document.getElementById('search-results').classList.add('hidden');
-                    } else {
-                        document.getElementById('search-results').classList.add('hidden');
-                    }
-                }
-            }, 200);
+            isSearchFocused = false;
+            // On garde la section visible jusqu'à fermeture manuelle
         }
         
         function showMobileSearchResults() {
             isSearchFocused = true;
-            const results = document.getElementById('search-results');
-            const input = document.getElementById('search-input');
-            
-            if (input.value.trim().length >= 1) {
-                results.classList.remove('hidden');
-            }
+            // On ne montre rien au focus - les résultats s'affichent au fur et à mesure de la frappe
         }
         
         function hideMobileSearchResults() {
-            setTimeout(() => {
-                if (!isSearchFocused) {
-                    document.getElementById('search-results').classList.add('hidden');
-                }
-            }, 200);
+            // On garde la section visible
         }
         
         // Effacer la recherche
         function clearSearch() {
             const input = document.getElementById('search-input');
             const clearBtn = document.getElementById('clear-search');
-            const results = document.getElementById('search-results');
             
             input.value = '';
             clearBtn.classList.add('hidden');
-            results.classList.add('hidden');
+            document.getElementById('search-results-section').classList.add('hidden');
             input.focus();
             
             // Réafficher tous les produits si on était en mode recherche

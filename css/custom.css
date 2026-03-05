@@ -10,6 +10,79 @@
     scrollbar-width: none;
 }
 
+/* ===== BARRE DE RECHERCHE PREMIUM SLIM ===== */
+#search-input {
+    transition: all 0.2s ease;
+}
+
+#search-input::placeholder {
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+#search-results {
+    backdrop-filter: blur(10px);
+}
+
+#search-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+#search-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#search-content::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+
+#search-content::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+#search-suggestions, #search-history {
+    animation: slideDown 0.2s ease;
+}
+
+.suggestion-tag {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.75rem;
+    background: #f3f4f6;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.suggestion-tag:hover {
+    background: #e5e7eb;
+    transform: translateY(-1px);
+}
+
+.history-item {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.5rem;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s ease;
+}
+
+.history-item:hover {
+    background: #f9fafb;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Styles pour les cartes de catégories circulaires */
 .category-card {
     width: 80px !important;

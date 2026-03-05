@@ -76,18 +76,18 @@
         body {
             font-family: 'Poppins', sans-serif;
             max-width: 100vw;
-            padding-top: 140px;
+            padding-top: 110px;
         }
         
         @media (max-width: 1024px) {
             body {
-                padding-top: 130px;
+                padding-top: 110px;
             }
         }
         
         @media (max-width: 640px) {
             body {
-                padding-top: 130px;
+                padding-top: 115px;
             }
         }
         
@@ -1650,90 +1650,186 @@
         50% { transform: scale(1.2); }
     }
     
-    /* ===== AMÉLIORATION BARRE DE RECHERCHE - STYLE PREMIUM (Amazon/Jumia) ===== */
-    #search-input {
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-        font-weight: 500;
-        letter-spacing: 0.2px;
-        background: linear-gradient(to right, #ffffff 0%, #fafafa 100%);
+    /* ===== AMÉLIORATION BARRE DE RECHERCHE PREMIUM - AMAZON/JUMIA STYLE ===== */
+    
+    /* Conteneur principal de la barre */
+    .group {
+        position: relative;
+    }
+    
+    .group > div:first-child {
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    #search-input:hover {
-        border-color: #d1d5db !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-        background: #ffffff;
+    .group:hover > div:first-child {
+        border-color: #a78bfa !important;
+        box-shadow: 0 4px 20px rgba(147, 51, 234, 0.15) !important;
     }
     
-    #search-input:focus {
+    .group:focus-within > div:first-child {
         border-color: #9333ea !important;
-        box-shadow: 
-            0 0 0 4px rgba(147, 51, 234, 0.12),
-            0 4px 20px rgba(147, 51, 234, 0.25),
-            inset 0 0 0 1px rgba(147, 51, 234, 0.1) !important;
-        background: #ffffff;
-        outline: none;
+        box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.12), 0 6px 25px rgba(147, 51, 234, 0.25) !important;
+    }
+    
+    /* Input professionnel */
+    #search-input {
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        transition: all 0.3s ease;
+        caret-color: #9333ea;
     }
     
     #search-input::placeholder {
-        color: #9ca3af !important;
+        color: #d1d5db !important;
         font-weight: 400;
+        letter-spacing: 0.2px;
     }
     
-    /* Bouton clear professionnel */
+    #search-input:focus::placeholder {
+        color: #b4b8bf;
+    }
+    
+    /* Icône de recherche animée */
+    .group i.fa-search {
+        transition: all 0.3s ease;
+        font-size: 1.05rem;
+    }
+    
+    .group:focus-within i.fa-search {
+        color: #9333ea !important;
+        transform: scale(1.1);
+    }
+    
+    /* Bouton clear */
     #clear-search {
         cursor: pointer;
-        opacity: 0.7;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.2s ease;
+    }
+    
+    #clear-search:not(.hidden) {
+        opacity: 1;
+        visibility: visible;
     }
     
     #clear-search:hover {
         opacity: 1;
-        background-color: rgba(239, 68, 68, 0.08) !important;
+        color: #ef4444 !important;
+        background-color: rgba(239, 68, 68, 0.12) !important;
+        transform: scale(1.05);
     }
     
-    /* Conteneur des résultats de recherche - Premium Style */
+    /* Conteneur des résultats - Premium dropdown */
     #search-results {
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16) !important;
-        border-radius: 10px !important;
-        border: 1px solid #e5e7eb !important;
-        animation: slideDown 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.16);
+        border-radius: 14px;
+        border: 1px solid #e5e7eb;
+        animation: slideDownSmooth 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        background: #ffffff;
     }
     
-    @keyframes slideDown {
-        from {
+    @keyframes slideDownSmooth {
+        0% {
             opacity: 0;
-            transform: translateY(-8px);
+            transform: translateY(-12px);
         }
-        to {
+        100% {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0px);
         }
     }
     
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
+    /* Sections de suggestions and historique */
+    #search-suggestions,
+    #search-history {
+        background: #fafafa;
     }
     
-    .fadeOut {
-        animation: fadeIn 0.3s ease-out reverse !important;
+    #search-suggestions p,
+    #search-history p {
+        font-size: 0.7rem;
+        letter-spacing: 1.2px;
+        font-weight: 700;
+        color: #9ca3af;
     }
     
-    .animate-fadeIn {
-        animation: fadeIn 0.3s ease-out;
+    /* Tags de suggestions */
+    .suggestion-tag {
+        display: inline-block;
+        background: white;
+        border: 1.5px solid #e5e7eb;
+        color: #374151;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
     }
     
+    .suggestion-tag:hover {
+        border-color: #9333ea;
+        color: #9333ea;
+        background: #f9f7ff;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(147, 51, 234, 0.15);
+    }
+    
+    /* Historique items */
+    .history-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem;
+        border-radius: 8px;
+        color: #4b5563;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.95rem;
+    }
+    
+    .history-item:hover {
+        background: #f3f0ff;
+        color: #9333ea;
+        padding-left: 1rem;
+    }
+    
+    .history-item i {
+        color: #cbd5e1;
+        margin-right: 0.75rem;
+        transition: all 0.2s ease;
+    }
+    
+    .history-item:hover i {
+        color: #9333ea;
+    }
+    
+    .history-delete {
+        cursor: pointer;
+        opacity: 0;
+        color: #ef4444;
+        transition: opacity 0.2s ease;
+        font-size: 0.85rem;
+    }
+    
+    .history-item:hover .history-delete {
+        opacity: 1;
+    }
+    
+    .history-delete:hover {
+        color: #dc2626;
+    }
+    
+    /* Contenu de recherche */
     #search-content {
         max-height: 500px;
+        overflow-y: auto;
     }
     
-    /* Scroll personnalisé pour les résultats */
+    /* Scroll bar personnalisée */
     #search-content::-webkit-scrollbar {
-        width: 6px;
+        width: 8px;
     }
     
     #search-content::-webkit-scrollbar-track {
@@ -1742,11 +1838,83 @@
     
     #search-content::-webkit-scrollbar-thumb {
         background: #d1d5db;
-        border-radius: 3px;
+        border-radius: 4px;
+        transition: background 0.2s ease;
     }
     
     #search-content::-webkit-scrollbar-thumb:hover {
         background: #9ca3af;
+    }
+    
+    /* Cartes de résultats améliorées */
+    .search-result-card {
+        border-left: 3px solid transparent;
+        transition: all 0.2s ease;
+        padding: 0.75rem;
+        cursor: pointer;
+    }
+    
+    .search-result-card:hover {
+        border-left-color: #9333ea;
+        background: #f9f7ff;
+        padding-left: 1rem;
+    }
+    
+    /* Mobile optimizations */
+    @media (max-width: 640px) {
+        .group > div:first-child {
+            border-radius: 12px;
+        }
+        
+        #search-input {
+            padding: 0.875rem 1rem !important;
+            font-size: 1rem !important;
+            min-height: 48px;
+        }
+        
+        #search-results {
+            border-radius: 12px;
+            margin-top: 8px;
+            max-height: 70vh;
+            position: fixed !important;
+            left: 12px !important;
+            right: 12px !important;
+            width: auto !important;
+            top: auto !important;
+            bottom: auto !important;
+        }
+        
+        #search-content {
+            max-height: 60vh;
+        }
+        
+        .suggestion-tag {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+        }
+        
+        .history-item {
+            padding: 0.9rem;
+            font-size: 1rem;
+        }
+        
+        /* Augmenter la zone de clic sur mobile */
+        #clear-search {
+            padding: 0.6rem;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        #search-input {
+            font-size: 1rem;
+            padding: 0.875rem 1rem;
+            min-height: 44px;
+        }
     }
     
     /* Bouton clear de la recherche */
@@ -1968,31 +2136,63 @@
    </div>
 
    <!-- Header Professionnel Style E-commerce -->
-<header class="bg-white shadow-md fixed top-0 left-0 right-0 z-[70] w-full">
-    <div class="w-full px-3 md:px-6 py-3 flex items-center justify-between gap-2">
+<header class="bg-white shadow-sm fixed top-0 left-0 right-0 z-[70] w-full">
+    <div class="w-full px-3 md:px-6 py-2.5 md:py-2 flex items-center justify-between gap-2 sm:gap-3">
         <!-- Logo -->
         <div class="flex items-center gap-2 flex-shrink-0">
-            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden bg-purple-600 shadow">
+            <div class="w-9 h-9 md:w-10 md:h-10 rounded-full overflow-hidden bg-purple-600 shadow">
                 <img src="https://images.wakelet.com/resize?id=Cjp9phOoaN97gDLXDdPNk&w=1600&h=actual&q=85" alt="Logo" class="w-full h-full object-cover">
             </div>
         </div>
 
-        <!-- Barre de recherche (visible partout) -->
-        <div class="flex-1 min-w-0 mx-2 md:mx-4">
+        <!-- Barre de recherche PREMIUM SLIM (style pro) -->
+        <div class="flex-1 min-w-0 mx-1 md:mx-3">
             <div class="relative group">
-                <input type="text"
-                       id="search-input"
-                       placeholder="Rechercher produits, marques..."
-                       class="w-full px-4 py-3 text-sm bg-white border-2 border-gray-300 rounded-lg hover:border-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 focus:shadow-lg transition-all text-gray-800 placeholder-gray-500 font-medium"
-                       oninput="handleSearch()"
-                       onfocus="showSearchResults()"
-                       onblur="setTimeout(() => hideSearchResults(), 300)">
+                <!-- Conteneur principal avec icônes -->
+                <div class="flex items-center bg-gray-50 border-1.5 border-gray-200 rounded-lg hover:border-purple-400 focus-within:border-purple-500 focus-within:shadow-md hover:shadow-sm transition-all overflow-hidden group hover:bg-white">
+                    <!-- Icône de recherche -->
+                    <i class="fas fa-search text-gray-350 ml-3 text-sm group-focus-within:text-purple-500 transition-colors"></i>
+                    
+                    <!-- Input principal -->
+                    <input type="text"
+                           id="search-input"
+                           placeholder="Rechercher produits..."
+                           class="flex-1 px-3 py-2 text-sm bg-transparent outline-none text-gray-800 placeholder-gray-400 font-medium"
+                           oninput="handleSearch()"
+                           onfocus="showSearchSuggestions()"
+                           onblur="setTimeout(() => hideSearchResults(), 300)"
+                           autocomplete="off">
+                    
+                    <!-- Bouton clear (X) - caché par défaut -->
+                    <button id="clear-search" 
+                            onclick="clearSearch()" 
+                            class="hidden mr-2 text-gray-300 hover:text-gray-600 transition-colors p-1.5 rounded hover:bg-gray-200"
+                            type="button">
+                        <i class="fas fa-times text-sm"></i>
+                    </button>
+                </div>
                 
-                <!-- Conteneur des résultats de recherche - Style Premium -->
+                <!-- Dropdown avec suggestions - Style Premium -->
                 <div id="search-results" 
-                     class="absolute top-full left-0 right-0 mt-2 bg-white border-0 rounded-lg shadow-2xl max-h-96 overflow-hidden z-50 hidden"
+                     class="absolute top-full left-0 right-0 mt-1.5 bg-white border border-gray-100 rounded-lg shadow-lg max-h-96 overflow-hidden z-50 hidden"
                      onmousedown="isSearchFocused = true"
                      onmouseup="isSearchFocused = false">
+                    <!-- Suggestions populaires / Historique -->
+                    <div id="search-suggestions" class="p-2 md:p-3 border-b border-gray-50 hidden">
+                        <p class="text-xs font-semibold text-gray-400 uppercase mb-2">Suggestions</p>
+                        <div id="suggestions-list" class="flex flex-wrap gap-1.5"></div>
+                    </div>
+                    
+                    <!-- Historique de recherche -->
+                    <div id="search-history" class="p-2 md:p-3 border-b border-gray-50 hidden">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-semibold text-gray-400 uppercase">Historique</p>
+                            <button onclick="clearSearchHistory()" class="text-xs text-purple-500 hover:text-purple-600 font-medium"><i class="fas fa-trash mr-1"></i>Effacer</button>
+                        </div>
+                        <div id="history-list" class="space-y-0.5"></div>
+                    </div>
+                    
+                    <!-- Résultats de recherche -->
                     <div id="search-content" class="overflow-y-auto max-h-96"></div>
                 </div>
             </div>
@@ -2001,13 +2201,13 @@
         <!-- Actions droite -->
         <div class="flex items-center gap-3 flex-shrink-0">
             <!-- Menu utilisateur (Profil) -->
-            <button id="user-menu-btn" onclick="openUserModal()" title="Mon compte" class="flex items-center text-gray-700 hover:text-purple-600 transition-colors">
-                <i class="fas fa-user text-xl"></i>
+            <button id="user-menu-btn" onclick="openUserModal()" title="Mon compte" class="flex items-center text-gray-600 hover:text-purple-600 transition-colors text-lg">
+                <i class="fas fa-user"></i>
             </button>
 
             <!-- Panier -->
-            <button onclick="toggleCart()" class="relative text-purple-600 hover:text-purple-700 transition-colors">
-                <i class="fas fa-shopping-cart text-xl"></i>
+            <button onclick="toggleCart()" class="relative text-purple-600 hover:text-purple-700 transition-colors text-lg">
+                <i class="fas fa-shopping-cart"></i>
                 <span id="cart-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden font-bold">0</span>
             </button>
         </div>
@@ -2044,7 +2244,7 @@
 </header>
 
 <!-- Section des résultats de recherche - Affichage normal en grille -->
-<section id="search-results-section" class="w-full bg-gradient-to-b from-purple-50 to-white border-b border-gray-200 hidden py-8">
+<section id="search-results-section" class="w-full bg-gradient-to-b from-purple-50 to-white border-b border-gray-200 hidden py-8 scroll-mt-40">
     <div class="container mx-auto px-4">
         <div class="flex justify-between items-center mb-8">
             <div>
@@ -2058,7 +2258,7 @@
                 <i class="fas fa-times mr-2"></i>Fermer
             </button>
         </div>
-        <div id="search-results-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div id="search-results-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 pt-4">
             <!-- Les cartes de produits seront affichées ici -->
         </div>
     </div>
@@ -2068,6 +2268,12 @@
    
 
 <style>
+    /* Positionnement des résultats de recherche */
+    #search-results-section {
+        scroll-margin-top: 120px;
+        margin-top: 0;
+    }
+    
     @keyframes fadeIn {
         from {opacity: 0; transform: scale(0.95);}
         to {opacity: 1; transform: scale(1);}
@@ -7374,6 +7580,7 @@ function loadMoreProducts() {
         }
         
         function handleSearch() {
+            updateClearButton();
             const input = document.getElementById('search-input');
             const query = input.value.trim();
             
@@ -7381,6 +7588,9 @@ function loadMoreProducts() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
                 performSearch(query, false);
+                if (query.length > 0) {
+                    addSearchHistory(query);
+                }
             }, 150);
         }
         
@@ -7429,6 +7639,10 @@ function loadMoreProducts() {
                     </div>
                 `;
                 searchSection.classList.remove('hidden');
+                // Scroller vers la section même s'il n'y a pas de résultats
+                setTimeout(() => {
+                    searchSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
             } else {
                 // Afficher tous les résultats en grille
                 resultsTitle.textContent = `${results.length} résultat${results.length > 1 ? 's' : ''} trouvé${results.length > 1 ? 's' : ''}`;
@@ -8344,6 +8558,147 @@ function loadMoreProducts() {
                     btn.classList.remove('active', 'bg-purple-600');
                 });
                 document.querySelector('.category-btn').classList.add('active', 'bg-purple-600');
+            }
+        }
+        
+        // ===== SUGGESTIONS POPULAIRES - Style Amazon/Jumia =====
+        const popularSearches = [
+            'Cahiers scolaires', 'Stylos', 'Mode', 'Électronique', 'Enceintes', 
+            'Chaussures', 'Microscope', 'Casques', 'Batterie', 'Sacs à dos'
+        ];
+        
+        // Gestion de l'historique de recherche dans localStorage
+        function getSearchHistory() {
+            const history = localStorage.getItem('searchHistory');
+            return history ? JSON.parse(history) : [];
+        }
+        
+        function addSearchHistory(query) {
+            if (!query || query.trim().length < 2) return;
+            
+            let history = getSearchHistory();
+            const normalizedQuery = query.trim();
+            
+            // Supprimer les doublons (garder la dernière occurrence)
+            history = history.filter(item => item.toLowerCase() !== normalizedQuery.toLowerCase());
+            
+            // Ajouter à l'avant
+            history.unshift(normalizedQuery);
+            
+            // Limiter à 10 éléments
+            history = history.slice(0, 10);
+            
+            localStorage.setItem('searchHistory', JSON.stringify(history));
+        }
+        
+        function clearSearchHistory() {
+            localStorage.removeItem('searchHistory');
+            document.getElementById('search-history').classList.add('hidden');
+            document.getElementById('search-suggestions').classList.remove('hidden');
+            renderSearchSuggestions();
+        }
+        
+        // Afficher les suggestions et l'historique au focus
+        function showSearchSuggestions() {
+            const searchResults = document.getElementById('search-results');
+            const suggestionsDiv = document.getElementById('search-suggestions');
+            const historyDiv = document.getElementById('search-history');
+            const searchContent = document.getElementById('search-content');
+            
+            const input = document.getElementById('search-input');
+            const query = input.value.trim();
+            
+            // Si aucune recherche, afficher les suggestions et historique
+            if (!query || query.length === 0) {
+                searchResults.classList.remove('hidden');
+                searchContent.innerHTML = '';
+                
+                const history = getSearchHistory();
+                
+                // Afficher l'historique s'il existe
+                if (history.length > 0) {
+                    renderSearchHistory(history);
+                    historyDiv.classList.remove('hidden');
+                    suggestionsDiv.classList.add('hidden');
+                } else {
+                    // Sinon, afficher les suggestions populaires
+                    renderSearchSuggestions();
+                    suggestionsDiv.classList.remove('hidden');
+                    historyDiv.classList.add('hidden');
+                }
+            }
+        }
+        
+        // Rendre les suggestions populaires
+        function renderSearchSuggestions() {
+            const suggestionsList = document.getElementById('suggestions-list');
+            suggestionsDiv = document.getElementById('search-suggestions');
+            
+            const filtered = popularSearches.filter(s => {
+                const query = document.getElementById('search-input').value.toLowerCase();
+                return query === '' || s.toLowerCase().includes(query);
+            });
+            
+            suggestionsList.innerHTML = filtered.map(suggestion => `
+                <button class="suggestion-tag" onclick="applySearchSuggestion('${suggestion}')" type="button">
+                    <i class="fas fa-search text-purple-600 mr-2"></i>
+                    ${suggestion}
+                </button>
+            `).join('');
+            
+            suggestionsDiv.classList.remove('hidden');
+        }
+        
+        // Rendre l'historique de recherche
+        function renderSearchHistory(history) {
+            const historyList = document.getElementById('history-list');
+            const historyDiv = document.getElementById('search-history');
+            
+            historyList.innerHTML = history.map((item, index) => `
+                <div class="history-item">
+                    <div onclick="applySearchSuggestion('${item}')" style="flex: 1; cursor: pointer;">
+                        <i class="fas fa-clock-rotate-left"></i>${item}
+                    </div>
+                    <button class="history-delete" onclick="deleteHistoryItem(${index})" type="button">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            `).join('');
+            
+            historyDiv.classList.remove('hidden');
+        }
+        
+        // Supprimer un élément de l'historique
+        function deleteHistoryItem(index) {
+            let history = getSearchHistory();
+            history.splice(index, 1);
+            localStorage.setItem('searchHistory', JSON.stringify(history));
+            
+            if (history.length === 0) {
+                document.getElementById('search-history').classList.add('hidden');
+                renderSearchSuggestions();
+            } else {
+                renderSearchHistory(history);
+            }
+        }
+        
+        // Appliquer une suggestion de recherche
+        function applySearchSuggestion(suggestion) {
+            const input = document.getElementById('search-input');
+            input.value = suggestion;
+            addSearchHistory(suggestion);
+            performSearch(suggestion, false);
+        }
+        
+        // Mettre à jour le bouton clear au fur et à mesure de la frappe
+        function updateClearButton() {
+            const input = document.getElementById('search-input');
+            const clearBtn = document.getElementById('clear-search');
+            
+            if (input.value.trim().length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
             }
         }
         

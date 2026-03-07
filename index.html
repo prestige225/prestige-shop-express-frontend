@@ -5323,10 +5323,9 @@ function mapApiProductToFrontend(apiProduct) {
     // Combiner images et vidéos dans un tableau media
     const mediaArray = [...images, ...videos];
     
-    // Réduction COHÉRENTE et DÉTERMINISTE basée sur le produit ID
-    // ~20% des produits auront une réduction de 5-40%, les autres 0%
-    const discountPercent = (apiProduct.id % 5 === 0) ? ((apiProduct.id % 30) + 5) : 0;
-    const originalPrice = discountPercent > 0 ? Math.floor(apiProduct.prix / (1 - discountPercent / 100)) : apiProduct.prix;
+    // Réduction FIXE de 20% pour TOUS les produits
+    const discountPercent = 20;
+    const originalPrice = Math.floor(apiProduct.prix / (1 - discountPercent / 100));
     
     return {
         id: apiProduct.id,
@@ -8424,6 +8423,15 @@ function loadMoreProducts() {
                             </div>
                         ` : ''}
                         
+                        <!-- Badge de réduction -20% -->
+                        ${product.discountPercent > 0 ? `
+                            <div class="absolute top-2 right-14">
+                                <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white px-2.5 py-1 rounded-lg text-xs font-bold shadow-lg whitespace-nowrap">
+                                    -${product.discountPercent}%
+                                </div>
+                            </div>
+                        ` : ''}
+                        
                         <!-- Indicateur multi-images -->
                         ${product.images.length > 1 ? `
                             <div class="absolute bottom-2 left-2">
@@ -8451,12 +8459,14 @@ function loadMoreProducts() {
                         
                         <!-- Prix compact -->
                         <div class="mb-1.5">
-                            <div class="flex items-baseline gap-0.5">
-                                <span class="text-sm sm:text-base font-black text-purple-600">${product.price.toLocaleString()}</span>
-                                ${product.discountPercent > 0 ? `<span class="text-xs text-gray-400 line-through">${product.originalPrice.toLocaleString()}</span>` : ''}
-                                <span class="text-xs text-gray-500">FCFA</span>
+                            <div class="flex items-center gap-1 flex-wrap">
+                                <span class="text-sm sm:text-base font-black text-purple-600">${product.price.toLocaleString()} FCFA</span>
+                                ${product.discountPercent > 0 ? `
+                                    <span class="text-xs text-gray-400 line-through">${product.originalPrice.toLocaleString()} FCFA</span>
+                                    <span class="bg-orange-500 text-white px-1.5 py-0.5 rounded-sm text-xs font-bold whitespace-nowrap">-${product.discountPercent}%</span>
+                                ` : ''}
                             </div>
-                            <div class="flex items-center gap-1">
+                            <div class="flex items-center gap-1 mt-0.5">
                                 <i class="fas fa-star text-yellow-400 text-xs"></i>
                                 <span class="text-xs font-bold text-gray-700">${rating}</span>
                             </div>

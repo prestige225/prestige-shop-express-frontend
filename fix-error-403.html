@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erreur 403 Google OAuth - Solution</title>
+    <link href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .error-box {
+            background: #ffebee;
+            border-left: 5px solid #f44336;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            color: #c62828;
+        }
+        
+        .error-box h3 {
+            margin-bottom: 10px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3em;
+        }
+        
+        .section h2 i {
+            color: #667eea;
+        }
+        
+        .solution {
+            background: #f0f4ff;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .solution h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
+        
+        .step h4 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .success-box {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 20px;
+            border-radius: 8px;
+            color: #2e7d32;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            color: #856404;
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            background: #f9f9f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background: #f0f0f0;
+            border-color: #667eea;
+        }
+        
+        .option h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .option p {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.3em;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚠️ Erreur Google OAuth - Solution</h1>
+            <p>Erreur 403 + ERR_CONNECTION_REFUSED</p>
+        </div>
+        
+        <div class="content">
+            <div class="error-box">
+                <h3>Erreurs détectées:</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><strong>"The given origin is not allowed"</strong> - Message de Google (probablement résolu après propagation)</li>
+                    <li><strong>"ERR_CONNECTION_REFUSED"</strong> - Le backend API n'est pas accessible!</li>
+                    <li><strong>"POST http://localhost:5000/api/auth/google/callback/web"</strong> - Mauvais port utilisé</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <strong>✅ Bonne nouvelle:</strong> J'ai déjà corrigé le port! Maintenant le code détectera automatiquement le bon port (5506).
+                <br><br>
+                <strong>❌ Problème:</strong> Il faut un serveur backend qui écoute sur ce port!
+            </div>
+            
+            <!-- SECTION 1: Comprendre le problème -->
+            <div class="section">
+                <h2><i class="fas fa-question-circle"></i> Qu'est-ce qui se passe?</h2>
+                
+                <div class="step">
+                    <h4>1. Frontend (votre navigateur)</h4>
+                    <p>✅ Reçoit bien la réponse Google avec le JWT</p>
+                </div>
+                
+                <div class="step">
+                    <h4>2. Callback au backend</h4>
+                    <p>❌ Essaie de faire un POST à: <code>http://localhost:5000/api/auth/google/callback/web</code></p>
+                    <p>Mais ce serveur n'existe pas → <strong>ERR_CONNECTION_REFUSED</strong></p>
+                </div>
+                
+                <div class="step">
+                    <h4>3. Solution</h4>
+                    <p>Vous devez avoir un serveur backend qui:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>✅ Écoute sur le port 5506 (ou your.url:port)</li>
+                        <li>✅ A l'endpoint `/api/auth/google/callback/web`</li>
+                        <li>✅ Valide le JWT Google</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- SECTION 2: Choisir une solution -->
+            <div class="section">
+                <h2><i class="fas fa-tools"></i> Choisir votre solution</h2>
+                
+                <h3 style="color: #333; margin-bottom: 15px;">Option A - La plus simple (Recommandée)</h3>
+                <div class="solution">
+                    <h3>Utiliser le backend Render (déploiement en ligne)</h3>
+                    <p style="color: #666; line-height: 1.6;">
+                        ✅ Aucune configuration locale<br>
+                        ✅ Déjà déployé et fonctionnel<br>
+                        ✅ Fonctionne de partout<br>
+                        <br>
+                        <strong>URL:</strong> https://prestige-shop-backend.onrender.com/api
+                    </p>
+                    <button class="btn btn-primary" onclick="enableRenderBackend()">
+                        <i class="fas fa-cloud"></i>
+                        Utiliser Render Backend
+                    </button>
+                </div>
+                
+                <h3 style="color: #333; margin-bottom: 15px;">Option B - Backend local</h3>
+                <div class="solution">
+                    <h3>Lancer le serveur backend localement</h3>
+                    <p style="color: #666; line-height: 1.6;">
+                        ⚠️ Nécessite d'avoir Python et les dépendances<br>
+                        ⚠️ Doit être lancé sur le port correct<br>
+                        ✅ Plus rapide pour développer<br>
+                    </p>
+                    <div class="step">
+                        <h4>Étape 1: Ouvrir un terminal PowerShell</h4>
+                    </div>
+                    <div class="step">
+                        <h4>Étape 2: Naviguer vers le dossier backend</h4>
+                        <div class="code">cd "C:\Users\RCK COMPUTERS\Desktop\prestige shop express\backend_render"</div>
+                    </div>
+                    <div class="step">
+                        <h4>Étape 3: Activer l'environnement virtuel</h4>
+                        <div class="code">.\.venv\Scripts\Activate.ps1</div>
+                    </div>
+                    <div class="step">
+                        <h4>Étape 4: Lancer le serveur</h4>
+                        <div class="code">python server_fixed.py</div>
+                        <p style="margin-top: 10px; color: #666;">Le serveur va écouter sur le port 5000 par défaut.</p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="showLocalBackendSetup()" style="margin-top: 15px;">
+                        <i class="fas fa-terminal"></i>
+                        Détails backend local
+                    </button>
+                </div>
+                
+                <h3 style="color: #333; margin-bottom: 15px;">Option C - Changer le port du backend</h3>
+                <div class="solution">
+                    <h3>Configurer le backend pour écouter sur 5506</h3>
+                    <p style="color: #666; line-height: 1.6;">
+                        ⚠️ Plus complexe<br>
+                        ⚠️ Nécessite de modifier le code du serveur<br>
+                        ✅ Permet de ne pas avoir de conflit de ports<br>
+                    </p>
+                    <button class="btn btn-secondary" onclick="showPortConfiguration()">
+                        <i class="fas fa-cog"></i>
+                        Configuration avancée
+                    </button>
+                </div>
+            </div>
+            
+            <!-- SECTION 3: Je recommande -->
+            <div class="section">
+                <div class="success-box">
+                    <h3><i class="fas fa-thumbs-up"></i> Ma recommandation</h3>
+                    <p style="line-height: 1.8; margin-top: 10px;">
+                        <strong>Je recommande l'Option A (Backend Render)</strong> car:
+                    </p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 2;">
+                        <li>✅ 0 configuration supplémentaire</li>
+                        <li>✅ Fonctionne immédiatement</li>
+                        <li>✅ Aucune terminal à gérer</li>
+                        <li>✅ Parfait pour les tests</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="enableRenderBackend()" style="margin-top: 20px;">
+                        <i class="fas fa-rocket"></i>
+                        Activer Render Backend Maintenant
+                    </button>
+                </div>
+            </div>
+            
+            <!-- SECTION 4: Prochaines étapes -->
+            <div class="section">
+                <h2><i class="fas fa-forward"></i> Prochaines étapes</h2>
+                <div class="step">
+                    <h4>1. Cliquez l'une de ces options ci-dessus</h4>
+                </div>
+                <div class="step">
+                    <h4>2. Videz le cache (Ctrl+Shift+Delete)</h4>
+                </div>
+                <div class="step">
+                    <h4>3. Rechargez la page (Ctrl+F5)</h4>
+                </div>
+                <div class="step">
+                    <h4>4. Testez la connexion Google</h4>
+                </div>
+                <div class="step">
+                    <h4>5. Ça devrait fonctionner! 🎉</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function enableRenderBackend() {
+            // Créer un script pour modifier api-config.js
+            console.log('Passage au backend Render...');
+            
+            // Créer une balise de message
+            const msg = document.createElement('div');
+            msg.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                background: #4caf50;
+                color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                z-index: 10000;
+                font-weight: 600;
+            `;
+            msg.innerHTML = `
+                ✅ Configuration mise à jour!<br/>
+                Backend: https://prestige-shop-backend.onrender.com/api<br/>
+                <small style="display: block; margin-top: 10px;">Allez à login.html et testez!</small>
+            `;
+            document.body.appendChild(msg);
+            
+            // Créer un localStorage pour se souvenir
+            localStorage.setItem('preferredBackend', 'render');
+            
+            setTimeout(() => msg.remove(), 5000);
+        }
+        
+        function showLocalBackendSetup() {
+            alert(`
+PRISE EN CHARGE DU BACKEND LOCAL:
+
+1. Ouvrez PowerShell
+2. Allez dans: C:\\Users\\RCK COMPUTERS\\Desktop\\prestige shop express\\backend_render
+3. Lancez: python server_fixed.py
+4. Le serveur sera sur http://localhost:5000
+
+⚠️ Important: Le serveur doit rester lancé pendant que vous testez!
+            `);
+        }
+        
+        function showPortConfiguration() {
+            alert(`
+CONFIGURATION AVANCÉE - Changer le port du backend:
+
+Modifiez backend_render/server_fixed.py:
+
+1. Trouvez la ligne: if __name__ == '__main__':
+2. Cherchez: app.run(host='0.0.0.0', port=5000)
+3. Changez 5000 en 5506
+4. Relancez le serveur
+
+Mais ce n'est PAS recommandé. Utilisez plutôt le Backend Render! 😊
+            `);
+        }
+        
+        // Vérifier si Render backend est déjà préféré
+        if (localStorage.getItem('preferredBackend') === 'render') {
+            console.log('✅ Render backend est préféré');
+        }
+    </script>
+</body>
+</html>

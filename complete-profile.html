@@ -35,9 +35,9 @@
 
       <form id="profile-form" class="space-y-5">
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Numéro WhatsApp <span class="text-red-500">*</span></label>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Numéro <span class="text-red-500">*</span></label>
           <input id="whatsapp" type="tel" inputmode="tel" placeholder="Ex: +2250700000000" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-purple-500 focus:ring-4 focus:ring-purple-100 outline-none">
-          <p id="whatsapp-error" class="text-sm text-red-600 mt-1 hidden">Le numéro WhatsApp est requis.</p>
+          <p id="whatsapp-error" class="text-sm text-red-600 mt-1 hidden">Le numéro est requis.</p>
         </div>
 
         <div>
@@ -47,8 +47,8 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-2">Sexe</label>
-            <select id="sexe" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-purple-500 focus:ring-4 focus:ring-purple-100 outline-none">
+            <label for="sexe" class="block text-sm font-semibold text-gray-700 mb-2">Sexe</label>
+            <select id="sexe" title="Sélectionner votre sexe" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-purple-500 focus:ring-4 focus:ring-purple-100 outline-none">
               <option value="">Sélectionner</option>
               <option value="Homme">Homme</option>
               <option value="Femme">Femme</option>
@@ -61,8 +61,8 @@
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Statut <span class="text-red-500">*</span></label>
-          <select id="statut" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-purple-500 focus:ring-4 focus:ring-purple-100 outline-none">
+          <label for="statut" class="block text-sm font-semibold text-gray-700 mb-2">Statut <span class="text-red-500">*</span></label>
+          <select id="statut" title="Sélectionner votre statut" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-purple-500 focus:ring-4 focus:ring-purple-100 outline-none">
             <option value="">Sélectionner</option>
             <option>Élève</option>
             <option>Étudiant</option>
@@ -82,8 +82,7 @@
             <label class="flex items-center gap-2"><input type="checkbox" value="Électronique" class="ci">Électronique</label>
             <label class="flex items-center gap-2"><input type="checkbox" value="Beauté" class="ci">Beauté</label>
             <label class="flex items-center gap-2"><input type="checkbox" value="Sport" class="ci">Sport</label>
-            <label class="flex items-center gap-2"><input type="checkbox" value="Éducation" class="ci">Éducation</label>
-          </div>
+            <label class="flex items-center gap-2"><input type="checkbox" value="Éducation" class="ci">Éducation</label>            <label class="flex items-center gap-2"><input type="checkbox" value="Business" class="ci">Business</label>          </div>
         </div>
 
         <button id="saveBtn" type="submit" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3 rounded-xl hover:from-purple-700 hover:to-blue-700 transition flex items-center justify-center">

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corriger l'erreur OAuth Google - Guide visuel</title>
+    <link href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 1.8em;
+        }
+        
+        .section h2 i {
+            margin-right: 15px;
+            color: #667eea;
+        }
+        
+        .step-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .step {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s;
+        }
+        
+        .step:hover {
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+            transform: translateY(-5px);
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .step h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .step p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            color: #856404;
+        }
+        
+        .success {
+            background: #d4edda;
+            border: 1px solid #28a745;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            color: #155724;
+        }
+        
+        .image-instruction {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .image-instruction img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .checklist {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        
+        .checklist h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .checklist ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            padding: 8px 0;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+        
+        .checklist li:before {
+            content: "☐ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        .checklist li.checked:before {
+            content: "☑ ";
+        }
+        
+        .origin-display {
+            background: #e8eaf6;
+            border: 2px dashed #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .origin-display h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .origin-value {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            color: #667eea;
+            font-weight: bold;
+            word-break: break-all;
+            margin-bottom: 10px;
+        }
+        
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #5568d3;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            color: #856404;
+        }
+        
+        .warning-box h4 {
+            margin-bottom: 10px;
+            color: #d39e00;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .step-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Corriger l'erreur OAuth Google</h1>
+            <p>Erreur 400: origin_mismatch</p>
+        </div>
+        
+        <div class="content">
+            <!-- Section 1: Diagnostic -->
+            <div class="section">
+                <h2><i class="fas fa-stethoscope"></i> Étape 1: Identifier votre URL</h2>
+                <p>Voici votre URL actuelle que vous devez ajouter à Google Cloud Console:</p>
+                <div class="origin-display">
+                    <h4>Votre Origine:</h4>
+                    <div class="origin-value" id="currentOrigin">
+                        <span id="originText">Chargement...</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyOrigin()">📋 Copier</button>
+                </div>
+                <div class="highlight">
+                    <strong>💡 Conseil:</strong> Conservez cette URL à portée de main - vous en aurez besoin pour l'étape suivante!
+                </div>
+            </div>
+            
+            <!-- Section 2: Steps -->
+            <div class="section">
+                <h2><i class="fas fa-list-ol"></i> Étape 2: Ajouter l'origine à Google Cloud Console</h2>
+                
+                <div class="step-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Ouvrir Google Cloud Console</h3>
+                        <p>Accédez à la console des credentials OAuth 2.0</p>
+                        <button class="btn btn-primary" onclick="openGoogleConsole()">
+                            <i class="fas fa-external-link-alt"></i>
+                            Ouvrir Google Cloud
+                        </button>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Sélectionner le projet</h3>
+                        <p>Choisissez <strong>"Prestige Shop Express New"</strong> si ce n'est pas déjà fait</p>
+                        <div class="code-block">Prestige Shop Express New</div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Cliquer sur l'ID client</h3>
+                        <p>Trouvez et cliquez sur votre ID client OAuth:</p>
+                        <div class="code-block">722931671687-fj2ph80jpqvlqmqnmc3aepdfqtsl7eqe.apps.googleusercontent.com</div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Aller à "Origines JavaScript"</h3>
+                        <p>Scrollez jusqu'à la section <strong>"Origines JavaScript autorisées"</strong></p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <h3>Ajouter une nouvelle URI</h3>
+                        <p>Cliquez sur <strong>"+ Ajouter URI"</strong> ou <strong>"+ ADD URI"</strong></p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <h3>Coller l'origine</h3>
+                        <p>Collez votre URL (copiée plus haut):</p>
+                        <button class="btn btn-secondary" onclick="copyOrigin(); alert('URL copiée! Maintenant, collez-la dans Google Cloud.')">
+                            <i class="fas fa-copy"></i>
+                            Copier et coller
+                        </button>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">7</div>
+                        <h3>Enregistrer</h3>
+                        <p>Cliquez sur <strong>"Enregistrer"</strong> pour valider les modifications</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">8</div>
+                        <h3>Attendre la propagation</h3>
+                        <p>Attendez <strong>3-5 minutes</strong> que les modifications se propagent</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Validation -->
+            <div class="section">
+                <h2><i class="fas fa-check-circle"></i> Étape 3: Tester et valider</h2>
+                
+                <div class="checklist">
+                    <h4>✅ Avant de tester, vérifiez:</h4>
+                    <ul>
+                        <li onclick="this.classList.toggle('checked')">J'ai copié mon URL actuelle</li>
+                        <li onclick="this.classList.toggle('checked')">Je l'ai ajoutée à Google Cloud Console</li>
+                        <li onclick="this.classList.toggle('checked')">J'ai cliqué sur "Enregistrer"</li>
+                        <li onclick="this.classList.toggle('checked')">J'ai attendu 3-5 minutes</li>
+                        <li onclick="this.classList.toggle('checked')">J'ai fermé et rouvert le navigateur</li>
+                    </ul>
+                </div>
+                
+                <p><strong>Pour tester:</strong></p>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="clearCacheAndReload()">
+                        <i class="fas fa-sync-alt"></i>
+                        Vider cache et recharger
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.location.href='login.html'">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Aller au login
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.location.href='register.html'">
+                        <i class="fas fa-user-plus"></i>
+                        Aller à l'inscription
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Section 4: Origines autorisées -->
+            <div class="section">
+                <h2><i class="fas fa-list"></i> Liste complète des origines configurées</h2>
+                <p>Ces origines sont déjà dans votre configuration Google Cloud:</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px;">
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 6px; border-left: 4px solid #4caf50;">
+                        <div class="code-block" style="margin: 0;">http://localhost:5000</div>
+                        <small style="color: #2e7d32;">✅ Configuré</small>
+                    </div>
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 6px; border-left: 4px solid #4caf50;">
+                        <div class="code-block" style="margin: 0;">http://localhost:3000</div>
+                        <small style="color: #2e7d32;">✅ Configuré</small>
+                    </div>
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 6px; border-left: 4px solid #4caf50;">
+                        <div class="code-block" style="margin: 0;">http://localhost:5504</div>
+                        <small style="color: #2e7d32;">✅ Configuré</small>
+                    </div>
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 6px; border-left: 4px solid #4caf50;">
+                        <div class="code-block" style="margin: 0;">http://localhost:5505</div>
+                        <small style="color: #2e7d32;">✅ Configuré</small>
+                    </div>
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 6px; border-left: 4px solid #4caf50;">
+                        <div class="code-block" style="margin: 0;">http://localhost:5506</div>
+                        <small style="color: #2e7d32;">✅ Configuré</small>
+                    </div>
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 6px; border-left: 4px solid #4caf50;">
+                        <div class="code-block" style="margin: 0;">http://127.0.0.1:5504</div>
+                        <small style="color: #2e7d32;">✅ Configuré</small>
+                    </div>
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 6px; border-left: 4px solid #4caf50;">
+                        <div class="code-block" style="margin: 0;">http://127.0.0.1:5505</div>
+                        <small style="color: #2e7d32;">✅ Configuré</small>
+                    </div>
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 6px; border-left: 4px solid #4caf50;">
+                        <div class="code-block" style="margin: 0;">http://127.0.0.1:5506</div>
+                        <small style="color: #2e7d32;">✅ Configuré</small>
+                    </div>
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 6px; border-left: 4px solid #4caf50;">
+                        <div class="code-block" style="margin: 0;">http://127.0.0.1:5505</div>
+                        <small style="color: #2e7d32;">✅ Configuré</small>
+                    </div>
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 6px; border-left: 4px solid #4caf50;">
+                        <div class="code-block" style="margin: 0;">https://prestige-shop-backend.onrender.com</div>
+                        <small style="color: #2e7d32;">✅ Configuré</small>
+                    </div>
+                    <div style="background: #e8f5e9; padding: 15px; border-radius: 6px; border-left: 4px solid #4caf50;">
+                        <div class="code-block" style="margin: 0;">https://prestige-shop-express.onrender.com</div>
+                        <small style="color: #2e7d32;">✅ Configuré</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Dépannage -->
+            <div class="section">
+                <h2><i class="fas fa-wrench"></i> Dépannage - Si ça ne fonctionne toujours pas</h2>
+                
+                <div class="warning-box">
+                    <h4>⚠️ L'erreur persiste?</h4>
+                    <p style="margin: 10px 0;">Essayez ces solutions:</p>
+                    <ul style="margin-left: 20px;">
+                        <li><strong>Videz complètement le cache:</strong> Ctrl+Shift+Delete → Tout → Cochez tout → Effacer</li>
+                        <li><strong>Attendez 10 minutes:</strong> Les changements Google peuvent prendre du temps</li>
+                        <li><strong>Testez en mode incognito:</strong> Ctrl+Shift+N → Allez au login</li>
+                        <li><strong>Vérifiez le client_id:</strong> Ouvrez F12 → Allez au login.html et vérifiez le data-client_id</li>
+                        <li><strong>Vérifiez le protocole:</strong> http vs https - ils doivent correspondre!</li>
+                    </ul>
+                </div>
+                
+                <div class="success">
+                    <strong>✅ Si ça fonctionne:</strong> Félicitations! Vous pouvez maintenant vous connecter avec Google!
+                </div>
+            </div>
+            
+            <!-- Section 6: Ressources -->
+            <div class="section">
+                <h2><i class="fas fa-link"></i> Ressources utiles</h2>
+                <div class="grid-2">
+                    <a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-google"></i>
+                        Google Cloud Console
+                    </a>
+                    <a href="debug-oauth.html" class="btn btn-secondary">
+                        <i class="fas fa-stethoscope"></i>
+                        Diagnostic OAuth
+                    </a>
+                    <a href="FIX_OAUTH_GUIDE.md" class="btn btn-secondary">
+                        <i class="fas fa-book"></i>
+                        Guide complet
+                    </a>
+                    <a href="login.html" class="btn btn-secondary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Page de connexion
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Afficher l'origine actuelle
+        function displayOrigin() {
+            const currentOrigin = window.location.origin;
+            document.getElementById('originText').textContent = currentOrigin;
+        }
+        
+        function copyOrigin() {
+            const origin = window.location.origin;
+            navigator.clipboard.writeText(origin).then(() => {
+                alert('✅ Origine copiée: ' + origin);
+            });
+        }
+        
+        function openGoogleConsole() {
+            window.open('https://console.cloud.google.com/apis/credentials', '_blank');
+        }
+        
+        function clearCacheAndReload() {
+            // Effacer le localStorage et sessionStorage
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            // Recharger la page de manière agressive
+            location.reload(true);
+        }
+        
+        // Initialiser à la fin du chargement
+        window.addEventListener('load', displayOrigin);
+    </script>
+</body>
+</html>

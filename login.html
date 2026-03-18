@@ -19,10 +19,29 @@
     <script>
       (function(){
         try{
-          if(['localhost','127.0.0.1'].includes(window.location.hostname)){
-            window.API_BASE_URL = 'http://localhost:5000/api';
+          // Configuration intelligente du backend API
+          const hostname = window.location.hostname;
+          const port = window.location.port;
+          
+          // Si on est sur localhost ou 127.0.0.1
+          if(['localhost','127.0.0.1'].includes(hostname)){
+            // Ports de backend connus (en priorité)
+            const backendPorts = ['5000', '5500', '5504', '5505', '5506'];
+            
+            // Si le port actuel est connu, essayer d'utiliser le backend sur ce port
+            if(backendPorts.includes(port)){
+              const protocol = window.location.protocol; // http: ou https:
+              window.API_BASE_URL = `${protocol}//${hostname}:${port}/api`;
+              console.log('✅ API détecté sur le port actuel:', window.API_BASE_URL);
+            } else {
+              // Sinon, essayer le port 5000 par défaut
+              window.API_BASE_URL = 'http://localhost:5000/api';
+              console.log('⚠️  Fallback vers port 5000:', window.API_BASE_URL);
+            }
           }
-        }catch(e){}
+        }catch(e){
+          console.error('Erreur configuration API:', e);
+        }
       })();
     </script>
     <!-- Custom CSS -->
@@ -536,6 +555,122 @@
         });
 
         // La fonction loginWithGoogle a été remplacée par le bouton Google Sign-In officiel
+        // === DÉTECTION ERREUR OAUTH ORIGINALE ===
+        // Détecte et affiche un avertissement si l'origine n'est pas configurée
+        function setupOriginMismatchDetection() {
+            const currentOrigin = window.location.origin;
+            const authorizedOrigins = [
+                'http://localhost:5000',
+                'http://localhost:3000',
+                'http://localhost:5504',
+                'http://localhost:5505',
+                'http://localhost:5506',
+                'http://127.0.0.1:5504',
+                'http://127.0.0.1:5505',
+                'http://127.0.0.1:5506',
+                'https://prestige-shop-backend.onrender.com',
+                'https://prestige-shop-express.onrender.com',
+            ];
+            
+            // Vérifier si l'origine actuelle est autorisée
+            const isAuthorized = authorizedOrigins.some(auth => auth === currentOrigin);
+            
+            if (!isAuthorized) {
+                showOriginWarning(currentOrigin);
+            }
+        }
+        
+        function showOriginWarning(origin) {
+            const warningHTML = `
+                <div id="origin-warning" style="
+                    background: linear-gradient(135deg, #fff3cd 0%, #ffe4a6 100%);
+                    border-left: 5px solid #ff9800;
+                    border-radius: 8px;
+                    padding: 15px 20px;
+                    margin: 20px 0;
+                    box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+                ">
+                    <div style="margin-bottom: 10px;">
+                        <strong style="color: #d97706; font-size: 16px;">
+                            ⚠️ Attention: Erreur OAuth Google possible
+                        </strong>
+                    </div>
+                    <div style="color: #6b4423; font-size: 14px; line-height: 1.6; margin-bottom: 12px;">
+                        <p style="margin: 0 0 5px 0;">
+                            Votre URL actuelle n'est <strong>pas configurée</strong> dans Google Cloud Console:
+                        </p>
+                        <p style="margin: 5px 0; font-family: monospace; background: rgba(255,255,255,0.5); padding: 8px 12px; border-radius: 4px; word-break: break-all;">
+                            ${origin}
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button onclick="
+                            navigator.clipboard.writeText('${origin}');
+                            alert('✅ Origine copiée: ${origin}');
+                            this.textContent = '✅ Copié!';
+                            setTimeout(() => { this.textContent = '📋 Copier l\'URL'; }, 2000);
+                        " style="
+                            background: #ff9800;
+                            color: white;
+                            border: none;
+                            padding: 8px 15px;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-size: 13px;
+                            font-weight: 600;
+                            transition: all 0.3s;
+                        " onmouseover="this.style.background='#f57c00'" onmouseout="this.style.background='#ff9800'">
+                            📋 Copier l'URL
+                        </button>
+                        <button onclick="window.open('https://console.cloud.google.com/apis/credentials', '_blank')" style="
+                            background: #2196F3;
+                            color: white;
+                            border: none;
+                            padding: 8px 15px;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-size: 13px;
+                            font-weight: 600;
+                            transition: all 0.3s;
+                        " onmouseover="this.style.background='#1976D2'" onmouseout="this.style.background='#2196F3'">
+                            🔑 Google Cloud Console
+                        </button>
+                        <button onclick="
+                            const warning = document.getElementById('origin-warning');
+                            warning.style.transition = 'opacity 0.3s';
+                            warning.style.opacity = '0';
+                            setTimeout(() => { warning.remove(); }, 300);
+                        " style="
+                            background: rgba(0,0,0,0.2);
+                            color: #6b4423;
+                            border: none;
+                            padding: 8px 15px;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-size: 13px;
+                        ">
+                            Masquer
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Insérer le avertissement au début du formulaire
+            const form = document.getElementById('login-form');
+            if (form) {
+                form.insertAdjacentHTML('beforebegin', warningHTML);
+            }
+            
+            // Log dans la console pour le débogage
+            console.warn('⚠️ ERREUR OAUTH DÉTECTÉE:', {
+                'Votre URL': origin,
+                'Origines configurées': ['http://localhost:5000', 'http://localhost:3000', 'http://127.0.0.1:5504', 'https://prestige-shop-express.onrender.com'],
+                'Solution': 'Ajoutez votre URL aux origines JavaScript dans Google Cloud Console'
+            });
+        }
+
+        // === FIN ==== DÉTECTION ERREUR OAUTH === 
+        
         // Fonction pour traiter la réponse de Google
         function handleCredentialResponse(response) {
             // Afficher l'état de chargement
@@ -556,54 +691,90 @@
                 loginBtnLoading.classList.remove('hidden');
             }
             
-            // Envoyer le token à notre serveur pour vérification
-            fetch(`${window.API_BASE_URL}/auth/google/callback/web`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                body: JSON.stringify({
-                    credential: response.credential
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Stocker les données utilisateur
-                    const userData = {
-                        id: data.user.id,
-                        nom: data.user.nom,
-                        prenom: data.user.prenom,
-                        email: data.user.email,
-                        numero: data.user.numero || ''
-                    };
+            // === MECANISME DE FALLBACK VERS RENDER ===
+            const tryGoogleCallback = (apiUrl) => {
+                return fetch(`${apiUrl}/auth/google/callback/web`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        credential: response.credential
+                    }),
+                    timeout: 5000  // 5 secondes de timeout
+                });
+            };
+            
+            // Essayer le backend local d'abord, puis fallback vers Render
+            const attemptGoogleAuth = async () => {
+                try {
+                    console.log('🔄 Tentative de callback Google...');
+                    console.log('Backend utilisé:', window.API_BASE_URL);
                     
-                    // Stocker les données utilisateur dans localStorage (connexion persistante)
-                    localStorage.setItem('userLoggedIn', 'true');
-                    localStorage.setItem('userData', JSON.stringify(userData));
-                    localStorage.setItem('userEmail', userData.email);
-                    localStorage.setItem('userFullname', `${userData.prenom} ${userData.nom}`.trim());
-                    if (userData.numero) {
-                        localStorage.setItem('userPhone', userData.numero);
+                    let response = await tryGoogleCallback(window.API_BASE_URL);
+                    
+                    // Si le backend local échoue et qu'on est en local, essayer Render
+                    if (!response.ok && (window.API_BASE_URL.includes('localhost') || window.API_BASE_URL.includes('127.0.0.1'))) {
+                        console.warn('⚠️ Backend local échoué, essai du backend Render...');
+                        const renderBackendUrl = 'https://prestige-shop-backend.onrender.com/api';
+                        response = await tryGoogleCallback(renderBackendUrl);
                     }
                     
-                    // Utiliser l'information de profil complète fournie par le backend
-                    if (data.profile_complete) {
-                        window.location.href = 'index.html';
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        console.log('✅ Authentification Google réussie!');
+                        // Stocker les données utilisateur
+                        const userData = {
+                            id: data.user.id,
+                            nom: data.user.nom,
+                            prenom: data.user.prenom,
+                            email: data.user.email,
+                            numero: data.user.numero || ''
+                        };
+                        
+                        // Stocker les données utilisateur dans localStorage (connexion persistante)
+                        localStorage.setItem('userLoggedIn', 'true');
+                        localStorage.setItem('userData', JSON.stringify(userData));
+                        localStorage.setItem('userEmail', userData.email);
+                        localStorage.setItem('userFullname', `${userData.prenom} ${userData.nom}`.trim());
+                        if (userData.numero) {
+                            localStorage.setItem('userPhone', userData.numero);
+                        }
+                        
+                        // Utiliser l'information de profil complète fournie par le backend
+                        if (data.profile_complete) {
+                            window.location.href = 'index.html';
+                        } else {
+                            window.location.href = 'complete-profile.html';
+                        }
                     } else {
-                        window.location.href = 'complete-profile.html';
+                        console.error('❌ Erreur du serveur:', data.message);
+                        document.getElementById('error-text').textContent = data.message || 'Erreur lors de l\'authentification';
+                        document.getElementById('error-message').classList.remove('hidden');
                     }
-                } else {
-                    document.getElementById('error-text').textContent = data.message;
+                } catch (error) {
+                    console.error('❌ Erreur lors de la connexion Google:', error);
+                    
+                    // Determiner le message d'erreur
+                    let errorMsg = 'Une erreur s\'est produite. Veuillez réessayer.';
+                    if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+                        errorMsg = 'Impossible de se connecter au serveur backend. Vérifiez votre connexion.';
+                    } else if (error.name === 'AbortError') {
+                        errorMsg = 'Timeout - le serveur a mis trop de temps à répondre.';
+                    }
+                    
+                    document.getElementById('error-text').textContent = errorMsg;
                     document.getElementById('error-message').classList.remove('hidden');
+                    
+                    // Afficher un lien pour ouvrir le fichier de diagnostic
+                    console.error('💡 Ouvrez fix-error-403.html pour l\'aide');
                 }
-            })
-            .catch(error => {
-                console.error('Erreur lors de la connexion Google:', error);
-                document.getElementById('error-text').textContent = 'Une erreur s\'est produite. Veuillez réessayer.';
-                document.getElementById('error-message').classList.remove('hidden');
-            })
+            };
+            
+            // Exécuter la tentative d'authentification
+            attemptGoogleAuth()
             .finally(() => {
                 // Réinitialiser l'état du bouton
                 if (loginBtn) {
@@ -639,6 +810,9 @@
         
         // Initialiser un guide léger au chargement de la page
         window.addEventListener('DOMContentLoaded', function() {
+            // Détection de l'erreur origin_mismatch
+            setupOriginMismatchDetection();
+            
             // Vérifier si une connexion Google automatique est demandée
             checkAutoGoogleLogin();
             // Démarrer le guide léger après 2 secondes

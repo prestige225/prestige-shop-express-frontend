@@ -1,5 +1,6 @@
 import os
-from flask import Flask, send_from_directory, Response
+import json
+from flask import Flask, send_from_directory, Response, jsonify
 from werkzeug.exceptions import NotFound
 
 # Initialisation de l'application Flask
@@ -261,6 +262,41 @@ def serve_ima(filename):
     except Exception as e:
         # Pour toute autre erreur, retourner une erreur 500
         return f'Internal server error: {str(e)}', 500
+
+# ----------------------------
+# Routes API pour les produits
+# ----------------------------
+@app.route('/api/produits', methods=['GET'])
+def api_produits():
+    """Endpoint API pour charger les produits depuis le backend Render ou données locales"""
+    try:
+        import requests
+        # Essayer d'abord le backend Render
+        backend_url = os.environ.get('BACKEND_URL', 'https://prestige-shop-backend.onrender.com')
+        response = requests.get(f'{backend_url}/api/produits', timeout=5)
+        return jsonify(response.json())
+    except Exception as e:
+        # Fallback: retourner des données de test/vides si le backend n'est pas accessible
+        print(f"⚠️ Backend API indisponible: {str(e)}")
+        return jsonify({
+            "success": True,
+            "produits": []
+        }), 200
+
+@app.route('/api/commandes', methods=['GET'])
+def api_commandes():
+    """Endpoint API pour charger les commandes"""
+    try:
+        import requests
+        backend_url = os.environ.get('BACKEND_URL', 'https://prestige-shop-backend.onrender.com')
+        response = requests.get(f'{backend_url}/api/commandes', timeout=5)
+        return jsonify(response.json())
+    except Exception as e:
+        print(f"⚠️ Backend API indisponible: {str(e)}")
+        return jsonify({
+            "success": True,
+            "commandes": []
+        }), 200
 
 # ----------------------------
 # Route catch-all pour SPA (PRIORITÉ HAUTE)

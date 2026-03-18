@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Solution rapide - Port 5506</title>
+    <link href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .alert {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #856404;
+        }
+        
+        .alert h3 {
+            color: #d39e00;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .step {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #f5576c;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #f5576c;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .step h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .step p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            margin: 15px 0;
+            font-size: 0.95em;
+            overflow-x: auto;
+            word-break: break-word;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(245, 87, 108, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            color: #155724;
+        }
+        
+        .success-box h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            color: #0d47a1;
+        }
+        
+        .url-box {
+            background: #fff;
+            border: 2px dashed #f5576c;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            color: #f5576c;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            background: #f5576c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #d63447;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Solution Rapide!</h1>
+            <p>Port 5506 - 3 minutes pour corriger</p>
+        </div>
+        
+        <div class="content">
+            <div class="alert">
+                <h3><i class="fas fa-exclamation-triangle"></i> Port détecté</h3>
+                <p>Vous accédez depuis <strong>http://127.0.0.1:5506</strong></p>
+                <p style="margin-top: 10px;">Ce port n'est pas encore configuré dans Google Cloud Console. Les étapes ci-dessous vont le corriger en 3 minutes!</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Copier les deux origines</h3>
+                <p>Vous devez ajouter ces deux origines à Google Cloud:</p>
+                <div class="url-box">http://localhost:5506</div>
+                <div class="url-box">http://127.0.0.1:5506</div>
+                <button class="copy-btn" onclick="
+                    navigator.clipboard.writeText('http://localhost:5506\nhttp://127.0.0.1:5506');
+                    alert('✅ Les deux URLs sont copiées!\n\nMaintenant, allez à l\'étape 2.');
+                ">
+                    📋 Copier les deux URLs
+                </button>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Ouvrir Google Cloud Console</h3>
+                <p>Cliquez sur le bouton ci-dessous pour ouvrir Google Cloud:</p>
+                <button class="btn btn-primary" onclick="window.open('https://console.cloud.google.com/apis/credentials', '_blank')" style="width: 100%; margin-top: 15px;">
+                    <i class="fas fa-external-link-alt"></i>
+                    Ouvrir Google Cloud Console
+                </button>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Sélectionner le projet</h3>
+                <p>En haut à gauche, assurez-vous que le projet sélectionné est:</p>
+                <div class="code">Prestige Shop Express New</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Cliquer sur l'ID client</h3>
+                <p>Cherchez cette ligne dans la liste et cliquez dessus:</p>
+                <div class="highlight">
+                    <strong>Prestige Shop Express New</strong> (type: Web application)
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">5</div>
+                <h3>Scroll à la section "Origines JavaScript"</h3>
+                <p>Scrollez vers le bas jusqu'à trouver la section:</p>
+                <div class="highlight">
+                    <strong>Origines JavaScript autorisées</strong> (ou "Authorized JavaScript origins")
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">6</div>
+                <h3>Ajouter les deux URIs</h3>
+                <p>Cliquez sur <strong>"+ Ajouter URI"</strong> (ou <strong>"+ ADD URI"</strong>)</p>
+                <p style="margin-top: 10px;">Collez la première URL:</p>
+                <div class="code">http://localhost:5506</div>
+                <p style="margin-top: 15px;">Recliquez sur <strong>"+ Ajouter URI"</strong></p>
+                <p style="margin-top: 10px;">Collez la deuxième URL:</p>
+                <div class="code">http://127.0.0.1:5506</div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">7</div>
+                <h3>Enregistrer les modifications</h3>
+                <p>Cliquez sur le bouton <strong>"Enregistrer"</strong> (en bas) ou <strong>"SAVE"</strong></p>
+                <div class="highlight">
+                    ✅ Vous devriez voir un message de confirmation
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">8</div>
+                <h3>⏳ Attendez 3-5 minutes</h3>
+                <p>Google met du temps à propager les changements. <strong>Patience!</strong></p>
+                <p>Pendant ce temps, vous pouvez:</p>
+                <ul style="margin-left: 20px; color: #666;">
+                    <li>Prendre un ☕ café</li>
+                    <li>Faire une pause</li>
+                    <li>Vérifier que les URLs sont bien ajoutées (rechargez Google Cloud)</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">9</div>
+                <h3>Vider le cache du navigateur</h3>
+                <p>Appuyez sur: <strong>Ctrl + Shift + Delete</strong></p>
+                <p>Puis:</p>
+                <ul style="margin-left: 20px; color: #666;">
+                    <li>Cochez "Cache"</li>
+                    <li>Cochez "Cookies"</li>
+                    <li>Cliquez "Effacer"</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">10</div>
+                <h3>Rechargez la page</h3>
+                <p>Appuyez sur: <strong>Ctrl + F5</strong></p>
+                <p>Ou fermeture le navigateur et rouvrez-le.</p>
+            </div>
+            
+            <div class="success-box">
+                <h4>✅ C'est terminé!</h4>
+                <p>Vous pouvez maintenant vous connecter avec Google. Essayez maintenant:</p>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="window.location.href='login.html'">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Aller au login
+                </button>
+                <button class="btn btn-secondary" onclick="window.location.href='register.html'">
+                    <i class="fas fa-user-plus"></i>
+                    Aller à l'inscription
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

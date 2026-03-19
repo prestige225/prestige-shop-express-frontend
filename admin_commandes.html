@@ -518,7 +518,7 @@
                             <div class="space-y-2">
                                 <p><span class="font-medium">Nom:</span> ${commande.nom} ${commande.prenom}</p>
                                 <p><span class="font-medium">Email:</span> ${commande.email}</p>
-                                <p><span class="font-medium">Téléphone:</span> ${commande.user_numero || 'Non spécifié'}</p>
+                                <p><span class="font-medium">Téléphone:</span> ${commande.telephone || commande.user_numero || 'Non spécifié'}</p>
                             </div>
                         </div>
                     </div>

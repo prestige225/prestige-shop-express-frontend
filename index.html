@@ -6871,8 +6871,15 @@ function loadMoreProducts() {
             const address = document.getElementById('customer-address').value.trim();
             const city = document.getElementById('customer-city').value;
 
+            // Récupérer les données utilisateur complètes
+            const userData = JSON.parse(localStorage.getItem('userData') || sessionStorage.getItem('userData') || '{}');
+            
+            // Utiliser le téléphone du formulaire, sinon celui du profil utilisateur
+            const phoneToUse = phone || userData.telephone || '';
+            const nameToUse = name || `${userData.prenom || ''} ${userData.nom || ''}`.trim();
+
             // Validation des champs
-            if (!name || !phone || !address || !city) {
+            if (!nameToUse || !phoneToUse || !address || !city) {
                 showNotification('Veuillez remplir tous les champs obligatoires', 'error');
                 isValidatingOrder = false;
                 const validateBtn = document.getElementById('validate-order-btn');
@@ -6899,7 +6906,6 @@ function loadMoreProducts() {
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
             // ========== ENREGISTREMENT DANS LA BASE DE DONNÉES ==========
-            const userData = JSON.parse(localStorage.getItem('userData') || sessionStorage.getItem('userData') || '{}');
             const userId = userData.id;
 
             if (userId) {
@@ -6918,8 +6924,8 @@ function loadMoreProducts() {
                         user_id: userId,
                         montant_total: total,
                         adresse_livraison: `${address}, ${city}`,
-                        telephone: phone,
-                        notes: `Client: ${name} - Produits: ${produitsDetails.map(p => `${p.nom} (x${p.quantite})`).join(', ')}`,
+                        telephone: phoneToUse,
+                        notes: `Client: ${nameToUse} - Produits: ${produitsDetails.map(p => `${p.nom} (x${p.quantite})`).join(', ')}`,
                         produits: produitsDetails
                     };
 
@@ -8910,5 +8916,8 @@ function loadMoreProducts() {
             if (searchResults) searchResults.classList.remove('hidden');
         }
     </script>
+    
+    <!-- Script utilitaire pour auto-remplir le formulaire de commande -->
+    <script src="js/cart-utils.js"></script>
 </body>
 </html>

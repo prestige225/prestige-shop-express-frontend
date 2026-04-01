@@ -1,8 +1,10 @@
 // Configuration de l'API (idempotente pour éviter les reloads multiples)
 if (typeof window.API_BASE_URL === 'undefined') {
-    // Backend Render fonctionne correctement - toujours l'utiliser
-    window.API_BASE_URL = 'https://prestige-shop-backend.onrender.com/api';
-    window.API_FALLBACK_URL = 'https://prestige-shop-backend.onrender.com/api';
+    // EN LOCAL: Utiliser le backend local sur le port 5000
+    window.API_BASE_URL = 'http://localhost:5000/api';
+    window.API_FALLBACK_URL = 'http://localhost:5000/api';
+    
+    console.log('🔧 Backend LOCAL activé:', window.API_BASE_URL);
 }
 
 // Fonction utilitaire pour effectuer les appels API avec gestion des erreurs

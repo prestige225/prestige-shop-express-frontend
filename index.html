@@ -2644,6 +2644,24 @@ if (images && images.length > 0) {
                 </div>
             </div>
             
+            <!-- Produits du Moment (Carousel Horizontal) -->
+            <div class="mb-12 pb-8 border-b border-gray-200">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900 flex items-center">
+                            <i class="fas fa-fire text-red-500 mr-3 text-2xl"></i>
+                            Produits du Moment
+                        </h2>
+                        <p class="text-gray-600 text-sm mt-1">Les plus populaires en ce moment</p>
+                    </div>
+                </div>
+                <div class="overflow-x-auto pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 scrollbar-hide">
+                    <div id="moment-carousel" class="flex gap-4 min-w-min">
+                        <!-- Sera remplie par displayMomentProducts() -->
+                    </div>
+                </div>
+            </div>
+            
             <!-- Products Grid -->
             <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4 pt-2">
                 <!-- Grille vide - sera remplie par l'API -->
@@ -5363,6 +5381,31 @@ if (images && images.length > 0) {
 
         ];
 
+// ==================== CONFIGURATION API ====================
+// Définir l'URL de base de l'API avec fallback automatique
+(function() {
+    const hostname = window.location.hostname;
+    
+    // Configuration pour production (Render)
+    if (hostname.includes('onrender.com') || hostname.includes('prestige-shop')) {
+        window.API_BASE_URL = 'https://prestige-shop-backend.onrender.com/api';
+        window.API_FALLBACK_URL = 'http://localhost:5000/api'; // Fallback local
+    }
+    // Configuration pour développement local
+    else if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        window.API_BASE_URL = 'http://localhost:5000/api';
+        window.API_FALLBACK_URL = 'https://prestige-shop-backend.onrender.com/api'; // Fallback production
+    }
+    // Défaut : essayer localhost d'abord, puis production
+    else {
+        window.API_BASE_URL = 'http://localhost:5000/api';
+        window.API_FALLBACK_URL = 'https://prestige-shop-backend.onrender.com/api';
+    }
+    
+    console.log('🌐 API Base URL:', window.API_BASE_URL);
+    console.log('🔄 API Fallback URL:', window.API_FALLBACK_URL);
+})();
+
 // Variables globales
 let cart = [];
 let isValidatingOrder = false; // Prévenir les clics multiples sur le bouton Valider
@@ -5488,7 +5531,10 @@ function mapApiProductToFrontend(apiProduct) {
         price: apiProduct.prix,
         originalPrice: originalPrice,
         discountPercent: discountPercent,
-        category: apiProduct.categorie,
+        // Normaliser la catégorie : "💼 Prestige Business" -> "business"
+        category: apiProduct.categorie === '💼 Prestige Business' ? 'business' : 
+                  apiProduct.categorie === '💼 Business' ? 'business' : 
+                  apiProduct.categorie || '',
         subcategory: apiProduct.subcategorie || apiProduct.sous_categorie || '',
         images: mediaArray,
         videos: videos,
@@ -5498,7 +5544,11 @@ function mapApiProductToFrontend(apiProduct) {
         colors: Array.isArray(apiProduct.couleur_disponible) ? apiProduct.couleur_disponible : 
                 (typeof apiProduct.couleur_disponible === 'string' ? JSON.parse(apiProduct.couleur_disponible || '[]') : []),
         stock: apiProduct.stock || 0,
-        ordre: apiProduct.ordre || 9999
+        status: apiProduct.statut || 'actif',  // ✅ Ajout du statut (actif, inactif, epuise)
+        ordre: apiProduct.ordre || 9999,
+        quantiteMinimale: apiProduct.quantite_minimale || 1,
+        recommande: apiProduct.recommande || 0,  // ✅ Ajout du champ recommandé
+        moment: apiProduct.moment || 0  // ✅ Ajout du champ moment
     };
 }
 
@@ -5508,8 +5558,11 @@ function createProductCard(product) {
     const images = product.images || [imageSrc];
     const cardId = `card-${product.id}-${Date.now()}`;
     
+    // Vérifier si le produit est en rupture de stock (statut 'epuise')
+    const isOutOfStock = product.status === 'epuise';
+    
     return `
-        <div class="product-card bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer flex flex-col h-full" onclick="event.target.closest('button') ? event.stopPropagation() : quickView(${product.id})">
+        <div class="product-card bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer flex flex-col h-full ${isOutOfStock ? 'opacity-60 grayscale' : ''}" onclick="event.target.closest('button') ? event.stopPropagation() : quickView(${product.id})">
             <!-- Image Container with Badge -->
             <div class="relative bg-gray-100 overflow-hidden h-40 sm:h-48 md:h-56 flex items-center justify-center flex-shrink-0 carousel-container-${cardId}" id="carousel-${cardId}"
                  onmouseenter="showImageControls('${cardId}')"
@@ -5520,7 +5573,6 @@ function createProductCard(product) {
                 <img src="${imageSrc}" 
                      alt="${product.name}" 
                      class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
-                     id="main-img-${cardId}"
                      onerror="this.src='/images/prestige-shop.png';">
                 
                 <!-- Category Badge (Top Left) -->
@@ -5528,21 +5580,28 @@ function createProductCard(product) {
                     ${getCategoryName(product.category)}
                 </div>
                 
+                <!-- Badge Rupture de Stock (si applicable) -->
+                ${isOutOfStock ? `
+                <div class="absolute top-2 right-2 bg-red-600 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg animate-pulse">
+                    <i class="fas fa-exclamation-triangle mr-1"></i> Rupture de stock
+                </div>
+                ` : `
                 <!-- Like/Favorite Button (Top Right) -->
                 <button onclick="event.stopPropagation(); toggleFavorite(${product.id}, this);" 
                         class="absolute top-2 right-2 bg-white/90 hover:bg-white text-red-500 hover:text-red-600 p-2 rounded-full shadow-md hover:shadow-lg transition-all z-10 active:scale-90 sm:p-2.5">
                     <i class="fas fa-heart text-lg sm:text-xl"></i>
                 </button>
+                `}
                 
                 <!-- Discount Badge (Bottom Right - Reduced Size) -->
-                ${product.discountPercent > 0 ? `
+                ${product.discountPercent > 0 && !isOutOfStock ? `
                     <div class="absolute bottom-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-xs shadow-lg">
                         -${product.discountPercent}%
                     </div>
                 ` : ''}
                 
                 <!-- Prev/Next Buttons for Multiple Images - HIDDEN BY DEFAULT -->
-                ${images.length > 1 ? `
+                ${images.length > 1 && !isOutOfStock ? `
                     <button class="prev-btn-${cardId} absolute left-2 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white p-2 rounded-full transition-all shadow-lg z-10 opacity-0 invisible transform scale-75 group-hover:opacity-100 group-hover:visible group-hover:scale-100 duration-200"
                             onclick="event.stopPropagation(); prevImage('${cardId}');">
                         <i class="fas fa-chevron-left text-base"></i>
@@ -5560,11 +5619,12 @@ function createProductCard(product) {
             <!-- Product Info (Flex-grow pour pousser le bouton en bas) -->
             <div class="p-3 flex flex-col flex-grow">
                 <!-- Product Name -->
-                <h3 class="font-semibold text-gray-900 text-sm line-clamp-2 mb-1">
+                <h3 class="font-semibold text-gray-900 text-sm line-clamp-2 mb-1 ${isOutOfStock ? 'line-through text-gray-500' : ''}">
                     ${product.name}
                 </h3>
                 
-                <!-- Rating -->
+                <!-- Rating (seulement si pas en rupture) -->
+                ${!isOutOfStock ? `
                 <div class="flex items-center gap-1 mb-2">
                     <div class="text-yellow-400 text-xs flex gap-0.5">
                         <i class="fas fa-star"></i>
@@ -5575,22 +5635,82 @@ function createProductCard(product) {
                     </div>
                     <span class="text-gray-600 text-xs">(${Math.floor(Math.random() * 50) + 10})</span>
                 </div>
+                ` : ''}
                 
                 <!-- Price -->
                 <div class="flex items-baseline gap-2 mb-3">
-                    <span class="text-lg font-bold text-purple-600">${product.price.toLocaleString()} FCFA</span>
-                    ${product.discountPercent > 0 ? `
+                    <span class="text-lg font-bold ${isOutOfStock ? 'text-gray-500' : 'text-purple-600'}">${product.price.toLocaleString()} FCFA</span>
+                    ${product.discountPercent > 0 && !isOutOfStock ? `
                         <span class="text-xs text-gray-400 line-through">${product.originalPrice.toLocaleString()} FCFA</span>
                     ` : ''}
                 </div>
+                
+                <!-- Badge Quantité Minimale pour Prestige Business -->
+                ${product.category === 'business' && product.quantiteMinimale > 1 && !isOutOfStock ? `
+                    <div class="mb-3 bg-gradient-to-r from-orange-50 to-red-50 border-l-4 border-orange-500 p-2 rounded">
+                        <p class="text-xs font-bold text-orange-700 flex items-center">
+                            <i class="fas fa-boxes mr-1"></i>
+                            Vente en gros uniquement
+                        </p>
+                        <p class="text-xs text-orange-600 mt-0.5">
+                            Quantité minimale : <strong>${product.quantiteMinimale}</strong> unités
+                        </p>
+                    </div>
+                    
+                    <!-- ✅ SÉLECTEUR DE QUANTITÉ POUR BUSINESS -->
+                    <div class="mb-3 flex items-center justify-between bg-orange-50 border border-orange-200 rounded-lg p-2">
+                        <span class="text-xs font-semibold text-orange-800">Quantité :</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="event.stopPropagation(); decreaseQuantity(${product.id}, ${product.quantiteMinimale})" 
+                                    class="w-7 h-7 bg-orange-200 hover:bg-orange-300 text-orange-800 rounded-full flex items-center justify-center font-bold transition-colors"
+                                    id="decrease-btn-${product.id}">
+                                <i class="fas fa-minus text-xs"></i>
+                            </button>
+                            <span id="quantity-display-${product.id}" class="w-10 text-center font-bold text-orange-900">${product.quantiteMinimale}</span>
+                            <button onclick="event.stopPropagation(); increaseQuantity(${product.id})" 
+                                    class="w-7 h-7 bg-orange-200 hover:bg-orange-300 text-orange-800 rounded-full flex items-center justify-center font-bold transition-colors"
+                                    id="increase-btn-${product.id}">
+                                <i class="fas fa-plus text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                ` : ''}
+                
+                <!-- Message de rupture de stock -->
+                ${isOutOfStock ? `
+                <div class="mt-auto mb-3 bg-red-50 border-l-4 border-red-500 p-3 rounded">
+                    <p class="text-xs font-bold text-red-700 flex items-center">
+                        <i class="fas fa-times-circle mr-1"></i>
+                        Actuellement indisponible
+                    </p>
+                    <p class="text-xs text-red-600 mt-1">
+                        Ce produit n'est plus disponible pour le moment
+                    </p>
+                </div>
+                ` : ''}
             </div>
             
             <!-- Add to Cart Button (Always visible at bottom) -->
             <div class="px-3 pb-3 pt-0 flex-shrink-0">
-                                    <button onclick="event.stopPropagation(); addToCart(${product.id})" class="w-full h-9 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-1">
-                    <i class="fas fa-shopping-cart text-xs"></i>
-                    <span class="text-xs font-bold">Ajouter</span>
-                </button>
+                ${isOutOfStock ? `
+                    <button disabled 
+                            class="w-full h-9 bg-gray-300 text-gray-500 font-bold rounded-lg cursor-not-allowed flex items-center justify-center gap-1">
+                        <i class="fas fa-ban text-xs"></i>
+                        <span class="text-xs font-bold">Indisponible</span>
+                    </button>
+                ` : (product.category === 'business' && product.quantiteMinimale > 1 ? `
+                    <button onclick="event.stopPropagation(); addToCartWithSelectedQty(${product.id})" 
+                            class="w-full h-9 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-1">
+                        <i class="fas fa-shopping-cart text-xs"></i>
+                        <span class="text-xs font-bold">Ajouter</span>
+                    </button>
+                ` : `
+                    <button onclick="event.stopPropagation(); addToCart(${product.id})" 
+                            class="w-full h-9 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-1">
+                        <i class="fas fa-shopping-cart text-xs"></i>
+                        <span class="text-xs font-bold">Ajouter</span>
+                    </button>
+                `)}
             </div>
         </div>
     `;
@@ -5718,9 +5838,10 @@ async function loadProductsFromApi(forceRefresh = false) {
         console.error('Message:', error.message);
         hideSplashScreen();
         
-        // Si on n'a rien affichage, montrer l'erreur
+        // Si on n'a rien affichage, montrer l'erreur avec options de dépannage
         if (allProducts.length === 0) {
-            const errorMessage = error.message.includes('Failed to fetch') 
+            const isFailedToFetch = error.message.includes('Failed to fetch') || error.message.includes('NetworkError');
+            const errorMessage = isFailedToFetch 
                 ? `Le serveur API n'est pas accessible. Vérifiez votre connexion Internet.`
                 : error.message;
             
@@ -5732,14 +5853,158 @@ async function loadProductsFromApi(forceRefresh = false) {
                     <h3 class="text-xl font-bold text-gray-800 mb-2">Erreur de chargement</h3>
                     <p class="text-gray-600 mb-2">${errorMessage}</p>
                     <p class="text-gray-500 text-xs mb-4">Endpoint: ${window.API_BASE_URL}</p>
-                    <button onclick="location.reload()" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-2 px-6 rounded-lg transition-all">
-                        <i class="fas fa-redo mr-2"></i>
-                        Recharger
-                    </button>
+                    
+                    <!-- Options de dépannage -->
+                    <div class="space-y-3 max-w-md mx-auto">
+                        <button onclick="location.reload()" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-md">
+                            <i class="fas fa-redo mr-2"></i>
+                            Recharger la page
+                        </button>
+                        
+                        <button onclick="tryFallbackAPI()" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-md">
+                            <i class="fas fa-exchange-alt mr-2"></i>
+                            Essayer le serveur de secours
+                        </button>
+                        
+                        <button onclick="checkAPIStatus()" class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-md">
+                            <i class="fas fa-stethoscope mr-2"></i>
+                            Tester l'API
+                        </button>
+                        
+                        <!-- Zone d'information technique -->
+                        <div class="bg-gray-100 border border-gray-300 rounded-lg p-3 text-left text-xs mt-4">
+                            <p class="font-semibold mb-1">📊 Informations techniques :</p>
+                            <p><strong>API principale :</strong> ${window.API_BASE_URL}</p>
+                            <p><strong>API de secours :</strong> ${window.API_FALLBACK_URL || 'Non configurée'}</p>
+                            <p><strong>Hôte :</strong> ${hostname}</p>
+                            <p><strong>Erreur :</strong> ${error.message}</p>
+                        </div>
+                    </div>
                 </div>
             `;
         }
         isInitialLoadComplete = true;
+    }
+}
+
+// Fonction pour essayer l'API de fallback
+async function tryFallbackAPI() {
+    if (!window.API_FALLBACK_URL) {
+        alert('❌ Aucune API de secours configurée');
+        return;
+    }
+    
+    const grid = document.getElementById('products-grid');
+    grid.innerHTML = `
+        <div class="col-span-full text-center py-16">
+            <div class="text-blue-500 mb-4">
+                <i class="fas fa-spinner fa-spin text-4xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Tentative de connexion...</h3>
+            <p class="text-gray-600">Connexion à l'API de secours : ${window.API_FALLBACK_URL}</p>
+        </div>
+    `;
+    
+    try {
+        // Sauvegarder l'URL actuelle
+        const originalURL = window.API_BASE_URL;
+        
+        // Basculer vers le fallback
+        window.API_BASE_URL = window.API_FALLBACK_URL;
+        
+        // Réessayer le chargement
+        await loadProductsFromApi(true);
+        
+        // Si succès, afficher un message
+        showNotification('✅ Connexion réussie à l\'API de secours !', 'success');
+        
+    } catch (error) {
+        // Restaurer l'URL originale
+        window.API_BASE_URL = originalURL;
+        
+        alert(`❌ L'API de secours n'est pas accessible non plus.\n\nErreur : ${error.message}\n\nVeuillez réessayer plus tard ou contacter le support.`);
+        
+        // Recharger la page pour revenir à l'état initial
+        location.reload();
+    }
+}
+
+// Fonction pour tester le statut de l'API
+async function checkAPIStatus() {
+    const grid = document.getElementById('products-grid');
+    
+    const testResults = [];
+    
+    // Tester API principale
+    testResults.push({
+        name: 'API Principale',
+        url: window.API_BASE_URL,
+        status: '⏳ Test en cours...'
+    });
+    
+    // Tester API de fallback si disponible
+    if (window.API_FALLBACK_URL) {
+        testResults.push({
+            name: 'API de Secours',
+            url: window.API_FALLBACK_URL,
+            status: '⏳ Test en cours...'
+        });
+    }
+    
+    grid.innerHTML = `
+        <div class="col-span-full text-center py-16">
+            <div class="text-blue-500 mb-4">
+                <i class="fas fa-stethoscope text-4xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Test des APIs</h3>
+            <div class="max-w-2xl mx-auto space-y-3">
+                ${testResults.map((test, index) => `
+                    <div class="bg-white border-2 border-gray-200 rounded-lg p-4 text-left">
+                        <p class="font-semibold text-gray-800 mb-1">${test.name}</p>
+                        <p class="text-xs text-gray-600 mb-2">${test.url}</p>
+                        <p class="text-sm" id="api-test-${index}">${test.status}</p>
+                    </div>
+                `).join('')}
+            </div>
+            <button onclick="location.reload()" class="mt-6 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-2 px-6 rounded-lg transition-all">
+                <i class="fas fa-home mr-2"></i>
+                Retour à l'accueil
+            </button>
+        </div>
+    `;
+    
+    // Tester chaque API
+    for (let i = 0; i < testResults.length; i++) {
+        const test = testResults[i];
+        const elementId = `api-test-${i}`;
+        
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 secondes
+            
+            const response = await fetch(`${test.url}/test`, {
+                method: 'GET',
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+            
+            if (response.ok) {
+                document.getElementById(elementId).innerHTML = `
+                    <span class="text-green-600 font-semibold">✅ En ligne</span>
+                    <span class="text-gray-500 ml-2">(Réponse: ${response.status})</span>
+                `;
+            } else {
+                document.getElementById(elementId).innerHTML = `
+                    <span class="text-yellow-600 font-semibold">⚠️ Accessible mais erreur</span>
+                    <span class="text-gray-500 ml-2">(Statut: ${response.status})</span>
+                `;
+            }
+        } catch (error) {
+            document.getElementById(elementId).innerHTML = `
+                <span class="text-red-600 font-semibold">❌ Hors ligne</span>
+                <span class="text-gray-500 ml-2">(${error.message.includes('abort') ? 'Timeout' : error.message})</span>
+            `;
+        }
     }
 }
 
@@ -5939,6 +6204,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCartUI();
     checkAuth();
     displayRecommendedProducts();
+    displayMomentProducts();
     // Bannière supprimée pour design simplifié
 });
 
@@ -6489,9 +6755,79 @@ function loadMoreProducts() {
             };
             return icons[category] || '<i class="fas fa-box text-4xl"></i>';
         }
-        // Ajouter au panier
+        // Ajouter au panier avec validation de quantité minimale
         function addToCart(productId) {
             const product = allProducts.find(p => p.id === productId);
+            
+            if (!product) {
+                console.error('Produit non trouvé:', productId);
+                showNotification('❌ Produit non trouvé', 'error');
+                return;
+            }
+            
+            // 🚫 VÉRIFIER SI LE PRODUIT EST EN RUPTURE DE STOCK
+            if (product.status === 'epuise') {
+                console.error('❌ Produit en rupture de stock:', productId, product.name);
+                showNotification(
+                    `🚫 <strong>Produit indisponible !</strong><br>
+                    Ce produit est actuellement en rupture de stock.<br>
+                    <span class="text-xs text-gray-500 mt-2">Il ne peut pas être ajouté au panier.</span>`,
+                    'error'
+                );
+                return; // Bloquer l'ajout
+            }
+            
+            // Récupérer la quantité sélectionnée (pour les produits business)
+            let quantityToAdd = 1;
+            const quantityDisplay = document.getElementById(`quantity-display-${productId}`);
+            if (quantityDisplay) {
+                quantityToAdd = parseInt(quantityDisplay.textContent) || 1;
+            }
+            
+            // 🔍 DEBUG - Afficher les infos du produit
+            console.log('🛒 Ajout au panier - Debug:', {
+                id: product.id,
+                name: product.name,
+                category: product.category,
+                categorie: product.categorie,
+                quantiteMinimale: product.quantiteMinimale,
+                quantite_minimale: product.quantite_minimale,
+                quantityToAdd: quantityToAdd
+            });
+            
+            // ✅ VALIDATION QUANTITÉ MINIMALE POUR PRESTIGE BUSINESS
+            // Vérifier si c'est un produit business (avec normalisation)
+            const isBusinessProduct = product.category === 'business' || 
+                                     product.categorie === 'business' ||
+                                     product.categorie === '💼 Prestige Business';
+            
+            console.log('📦 Est Business?', isBusinessProduct);
+            
+            if (isBusinessProduct && (product.quantiteMinimale > 1 || product.quantite_minimale > 1)) {
+                const minQty = product.quantiteMinimale || product.quantite_minimale;
+                console.log('✅ Quantité minimale requise:', minQty);
+                
+                // Vérifier si le produit est déjà dans le panier
+                const existingItem = cart.find(item => item.id === productId);
+                const currentQty = existingItem ? existingItem.quantity : 0;
+                
+                console.log('📊 Quantité actuelle:', currentQty, '+ selected:', quantityToAdd, '< minQty?', currentQty + quantityToAdd < minQty);
+                
+                // Si la quantité actuelle + sélectionnée < quantité minimale, afficher erreur
+                if (currentQty + quantityToAdd < minQty) {
+                    const missing = minQty - (currentQty + quantityToAdd);
+                    showNotification(
+                        `⚠️ <strong>Vente en gros uniquement !</strong><br>
+                        Quantité minimale requise : <strong>${minQty} unités</strong><br>
+                        Vous avez sélectionné : ${quantityToAdd} unité(s)<br>
+                        <span class="text-purple-600 font-semibold">💡 Il vous manque ${missing} unité(s) pour atteindre le minimum.</span><br>
+                        <span class="text-xs text-gray-500 mt-2">📦 Augmentez la quantité avec les boutons + et -.</span>`,
+                        'error'
+                    );
+                    return; // Bloquer l'ajout
+                }
+            }
+            
             const existingItem = cart.find(item => item.id === productId);
             
             if (existingItem) {
@@ -6532,11 +6868,155 @@ function loadMoreProducts() {
             displayCart();
         }
 
-        // Modifier la quantité
+        // ✅ FONCTIONS POUR LE SÉLECTEUR DE QUANTITÉ BUSINESS
+        function increaseQuantity(productId) {
+            const display = document.getElementById(`quantity-display-${productId}`);
+            const footerBtn = document.getElementById(`footer-qty-btn-${productId}`);
+            if (display) {
+                const currentQty = parseInt(display.textContent) || 1;
+                const newQty = currentQty + 1;
+                display.textContent = newQty;
+                
+                // Mettre à jour aussi le bouton du footer si présent
+                if (footerBtn) {
+                    footerBtn.textContent = newQty;
+                }
+                
+                // Animation
+                display.style.transform = 'scale(1.2)';
+                setTimeout(() => display.style.transform = 'scale(1)', 200);
+            }
+        }
+        
+        function decreaseQuantity(productId, minQty) {
+            const display = document.getElementById(`quantity-display-${productId}`);
+            const footerBtn = document.getElementById(`footer-qty-btn-${productId}`);
+            if (display) {
+                const currentQty = parseInt(display.textContent) || minQty;
+                if (currentQty > minQty) {
+                    const newQty = currentQty - 1;
+                    display.textContent = newQty;
+                    
+                    // Mettre à jour aussi le bouton du footer si présent
+                    if (footerBtn) {
+                        footerBtn.textContent = newQty;
+                    }
+                    
+                    // Animation
+                    display.style.transform = 'scale(0.9)';
+                    setTimeout(() => display.style.transform = 'scale(1)', 200);
+                }
+            }
+        }
+        
+        function addToCartWithSelectedQty(productId) {
+            // Récupérer la quantité sélectionnée depuis le display
+            const quantityDisplay = document.getElementById(`quantity-display-${productId}`);
+            let selectedQty = 1;
+            if (quantityDisplay) {
+                selectedQty = parseInt(quantityDisplay.textContent) || 1;
+            }
+            
+            console.log('🛒 Ajout avec quantité sélectionnée:', selectedQty);
+            
+            // Appeler addToCart normal mais avec la quantité sélectionnée
+            const product = allProducts.find(p => p.id === productId);
+            
+            if (!product) {
+                console.error('Produit non trouvé:', productId);
+                showNotification('❌ Produit non trouvé', 'error');
+                return;
+            }
+            
+            // 🚫 VÉRIFIER SI LE PRODUIT EST EN RUPTURE DE STOCK
+            if (product.status === 'epuise') {
+                console.error('❌ Produit en rupture de stock:', productId, product.name);
+                showNotification(
+                    `🚫 <strong>Produit indisponible !</strong><br>
+                    Ce produit est actuellement en rupture de stock.<br>
+                    <span class="text-xs text-gray-500 mt-2">Il ne peut pas être ajouté au panier.</span>`,
+                    'error'
+                );
+                return; // Bloquer l'ajout
+            }
+            
+            // Vérifier si le produit est déjà dans le panier
+            const existingItem = cart.find(item => item.id === productId);
+            const currentQty = existingItem ? existingItem.quantity : 0;
+            
+            // Validation pour les produits business
+            const isBusinessProduct = product.category === 'business' || 
+                                     product.categorie === 'business' ||
+                                     product.categorie === '💼 Prestige Business';
+            
+            if (isBusinessProduct && (product.quantiteMinimale > 1 || product.quantite_minimale > 1)) {
+                const minQty = product.quantiteMinimale || product.quantite_minimale;
+                
+                if (selectedQty < minQty) {
+                    const missing = minQty - selectedQty;
+                    showNotification(
+                        `⚠️ <strong>Vente en gros uniquement !</strong><br>
+                        Quantité minimale requise : <strong>${minQty} unités</strong><br>
+                        Vous avez sélectionné : ${selectedQty} unité(s)<br>
+                        <span class="text-purple-600 font-semibold">💡 Il vous manque ${missing} unité(s).</span>`,
+                        'error'
+                    );
+                    return;
+                }
+            }
+            
+            // Ajouter au panier avec la quantité sélectionnée
+            if (existingItem) {
+                existingItem.quantity += selectedQty;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: selectedQty
+                });
+            }
+            
+            // Sauvegarder dans localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            updateCartUI();
+            showNotification(`✅ ${selectedQty} unité(s) ajoutée(s) au panier !`, 'success');
+            
+            // Lancer l'effet de confettis
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#bb0000', '#ffffff', '#0000ff'],
+                shapes: ['circle', 'square']
+            });
+        }
+
+        // Modifier la quantité avec validation minimale
         function updateQuantity(keyOrId, change) {
             const keyStr = String(keyOrId);
             const item = cart.find(item => String(item._key || item.id) === keyStr);
+            
             if (item) {
+                // ✅ VALIDATION QUANTITÉ MINIMALE POUR PRESTIGE BUSINESS
+                // Vérifier si c'est un produit business (avec normalisation)
+                const isBusinessProduct = item.category === 'business' || 
+                                         item.categorie === 'business' ||
+                                         item.categorie === '💼 Prestige Business';
+                
+                if (isBusinessProduct && (item.quantiteMinimale > 1 || item.quantite_minimale > 1)) {
+                    const minQty = item.quantiteMinimale || item.quantite_minimale;
+                    const newQty = item.quantity + change;
+                    
+                    // Si nouvelle quantité < minimum, afficher erreur
+                    if (newQty < minQty && newQty > 0) {
+                        showNotification(
+                            `⚠️ <strong>Quantité insuffisante !</strong><br>Minimum requis : ${minQty} unités<br>Pour ce produit Prestige Business.`,
+                            'error'
+                        );
+                        return; // Bloquer la réduction
+                    }
+                }
+                
                 item.quantity += change;
                 if (item.quantity <= 0) {
                     removeFromCart(keyStr);
@@ -6698,24 +7178,11 @@ function loadMoreProducts() {
             const recommendedCarousels = document.querySelectorAll('#recommended-carousel');
             if (recommendedCarousels.length === 0) return;
 
-            // Sélectionner les produits disponibles et non dans le panier
-            let recommendedProducts = allProducts.filter(product => {
-                // Exclure les produits déjà dans le panier
-                const isInCart = cart.some(item => item.id === product.id);
-                return !isInCart;
+            // Filtrer UNIQUEMENT les produits avec recommande = 1 ET status !== 'epuise'
+            const recommendedProducts = allProducts.filter(product => {
+                return (product.recommande === 1 || product.recommande === '1')
+                       && product.status !== 'epuise';  // 🚫 EXCLURE les produits épuisés
             });
-
-            // Mélanger aléatoirement et prendre les 10 premiers
-            recommendedProducts = recommendedProducts
-                .sort(() => Math.random() - 0.5)
-                .slice(0, 10);
-
-            // Si moins de 10 produits, ajouter d'autres même s'ils sont dans le panier
-            if (recommendedProducts.length < 10) {
-                recommendedProducts = allProducts
-                    .sort(() => Math.random() - 0.5)
-                    .slice(0, 10);
-            }
 
             // Générer le HTML pour chaque produit
             const carouselHTML = recommendedProducts.map(product => {
@@ -6786,6 +7253,93 @@ function loadMoreProducts() {
             recommendedCarousels.forEach(carousel => {
                 carousel.innerHTML = carouselHTML;
             });
+            
+            // Marquer les favoris dans les nouveaux éléments
+            markFavoritesInUI();
+        }
+
+        // Afficher les produits du moment (carousel horizontal)
+        function displayMomentProducts() {
+            const momentCarousel = document.getElementById('moment-carousel');
+            if (!momentCarousel) return;
+
+            // Filtrer UNIQUEMENT les produits avec moment = 1 ET status !== 'epuise'
+            const momentProducts = allProducts.filter(product => {
+                return (product.moment === 1 || product.moment === '1') 
+                       && product.status !== 'epuise';  // 🚫 EXCLURE les produits épuisés
+            });
+
+            // Générer le HTML pour chaque produit
+            const carouselHTML = momentProducts.map(product => {
+                const imageUrl = getProductMainImage(product);
+                const discount = product.discountPercent || 20;
+                const originalPrice = product.price / (1 - discount / 100);
+
+                return `
+                    <div class="flex-shrink-0 w-40 group">
+                        <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all cursor-pointer border border-gray-100 h-full flex flex-col">
+                            <!-- Image -->
+                            <div class="relative w-full h-40 overflow-hidden bg-gray-100 cursor-pointer" onclick="openProductQuickView(${product.id})">
+                                <img src="${getAbsoluteImagePath(imageUrl)}" 
+                                     alt="${product.name}" 
+                                     class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 p-2"
+                                     onerror="this.src='/images/placeholder.png';">
+                                
+                                <!-- Badge "Nouveau" ou "Populaire" -->
+                                <div class="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-full px-3 py-1 text-xs font-bold shadow-lg">
+                                    <i class="fas fa-fire mr-1"></i> Tendance
+                                </div>
+                                
+                                <!-- Like/Favorite Button (Top Right) -->
+                                <button onclick="event.stopPropagation(); toggleFavorite(${product.id}, this);" 
+                                        class="absolute top-2 right-12 bg-white/90 hover:bg-white text-red-500 hover:text-red-600 p-2 rounded-full shadow-md hover:shadow-lg transition-all z-10 active:scale-90">
+                                    <i class="fas fa-heart text-lg"></i>
+                                </button>
+                                
+                                <!-- Badge discount (Bottom Right) -->
+                                <div class="absolute bottom-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-xs shadow-lg">
+                                    -${discount}%
+                                </div>
+                                
+                                <!-- Bouton Ajouter au panier en hover -->
+                                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                    <button onclick="event.stopPropagation(); addQuickToCart(${product.id}, '${product.name.replaceAll("'", "\\'")}', ${product.price}, '${imageUrl.replaceAll("'", "\\'")}', '${(product.description || '').replaceAll("'", "\\'")}')}" 
+                                            class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-lg font-bold text-xs transition-all transform scale-0 group-hover:scale-100 flex items-center space-x-1">
+                                        <i class="fas fa-plus text-xs"></i>
+                                        <span class="text-xs">Ajouter</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Contenu -->
+                            <div class="p-3 flex-1 flex flex-col">
+                                <!-- Nom produit -->
+                                <h4 class="font-bold text-sm text-gray-800 line-clamp-2 mb-1">${product.name}</h4>
+                                
+                                <!-- Catégorie -->
+                                <p class="text-xs text-gray-500 mb-2">${product.category || 'Produit'}</p>
+                                
+                                <!-- Prix -->
+                                <div class="mt-auto mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-bold text-purple-600">${product.price.toLocaleString()} FCFA</span>
+                                        <span class="text-xs text-gray-400 line-through">${Math.round(originalPrice).toLocaleString()} FCFA</span>
+                                    </div>
+                                </div>
+
+                                <!-- Bouton sur mobile -->
+                                <button onclick="addQuickToCart(${product.id}, '${product.name.replaceAll("'", "\\'")}', ${product.price}, '${imageUrl.replaceAll("'", "\\'")}', '${(product.description || '').replaceAll("'", "\\'")}')}" 
+                                        class="w-full h-8 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold text-xs transition-all group-hover:hidden flex items-center justify-center">
+                                    <i class="fas fa-plus text-xs mr-0.5"></i> Ajouter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Mettre à jour le carousel
+            momentCarousel.innerHTML = carouselHTML;
             
             // Marquer les favoris dans les nouveaux éléments
             markFavoritesInUI();
@@ -8625,6 +9179,9 @@ function loadMoreProducts() {
                 return;
             }
             
+            // Vérifier si le produit est en rupture de stock
+            const isOutOfStock = product.status === 'epuise';
+            
             // Masquer les sections de recherche si elles existent
             const searchSection = document.getElementById('search-results-section');
             const searchResults = document.getElementById('search-results');
@@ -8740,6 +9297,15 @@ function loadMoreProducts() {
                                 
                                 <!-- Prix -->
                                 <div class="mb-6 p-4 bg-purple-50 rounded-lg border border-purple-100">
+                                    ${isOutOfStock ? `
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <span class="text-3xl font-bold text-gray-500">${product.price.toLocaleString()} FCFA</span>
+                                        <span class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold animate-pulse">
+                                            <i class="fas fa-ban mr-1"></i> Rupture de stock
+                                        </span>
+                                    </div>
+                                    <p class="text-sm text-red-600 font-semibold">❌ Actuellement indisponible</p>
+                                    ` : `
                                     <div class="flex items-baseline gap-3 mb-2">
                                         <span class="text-3xl font-bold text-purple-600">${product.price.toLocaleString()} FCFA</span>
                                         ${product.originalPrice > product.price ? `
@@ -8748,7 +9314,53 @@ function loadMoreProducts() {
                                         ` : ''}
                                     </div>
                                     <p class="text-sm text-gray-600">✓ Livraison rapide disponible</p>
+                                    `}
                                 </div>
+                                
+                                <!-- Badge Quantité Minimale pour Prestige Business -->
+                                ${(product.category === 'business' || product.categorie === 'business' || product.categorie === '💼 Prestige Business') && (product.quantiteMinimale > 1 || product.quantite_minimale > 1) && !isOutOfStock ? `
+                                    <div class="mb-6 bg-gradient-to-r from-orange-50 to-red-50 border-l-4 border-orange-500 p-4 rounded-lg">
+                                        <div class="flex items-start gap-3">
+                                            <i class="fas fa-boxes text-orange-500 text-2xl mt-1"></i>
+                                            <div class="flex-1">
+                                                <h4 class="font-bold text-orange-800 mb-1 flex items-center gap-2">
+                                                    <i class="fas fa-truck-loading"></i>
+                                                    Vente en gros uniquement
+                                                </h4>
+                                                <p class="text-sm text-orange-700 mb-2">
+                                                    Ce produit est destiné à la revente ou aux achats en grande quantité.
+                                                </p>
+                                                <div class="flex items-center gap-2 text-orange-600 font-semibold">
+                                                    <i class="fas fa-clipboard-list"></i>
+                                                    <span>Quantité minimale : <strong>${product.quantiteMinimale || product.quantite_minimale}</strong> unités</span>
+                                                </div>
+                                                ${product.quantiteMinimale || product.quantite_minimale ? `
+                                                    <p class="text-xs text-orange-500 mt-2">
+                                                        💰 Prix dégressif possible pour grandes quantités
+                                                    </p>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- ✅ SÉLECTEUR DE QUANTITÉ POUR BUSINESS (COMME SUR LA CARTE PRINCIPALE) -->
+                                    <div class="mb-6 flex items-center justify-between bg-orange-50 border-2 border-orange-200 rounded-xl p-4">
+                                        <span class="text-sm font-bold text-orange-900">Quantité :</span>
+                                        <div class="flex items-center gap-3">
+                                            <button onclick="event.stopPropagation(); decreaseQuantity(${product.id}, ${product.quantiteMinimale || product.quantite_minimale})" 
+                                                    class="w-10 h-10 bg-orange-200 hover:bg-orange-300 text-orange-800 rounded-full flex items-center justify-center font-bold transition-all shadow-md active:scale-95"
+                                                    id="decrease-btn-${product.id}">
+                                                <i class="fas fa-minus text-base"></i>
+                                            </button>
+                                            <span id="quantity-display-${product.id}" class="w-16 text-center font-bold text-orange-900 text-lg">${product.quantiteMinimale || product.quantite_minimale}</span>
+                                            <button onclick="event.stopPropagation(); increaseQuantity(${product.id})" 
+                                                    class="w-10 h-10 bg-orange-200 hover:bg-orange-300 text-orange-800 rounded-full flex items-center justify-center font-bold transition-all shadow-md active:scale-95"
+                                                    id="increase-btn-${product.id}">
+                                                <i class="fas fa-plus text-base"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ` : ''}
                                 
                                 <!-- Description -->
                                 <div class="mb-6">
@@ -8769,15 +9381,23 @@ function loadMoreProducts() {
                             </h3>
                             <div class="overflow-x-auto pb-3 -mx-6 px-6">
                                 <div class="flex gap-4 min-w-min">
-                                    ${similarProducts.map(p => `
-                                        <div class="flex-shrink-0 w-40 group">
-                                            <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all cursor-pointer border border-gray-100 h-full flex flex-col" onclick="openProductQuickView(${p.id})">
+                                    ${similarProducts.map(p => {
+                                        const isSimilarOutOfStock = p.status === 'epuise';
+                                        return `
+                                        <div class="flex-shrink-0 w-40 group ${isSimilarOutOfStock ? 'opacity-60 grayscale' : ''}">
+                                            <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all ${isSimilarOutOfStock ? 'cursor-not-allowed' : 'cursor-pointer'} border border-gray-100 h-full flex flex-col" ${!isSimilarOutOfStock ? `onclick="openProductQuickView(${p.id})"` : ''}>
                                                 <div class="relative w-full h-40 overflow-hidden bg-gray-100">
                                                     <img src="${getAbsoluteImagePath(getProductMainImage(p))}" 
                                                          alt="${p.name}" 
                                                          class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 p-2"
                                                          onerror="this.src='/images/placeholder.png';">
                                                     
+                                                    ${isSimilarOutOfStock ? `
+                                                    <!-- Badge Rupture de Stock -->
+                                                    <div class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
+                                                        <i class="fas fa-ban"></i>
+                                                    </div>
+                                                    ` : `
                                                     <!-- Like/Favorite Button (Top Right) -->
                                                     <button onclick="event.stopPropagation(); toggleFavorite(${p.id}, this);" 
                                                             class="absolute top-2 right-2 bg-white/90 hover:bg-white text-red-500 hover:text-red-600 p-2 rounded-full shadow-md hover:shadow-lg transition-all z-10 active:scale-90">
@@ -8788,21 +9408,30 @@ function loadMoreProducts() {
                                                     <div class="absolute bottom-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-xs shadow-lg">
                                                         -${p.discountPercent || 20}%
                                                     </div>
+                                                    `}
                                                 </div>
                                                 <div class="p-3 flex-1 flex flex-col">
-                                                    <h4 class="font-bold text-sm text-gray-800 line-clamp-2 mb-1">${p.name}</h4>
+                                                    <h4 class="font-bold text-sm text-gray-800 line-clamp-2 mb-1 ${isSimilarOutOfStock ? 'line-through text-gray-500' : ''}">${p.name}</h4>
                                                     <p class="text-xs text-gray-500 mb-2">${getCategoryName(p.category)}</p>
                                                     <div class="mt-auto mb-2">
-                                                        <span class="font-bold text-purple-600">${p.price.toLocaleString()} FCFA</span>
+                                                        <span class="font-bold ${isSimilarOutOfStock ? 'text-gray-500' : 'text-purple-600'}">${p.price.toLocaleString()} FCFA</span>
                                                     </div>
+                                                    ${isSimilarOutOfStock ? `
+                                                    <button disabled 
+                                                            class="w-full h-8 bg-gray-300 text-gray-500 rounded-lg font-bold text-xs cursor-not-allowed flex items-center justify-center">
+                                                        <i class="fas fa-ban text-xs mr-0.5"></i> Indisponible
+                                                    </button>
+                                                    ` : `
                                                     <button onclick="event.stopPropagation(); addToCart(${p.id})" 
                                                             class="w-full h-8 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold text-xs transition-all flex items-center justify-center">
                                                         <i class="fas fa-plus text-xs mr-0.5"></i> Ajouter
                                                     </button>
+                                                    `}
                                                 </div>
                                             </div>
                                         </div>
-                                    `).join('')}
+                                        `;
+                                    }).join('')}
                                 </div>
                             </div>
                         </div>
@@ -8811,10 +9440,22 @@ function loadMoreProducts() {
                     
                     <!-- Footer sticky avec bouton Ajouter au panier -->
                     <div class="sticky bottom-0 bg-white border-t border-gray-100 px-6 py-3 shadow-lg">
+                        ${isOutOfStock ? `
+                        <button disabled 
+                                class="w-full bg-gray-300 text-gray-500 py-3 rounded-lg font-bold text-sm cursor-not-allowed flex items-center justify-center">
+                            <i class="fas fa-ban mr-2"></i> Indisponible
+                        </button>
+                        ` : ((product.category === 'business' || product.categorie === 'business' || product.categorie === '💼 Prestige Business') && (product.quantiteMinimale > 1 || product.quantite_minimale > 1) ? `
+                        <button onclick="addToCartWithSelectedQty(${product.id}); closeProductQuickView();" 
+                                class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 rounded-lg font-bold text-sm transition-all shadow-lg hover:shadow-xl flex items-center justify-center">
+                            <i class="fas fa-shopping-cart mr-2"></i> Ajouter (<span id="footer-qty-btn-${product.id}">${product.quantiteMinimale || product.quantite_minimale}</span> min)
+                        </button>
+                        ` : `
                         <button onclick="addToCart(${product.id}); closeProductQuickView();" 
                                 class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 rounded-lg font-bold text-sm transition-all shadow-lg hover:shadow-xl flex items-center justify-center">
                             <i class="fas fa-shopping-cart mr-2"></i> Ajouter au panier
                         </button>
+                        `)}
                     </div>
                 </div>
             `;

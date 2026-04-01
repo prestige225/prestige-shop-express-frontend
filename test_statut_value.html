@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Statut Value - Diagnostic</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #667eea; }
+        h2 { color: #333; font-size: 18px; margin-top: 0; }
+        .success { color: #22c55e; }
+        .error { color: #ef4444; }
+        .warning { color: #f59e0b; }
+        code {
+            background: #1e293b;
+            color: #22d3ee;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .result {
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Test de Valeur - Statut Produit</h1>
+    
+    <div class="card">
+        <h2>Test 1: Vérification du Select</h2>
+        <p>Sélectionnez "Rupture de stock" et cliquez sur "Vérifier"</p>
+        
+        <select id="test-status">
+            <option value="actif">Actif</option>
+            <option value="inactif">Inactif</option>
+            <option value="epuise">Rupture de stock</option>
+        </select>
+        
+        <br>
+        <button onclick="checkValue()">✅ Vérifier la valeur</button>
+        <button onclick="showAllOptions()">📋 Afficher toutes les options</button>
+        
+        <div id="result1" class="result" style="display:none;"></div>
+    </div>
+    
+    <div class="card">
+        <h2>Test 2: Simulation d'Envoi JSON</h2>
+        <p>Ceci simule ce qui sera envoyé au backend</p>
+        
+        <button onclick="simulateSend()">🚀 Simuler l'envoi</button>
+        
+        <div id="result2" class="result" style="display:none;"></div>
+    </div>
+    
+    <div class="card">
+        <h2>Test 3: Vérification du Fichier Réel</h2>
+        <p>Vérifie le fichier admin_produits.html que vous utilisez</p>
+        
+        <button onclick="checkRealFile()">📁 Vérifier le fichier</button>
+        
+        <div id="result3" class="result" style="display:none;"></div>
+    </div>
+    
+    <script>
+        // Test 1: Vérification basique
+        function checkValue() {
+            const select = document.getElementById('test-status');
+            const value = select.value;
+            const selectedIndex = select.selectedIndex;
+            const selectedText = select.options[selectedIndex].text;
+            
+            const resultDiv = document.getElementById('result1');
+            resultDiv.style.display = 'block';
+            
+            const isCorrect = value === 'epuise';
+            
+            resultDiv.innerHTML = `
+                <h3>Résultat du Test :</h3>
+                <p><strong>Valeur sélectionnée :</strong> <code>${value}</code></p>
+                <p><strong>Texte affiché :</strong> ${selectedText}</p>
+                <p><strong>Index :</strong> ${selectedIndex}</p>
+                <p class="${isCorrect ? 'success' : 'error'}">
+                    <strong>${isCorrect ? '✅ CORRECT' : '❌ INCORRECT'}</strong>
+                </p>
+                <p>La valeur devrait être <code>epuise</code> (et non <code>rupture</code>)</p>
+            `;
+            
+            console.log('🔍 Test 1 - Selected value:', value);
+            console.log('Available options:', 
+                Array.from(select.options).map(o => ({value: o.value, text: o.text}))
+            );
+        }
+        
+        function showAllOptions() {
+            const select = document.getElementById('test-status');
+            const resultDiv = document.getElementById('result1');
+            resultDiv.style.display = 'block';
+            
+            resultDiv.innerHTML = `
+                <h3>Toutes les Options :</h3>
+                <ul>
+                    ${Array.from(select.options).map((opt, i) => `
+                        <li>
+                            Option ${i}: 
+                            <code>value="${opt.value}"</code> 
+                            → Texte: "${opt.text}"
+                            ${i === select.selectedIndex ? '<strong>(SÉLECTIONNÉE)</strong>' : ''}
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+        }
+        
+        // Test 2: Simulation d'envoi
+        function simulateSend() {
+            const select = document.getElementById('test-status');
+            const statutValue = select.value;
+            
+            // Simulation des données envoyées au backend
+            const formData = {
+                nom: "Test Product",
+                prix: 10000,
+                categorie: "test",
+                statut: statutValue,  // C'est ici que se situe le problème potentiel
+                stock: 50
+            };
+            
+            const resultDiv = document.getElementById('result2');
+            resultDiv.style.display = 'block';
+            
+            const jsonData = JSON.stringify(formData, null, 2);
+            const isValid = statutValue === 'epuise';
+            
+            resultDiv.innerHTML = `
+                <h3>Données simulées envoyées au backend :</h3>
+                <pre style="background: #1e293b; color: #22d3ee; padding: 10px; border-radius: 5px; overflow-x: auto;">${jsonData}</pre>
+                <p class="${isValid ? 'success' : 'error'}">
+                    <strong>${isValid ? '✅ DONNÉES CORRECTES' : '❌ ERREUR MYSQL 1265 GARANTIE'}</strong>
+                </p>
+                <p>Le backend recevra: <code>statut = "${statutValue}"</code></p>
+                <p>L'ENUM MySQL accepte: <code>('actif','inactif','epuise')</code></p>
+                ${!isValid ? `<p class="warning">⚠️ "${statutValue}" n'est pas dans l'ENUM !</p>` : ''}
+            `;
+            
+            console.log('🚀 Test 2 - Simulated payload:', formData);
+            console.log('JSON sent:', jsonData);
+        }
+        
+        // Test 3: Vérification du fichier réel
+        async function checkRealFile() {
+            const resultDiv = document.getElementById('result3');
+            resultDiv.style.display = 'block';
+            
+            try {
+                // Essayer de charger le fichier admin_produits.html
+                const response = await fetch('admin_produits.html?t=' + Date.now());
+                
+                if (!response.ok) {
+                    throw new Error('Fichier non trouvé');
+                }
+                
+                const content = await response.text();
+                
+                // Chercher la ligne avec le select status
+                const lines = content.split('\n');
+                let foundLine = -1;
+                let lineContent = '';
+                let hasCorrectValue = false;
+                let hasWrongValue = false;
+                
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].includes('product-status') && lines[i].includes('select')) {
+                        // Trouver les lignes suivantes avec les options
+                        for (let j = i; j < Math.min(i + 20, lines.length); j++) {
+                            if (lines[j].includes('value="rupture"')) {
+                                hasWrongValue = true;
+                                foundLine = j + 1;
+                                lineContent = lines[j].trim();
+                            }
+                            if (lines[j].includes('value="epuise"')) {
+                                hasCorrectValue = true;
+                                if (foundLine === -1) {
+                                    foundLine = j + 1;
+                                    lineContent = lines[j].trim();
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+                
+                if (hasWrongValue && !hasCorrectValue) {
+                    resultDiv.innerHTML = `
+                        <h3 class="error">❌ PROBLÈME DÉTECTÉ !</h3>
+                        <p>Le fichier contient encore l'ancienne valeur !</p>
+                        <p><strong>Ligne ${foundLine} :</strong> <code>${lineContent}</code></p>
+                        <p class="warning">Vous devez corriger cette ligne en remplaçant <code>value="rupture"</code> par <code>value="epuise"</code></p>
+                    `;
+                } else if (hasCorrectValue && !hasWrongValue) {
+                    resultDiv.innerHTML = `
+                        <h3 class="success">✅ FICHIER CORRECT !</h3>
+                        <p>Le fichier contient la bonne valeur <code>epuise</code></p>
+                        <p><strong>Ligne ${foundLine} :</strong> <code>${lineContent}</code></p>
+                        <p class="warning">Si l'erreur persiste, c'est un problème de cache navigateur !</p>
+                        <p><strong>Solution :</strong> Faites Ctrl+F5 ou videz le cache</p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3>⚠️ RÉSULTAT MIXTE</h3>
+                        <p>Le fichier semble avoir été partiellement modifié</p>
+                        <p>Veuillez vérifier manuellement la ligne 153 de admin_produits.html</p>
+                    `;
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3 class="error">❌ ERREUR</h3>
+                    <p>Impossible de lire le fichier admin_produits.html</p>
+                    <p><code>${error.message}</code></p>
+                    <p>Assurez-vous que ce fichier est dans le même dossier que cette page de test</p>
+                `;
+            }
+        }
+        
+        // Auto-check au chargement
+        window.onload = function() {
+            console.log('🎯 Page de test chargée');
+            console.log('Navigateur:', navigator.userAgent);
+            console.log('Timestamp:', new Date().toISOString());
+        };
+    </script>
+</body>
+</html>

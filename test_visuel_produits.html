@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Visuel - Produits Spéciaux</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-8 text-center">🎯 Test des Indicateurs Visuels</h1>
+        
+        <!-- Exemple 1: Produit normal -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4">📦 Produit Normal (aucun statut)</h2>
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all border border-gray-200 w-full max-w-md">
+                <div class="p-6">
+                    <h3 class="font-bold text-lg">Produit Standard</h3>
+                    <p class="text-gray-600">Ce produit n'a aucun statut spécial</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exemple 2: Produit recommandé -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4">⭐ Produit Recommandé</h2>
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all border-4 border-yellow-400 ring-2 ring-yellow-200 w-full max-w-md" 
+                 style="background: linear-gradient(135deg, rgba(255,215,0,0.05), transparent);">
+                <div class="p-6">
+                    <div class="mb-3">
+                        <span class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center gap-1 inline-flex">
+                            <i class="fas fa-star"></i> Recommandé
+                        </span>
+                    </div>
+                    <h3 class="font-bold text-lg">Produit Recommandé</h3>
+                    <p class="text-gray-600">Ce produit est mis en avant ⭐</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exemple 3: Produit du moment -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4">🔥 Produit du Moment</h2>
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all border-4 border-red-400 ring-2 ring-red-200 w-full max-w-md" 
+                 style="background: linear-gradient(135deg, rgba(255,99,71,0.05), transparent);">
+                <div class="p-6">
+                    <div class="mb-3">
+                        <span class="bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center gap-1 inline-flex">
+                            <i class="fas fa-fire"></i> En ce moment
+                        </span>
+                    </div>
+                    <h3 class="font-bold text-lg">Produit du Moment</h3>
+                    <p class="text-gray-600">Ce produit est tendance 🔥</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exemple 4: Produit recommandé ET du moment -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4">⭐🔥 Produit Recommandé + Moment</h2>
+            <div class="product-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all border-4 border-orange-500 ring-2 ring-orange-300 w-full max-w-md" 
+                 style="background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,99,71,0.08));">
+                <div class="p-6">
+                    <div class="mb-3 flex flex-col gap-2">
+                        <span class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center gap-1 inline-flex w-fit">
+                            <i class="fas fa-star"></i> Recommandé
+                        </span>
+                        <span class="bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center gap-1 inline-flex w-fit">
+                            <i class="fas fa-fire"></i> En ce moment
+                        </span>
+                    </div>
+                    <h3 class="font-bold text-lg">Produit Premium</h3>
+                    <p class="text-gray-600">Ce produit cumule les deux statuts ! 🌟</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Légende -->
+        <div class="mt-12 bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4">📋 Légende</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 border-4 border-gray-300 rounded"></div>
+                    <span>Produit standard</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 border-4 border-yellow-400 ring-2 ring-yellow-200 rounded"></div>
+                    <span>⭐ Recommandé (jaune)</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 border-4 border-red-400 ring-2 ring-red-200 rounded"></div>
+                    <span>🔥 Du moment (rouge)</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 border-4 border-orange-500 ring-2 ring-orange-300 rounded"></div>
+                    <span>⭐🔥 Les deux (orange)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center">
+            <p class="text-gray-600">
+                💡 Ces indicateurs sont maintenant appliqués automatiquement dans 
+                <strong>admin_produits.html</strong> pour les produits avec les statuts 
+                <code>recommande = 1</code> et/ou <code>moment = 1</code>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -6,10 +6,19 @@ if (typeof window.API_BASE_URL === 'undefined') {
     
     // En développement local
     if (['localhost', '127.0.0.1'].includes(hostname)) {
-        // Utiliser le même hôte et port que la page
+        // Ports de backend connus (en priorité)
+        const backendPorts = ['5000', '5500', '5504', '5505', '5506'];
         const port = window.location.port;
-        window.API_BASE_URL = `${protocol}//${hostname}:${port || (protocol === 'https:' ? 443 : 80)}/api`;
-        console.log('🔧 Backend LOCAL activé:', window.API_BASE_URL);
+        
+        // Si le port actuel est connu, essayer d'utiliser le backend sur ce port
+        if(backendPorts.includes(port)){
+            window.API_BASE_URL = `${protocol}//${hostname}:${port}/api`;
+            console.log('✅ API détecté sur le port actuel:', window.API_BASE_URL);
+        } else {
+            // Sinon, essayer le port 5000 par défaut
+            window.API_BASE_URL = 'http://localhost:5000/api';
+            console.log('⚠️  Fallback vers port 5000:', window.API_BASE_URL);
+        }
     } else if (hostname.includes('prestige-shop-express')) {
         // En production sur prestige-shop-express (frontend) - utiliser le backend séparé
         window.API_BASE_URL = 'https://prestige-shop-backend.onrender.com/api';

@@ -16,34 +16,6 @@
     <!-- Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="./api-config.js"></script>
-    <script>
-      (function(){
-        try{
-          // Configuration intelligente du backend API
-          const hostname = window.location.hostname;
-          const port = window.location.port;
-          
-          // Si on est sur localhost ou 127.0.0.1
-          if(['localhost','127.0.0.1'].includes(hostname)){
-            // Ports de backend connus (en priorité)
-            const backendPorts = ['5000', '5500', '5504', '5505', '5506'];
-            
-            // Si le port actuel est connu, essayer d'utiliser le backend sur ce port
-            if(backendPorts.includes(port)){
-              const protocol = window.location.protocol; // http: ou https:
-              window.API_BASE_URL = `${protocol}//${hostname}:${port}/api`;
-              console.log('✅ API détecté sur le port actuel:', window.API_BASE_URL);
-            } else {
-              // Sinon, essayer le port 5000 par défaut
-              window.API_BASE_URL = 'http://localhost:5000/api';
-              console.log('⚠️  Fallback vers port 5000:', window.API_BASE_URL);
-            }
-          }
-        }catch(e){
-          console.error('Erreur configuration API:', e);
-        }
-      })();
-    </script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/custom.css">
     <style>
@@ -57,6 +29,7 @@
         }
         
         .feature-badge {
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
         }
         

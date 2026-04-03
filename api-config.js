@@ -1,10 +1,23 @@
 // Configuration de l'API (idempotente pour éviter les reloads multiples)
 if (typeof window.API_BASE_URL === 'undefined') {
-    // EN LOCAL: Utiliser le backend local sur le port 5000
-    window.API_BASE_URL = 'http://localhost:5000/api';
-    window.API_FALLBACK_URL = 'http://localhost:5000/api';
+    // Auto-détection intelligent du backend API
+    const hostname = window.location.hostname;
+    const protocol = window.location.protocol; // http: ou https:
     
-    console.log('🔧 Backend LOCAL activé:', window.API_BASE_URL);
+    // En développement local
+    if (['localhost', '127.0.0.1'].includes(hostname)) {
+        // Utiliser le même hôte et port que la page
+        const port = window.location.port;
+        window.API_BASE_URL = `${protocol}//${hostname}:${port || (protocol === 'https:' ? 443 : 80)}/api`;
+        console.log('🔧 Backend LOCAL activé:', window.API_BASE_URL);
+    } else {
+        // En production (Render, etc.) - utiliser le même domaine
+        window.API_BASE_URL = `${protocol}//${hostname}/api`;
+        console.log('🔧 Backend PRODUCTION activé:', window.API_BASE_URL);
+    }
+    
+    // Fallback en cas de problème
+    window.API_FALLBACK_URL = window.API_BASE_URL;
 }
 
 // Fonction utilitaire pour effectuer les appels API avec gestion des erreurs

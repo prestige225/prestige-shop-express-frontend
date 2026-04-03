@@ -19,10 +19,14 @@ if (typeof window.API_BASE_URL === 'undefined') {
             window.API_BASE_URL = 'http://localhost:5000/api';
             console.log('⚠️  Fallback vers port 5000:', window.API_BASE_URL);
         }
-    } else if (hostname.includes('prestige-shop-express')) {
-        // En production sur prestige-shop-express (frontend) - utiliser le backend séparé
+    } else if (hostname.includes('.onrender.com') && !hostname.includes('backend')) {
+        // Sur Render (mais pas le backend) - utiliser le backend séparé
         window.API_BASE_URL = 'https://prestige-shop-backend.onrender.com/api';
         console.log('🔧 Backend RENDER (séparé) activé:', window.API_BASE_URL);
+    } else if (hostname.includes('prestige-shop-backend')) {
+        // Si on est sur le backend lui-même, utiliser un endpoint relatif
+        window.API_BASE_URL = '/api';
+        console.log('🔧 Backend LOCAL (même domaine) activé:', window.API_BASE_URL);
     } else {
         // En production (autres domaines) - utiliser le même domaine
         window.API_BASE_URL = `${protocol}//${hostname}/api`;

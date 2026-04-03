@@ -10,8 +10,12 @@ if (typeof window.API_BASE_URL === 'undefined') {
         const port = window.location.port;
         window.API_BASE_URL = `${protocol}//${hostname}:${port || (protocol === 'https:' ? 443 : 80)}/api`;
         console.log('🔧 Backend LOCAL activé:', window.API_BASE_URL);
+    } else if (hostname.includes('prestige-shop-express')) {
+        // En production sur prestige-shop-express (frontend) - utiliser le backend séparé
+        window.API_BASE_URL = 'https://prestige-shop-backend.onrender.com/api';
+        console.log('🔧 Backend RENDER (séparé) activé:', window.API_BASE_URL);
     } else {
-        // En production (Render, etc.) - utiliser le même domaine
+        // En production (autres domaines) - utiliser le même domaine
         window.API_BASE_URL = `${protocol}//${hostname}/api`;
         console.log('🔧 Backend PRODUCTION activé:', window.API_BASE_URL);
     }

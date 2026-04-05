@@ -5550,9 +5550,39 @@ function mapApiProductToFrontend(apiProduct) {
         recommande: apiProduct.recommande || 0,  // ✅ Ajout du champ recommandé
         moment: apiProduct.moment || 0  // ✅ Ajout du champ moment
     };
+    
+    // 🔍 DEBUG: Afficher la structure pour les produits Business
+    if (normalizedProduct.category === 'business' || apiProduct.categorie === '💼 Prestige Business') {
+        console.log('🏢 PRODUIT BUSINESS DÉTECTÉ:', {
+            id: normalizedProduct.id,
+            nom: normalizedProduct.name,
+            categorie_brute: apiProduct.categorie,
+            categorie_normalisee: normalizedProduct.category,
+            quantite_minimale_brute: apiProduct.quantite_minimale,
+            quantite_minimale_normalisee: normalizedProduct.quantiteMinimale,
+            affichage_badge: normalizedProduct.category === 'business' && normalizedProduct.quantiteMinimale > 1
+        });
+    }
+    
+    return normalizedProduct;
 }
 
-// 🎨 FONCTION POUR CRÉER UNE CARTE DE PRODUIT (MANQUAIT!)
+// � FONCTION HELPER ROBUSTE POUR DÉTECTION PRESTIGE BUSINESS
+function isBusinessProduct(product) {
+    if (!product) return false;
+    
+    // Vérifier category normalisée
+    if (product.category === 'business') return true;
+    
+    // Fallback: vérifier categorie non-normalisée avec trim et toLowerCase
+    const normalizedCategorie = (product.categorie || '').trim().toLowerCase();
+    
+    return normalizedCategorie === '💼 prestige business' || 
+           normalizedCategorie === 'prestige business' || 
+           normalizedCategorie === 'business';
+}
+
+// �🎨 FONCTION POUR CRÉER UNE CARTE DE PRODUIT (MANQUAIT!)
 function createProductCard(product) {
     const imageSrc = product.images && product.images.length > 0 ? product.images[0] : '/images/prestige-shop.png';
     const images = product.images || [imageSrc];
@@ -5646,14 +5676,14 @@ function createProductCard(product) {
                 </div>
                 
                 <!-- Badge Quantité Minimale pour Prestige Business -->
-                ${product.category === 'business' && product.quantiteMinimale > 1 && !isOutOfStock ? `
+                ${isBusinessProduct(product) && (product.quantiteMinimale > 1 || product.quantite_minimale > 1) && !isOutOfStock ? `
                     <div class="mb-3 bg-gradient-to-r from-orange-50 to-red-50 border-l-4 border-orange-500 p-2 rounded">
                         <p class="text-xs font-bold text-orange-700 flex items-center">
                             <i class="fas fa-boxes mr-1"></i>
                             Vente en gros uniquement
                         </p>
                         <p class="text-xs text-orange-600 mt-0.5">
-                            Quantité minimale : <strong>${product.quantiteMinimale}</strong> unités
+                            Quantité minimale : <strong>${product.quantiteMinimale || product.quantite_minimale}</strong> unités
                         </p>
                     </div>
                     
@@ -5795,8 +5825,36 @@ async function loadProductsFromApi(forceRefresh = false) {
         if (data.success && data.produits && Array.isArray(data.produits)) {
             console.log(`📡 API: ${data.produits.length} produits récupérés`);
             
+            // 🔍 DEBUG: Afficher les produits Business bruts depuis l'API
+            const businessFromAPI = data.produits.filter(p => 
+                (p.categorie || '').includes('Prestige Business') || 
+                (p.categorie || '').toLowerCase().includes('business')
+            );
+            if (businessFromAPI.length > 0) {
+                console.log('🏢 PRODUITS BUSINESS DEPUIS L\'API:', businessFromAPI.map(p => ({
+                    id: p.id,
+                    nom: p.nom,
+                    categorie_api: p.categorie,
+                    quantite_minimale_api: p.quantite_minimale
+                })));
+            }
+            
             // Mapper les produits
             const apiProducts = data.produits.map(p => mapApiProductToFrontend(p));
+            
+            // 🔍 DEBUG: Afficher les produits Business APRÈS normalisation
+            const businessNormalized = apiProducts.filter(p => p.category === 'business');
+            if (businessNormalized.length > 0) {
+                console.log('✅ PRODUITS BUSINESS NORMALISÉS:', businessNormalized.map(p => ({
+                    id: p.id,
+                    nom: p.name,
+                    category_normalisee: p.category,
+                    categorie_fallback: p.categorie,
+                    quantiteMinimale: p.quantiteMinimale,
+                    badge_display: p.quantiteMinimale > 1 ? '✓ Badge affichable' : '✗ Badge NON affichable (min qty <= 1)'
+                })));
+            }
+            
             const idsFromApi = new Set(apiProducts.map(p => String(p.id).trim()));
             
             // 🔍 VÉRIFIER LES CHANGEMENTS
@@ -6485,9 +6543,6 @@ window.addEventListener('scroll', () => {
 
 // Charger plus de produits avec animation rapide
 function loadMoreProducts() {
-    // Ne rien faire si on est sur la catégorie Business
-    if (currentFilter === 'business') return;
-    
     if (isLoadingMore) return;
     
     // Si le chargement initial n'est pas fini mais que nous avons assez de produits pour paginer, continuer
@@ -6796,14 +6851,21 @@ function loadMoreProducts() {
             });
             
             // ✅ VALIDATION QUANTITÉ MINIMALE POUR PRESTIGE BUSINESS
-            // Vérifier si c'est un produit business (avec normalisation)
-            const isBusinessProduct = product.category === 'business' || 
-                                     product.categorie === 'business' ||
-                                     product.categorie === '💼 Prestige Business';
+            // Vérifier si c'est un produit business (utiliser la fonction helper)
+            const isBusiness = isBusinessProduct(product);
             
-            console.log('📦 Est Business?', isBusinessProduct);
+            console.log('📦 Est Business?', isBusiness, '| Données du produit:', {
+                id: product.id,
+                name: product.name,
+                category: product.category,
+                categorie: product.categorie,
+                quantiteMinimale: product.quantiteMinimale,
+                quantite_minimale: product.quantite_minimale,
+                quantityToAdd: quantityToAdd,
+                minQtyValid: (product.quantiteMinimale > 1 || product.quantite_minimale > 1)
+            });
             
-            if (isBusinessProduct && (product.quantiteMinimale > 1 || product.quantite_minimale > 1)) {
+            if (isBusiness && (product.quantiteMinimale > 1 || product.quantite_minimale > 1)) {
                 const minQty = product.quantiteMinimale || product.quantite_minimale;
                 console.log('✅ Quantité minimale requise:', minQty);
                 
@@ -6945,11 +7007,9 @@ function loadMoreProducts() {
             const currentQty = existingItem ? existingItem.quantity : 0;
             
             // Validation pour les produits business
-            const isBusinessProduct = product.category === 'business' || 
-                                     product.categorie === 'business' ||
-                                     product.categorie === '💼 Prestige Business';
+            const isBusiness = isBusinessProduct(product);
             
-            if (isBusinessProduct && (product.quantiteMinimale > 1 || product.quantite_minimale > 1)) {
+            if (isBusiness && (product.quantiteMinimale > 1 || product.quantite_minimale > 1)) {
                 const minQty = product.quantiteMinimale || product.quantite_minimale;
                 
                 if (selectedQty < minQty) {
@@ -6998,12 +7058,10 @@ function loadMoreProducts() {
             
             if (item) {
                 // ✅ VALIDATION QUANTITÉ MINIMALE POUR PRESTIGE BUSINESS
-                // Vérifier si c'est un produit business (avec normalisation)
-                const isBusinessProduct = item.category === 'business' || 
-                                         item.categorie === 'business' ||
-                                         item.categorie === '💼 Prestige Business';
+                // Utiliser la fonction helper pour détecter Business
+                const isBusiness = isBusinessProduct(item);
                 
-                if (isBusinessProduct && (item.quantiteMinimale > 1 || item.quantite_minimale > 1)) {
+                if (isBusiness && (item.quantiteMinimale > 1 || item.quantite_minimale > 1)) {
                     const minQty = item.quantiteMinimale || item.quantite_minimale;
                     const newQty = item.quantity + change;
                     
@@ -9318,7 +9376,7 @@ function loadMoreProducts() {
                                 </div>
                                 
                                 <!-- Badge Quantité Minimale pour Prestige Business -->
-                                ${(product.category === 'business' || product.categorie === 'business' || product.categorie === '💼 Prestige Business') && (product.quantiteMinimale > 1 || product.quantite_minimale > 1) && !isOutOfStock ? `
+                                ${isBusinessProduct(product) && (product.quantiteMinimale > 1 || product.quantite_minimale > 1) && !isOutOfStock ? `
                                     <div class="mb-6 bg-gradient-to-r from-orange-50 to-red-50 border-l-4 border-orange-500 p-4 rounded-lg">
                                         <div class="flex items-start gap-3">
                                             <i class="fas fa-boxes text-orange-500 text-2xl mt-1"></i>

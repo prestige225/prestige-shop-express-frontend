@@ -5408,6 +5408,7 @@ if (images && images.length > 0) {
 
 // Variables globales
 let cart = [];
+let selectedVariants = {}; // Stockage des variantes sélectionnées {productId: {size: '...', color: '...'}}
 let isValidatingOrder = false; // Prévenir les clics multiples sur le bouton Valider
 try {
     const savedCart = localStorage.getItem('cart');
@@ -6810,6 +6811,124 @@ function loadMoreProducts() {
             };
             return icons[category] || '<i class="fas fa-box text-4xl"></i>';
         }
+        // Fonctions de sélection de variantes
+        function selectSize(productId, size) {
+            // Initialiser l'objet pour ce produit s'il n'existe pas
+            if (!selectedVariants[productId]) {
+                selectedVariants[productId] = { size: null, color: null };
+            }
+            selectedVariants[productId].size = size;
+            
+            // Mettre à jour l'affichage des boutons
+            const buttons = document.querySelectorAll(`.size-btn-${productId}`);
+            buttons.forEach(btn => {
+                if (btn.dataset.size === size) {
+                    btn.classList.add('border-purple-600', 'bg-purple-50', 'text-purple-600');
+                    btn.classList.remove('border-gray-300', 'text-gray-700');
+                } else {
+                    btn.classList.remove('border-purple-600', 'bg-purple-50', 'text-purple-600');
+                    btn.classList.add('border-gray-300', 'text-gray-700');
+                }
+            });
+            
+            console.log('✅ Taille sélectionnée:', size, '| Produit:', productId);
+        }
+        
+        function selectColor(productId, color) {
+            // Initialiser l'objet pour ce produit s'il n'existe pas
+            if (!selectedVariants[productId]) {
+                selectedVariants[productId] = { size: null, color: null };
+            }
+            selectedVariants[productId].color = color;
+            
+            // Mettre à jour l'affichage des boutons
+            const buttons = document.querySelectorAll(`.color-btn-${productId}`);
+            buttons.forEach(btn => {
+                if (btn.dataset.color === color) {
+                    btn.classList.add('border-pink-600', 'bg-pink-50', 'text-pink-600');
+                    btn.classList.remove('border-gray-300', 'text-gray-700');
+                } else {
+                    btn.classList.remove('border-pink-600', 'bg-pink-50', 'text-pink-600');
+                    btn.classList.add('border-gray-300', 'text-gray-700');
+                }
+            });
+            
+            console.log('✅ Couleur sélectionnée:', color, '| Produit:', productId);
+        }
+        
+        function clearSelectedVariants(productId) {
+            // Supprimer les variantes sélectionnées pour ce produit
+            if (selectedVariants[productId]) {
+                delete selectedVariants[productId];
+                console.log('🗑️ Variantes supprimées pour produit:', productId);
+            }
+        }
+        
+        // Ajouter un produit similaire au panier en respectant les règles métier
+        function addSimilarProductToCart(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            
+            if (!product) {
+                console.error('Produit non trouvé:', productId);
+                showNotification('❌ Produit non trouvé', 'error');
+                return;
+            }
+            
+            // Vérifier si c'est un produit business avec quantité minimale
+            const isBusiness = isBusinessProduct(product);
+            const hasMinQty = isBusiness && (product.quantiteMinimale > 1 || product.quantite_minimale > 1);
+            
+            if (hasMinQty) {
+                // Pour les produits business, appliquer la quantité minimale
+                const minQty = product.quantiteMinimale || product.quantite_minimale;
+                
+                console.log('📦 Produit Business détecté - Quantité minimale:', minQty);
+                
+                const existingItem = cart.find(item => item.id === productId &&
+                                              (item.selectedSize || '') === (selectedVariants[productId]?.size || '') &&
+                                              (item.selectedColor || '') === (selectedVariants[productId]?.color || ''));
+                
+                if (existingItem) {
+                    existingItem.quantity += minQty;
+                } else {
+                    const newItem = {
+                        ...product,
+                        quantity: minQty
+                    };
+                    
+                    // Ajouter les variantes sélectionnées si elles existent
+                    if (selectedVariants[productId]) {
+                        if (selectedVariants[productId].size) {
+                            newItem.selectedSize = selectedVariants[productId].size;
+                        }
+                        if (selectedVariants[productId].color) {
+                            newItem.selectedColor = selectedVariants[productId].color;
+                        }
+                    }
+                    
+                    cart.push(newItem);
+                }
+                
+                // Sauvegarder dans localStorage
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartUI();
+                clearSelectedVariants(productId);
+                
+                showNotification(`✅ ${minQty} unité(s) de ${product.name} ajoutée(s) au panier !`, 'success');
+                
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#bb0000', '#ffffff', '#0000ff'],
+                    shapes: ['circle', 'square']
+                });
+            } else {
+                // Pour les autres produits, utiliser addToCart normal
+                addToCart(productId);
+            }
+        }
+        
         // Ajouter au panier avec validation de quantité minimale
         function addToCart(productId) {
             const product = allProducts.find(p => p.id === productId);
@@ -6890,21 +7009,39 @@ function loadMoreProducts() {
                 }
             }
             
-            const existingItem = cart.find(item => item.id === productId);
+            const existingItem = cart.find(item => item.id === productId && 
+                                          (item.selectedSize || '') === (selectedVariants[productId]?.size || '') &&
+                                          (item.selectedColor || '') === (selectedVariants[productId]?.color || ''));
             
             if (existingItem) {
-                existingItem.quantity += 1;
+                existingItem.quantity += quantityToAdd; // Utiliser quantityToAdd au lieu de 1
             } else {
-                cart.push({
+                const newItem = {
                     ...product,
-                    quantity: 1
-                });
+                    quantity: quantityToAdd // Utiliser quantityToAdd au lieu de 1
+                };
+                
+                // Ajouter les variantes sélectionnées si elles existent
+                if (selectedVariants[productId]) {
+                    if (selectedVariants[productId].size) {
+                        newItem.selectedSize = selectedVariants[productId].size;
+                    }
+                    if (selectedVariants[productId].color) {
+                        newItem.selectedColor = selectedVariants[productId].color;
+                    }
+                }
+                
+                cart.push(newItem);
             }
             
             // Sauvegarder dans localStorage
             localStorage.setItem('cart', JSON.stringify(cart));
             
             updateCartUI();
+            
+            // Nettoyer les variantes sélectionnées après l'ajout
+            clearSelectedVariants(productId);
+            
             showNotification('Produit ajouté au panier !', 'success');
             
             // Lancer l'effet de confettis
@@ -7029,16 +7166,32 @@ function loadMoreProducts() {
             if (existingItem) {
                 existingItem.quantity += selectedQty;
             } else {
-                cart.push({
+                const newItem = {
                     ...product,
                     quantity: selectedQty
-                });
+                };
+                
+                // Ajouter les variantes sélectionnées si elles existent
+                if (selectedVariants[productId]) {
+                    if (selectedVariants[productId].size) {
+                        newItem.selectedSize = selectedVariants[productId].size;
+                    }
+                    if (selectedVariants[productId].color) {
+                        newItem.selectedColor = selectedVariants[productId].color;
+                    }
+                }
+                
+                cart.push(newItem);
             }
             
             // Sauvegarder dans localStorage
             localStorage.setItem('cart', JSON.stringify(cart));
             
             updateCartUI();
+            
+            // Nettoyer les variantes sélectionnées après l'ajout
+            clearSelectedVariants(productId);
+            
             showNotification(`✅ ${selectedQty} unité(s) ajoutée(s) au panier !`, 'success');
             
             // Lancer l'effet de confettis
@@ -7183,10 +7336,10 @@ function loadMoreProducts() {
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
-                            ${item.size || item.color ? `
-                            <div class="text-sm text-gray-600 mb-2">
-                                ${item.size ? `<span class=\"mr-3\"><span class=\"font-semibold\">Taille:</span> ${item.size}</span>` : ''}
-                                ${item.color ? `<span><span class=\"font-semibold\">Couleur:</span> ${item.color}</span>` : ''}
+                            ${item.selectedSize || item.selectedColor ? `
+                            <div class="text-sm text-gray-600 mb-2 bg-gray-50 p-2 rounded-lg">
+                                ${item.selectedSize ? `<span class="mr-3 inline-block"><i class="fas fa-ruler text-purple-600 mr-1"></i><span class="font-semibold">Taille:</span> ${item.selectedSize}</span>` : ''}
+                                ${item.selectedColor ? `<span class="inline-block"><i class="fas fa-palette text-pink-600 mr-1"></i><span class="font-semibold">Couleur:</span> ${item.selectedColor}</span>` : ''}
                             </div>
                             ` : ''}
                             
@@ -7406,17 +7559,39 @@ function loadMoreProducts() {
         // Ajouter rapidement au panier depuis les recommandations
         function addQuickToCart(productId, productName, price, image, description) {
             const product = allProducts.find(p => p.id === productId);
-            const existingItem = cart.find(item => item.id === productId);
+            
+            // Vérifier si le produit a besoin de variantes et si elles sont sélectionnées
+            if (product && (product.sizes?.length > 0 || product.colors?.length > 0)) {
+                // Afficher la modal pour sélectionner les variantes
+                openProductQuickView(productId);
+                return;
+            }
+            
+            const existingItem = cart.find(item => item.id === productId &&
+                                          (item.selectedSize || '') === (selectedVariants[productId]?.size || '') &&
+                                          (item.selectedColor || '') === (selectedVariants[productId]?.color || ''));
             
             if (existingItem) {
                 existingItem.quantity++;
             } else {
                 // Utiliser l'objet produit complet si disponible
                 if (product) {
-                    cart.push({
+                    const newItem = {
                         ...product,
                         quantity: 1
-                    });
+                    };
+                    
+                    // Ajouter les variantes sélectionnées si elles existent
+                    if (selectedVariants[productId]) {
+                        if (selectedVariants[productId].size) {
+                            newItem.selectedSize = selectedVariants[productId].size;
+                        }
+                        if (selectedVariants[productId].color) {
+                            newItem.selectedColor = selectedVariants[productId].color;
+                        }
+                    }
+                    
+                    cart.push(newItem);
                 } else {
                     cart.push({
                         id: productId,
@@ -7434,6 +7609,9 @@ function loadMoreProducts() {
             
             // Mettre à jour l'interface (EXACTEMENT comme addToCart)
             updateCartUI();
+            
+            // Nettoyer les variantes sélectionnées après l'ajout
+            clearSelectedVariants(productId);
             
             // Message de notification
             showNotification(`${productName} ajouté au panier !`, 'success');
@@ -9420,6 +9598,41 @@ function loadMoreProducts() {
                                     </div>
                                 ` : ''}
                                 
+                                <!-- Sélecteurs Taille et Couleur -->
+                                ${product.sizes && product.sizes.length > 0 ? `
+                                <div class="mb-6">
+                                    <label class="block text-sm font-semibold text-gray-900 mb-3">
+                                        <i class="fas fa-ruler text-purple-600 mr-2"></i>Taille
+                                    </label>
+                                    <div class="flex flex-wrap gap-2" id="size-selector-${product.id}">
+                                        ${Array.isArray(product.sizes) ? product.sizes.map((size, idx) => `
+                                            <button type="button" onclick="selectSize('${product.id}', '${size}')" 
+                                                    class="size-btn-${product.id} px-4 py-2 border-2 border-gray-300 rounded-lg font-semibold text-sm transition-all hover:border-purple-600 ${idx === 0 ? 'border-purple-600 bg-purple-50 text-purple-600' : 'text-gray-700'}"
+                                                    data-size="${size}">
+                                                ${size}
+                                            </button>
+                                        `).join('') : ''}
+                                    </div>
+                                </div>
+                                ` : ''}
+                                
+                                ${product.colors && product.colors.length > 0 ? `
+                                <div class="mb-6">
+                                    <label class="block text-sm font-semibold text-gray-900 mb-3">
+                                        <i class="fas fa-palette text-pink-600 mr-2"></i>Couleur
+                                    </label>
+                                    <div class="flex flex-wrap gap-2" id="color-selector-${product.id}">
+                                        ${Array.isArray(product.colors) ? product.colors.map((color, idx) => `
+                                            <button type="button" onclick="selectColor('${product.id}', '${color}')" 
+                                                    class="color-btn-${product.id} px-4 py-2 border-2 border-gray-300 rounded-lg font-semibold text-sm transition-all hover:border-pink-600 ${idx === 0 ? 'border-pink-600 bg-pink-50 text-pink-600' : 'text-gray-700'}"
+                                                    data-color="${color}">
+                                                ${color}
+                                            </button>
+                                        `).join('') : ''}
+                                    </div>
+                                </div>
+                                ` : ''}
+                                
                                 <!-- Description -->
                                 <div class="mb-6">
                                     <h3 class="font-semibold text-gray-900 mb-2">Description</h3>
@@ -9480,7 +9693,7 @@ function loadMoreProducts() {
                                                         <i class="fas fa-ban text-xs mr-0.5"></i> Indisponible
                                                     </button>
                                                     ` : `
-                                                    <button onclick="event.stopPropagation(); addToCart(${p.id})" 
+                                                    <button onclick="event.stopPropagation(); addSimilarProductToCart(${p.id})" 
                                                             class="w-full h-8 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold text-xs transition-all flex items-center justify-center">
                                                         <i class="fas fa-plus text-xs mr-0.5"></i> Ajouter
                                                     </button>
@@ -9605,6 +9818,17 @@ function loadMoreProducts() {
             if (modal) {
                 // Nettoyer les listeners
                 if (modal._cleanup) modal._cleanup();
+                
+                // Extraire l'ID du produit pour nettoyer les variantes
+                // Le modal a un ID comme 'product-quick-view-modal' avec le productId encodé
+                // On cherche dans le contenu de la modal pour trouver le productId
+                const productIdMatch = modal.id.match(/modal-(\d+)/);
+                if (productIdMatch && productIdMatch[1]) {
+                    const productId = productIdMatch[1];
+                    // Nettoyer les variantes de ce produit (optionnel - on garde pour la prochaine visite)
+                    // clearSelectedVariants(productId);
+                }
+                
                 modal.remove();
                 document.body.style.overflow = 'auto';
             }

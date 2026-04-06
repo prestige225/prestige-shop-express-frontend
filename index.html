@@ -6939,6 +6939,13 @@ function loadMoreProducts() {
                 return;
             }
             
+            // ✅ VÉRIFIER SI LE PRODUIT A DES VARIANTES - AFFICHER LA MODAL
+            if (product.sizes?.length > 0 || product.colors?.length > 0) {
+                console.log('📦 Produit avec variantes détecté - Affichage de la modal');
+                openProductQuickView(productId);
+                return;
+            }
+            
             // 🚫 VÉRIFIER SI LE PRODUIT EST EN RUPTURE DE STOCK
             if (product.status === 'epuise') {
                 console.error('❌ Produit en rupture de stock:', productId, product.name);

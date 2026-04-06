@@ -6864,6 +6864,97 @@ function loadMoreProducts() {
             }
         }
         
+        // Ajouter au panier DIRECTEMENT depuis la modal (avec variantes déjà sélectionnées)
+        function addToCartFromModal(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            
+            if (!product) {
+                console.error('Produit non trouvé:', productId);
+                showNotification('❌ Produit non trouvé', 'error');
+                return;
+            }
+            
+            console.log('🛒 Ajout depuis modal - ProductId:', productId, 'Variantes sélectionnées:', selectedVariants[productId]);
+            
+            // Récupérer la quantité sélectionnée (pour les produits business)
+            let quantityToAdd = 1;
+            const quantityDisplay = document.getElementById(`quantity-display-${productId}`);
+            if (quantityDisplay) {
+                quantityToAdd = parseInt(quantityDisplay.textContent) || 1;
+            }
+            
+            // ✅ VALIDATION QUANTITÉ MINIMALE POUR PRESTIGE BUSINESS
+            const isBusiness = isBusinessProduct(product);
+            
+            if (isBusiness && (product.quantiteMinimale > 1 || product.quantite_minimale > 1)) {
+                const minQty = product.quantiteMinimale || product.quantite_minimale;
+                const existingItem = cart.find(item => item.id === productId &&
+                                              (item.selectedSize || '') === (selectedVariants[productId]?.size || '') &&
+                                              (item.selectedColor || '') === (selectedVariants[productId]?.color || ''));
+                const currentQty = existingItem ? existingItem.quantity : 0;
+                
+                if (currentQty + quantityToAdd < minQty) {
+                    const missing = minQty - (currentQty + quantityToAdd);
+                    showNotification(
+                        `⚠️ <strong>Vente en gros uniquement !</strong><br>
+                        Quantité minimale requise : <strong>${minQty} unités</strong><br>
+                        Vous avez sélectionné : ${quantityToAdd} unité(s)<br>
+                        <span class="text-purple-600 font-semibold">💡 Il vous manque ${missing} unité(s) pour atteindre le minimum.</span><br>
+                        <span class="text-xs text-gray-500 mt-2">📦 Augmentez la quantité avec les boutons + et -.</span>`,
+                        'error'
+                    );
+                    return;
+                }
+            }
+            
+            // AJOUTER AU PANIER AVEC LES VARIANTES DÉJÀ SÉLECTIONNÉES
+            const existingItem = cart.find(item => item.id === productId && 
+                                          (item.selectedSize || '') === (selectedVariants[productId]?.size || '') &&
+                                          (item.selectedColor || '') === (selectedVariants[productId]?.color || ''));
+            
+            if (existingItem) {
+                existingItem.quantity += quantityToAdd;
+                console.log('✅ Quantité augmentée pour produit existant:', productId);
+            } else {
+                const newItem = {
+                    ...product,
+                    quantity: quantityToAdd
+                };
+                
+                // Ajouter les variantes sélectionnées si elles existent
+                if (selectedVariants[productId]) {
+                    if (selectedVariants[productId].size) {
+                        newItem.selectedSize = selectedVariants[productId].size;
+                        console.log('📏 Taille sélectionnée:', selectedVariants[productId].size);
+                    }
+                    if (selectedVariants[productId].color) {
+                        newItem.selectedColor = selectedVariants[productId].color;
+                        console.log('🎨 Couleur sélectionnée:', selectedVariants[productId].color);
+                    }
+                }
+                
+                cart.push(newItem);
+                console.log('✅ Nouvel item ajouté au panier:', newItem);
+            }
+            
+            // Sauvegarder dans localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+            
+            // Nettoyer les variantes sélectionnées après l'ajout
+            clearSelectedVariants(productId);
+            
+            showNotification(`✅ ${product.name} ajouté au panier !`, 'success');
+            
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#bb0000', '#ffffff', '#0000ff'],
+                shapes: ['circle', 'square']
+            });
+        }
+        
         // Ajouter un produit similaire au panier en respectant les règles métier
         function addSimilarProductToCart(productId) {
             const product = allProducts.find(p => p.id === productId);
@@ -9724,12 +9815,12 @@ function loadMoreProducts() {
                             <i class="fas fa-ban mr-2"></i> Indisponible
                         </button>
                         ` : ((product.category === 'business' || product.categorie === 'business' || product.categorie === '💼 Prestige Business') && (product.quantiteMinimale > 1 || product.quantite_minimale > 1) ? `
-                        <button onclick="addToCartWithSelectedQty(${product.id}); closeProductQuickView();" 
+                        <button onclick="addToCartFromModal(${product.id}); closeProductQuickView();" 
                                 class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 rounded-lg font-bold text-sm transition-all shadow-lg hover:shadow-xl flex items-center justify-center">
                             <i class="fas fa-shopping-cart mr-2"></i> Ajouter (<span id="footer-qty-btn-${product.id}">${product.quantiteMinimale || product.quantite_minimale}</span> min)
                         </button>
                         ` : `
-                        <button onclick="addToCart(${product.id}); closeProductQuickView();" 
+                        <button onclick="addToCartFromModal(${product.id}); closeProductQuickView();" 
                                 class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-3 rounded-lg font-bold text-sm transition-all shadow-lg hover:shadow-xl flex items-center justify-center">
                             <i class="fas fa-shopping-cart mr-2"></i> Ajouter au panier
                         </button>

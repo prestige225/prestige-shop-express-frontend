@@ -509,9 +509,11 @@
                 'http://localhost:5504',
                 'http://localhost:5505',
                 'http://localhost:5506',
+                'http://localhost:5507',
                 'http://127.0.0.1:5504',
                 'http://127.0.0.1:5505',
                 'http://127.0.0.1:5506',
+                'http://127.0.0.1:5507',
                 'https://prestige-shop-backend.onrender.com',
                 'https://prestige-shop-express.onrender.com',
             ];
@@ -737,6 +739,7 @@
                 
                 fetch(`${API_BASE_URL}/register`, {
                     method: 'POST',
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -760,7 +763,20 @@
                 .then(data => {
                     console.log('Données reçues:', data);
                     if (data.success) {
-                        showSuccess(data.message + '. Vous allez être redirigé vers la page de profil pour compléter vos informations...');
+                        // Stocker les données utilisateur
+                        const userData = {
+                            id: data.user.id,
+                            nom: data.user.nom,
+                            prenom: data.user.prenom,
+                            email: data.user.email
+                        };
+                        
+                        sessionStorage.setItem('userLoggedIn', 'true');
+                        sessionStorage.setItem('userData', JSON.stringify(userData));
+                        sessionStorage.setItem('userEmail', userData.email);
+                        sessionStorage.setItem('userFullname', `${userData.prenom} ${userData.nom}`.trim());
+                        
+                        showSuccess((data.message || 'Inscription réussie') + '. Vous allez être redirigé vers la page de profil pour compléter vos informations...');
                         document.getElementById('register-form').reset();
                         
                         // Rediriger automatiquement vers la page de profil après 2 secondes
@@ -768,7 +784,7 @@
                             window.location.href = 'complete-profile.html';
                         }, 2000);
                     } else {
-                        showError(data.message || 'Erreur lors de l\'inscription');
+                        showError(data.error || data.message || 'Erreur lors de l\'inscription');
                     }
                 })
                 .catch(error => {

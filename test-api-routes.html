@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API - Prestige Shop Express</title>
+    <script src="./api-config.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #667eea; }
+        h2 { color: #764ba2; margin-top: 0; }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .result {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success { border-left-color: #28a745; background: #d4edda; }
+        .error { border-left-color: #dc3545; background: #f8d7da; }
+        .info { 
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test API - Prestige Shop Express</h1>
+    
+    <div class="info">
+        <strong>Backend URL:</strong> <span id="backend-url"></span><br>
+        <strong>Date:</strong> <span id="current-date"></span>
+    </div>
+
+    <!-- Test 1: Endpoint de base -->
+    <div class="test-section">
+        <h2>Test 1: Endpoint /api/test</h2>
+        <button onclick="testApiBase()">Tester /api/test</button>
+        <div id="result-api-test" class="result" style="display:none;"></div>
+    </div>
+
+    <!-- Test 2: Inscription -->
+    <div class="test-section">
+        <h2>Test 2: Inscription (/api/register)</h2>
+        <button onclick="testRegister()">Tester l'inscription</button>
+        <div id="result-register" class="result" style="display:none;"></div>
+    </div>
+
+    <!-- Test 3: Google OAuth -->
+    <div class="test-section">
+        <h2>Test 3: Google OAuth Callback (/api/auth/google/callback/web)</h2>
+        <button onclick="testGoogleCallback()">Tester Google Callback (simulé)</button>
+        <div id="result-google" class="result" style="display:none;"></div>
+    </div>
+
+    <!-- Test 4: Vérifier les routes disponibles -->
+    <div class="test-section">
+        <h2>Test 4: Vérification des routes</h2>
+        <button onclick="checkRoutes()">Vérifier toutes les routes</button>
+        <div id="result-routes" class="result" style="display:none;"></div>
+    </div>
+
+    <script>
+        // Afficher l'URL du backend
+        document.getElementById('backend-url').textContent = window.API_BASE_URL;
+        document.getElementById('current-date').textContent = new Date().toLocaleString();
+
+        function showResult(elementId, data, isError = false) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = 'result ' + (isError ? 'error' : 'success');
+            
+            if (typeof data === 'object') {
+                element.textContent = JSON.stringify(data, null, 2);
+            } else {
+                element.textContent = data;
+            }
+        }
+
+        async function testApiBase() {
+            try {
+                console.log('🔍 Test de /api/test...');
+                const response = await fetch(`${window.API_BASE_URL}/test`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                
+                console.log('Réponse reçue:', response);
+                const data = await response.json();
+                
+                showResult('result-api-test', {
+                    status: response.status,
+                    ok: response.ok,
+                    headers: Object.fromEntries(response.headers.entries()),
+                    data: data
+                });
+            } catch (error) {
+                console.error('Erreur:', error);
+                showResult('result-api-test', {
+                    error: error.message,
+                    stack: error.stack
+                }, true);
+            }
+        }
+
+        async function testRegister() {
+            try {
+                console.log('📝 Test d\'inscription...');
+                const testData = {
+                    nom: 'Test User',
+                    prenom: 'Test',
+                    email: `test_${Date.now()}@example.com`,
+                    numero: '0102030405',
+                    mot_de_passe: 'testpassword123'
+                };
+                
+                const response = await fetch(`${window.API_BASE_URL}/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData),
+                });
+                
+                console.log('Réponse reçue:', response);
+                
+                // Vérifier le Content-Type
+                const contentType = response.headers.get('content-type');
+                console.log('Content-Type:', contentType);
+                
+                let data;
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    const text = await response.text();
+                    throw new Error(`Le serveur a retourné du HTML au lieu de JSON!\nStatus: ${response.status}\nContenu: ${text.substring(0, 500)}`);
+                }
+                
+                showResult('result-register', {
+                    status: response.status,
+                    ok: response.ok,
+                    headers: Object.fromEntries(response.headers.entries()),
+                    data: data
+                });
+            } catch (error) {
+                console.error('Erreur:', error);
+                showResult('result-register', {
+                    error: error.message,
+                    stack: error.stack
+                }, true);
+            }
+        }
+
+        async function testGoogleCallback() {
+            try {
+                console.log('🔑 Test Google callback...');
+                
+                // Token JWT factice pour le test (ne sera pas valide mais teste la route)
+                const fakeToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20ifQ.fake';
+                
+                const response = await fetch(`${window.API_BASE_URL}/auth/google/callback/web`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        credential: fakeToken
+                    }),
+                });
+                
+                console.log('Réponse reçue:', response);
+                
+                const contentType = response.headers.get('content-type');
+                let data;
+                
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    const text = await response.text();
+                    throw new Error(`Le serveur a retourné du HTML au lieu de JSON!\nStatus: ${response.status}\nContenu: ${text.substring(0, 500)}`);
+                }
+                
+                showResult('result-google', {
+                    status: response.status,
+                    ok: response.ok,
+                    headers: Object.fromEntries(response.headers.entries()),
+                    data: data
+                });
+            } catch (error) {
+                console.error('Erreur:', error);
+                showResult('result-google', {
+                    error: error.message,
+                    stack: error.stack
+                }, true);
+            }
+        }
+
+        async function checkRoutes() {
+            const routes = [
+                '/test',
+                '/register',
+                '/auth/google',
+                '/auth/google/callback/web',
+                '/users',
+                '/produits'
+            ];
+            
+            const results = [];
+            
+            for (const route of routes) {
+                try {
+                    const url = `${window.API_BASE_URL}${route}`;
+                    const response = await fetch(url, {
+                        method: 'OPTIONS',
+                    });
+                    
+                    results.push({
+                        route: route,
+                        status: response.status,
+                        ok: response.ok,
+                        methods: response.headers.get('allow') || 'N/A'
+                    });
+                } catch (error) {
+                    results.push({
+                        route: route,
+                        error: error.message
+                    });
+                }
+            }
+            
+            showResult('result-routes', results);
+        }
+    </script>
+</body>
+</html>
